@@ -19,14 +19,16 @@ function Settings({
   setSelectedFont
 }) {
   const fonts = [
-    { id: 'uthmani', name: 'Uthmani', arabic: 'العثماني', description: 'Classic Uthmanic script used in most Middle Eastern Mushafs' },
-    { id: 'indopak', name: 'IndoPak', arabic: 'ہندوپاک', description: 'Nastaleeq style used in South Asian Mushafs (Pakistan, India)' },
-    { id: 'simple', name: 'Simple', arabic: 'بسيط', description: 'Simple Arabic font for easy reading' }
+    { id: 'uthmani', name: 'Uthmani', arabic: 'العثماني' },
+    { id: 'indopak', name: 'IndoPak', arabic: 'ہندوپاک' },
+    { id: 'simple', name: 'Simple', arabic: 'بسيط' }
   ];
+
   const [translations, setTranslations] = useState([]);
   const [reciters, setReciters] = useState([]);
   const [scripts, setScripts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('appearance');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,189 +72,223 @@ function Settings({
     return acc;
   }, {});
 
-  const arabicReciters = reciters.filter(r => r.language === 'ar');
-  const otherReciters = reciters.filter(r => r.language !== 'ar');
-
   const currentReciter = reciters.find(r => r.identifier === selectedReciter);
   const currentTranslation = translations.find(t => t.identifier === selectedTranslation);
-  const currentScript = scripts.find(s => s.identifier === selectedScript);
 
   if (loading) return <Loading />;
 
+  const tabs = [
+    { id: 'appearance', label: 'Appearance', icon: '🎨' },
+    { id: 'audio', label: 'Audio', icon: '🎧' },
+    { id: 'text', label: 'Text', icon: '📖' },
+  ];
+
   return (
-    <div className="settings-page">
-      <Link to="/" className="back-link">← Back to Home</Link>
-      <h1 className="settings-title">Settings</h1>
+    <div className="settings-page-new">
+      <div className="settings-header">
+        <Link to="/" className="back-link">← Back to Home</Link>
+        <h1 className="settings-title">
+          <span className="settings-icon">⚙️</span>
+          Settings
+        </h1>
+        <p className="settings-subtitle">Customize your reading experience</p>
+      </div>
 
-      <div className="settings-section">
-        <h2>Appearance</h2>
-        
-        <div className="setting-item">
-          <div className="setting-label">
-            <span className="setting-name">Dark Mode</span>
-            <span className="setting-description">Toggle between light and dark themes</span>
-          </div>
-          <button 
-            className={`toggle-btn ${darkMode ? 'active' : ''}`}
-            onClick={toggleDarkMode}
+      <div className="settings-tabs">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            className={`settings-tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
           >
-            <span className="toggle-slider"></span>
+            <span className="tab-icon">{tab.icon}</span>
+            <span className="tab-label">{tab.label}</span>
           </button>
-        </div>
-
-        <div className="setting-item">
-          <div className="setting-label">
-            <span className="setting-name">Arabic Font Size</span>
-            <span className="setting-description">Adjust the size of Arabic text</span>
-          </div>
-          <div className="font-size-control">
-            <button 
-              onClick={() => setFontSize(Math.max(16, fontSize - 2))}
-              disabled={fontSize <= 16}
-            >
-              −
-            </button>
-            <span className="font-size-value">{fontSize}px</span>
-            <button 
-              onClick={() => setFontSize(Math.min(48, fontSize + 2))}
-              disabled={fontSize >= 48}
-            >
-              +
-            </button>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <div className="settings-section">
-        <h2>Arabic Font Style</h2>
-        <div className="setting-item script-selector">
-          <div className="script-options">
-            {fonts.map((font) => (
-              <button
-                key={font.id}
-                className={`script-btn ${selectedFont === font.id ? 'active' : ''}`}
-                onClick={() => setSelectedFont(font.id)}
-              >
-                <span className="script-name">{font.name}</span>
-                <span className="script-arabic" style={{ fontFamily: font.id === 'indopak' ? "'Al Majeed Quranic', serif" : font.id === 'uthmani' ? "'KFGQPC Uthmani', serif" : "'Amiri', serif" }}>{font.arabic}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-        {fonts.find(f => f.id === selectedFont) && (
-          <p className="setting-note">{fonts.find(f => f.id === selectedFont).description}</p>
-        )}
-      </div>
-
-      <div className="settings-section">
-        <h2>Arabic Script Data</h2>
-        <div className="setting-item script-selector">
-          <div className="script-options">
-            {scripts.map((script) => (
-              <button
-                key={script.identifier}
-                className={`script-btn ${selectedScript === script.identifier ? 'active' : ''}`}
-                onClick={() => setSelectedScript(script.identifier)}
-              >
-                <span className="script-name">{script.englishName}</span>
-                <span className="script-arabic">{script.name}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-        {currentScript && (
-          <p className="setting-note">{currentScript.description}</p>
-        )}
-      </div>
-
-      <div className="settings-section">
-        <h2>Reciter</h2>
-        <div className="setting-item">
-          <div className="setting-label">
-            <span className="setting-name">Selected Reciter</span>
-            <span className="setting-description">
-              {currentReciter ? currentReciter.englishName : 'Choose a reciter'}
-            </span>
-          </div>
-        </div>
-        
-        <div className="reciters-list">
-          <h3>Arabic Reciters ({arabicReciters.length})</h3>
-          <div className="reciter-grid">
-            {arabicReciters.map((reciter) => (
-              <button
-                key={reciter.identifier}
-                className={`reciter-btn ${selectedReciter === reciter.identifier ? 'active' : ''}`}
-                onClick={() => setSelectedReciter(reciter.identifier)}
-              >
-                <span className="reciter-name">{reciter.englishName}</span>
-                <span className="reciter-arabic">{reciter.name}</span>
-              </button>
-            ))}
-          </div>
-          
-          {otherReciters.length > 0 && (
-            <>
-              <h3>Other Languages ({otherReciters.length})</h3>
-              <div className="reciter-grid">
-                {otherReciters.map((reciter) => (
-                  <button
-                    key={reciter.identifier}
-                    className={`reciter-btn ${selectedReciter === reciter.identifier ? 'active' : ''}`}
-                    onClick={() => setSelectedReciter(reciter.identifier)}
-                  >
-                    <span className="reciter-name">{reciter.englishName}</span>
-                    <span className="reciter-lang">{getLanguageName(reciter.language)}</span>
-                  </button>
-                ))}
+      <div className="settings-content">
+        {activeTab === 'appearance' && (
+          <div className="settings-panel">
+            <div className="settings-card">
+              <div className="card-header">
+                <span className="card-icon">🌓</span>
+                <h3>Theme</h3>
               </div>
-            </>
-          )}
-        </div>
-      </div>
+              <div className="card-content">
+                <div className="theme-toggle-row">
+                  <div className="theme-option">
+                    <button 
+                      className={`theme-btn ${!darkMode ? 'active' : ''}`}
+                      onClick={() => darkMode && toggleDarkMode()}
+                    >
+                      <span className="theme-emoji">☀️</span>
+                      <span>Light</span>
+                    </button>
+                  </div>
+                  <div className="theme-option">
+                    <button 
+                      className={`theme-btn ${darkMode ? 'active' : ''}`}
+                      onClick={() => !darkMode && toggleDarkMode()}
+                    >
+                      <span className="theme-emoji">🌙</span>
+                      <span>Dark</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      <div className="settings-section">
-        <h2>Translation</h2>
-        <div className="setting-item">
-          <div className="setting-label">
-            <span className="setting-name">Selected Translation</span>
-            <span className="setting-description">
-              {currentTranslation ? `${currentTranslation.englishName} (${getLanguageName(currentTranslation.language)})` : 'Choose a translation'}
-            </span>
-          </div>
-        </div>
-        
-        <div className="translation-selector-settings">
-          <select 
-            value={selectedTranslation}
-            onChange={(e) => setSelectedTranslation(e.target.value)}
-            className="translation-dropdown"
-          >
-            {Object.entries(groupedTranslations)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(([language, editions]) => (
-                <optgroup key={language} label={language}>
-                  {editions.map((edition) => (
-                    <option key={edition.identifier} value={edition.identifier}>
-                      {edition.englishName}
-                    </option>
+            <div className="settings-card">
+              <div className="card-header">
+                <span className="card-icon">🔤</span>
+                <h3>Arabic Font Size</h3>
+              </div>
+              <div className="card-content">
+                <div className="font-size-slider">
+                  <span className="size-label small">A</span>
+                  <input
+                    type="range"
+                    min="16"
+                    max="48"
+                    step="2"
+                    value={fontSize}
+                    onChange={(e) => setFontSize(parseInt(e.target.value))}
+                    className="slider"
+                  />
+                  <span className="size-label large">A</span>
+                  <span className="size-value">{fontSize}px</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="settings-card">
+              <div className="card-header">
+                <span className="card-icon">✨</span>
+                <h3>Arabic Font Style</h3>
+              </div>
+              <div className="card-content">
+                <div className="font-style-grid">
+                  {fonts.map((font) => (
+                    <button
+                      key={font.id}
+                      className={`font-style-btn ${selectedFont === font.id ? 'active' : ''}`}
+                      onClick={() => setSelectedFont(font.id)}
+                    >
+                      <span className="font-preview" style={{ 
+                        fontFamily: font.id === 'indopak' ? "'Al Majeed Quranic', serif" : 
+                                   font.id === 'uthmani' ? "'KFGQPC Uthmani', serif" : "'Amiri', serif" 
+                      }}>
+                        {font.arabic}
+                      </span>
+                      <span className="font-name">{font.name}</span>
+                      {selectedFont === font.id && <span className="check-mark">✓</span>}
+                    </button>
                   ))}
-                </optgroup>
-              ))}
-          </select>
-        </div>
-      </div>
+                </div>
+              </div>
+            </div>
 
-      <div className="settings-section">
-        <h2>Preview</h2>
-        <div className="preview-box">
-          <p className="preview-arabic" style={{ fontSize: `${fontSize}px`, fontFamily: 'var(--arabic-font-family)' }}>
-            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-          </p>
-          <p className="preview-translation">
-            In the name of Allah, the Most Gracious, the Most Merciful
-          </p>
-        </div>
+            <div className="preview-card">
+              <div className="preview-label">Preview</div>
+              <p className="preview-arabic" style={{ fontSize: `${fontSize}px`, fontFamily: 'var(--arabic-font-family)' }}>
+                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+              </p>
+              <p className="preview-translation">In the name of Allah, the Most Gracious, the Most Merciful</p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'audio' && (
+          <div className="settings-panel">
+            <div className="settings-card full-width">
+              <div className="card-header">
+                <span className="card-icon">🎙️</span>
+                <h3>Select Reciter</h3>
+                {currentReciter && (
+                  <span className="current-selection">{currentReciter.englishName}</span>
+                )}
+              </div>
+              <div className="card-content">
+                <div className="reciter-compact-grid">
+                  {reciters.filter(r => r.language === 'ar').map((reciter) => (
+                    <button
+                      key={reciter.identifier}
+                      className={`reciter-compact-btn ${selectedReciter === reciter.identifier ? 'active' : ''}`}
+                      onClick={() => setSelectedReciter(reciter.identifier)}
+                    >
+                      <span className="reciter-initial">{reciter.englishName.charAt(0)}</span>
+                      <div className="reciter-info">
+                        <span className="reciter-name">{reciter.englishName}</span>
+                        <span className="reciter-arabic">{reciter.name}</span>
+                      </div>
+                      {selectedReciter === reciter.identifier && <span className="check-icon">✓</span>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'text' && (
+          <div className="settings-panel">
+            <div className="settings-card">
+              <div className="card-header">
+                <span className="card-icon">📜</span>
+                <h3>Arabic Script Style</h3>
+              </div>
+              <div className="card-content">
+                <div className="script-compact-grid">
+                  {scripts.map((script) => (
+                    <button
+                      key={script.identifier}
+                      className={`script-compact-btn ${selectedScript === script.identifier ? 'active' : ''}`}
+                      onClick={() => setSelectedScript(script.identifier)}
+                    >
+                      <span className="script-name">{script.englishName}</span>
+                      {selectedScript === script.identifier && <span className="check-icon">✓</span>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="settings-card full-width">
+              <div className="card-header">
+                <span className="card-icon">🌍</span>
+                <h3>Translation</h3>
+                {currentTranslation && (
+                  <span className="current-selection">{currentTranslation.englishName}</span>
+                )}
+              </div>
+              <div className="card-content">
+                <select 
+                  value={selectedTranslation}
+                  onChange={(e) => setSelectedTranslation(e.target.value)}
+                  className="translation-select"
+                >
+                  {Object.entries(groupedTranslations)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([language, editions]) => (
+                      <optgroup key={language} label={`${language} (${editions.length})`}>
+                        {editions.map((edition) => (
+                          <option key={edition.identifier} value={edition.identifier}>
+                            {edition.englishName}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                </select>
+                <div className="translation-stats">
+                  <span className="stat">{Object.keys(groupedTranslations).length} Languages</span>
+                  <span className="stat-divider">•</span>
+                  <span className="stat">{translations.length} Translations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
