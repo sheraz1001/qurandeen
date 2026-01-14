@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Surah from './pages/Surah';
 import Search from './pages/Search';
@@ -108,6 +109,7 @@ function App() {
           } />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }
