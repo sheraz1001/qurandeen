@@ -18,6 +18,10 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
   - Dark Mode Toggle
 - **Share Buttons**: Share ayahs on Twitter, WhatsApp, or copy to clipboard
 - **Search**: Search ayahs by keyword across the entire Quran
+- **Juz Browser**: Browse all 30 Juz with surahs grouped by juz
+- **Ayah Metadata**: Juz, Page, and Ruku information displayed for each ayah
+- **Sajda Markers**: Visual indicators for prostration verses (obligatory/recommended)
+- **Tafsir (Commentary)**: Toggle to show Tafsir al-Muyassar for each ayah
 - **Responsive**: Works on desktop and mobile
 
 ## Project Structure
@@ -39,12 +43,14 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 
 ## API Endpoints
 - `GET /api/surahs` - List all 114 surahs
-- `GET /api/surah/:number?translation=&script=&reciter=` - Get surah details
+- `GET /api/surah/:number?translation=&script=&reciter=` - Get surah details with Juz/Page/Ruku/Sajda info
 - `GET /api/translations` - List all available translations
 - `GET /api/reciters` - List all available audio reciters (23+)
 - `GET /api/scripts` - List available Arabic script styles
 - `GET /api/random-ayah` - Get a random ayah for daily inspiration
 - `GET /api/search?keyword=` - Search ayahs by keyword
+- `GET /api/juz/:number` - Get all ayahs in a specific juz
+- `GET /api/tafsir/:surah/:ayah` - Get tafsir for a specific ayah
 
 ## Running the Project
 - **Production**: `NODE_ENV=production node server/index.js` (serves built React app on port 5000)
@@ -70,6 +76,11 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 14, 2026: Added Juz browser page with navigation and surah grouping
+- January 14, 2026: Added Juz/Para, Page, and Ruku information badges to each ayah
+- January 14, 2026: Added Sajda (prostration) markers with pulsing animation
+- January 14, 2026: Added Tafsir (commentary) toggle feature using Tafsir al-Muyassar
+- January 14, 2026: Added browse links on home page (Juz, Bookmarks, Settings)
 - January 14, 2026: Added Settings page with Arabic font styles (Uthmani, IndoPak, Simple), 23+ reciters, script data options
 - January 14, 2026: Added Al Majeed Quranic font for IndoPak style
 - January 14, 2026: Added multi-language translation selector with 100+ options
