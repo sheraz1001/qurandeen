@@ -36,7 +36,7 @@ function Header({ darkMode, toggleDarkMode }) {
               </svg>
             </div>
             <div className="logo-text-wrapper">
-              <span className="logo-title">Quran Online</span>
+              <span className="logo-title">Quran Deen</span>
               <span className="logo-subtitle">Read, Listen & Reflect</span>
             </div>
           </Link>

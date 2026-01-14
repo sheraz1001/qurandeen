@@ -1,4 +1,4 @@
-# Quran Website
+# Quran Deen (QuranDeen.com)
 
 ## Overview
 A comprehensive web application for reading and listening to the Holy Quran. Built with Node.js/Express backend and React frontend. Uses the free Al Quran Cloud API for Quran data.
