@@ -35,5 +35,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["node", "server/index.js"]
-build = ["bash", "-c", "cd client && npm install && npm run build"]
+run = ["bash", "-c", "NODE_ENV=production node server/index.js"]
+build = ["bash", "-c", "cd client && npm run build && mkdir -p dist/fonts && cp public/fonts/AlMajeedQuranic.ttf dist/fonts/"]
