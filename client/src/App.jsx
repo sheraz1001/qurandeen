@@ -30,6 +30,10 @@ function App() {
     return localStorage.getItem('selectedScript') || 'quran-uthmani';
   });
 
+  const [selectedFont, setSelectedFont] = useState(() => {
+    return localStorage.getItem('selectedFont') || 'uthmani';
+  });
+
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -51,6 +55,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem('selectedScript', selectedScript);
   }, [selectedScript]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedFont', selectedFont);
+    const fontFamilies = {
+      'uthmani': "'KFGQPC Uthmani', 'Amiri', serif",
+      'indopak': "'Al Majeed Quranic', 'IndoPak Nastaleeq', 'Amiri', serif",
+      'simple': "'Amiri', serif"
+    };
+    document.documentElement.style.setProperty('--arabic-font-family', fontFamilies[selectedFont] || fontFamilies.uthmani);
+  }, [selectedFont]);
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
@@ -86,6 +100,8 @@ function App() {
               setSelectedReciter={setSelectedReciter}
               selectedScript={selectedScript}
               setSelectedScript={setSelectedScript}
+              selectedFont={selectedFont}
+              setSelectedFont={setSelectedFont}
             />
           } />
         </Routes>

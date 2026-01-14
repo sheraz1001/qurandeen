@@ -1,19 +1,23 @@
 # Quran Website
 
 ## Overview
-A web application for reading and listening to the Holy Quran. Built with Node.js/Express backend and React frontend. Uses the free Al Quran Cloud API for Quran data.
+A comprehensive web application for reading and listening to the Holy Quran. Built with Node.js/Express backend and React frontend. Uses the free Al Quran Cloud API for Quran data.
 
 ## Features
 - **Home Page**: Lists all 114 surahs with Arabic and English names
 - **Daily Ayah**: Shows a random inspiring ayah on the home page (cached daily)
-- **Surah Page**: Displays ayahs with Arabic text, English translation (en.asad edition), and audio playback (ar.alafasy edition)
+- **Surah Page**: Displays ayahs with Arabic text, translation, and audio playback
 - **Bookmarks**: Save favorite ayahs to a bookmarks page (stored in browser)
 - **Reading History**: Automatically tracks recently read surahs, shown on home page
-- **Font Size Controls**: Adjust Arabic text size via header controls
+- **Settings Page**: Comprehensive settings for customization:
+  - Arabic Font Style: Uthmani, IndoPak (Al Majeed Quranic font), Simple
+  - Arabic Script Data: Uthmani, Simple, Simple Clean, Tajweed
+  - Font Size Controls: Adjust Arabic text size (16-48px)
+  - Reciter Selection: 23+ audio reciters including Mishary Rashid al-Afasy, Abdul Samad, Sudais, etc.
+  - Translation Selection: 100+ translations in 40+ languages
+  - Dark Mode Toggle
 - **Share Buttons**: Share ayahs on Twitter, WhatsApp, or copy to clipboard
 - **Search**: Search ayahs by keyword across the entire Quran
-- **Dark Mode**: Toggle between light and dark themes
-- **Multi-Language Translations**: Choose from 100+ translations in 40+ languages
 - **Responsive**: Works on desktop and mobile
 
 ## Project Structure
@@ -24,18 +28,21 @@ A web application for reading and listening to the Holy Quran. Built with Node.j
 ├── client/
 │   ├── src/
 │   │   ├── components/   # React components (Header, Loading, ErrorMessage)
-│   │   ├── pages/        # Page components (Home, Surah, Search, Bookmarks)
-│   │   ├── styles/       # CSS styles
+│   │   ├── pages/        # Page components (Home, Surah, Search, Bookmarks, Settings)
+│   │   ├── styles/       # CSS styles (index.css, settings.css)
 │   │   ├── App.jsx       # Main app component
 │   │   └── main.jsx      # Entry point
+│   ├── public/fonts/     # Custom fonts (Al Majeed Quranic)
 │   └── dist/             # Built production files
 └── package.json          # Root package config
 ```
 
 ## API Endpoints
 - `GET /api/surahs` - List all 114 surahs
-- `GET /api/surah/:number?translation=` - Get surah details with Arabic text, translation, and audio
+- `GET /api/surah/:number?translation=&script=&reciter=` - Get surah details
 - `GET /api/translations` - List all available translations
+- `GET /api/reciters` - List all available audio reciters (23+)
+- `GET /api/scripts` - List available Arabic script styles
 - `GET /api/random-ayah` - Get a random ayah for daily inspiration
 - `GET /api/search?keyword=` - Search ayahs by keyword
 
@@ -53,8 +60,18 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - `readingHistory` - Recently read surahs
 - `dailyAyah` - Cached daily ayah
 - `selectedTranslation` - Preferred translation edition
+- `selectedReciter` - Preferred audio reciter
+- `selectedScript` - Preferred Arabic script data
+- `selectedFont` - Preferred Arabic font style (uthmani, indopak, simple)
+
+## Custom Fonts
+- **KFGQPC Uthmani**: Classic Uthmanic script (CDN)
+- **Al Majeed Quranic**: IndoPak Nastaleeq style (local)
+- **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 14, 2026: Added Settings page with Arabic font styles (Uthmani, IndoPak, Simple), 23+ reciters, script data options
+- January 14, 2026: Added Al Majeed Quranic font for IndoPak style
 - January 14, 2026: Added multi-language translation selector with 100+ options
 - January 14, 2026: Added bookmarks, reading history, font controls, share buttons, and daily ayah features
 - January 14, 2026: Initial build with all core features

@@ -14,8 +14,15 @@ function Settings({
   selectedReciter,
   setSelectedReciter,
   selectedScript,
-  setSelectedScript
+  setSelectedScript,
+  selectedFont,
+  setSelectedFont
 }) {
+  const fonts = [
+    { id: 'uthmani', name: 'Uthmani', arabic: 'العثماني', description: 'Classic Uthmanic script used in most Middle Eastern Mushafs' },
+    { id: 'indopak', name: 'IndoPak', arabic: 'ہندوپاک', description: 'Nastaleeq style used in South Asian Mushafs (Pakistan, India)' },
+    { id: 'simple', name: 'Simple', arabic: 'بسيط', description: 'Simple Arabic font for easy reading' }
+  ];
   const [translations, setTranslations] = useState([]);
   const [reciters, setReciters] = useState([]);
   const [scripts, setScripts] = useState([]);
@@ -117,7 +124,28 @@ function Settings({
       </div>
 
       <div className="settings-section">
-        <h2>Arabic Script Style</h2>
+        <h2>Arabic Font Style</h2>
+        <div className="setting-item script-selector">
+          <div className="script-options">
+            {fonts.map((font) => (
+              <button
+                key={font.id}
+                className={`script-btn ${selectedFont === font.id ? 'active' : ''}`}
+                onClick={() => setSelectedFont(font.id)}
+              >
+                <span className="script-name">{font.name}</span>
+                <span className="script-arabic" style={{ fontFamily: font.id === 'indopak' ? "'Al Majeed Quranic', serif" : font.id === 'uthmani' ? "'KFGQPC Uthmani', serif" : "'Amiri', serif" }}>{font.arabic}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        {fonts.find(f => f.id === selectedFont) && (
+          <p className="setting-note">{fonts.find(f => f.id === selectedFont).description}</p>
+        )}
+      </div>
+
+      <div className="settings-section">
+        <h2>Arabic Script Data</h2>
         <div className="setting-item script-selector">
           <div className="script-options">
             {scripts.map((script) => (
@@ -218,7 +246,7 @@ function Settings({
       <div className="settings-section">
         <h2>Preview</h2>
         <div className="preview-box">
-          <p className="preview-arabic" style={{ fontSize: `${fontSize}px` }}>
+          <p className="preview-arabic" style={{ fontSize: `${fontSize}px`, fontFamily: 'var(--arabic-font-family)' }}>
             بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
           </p>
           <p className="preview-translation">
