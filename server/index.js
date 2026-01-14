@@ -55,10 +55,21 @@ app.get('/api/scripts', async (req, res) => {
   }
 });
 
+const TAFSIR_API_BASE = 'https://cdn.jsdelivr.net/gh/spa5k/tafsir_api@main/tafsir';
+
 app.get('/api/tafsirs', async (req, res) => {
   try {
-    const response = await axios.get(`${QURAN_API_BASE}/edition?type=tafsir`);
-    res.json(response.data);
+    const response = await axios.get(`${TAFSIR_API_BASE}/editions.json`);
+    const tafsirs = response.data.map(t => ({
+      identifier: t.slug,
+      id: t.id,
+      name: t.name,
+      englishName: t.name,
+      author: t.author_name,
+      language: t.language_name,
+      source: t.source
+    }));
+    res.json({ code: 200, data: tafsirs });
   } catch (error) {
     console.error('Error fetching tafsirs:', error.message);
     res.status(500).json({ error: 'Failed to fetch tafsirs' });
@@ -68,9 +79,22 @@ app.get('/api/tafsirs', async (req, res) => {
 app.get('/api/tafsir/:surah/:ayah', async (req, res) => {
   try {
     const { surah, ayah } = req.params;
-    const { edition = 'ar.muyassar' } = req.query;
-    const response = await axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${edition}`);
-    res.json(response.data);
+    const { edition = 'ar-tafsir-muyassar', id } = req.query;
+    
+    if (id) {
+      const response = await axios.get(`${TAFSIR_API_BASE}/${id}/${surah}/${ayah}.json`);
+      res.json({ 
+        code: 200, 
+        data: { 
+          text: response.data.text,
+          surah: surah,
+          ayah: ayah
+        } 
+      });
+    } else {
+      const response = await axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${edition}`);
+      res.json(response.data);
+    }
   } catch (error) {
     console.error('Error fetching tafsir:', error.message);
     res.status(500).json({ error: 'Failed to fetch tafsir' });

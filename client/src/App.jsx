@@ -37,7 +37,7 @@ function App() {
   });
 
   const [selectedTafsir, setSelectedTafsir] = useState(() => {
-    return localStorage.getItem('selectedTafsir') || 'ar.muyassar';
+    return localStorage.getItem('selectedTafsir') || '160';
   });
 
   useEffect(() => {

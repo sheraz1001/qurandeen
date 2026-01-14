@@ -147,7 +147,7 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     if (!tafsirData[ayahNumber]) {
       setTafsirLoading(true);
       try {
-        const response = await axios.get(`/api/tafsir/${number}/${ayahNumber}?edition=${selectedTafsir}`);
+        const response = await axios.get(`/api/tafsir/${number}/${ayahNumber}?id=${selectedTafsir}`);
         setTafsirData(prev => ({
           ...prev,
           [ayahNumber]: response.data.data?.text || 'Tafsir not available'

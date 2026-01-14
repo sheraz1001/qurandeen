@@ -532,6 +532,31 @@
   direction: rtl;
 }
 
+.tafsir-language-group {
+  margin-bottom: 1.25rem;
+}
+
+.tafsir-language-group:last-of-type {
+  margin-bottom: 0.5rem;
+}
+
+.tafsir-language-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tafsir-author {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .tafsir-note {
   margin-top: 0.75rem;
   font-size: 0.8rem;

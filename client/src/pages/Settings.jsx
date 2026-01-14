@@ -303,23 +303,32 @@ function Settings({
                 )}
               </div>
               <div className="card-content">
-                <div className="tafsir-grid">
-                  {tafsirs.map((tafsir) => (
-                    <button
-                      key={tafsir.identifier}
-                      className={`tafsir-btn ${selectedTafsir === tafsir.identifier ? 'active' : ''}`}
-                      onClick={() => setSelectedTafsir(tafsir.identifier)}
-                    >
-                      <div className="tafsir-info">
-                        <span className="tafsir-name">{tafsir.englishName}</span>
-                        <span className="tafsir-arabic">{tafsir.name}</span>
+                {['urdu', 'arabic', 'english', 'bengali'].map(lang => {
+                  const langTafsirs = tafsirs.filter(t => t.language?.toLowerCase() === lang);
+                  if (langTafsirs.length === 0) return null;
+                  return (
+                    <div key={lang} className="tafsir-language-group">
+                      <h4 className="tafsir-language-title">{lang.charAt(0).toUpperCase() + lang.slice(1)} ({langTafsirs.length})</h4>
+                      <div className="tafsir-grid">
+                        {langTafsirs.map((tafsir) => (
+                          <button
+                            key={tafsir.identifier}
+                            className={`tafsir-btn ${selectedTafsir === String(tafsir.id) ? 'active' : ''}`}
+                            onClick={() => setSelectedTafsir(String(tafsir.id))}
+                          >
+                            <div className="tafsir-info">
+                              <span className="tafsir-name">{tafsir.englishName}</span>
+                              <span className="tafsir-author">{tafsir.author}</span>
+                            </div>
+                            {selectedTafsir === String(tafsir.id) && <span className="check-icon">✓</span>}
+                          </button>
+                        ))}
                       </div>
-                      {selectedTafsir === tafsir.identifier && <span className="check-icon">✓</span>}
-                    </button>
-                  ))}
-                </div>
+                    </div>
+                  );
+                })}
                 <p className="tafsir-note">
-                  Tafsir provides scholarly commentary and explanation of Quranic verses
+                  Choose your preferred tafsir language and scholar
                 </p>
               </div>
             </div>
