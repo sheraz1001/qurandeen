@@ -54,11 +54,15 @@ app.get('/api/search', async (req, res) => {
     if (!keyword) {
       return res.status(400).json({ error: 'Keyword is required' });
     }
-    const response = await axios.get(`${QURAN_API_BASE}/search/${encodeURIComponent(keyword)}/all/en.asad`);
+    const response = await axios.get(`${QURAN_API_BASE}/search/${keyword}/all/en.asad`);
     res.json(response.data);
   } catch (error) {
-    console.error('Error searching:', error.message);
-    res.status(500).json({ error: 'Search failed' });
+    if (error.response?.status === 404) {
+      res.json({ code: 200, data: { count: 0, matches: [] } });
+    } else {
+      console.error('Error searching:', error.message);
+      res.status(500).json({ error: 'Search failed' });
+    }
   }
 });
 
