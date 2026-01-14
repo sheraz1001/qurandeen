@@ -18,6 +18,16 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
 }
 
+app.get('/api/translations', async (req, res) => {
+  try {
+    const response = await axios.get(`${QURAN_API_BASE}/edition/type/translation`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching translations:', error.message);
+    res.status(500).json({ error: 'Failed to fetch translations' });
+  }
+});
+
 app.get('/api/surahs', async (req, res) => {
   try {
     const response = await axios.get(`${QURAN_API_BASE}/surah`);
@@ -31,9 +41,10 @@ app.get('/api/surahs', async (req, res) => {
 app.get('/api/surah/:number', async (req, res) => {
   try {
     const { number } = req.params;
+    const { translation = 'en.asad' } = req.query;
     const [arabicRes, translationRes, audioRes] = await Promise.all([
       axios.get(`${QURAN_API_BASE}/surah/${number}`),
-      axios.get(`${QURAN_API_BASE}/surah/${number}/en.asad`),
+      axios.get(`${QURAN_API_BASE}/surah/${number}/${translation}`),
       axios.get(`${QURAN_API_BASE}/surah/${number}/ar.alafasy`)
     ]);
     

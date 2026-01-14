@@ -419,6 +419,56 @@ body {
   text-transform: capitalize;
 }
 
+.translation-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.translation-selector label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.translation-selector select {
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.translation-selector select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.translation-selector select optgroup {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.translation-selector select option {
+  padding: 0.5rem;
+}
+
+.current-translation {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
 .bismillah {
   text-align: center;
   font-family: 'Amiri', serif;

@@ -13,6 +13,7 @@ A web application for reading and listening to the Holy Quran. Built with Node.j
 - **Share Buttons**: Share ayahs on Twitter, WhatsApp, or copy to clipboard
 - **Search**: Search ayahs by keyword across the entire Quran
 - **Dark Mode**: Toggle between light and dark themes
+- **Multi-Language Translations**: Choose from 100+ translations in 40+ languages
 - **Responsive**: Works on desktop and mobile
 
 ## Project Structure
@@ -33,7 +34,8 @@ A web application for reading and listening to the Holy Quran. Built with Node.j
 
 ## API Endpoints
 - `GET /api/surahs` - List all 114 surahs
-- `GET /api/surah/:number` - Get surah details with Arabic text, translation, and audio
+- `GET /api/surah/:number?translation=` - Get surah details with Arabic text, translation, and audio
+- `GET /api/translations` - List all available translations
 - `GET /api/random-ayah` - Get a random ayah for daily inspiration
 - `GET /api/search?keyword=` - Search ayahs by keyword
 
@@ -50,7 +52,9 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - `bookmarks` - Saved ayahs
 - `readingHistory` - Recently read surahs
 - `dailyAyah` - Cached daily ayah
+- `selectedTranslation` - Preferred translation edition
 
 ## Recent Changes
+- January 14, 2026: Added multi-language translation selector with 100+ options
 - January 14, 2026: Added bookmarks, reading history, font controls, share buttons, and daily ayah features
 - January 14, 2026: Initial build with all core features

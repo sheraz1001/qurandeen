@@ -17,6 +17,10 @@ function App() {
     return saved ? parseInt(saved) : 28;
   });
 
+  const [selectedTranslation, setSelectedTranslation] = useState(() => {
+    return localStorage.getItem('selectedTranslation') || 'en.asad';
+  });
+
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -26,6 +30,10 @@ function App() {
     localStorage.setItem('fontSize', fontSize.toString());
     document.documentElement.style.setProperty('--arabic-font-size', `${fontSize / 16}rem`);
   }, [fontSize]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedTranslation', selectedTranslation);
+  }, [selectedTranslation]);
 
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
@@ -40,7 +48,13 @@ function App() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/surah/:number" element={<Surah fontSize={fontSize} />} />
+          <Route path="/surah/:number" element={
+            <Surah 
+              fontSize={fontSize} 
+              selectedTranslation={selectedTranslation}
+              setSelectedTranslation={setSelectedTranslation}
+            />
+          } />
           <Route path="/search" element={<Search />} />
           <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
         </Routes>
