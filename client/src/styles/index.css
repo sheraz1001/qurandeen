@@ -8,6 +8,7 @@
   --accent-hover: #166339;
   --border: #e0e0e0;
   --shadow: rgba(0, 0, 0, 0.1);
+  --arabic-font-size: 1.75rem;
 }
 
 [data-theme="dark"] {
@@ -20,6 +21,7 @@
   --accent-hover: #3fb950;
   --border: #30363d;
   --shadow: rgba(0, 0, 0, 0.3);
+  --arabic-font-size: 1.75rem;
 }
 
 * {
@@ -111,18 +113,66 @@ body {
   background: var(--accent-hover);
 }
 
-.theme-toggle {
-  padding: 0.5rem;
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-icon-btn {
+  padding: 0.5rem 0.75rem;
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1.25rem;
+  font-size: 1rem;
   transition: background 0.2s;
+  color: var(--text-primary);
+  text-decoration: none;
 }
 
-.theme-toggle:hover {
+.header-icon-btn:hover {
   background: var(--bg-card);
+}
+
+.font-size-wrapper {
+  position: relative;
+}
+
+.font-size-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 200;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.font-btn {
+  padding: 0.5rem 0.75rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.font-btn:hover {
+  background: var(--accent-hover);
+}
+
+.font-size-value {
+  font-size: 0.875rem;
+  min-width: 40px;
+  text-align: center;
 }
 
 .main-content {
@@ -148,6 +198,124 @@ body {
 .hero p {
   color: var(--text-secondary);
   font-size: 1.1rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.daily-ayah-section {
+  margin-bottom: 3rem;
+}
+
+.daily-ayah-card {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+}
+
+.daily-ayah-text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.daily-ayah-ref {
+  margin-bottom: 1rem;
+}
+
+.daily-ayah-ref a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: underline;
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.share-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.share-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+}
+
+.reading-history-section {
+  margin-bottom: 3rem;
+}
+
+.history-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.history-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 200px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.history-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.history-number {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.history-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-name {
+  font-weight: 600;
+}
+
+.history-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
 }
 
 .surahs-grid {
@@ -281,6 +449,51 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ayah-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.action-btn.bookmark-btn.bookmarked {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.action-btn.play-btn {
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.action-btn.play-btn:hover,
+.action-btn.play-btn.playing {
+  background: var(--accent);
+  color: white;
 }
 
 .ayah-number {
@@ -296,30 +509,10 @@ body {
   font-size: 0.875rem;
 }
 
-.play-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.play-btn:hover,
-.play-btn.playing {
-  background: var(--accent);
-  color: white;
-}
 
 .ayah-arabic {
   font-family: 'Amiri', serif;
-  font-size: 1.75rem;
+  font-size: var(--arabic-font-size);
   line-height: 2;
   text-align: right;
   direction: rtl;
@@ -479,6 +672,116 @@ body {
   background: var(--accent-hover);
 }
 
+.bookmarks-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.bookmarks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.bookmarks-header h1 {
+  margin: 0;
+}
+
+.clear-btn {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.empty-bookmarks {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.empty-hint {
+  color: var(--text-secondary);
+  margin: 1rem 0 2rem;
+}
+
+.bookmarks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bookmark-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.bookmark-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bookmark-ref {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.bookmark-ref:hover {
+  text-decoration: underline;
+}
+
+.remove-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.remove-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.bookmark-arabic {
+  font-family: 'Amiri', serif;
+  font-size: var(--arabic-font-size);
+  line-height: 2;
+  text-align: right;
+  direction: rtl;
+  margin-bottom: 1rem;
+}
+
+.bookmark-translation {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.bookmark-date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
 @media (max-width: 768px) {
   .header-content {
     justify-content: space-between;
@@ -490,16 +793,16 @@ body {
     max-width: none;
   }
 
+  .header-actions {
+    order: 2;
+  }
+
   .hero h1 {
     font-size: 2rem;
   }
 
   .surah-name-arabic-large {
     font-size: 2.25rem;
-  }
-
-  .ayah-arabic {
-    font-size: 1.5rem;
   }
 
   .surah-navigation {
@@ -509,5 +812,17 @@ body {
 
   .nav-btn {
     text-align: center;
+  }
+
+  .ayah-actions {
+    flex-wrap: wrap;
+  }
+
+  .daily-ayah-text {
+    font-size: 1rem;
+  }
+
+  .history-list {
+    flex-wrap: nowrap;
   }
 }

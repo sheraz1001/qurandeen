@@ -1,0 +1,80 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
+function Bookmarks({ fontSize }) {
+  const [bookmarks, setBookmarks] = useState([]);
+
+  useEffect(() => {
+    loadBookmarks();
+  }, []);
+
+  const loadBookmarks = () => {
+    const saved = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+    setBookmarks(saved.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt)));
+  };
+
+  const removeBookmark = (surah, ayah) => {
+    const updated = bookmarks.filter(b => !(b.surah === surah && b.ayah === ayah));
+    setBookmarks(updated);
+    localStorage.setItem('bookmarks', JSON.stringify(updated));
+  };
+
+  const clearAllBookmarks = () => {
+    if (window.confirm('Are you sure you want to clear all bookmarks?')) {
+      setBookmarks([]);
+      localStorage.setItem('bookmarks', JSON.stringify([]));
+    }
+  };
+
+  if (bookmarks.length === 0) {
+    return (
+      <div className="bookmarks-page">
+        <h1>Your Bookmarks</h1>
+        <div className="empty-bookmarks">
+          <p>No bookmarks yet</p>
+          <p className="empty-hint">While reading, tap the bookmark icon on any ayah to save it here.</p>
+          <Link to="/" className="back-link">Browse Surahs</Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bookmarks-page">
+      <div className="bookmarks-header">
+        <h1>Your Bookmarks</h1>
+        <button className="clear-btn" onClick={clearAllBookmarks}>
+          Clear All
+        </button>
+      </div>
+
+      <div className="bookmarks-list">
+        {bookmarks.map((bookmark, index) => (
+          <div key={index} className="bookmark-card">
+            <div className="bookmark-header">
+              <Link to={`/surah/${bookmark.surah}`} className="bookmark-ref">
+                {bookmark.surahName} ({bookmark.surah}:{bookmark.ayah})
+              </Link>
+              <button 
+                className="remove-btn"
+                onClick={() => removeBookmark(bookmark.surah, bookmark.ayah)}
+                title="Remove bookmark"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="bookmark-arabic" style={{ fontSize: `${fontSize / 16}rem` }}>
+              {bookmark.arabicText}
+            </p>
+            <p className="bookmark-translation">{bookmark.translationText}</p>
+            <span className="bookmark-date">
+              Saved on {new Date(bookmark.savedAt).toLocaleDateString()}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default Bookmarks;

@@ -48,6 +48,28 @@ app.get('/api/surah/:number', async (req, res) => {
   }
 });
 
+app.get('/api/random-ayah', async (req, res) => {
+  try {
+    const randomSurah = Math.floor(Math.random() * 114) + 1;
+    const surahRes = await axios.get(`${QURAN_API_BASE}/surah/${randomSurah}/en.asad`);
+    const ayahs = surahRes.data.data.ayahs;
+    const randomAyah = ayahs[Math.floor(Math.random() * ayahs.length)];
+    res.json({
+      data: {
+        ...randomAyah,
+        surah: {
+          number: surahRes.data.data.number,
+          name: surahRes.data.data.name,
+          englishName: surahRes.data.data.englishName
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching random ayah:', error.message);
+    res.status(500).json({ error: 'Failed to fetch random ayah' });
+  }
+});
+
 app.get('/api/search', async (req, res) => {
   try {
     const { keyword } = req.query;
