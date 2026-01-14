@@ -16,11 +16,18 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   const [openTafsir, setOpenTafsir] = useState(null);
   const [tafsirData, setTafsirData] = useState({});
   const [tafsirLoading, setTafsirLoading] = useState(false);
+  const [tafsirs, setTafsirs] = useState([]);
   const audioRef = useRef(null);
 
   useEffect(() => {
     fetchTranslations();
+    fetchTafsirs();
   }, []);
+
+  useEffect(() => {
+    setTafsirData({});
+    setOpenTafsir(null);
+  }, [selectedTafsir]);
 
   useEffect(() => {
     fetchSurah();
@@ -43,6 +50,20 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     } finally {
       setTranslationsLoading(false);
     }
+  };
+
+  const fetchTafsirs = async () => {
+    try {
+      const response = await axios.get('/api/tafsirs');
+      setTafsirs(response.data.data || []);
+    } catch (err) {
+      console.error('Error fetching tafsirs:', err);
+    }
+  };
+
+  const getCurrentTafsirName = () => {
+    const current = tafsirs.find(t => t.identifier === selectedTafsir);
+    return current ? current.englishName : 'Tafsir';
   };
 
   const fetchSurah = async () => {
@@ -327,12 +348,12 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
             {openTafsir === ayah.numberInSurah && (
               <div className="tafsir-content">
                 <div className="tafsir-header">
-                  <span className="tafsir-title">Tafsir al-Muyassar</span>
+                  <span className="tafsir-title">{getCurrentTafsirName()}</span>
                 </div>
                 {tafsirLoading ? (
                   <p>Loading tafsir...</p>
                 ) : (
-                  <p>{tafsirData[ayah.numberInSurah]}</p>
+                  <p className="tafsir-text">{tafsirData[ayah.numberInSurah]}</p>
                 )}
               </div>
             )}

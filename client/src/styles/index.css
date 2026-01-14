@@ -934,6 +934,12 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.tafsir-text {
+  font-size: 1.1rem;
+  line-height: 2;
+  margin: 0;
+}
+
 .ayah-footer {
   display: flex;
   justify-content: flex-start;
