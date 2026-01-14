@@ -46,7 +46,7 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`/api/surah/${number}?translation=${selectedTranslation}`);
+      const response = await axios.get(`/api/surah/${number}?translation=${selectedTranslation}&script=${selectedScript}&reciter=${selectedReciter}`);
       setSurahData(response.data);
     } catch (err) {
       setError('Failed to load surah. Please try again later.');
