@@ -13,6 +13,9 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   const [bookmarks, setBookmarks] = useState([]);
   const [translations, setTranslations] = useState([]);
   const [translationsLoading, setTranslationsLoading] = useState(true);
+  const [openTafsir, setOpenTafsir] = useState(null);
+  const [tafsirData, setTafsirData] = useState({});
+  const [tafsirLoading, setTafsirLoading] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -133,6 +136,33 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     setSelectedTranslation(e.target.value);
   };
 
+  const toggleTafsir = async (ayahNumber) => {
+    if (openTafsir === ayahNumber) {
+      setOpenTafsir(null);
+      return;
+    }
+    
+    setOpenTafsir(ayahNumber);
+    
+    if (!tafsirData[ayahNumber]) {
+      setTafsirLoading(true);
+      try {
+        const response = await axios.get(`/api/tafsir/${number}/${ayahNumber}`);
+        setTafsirData(prev => ({
+          ...prev,
+          [ayahNumber]: response.data.data?.text || 'Tafsir not available'
+        }));
+      } catch (err) {
+        setTafsirData(prev => ({
+          ...prev,
+          [ayahNumber]: 'Failed to load tafsir'
+        }));
+      } finally {
+        setTafsirLoading(false);
+      }
+    }
+  };
+
   const getLanguageName = (langCode) => {
     const languages = {
       'en': 'English', 'ar': 'Arabic', 'ur': 'Urdu', 'bn': 'Bengali', 'fa': 'Persian',
@@ -216,9 +246,21 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
 
       <div className="ayahs-list">
         {ayahs.map((ayah, index) => (
-          <div key={ayah.numberInSurah} className="ayah-card">
+          <div key={ayah.numberInSurah} className={`ayah-card ${ayah.sajda ? 'has-sajda' : ''}`}>
             <div className="ayah-header">
-              <span className="ayah-number">{ayah.numberInSurah}</span>
+              <div className="ayah-number-container">
+                <span className="ayah-number">{ayah.numberInSurah}</span>
+                {ayah.sajda && (
+                  <span className="sajda-marker" title={`Sajda ${ayah.sajda.obligatory ? '(Obligatory)' : '(Recommended)'}`}>
+                    🕌
+                  </span>
+                )}
+              </div>
+              <div className="ayah-meta">
+                <span className="meta-item" title="Juz (Para)">Juz {ayah.juz}</span>
+                <span className="meta-item" title="Page">Page {ayah.page}</span>
+                <span className="meta-item" title="Ruku">Ruku {ayah.ruku}</span>
+              </div>
               <div className="ayah-actions">
                 <button 
                   className={`action-btn bookmark-btn ${isBookmarked(surahInfo.number, ayah.numberInSurah) ? 'bookmarked' : ''}`}
@@ -264,8 +306,36 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
                 )}
               </div>
             </div>
-            <p className="ayah-arabic" style={{ fontSize: `${fontSize / 16}rem` }}>{ayah.text}</p>
+            {ayah.sajda && (
+              <div className="sajda-notice">
+                <span className="sajda-icon">🕌</span>
+                <span>Sajda {ayah.sajda.obligatory ? '(Obligatory Prostration)' : '(Recommended Prostration)'}</span>
+              </div>
+            )}
+            <p className="ayah-arabic" style={{ fontSize: `${fontSize / 16}rem`, fontFamily: 'var(--arabic-font-family)' }}>{ayah.text}</p>
             <p className="ayah-translation">{translationAyahs[index]?.text}</p>
+            
+            <div className="ayah-footer">
+              <button 
+                className={`tafsir-toggle ${openTafsir === ayah.numberInSurah ? 'active' : ''}`}
+                onClick={() => toggleTafsir(ayah.numberInSurah)}
+              >
+                {openTafsir === ayah.numberInSurah ? 'Hide Tafsir' : 'Show Tafsir'}
+              </button>
+            </div>
+            
+            {openTafsir === ayah.numberInSurah && (
+              <div className="tafsir-content">
+                <div className="tafsir-header">
+                  <span className="tafsir-title">Tafsir al-Muyassar</span>
+                </div>
+                {tafsirLoading ? (
+                  <p>Loading tafsir...</p>
+                ) : (
+                  <p>{tafsirData[ayah.numberInSurah]}</p>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>

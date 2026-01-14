@@ -55,6 +55,49 @@ app.get('/api/scripts', async (req, res) => {
   }
 });
 
+app.get('/api/tafsirs', async (req, res) => {
+  try {
+    const response = await axios.get(`${QURAN_API_BASE}/edition?type=tafsir`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching tafsirs:', error.message);
+    res.status(500).json({ error: 'Failed to fetch tafsirs' });
+  }
+});
+
+app.get('/api/tafsir/:surah/:ayah', async (req, res) => {
+  try {
+    const { surah, ayah } = req.params;
+    const { edition = 'ar.muyassar' } = req.query;
+    const response = await axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${edition}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching tafsir:', error.message);
+    res.status(500).json({ error: 'Failed to fetch tafsir' });
+  }
+});
+
+app.get('/api/juz/:number', async (req, res) => {
+  try {
+    const { number } = req.params;
+    const response = await axios.get(`${QURAN_API_BASE}/juz/${number}/quran-uthmani`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching juz:', error.message);
+    res.status(500).json({ error: 'Failed to fetch juz' });
+  }
+});
+
+app.get('/api/sajda', async (req, res) => {
+  try {
+    const response = await axios.get(`${QURAN_API_BASE}/sajda/quran-uthmani`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching sajda:', error.message);
+    res.status(500).json({ error: 'Failed to fetch sajda verses' });
+  }
+});
+
 app.get('/api/surahs', async (req, res) => {
   try {
     const response = await axios.get(`${QURAN_API_BASE}/surah`);

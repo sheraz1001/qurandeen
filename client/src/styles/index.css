@@ -593,6 +593,268 @@ body {
   line-height: 1.8;
 }
 
+.ayah-number-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sajda-marker {
+  font-size: 1.25rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.ayah-meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.has-sajda {
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(to right, rgba(245, 158, 11, 0.1), transparent);
+}
+
+.sajda-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.sajda-icon {
+  font-size: 1.25rem;
+}
+
+.tafsir-toggle {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+}
+
+.tafsir-toggle:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.tafsir-content {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  direction: rtl;
+  text-align: right;
+  font-family: var(--arabic-font-family);
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.tafsir-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tafsir-title {
+  font-weight: 600;
+  color: var(--accent);
+  direction: ltr;
+  font-family: 'Inter', sans-serif;
+}
+
+.ayah-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border);
+}
+
+.tafsir-toggle.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.juz-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.juz-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.juz-selector label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.juz-selector select {
+  flex: 1;
+  max-width: 200px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.juz-content {
+  margin-top: 1rem;
+}
+
+.juz-info {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.juz-info h2 {
+  font-size: 1.75rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.juz-stats {
+  color: var(--text-secondary);
+}
+
+.juz-surahs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.juz-surah-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+}
+
+.juz-surah-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.surah-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.surah-link:hover {
+  color: var(--accent);
+}
+
+.surah-number-badge {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.surah-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.surah-name {
+  font-family: var(--arabic-font-family);
+  font-size: 1.25rem;
+}
+
+.surah-english {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.ayah-range {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+}
+
+.browse-links {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.browse-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.browse-link:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
 .surah-navigation {
   display: flex;
   justify-content: space-between;

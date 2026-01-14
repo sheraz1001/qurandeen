@@ -85,6 +85,18 @@ function Home() {
         <p>Read, listen, and explore the divine words</p>
       </div>
 
+      <div className="browse-links">
+        <Link to="/juz" className="browse-link">
+          <span>📖</span> Browse by Juz
+        </Link>
+        <Link to="/bookmarks" className="browse-link">
+          <span>🔖</span> My Bookmarks
+        </Link>
+        <Link to="/settings" className="browse-link">
+          <span>⚙️</span> Settings
+        </Link>
+      </div>
+
       {dailyAyah && (
         <div className="daily-ayah-section">
           <h2 className="section-title">Ayah of the Day</h2>
