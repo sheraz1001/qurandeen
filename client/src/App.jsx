@@ -37,7 +37,7 @@ function App() {
   });
 
   const [selectedTafsir, setSelectedTafsir] = useState(() => {
-    return localStorage.getItem('selectedTafsir') || '160';
+    return localStorage.getItem('selectedTafsir') || 'ur-tafseer-ibn-e-kaseer';
   });
 
   useEffect(() => {

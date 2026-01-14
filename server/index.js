@@ -55,11 +55,11 @@ app.get('/api/scripts', async (req, res) => {
   }
 });
 
-const TAFSIR_API_BASE = 'https://cdn.jsdelivr.net/gh/spa5k/tafsir_api@main/tafsir';
+const TAFSIR_API_RAW = 'https://raw.githubusercontent.com/spa5k/tafsir_api/main/tafsir';
 
 app.get('/api/tafsirs', async (req, res) => {
   try {
-    const response = await axios.get(`${TAFSIR_API_BASE}/editions.json`);
+    const response = await axios.get(`${TAFSIR_API_RAW}/editions.json`);
     const tafsirs = response.data.map(t => ({
       identifier: t.slug,
       id: t.id,
@@ -79,10 +79,10 @@ app.get('/api/tafsirs', async (req, res) => {
 app.get('/api/tafsir/:surah/:ayah', async (req, res) => {
   try {
     const { surah, ayah } = req.params;
-    const { edition = 'ar-tafsir-muyassar', id } = req.query;
+    const { slug } = req.query;
     
-    if (id) {
-      const response = await axios.get(`${TAFSIR_API_BASE}/${id}/${surah}/${ayah}.json`);
+    if (slug) {
+      const response = await axios.get(`${TAFSIR_API_RAW}/${slug}/${surah}/${ayah}.json`);
       res.json({ 
         code: 200, 
         data: { 
@@ -92,7 +92,7 @@ app.get('/api/tafsir/:surah/:ayah', async (req, res) => {
         } 
       });
     } else {
-      const response = await axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${edition}`);
+      const response = await axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/ar.muyassar`);
       res.json(response.data);
     }
   } catch (error) {

@@ -313,14 +313,14 @@ function Settings({
                         {langTafsirs.map((tafsir) => (
                           <button
                             key={tafsir.identifier}
-                            className={`tafsir-btn ${selectedTafsir === String(tafsir.id) ? 'active' : ''}`}
-                            onClick={() => setSelectedTafsir(String(tafsir.id))}
+                            className={`tafsir-btn ${selectedTafsir === tafsir.identifier ? 'active' : ''}`}
+                            onClick={() => setSelectedTafsir(tafsir.identifier)}
                           >
                             <div className="tafsir-info">
                               <span className="tafsir-name">{tafsir.englishName}</span>
                               <span className="tafsir-author">{tafsir.author}</span>
                             </div>
-                            {selectedTafsir === String(tafsir.id) && <span className="check-icon">✓</span>}
+                            {selectedTafsir === tafsir.identifier && <span className="check-icon">✓</span>}
                           </button>
                         ))}
                       </div>
