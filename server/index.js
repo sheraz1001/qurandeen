@@ -28,6 +28,31 @@ app.get('/api/translations', async (req, res) => {
   }
 });
 
+app.get('/api/reciters', async (req, res) => {
+  try {
+    const response = await axios.get(`${QURAN_API_BASE}/edition?format=audio&type=versebyverse`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching reciters:', error.message);
+    res.status(500).json({ error: 'Failed to fetch reciters' });
+  }
+});
+
+app.get('/api/scripts', async (req, res) => {
+  try {
+    const scripts = [
+      { identifier: 'quran-uthmani', englishName: 'Uthmani', name: 'العثماني', description: 'Classic Uthmani script' },
+      { identifier: 'quran-simple', englishName: 'Simple', name: 'بسيط', description: 'Simplified Arabic with diacritics' },
+      { identifier: 'quran-simple-clean', englishName: 'Simple Clean', name: 'بسيط نظيف', description: 'Simplified without diacritics' },
+      { identifier: 'quran-tajweed', englishName: 'Tajweed', name: 'تجويد', description: 'Color-coded tajweed rules' }
+    ];
+    res.json({ code: 200, data: scripts });
+  } catch (error) {
+    console.error('Error fetching scripts:', error.message);
+    res.status(500).json({ error: 'Failed to fetch scripts' });
+  }
+});
+
 app.get('/api/surahs', async (req, res) => {
   try {
     const response = await axios.get(`${QURAN_API_BASE}/surah`);
@@ -41,11 +66,11 @@ app.get('/api/surahs', async (req, res) => {
 app.get('/api/surah/:number', async (req, res) => {
   try {
     const { number } = req.params;
-    const { translation = 'en.asad' } = req.query;
+    const { translation = 'en.asad', script = 'quran-uthmani', reciter = 'ar.alafasy' } = req.query;
     const [arabicRes, translationRes, audioRes] = await Promise.all([
-      axios.get(`${QURAN_API_BASE}/surah/${number}`),
+      axios.get(`${QURAN_API_BASE}/surah/${number}/${script}`),
       axios.get(`${QURAN_API_BASE}/surah/${number}/${translation}`),
-      axios.get(`${QURAN_API_BASE}/surah/${number}/ar.alafasy`)
+      axios.get(`${QURAN_API_BASE}/surah/${number}/${reciter}`)
     ]);
     
     res.json({

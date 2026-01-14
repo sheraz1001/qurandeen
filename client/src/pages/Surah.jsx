@@ -4,7 +4,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 
-function Surah({ fontSize, selectedTranslation, setSelectedTranslation }) {
+function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript }) {
   const { number } = useParams();
   const [surahData, setSurahData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation }) {
   useEffect(() => {
     fetchSurah();
     loadBookmarks();
-  }, [number, selectedTranslation]);
+  }, [number, selectedTranslation, selectedReciter, selectedScript]);
 
   useEffect(() => {
     if (surahData) {

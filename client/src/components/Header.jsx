@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Header({ darkMode, toggleDarkMode, fontSize, setFontSize }) {
+function Header({ darkMode, toggleDarkMode }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [showFontControls, setShowFontControls] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -12,9 +11,6 @@ function Header({ darkMode, toggleDarkMode, fontSize, setFontSize }) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
-
-  const increaseFontSize = () => setFontSize(Math.min(fontSize + 4, 48));
-  const decreaseFontSize = () => setFontSize(Math.max(fontSize - 4, 16));
 
   return (
     <header className="header">
@@ -42,22 +38,9 @@ function Header({ darkMode, toggleDarkMode, fontSize, setFontSize }) {
             🔖
           </Link>
 
-          <div className="font-size-wrapper">
-            <button 
-              className="header-icon-btn"
-              onClick={() => setShowFontControls(!showFontControls)}
-              title="Font Size"
-            >
-              Aa
-            </button>
-            {showFontControls && (
-              <div className="font-size-dropdown">
-                <button onClick={decreaseFontSize} className="font-btn">A-</button>
-                <span className="font-size-value">{fontSize}px</span>
-                <button onClick={increaseFontSize} className="font-btn">A+</button>
-              </div>
-            )}
-          </div>
+          <Link to="/settings" className="header-icon-btn" title="Settings">
+            ⚙️
+          </Link>
 
           <button 
             className="header-icon-btn" 
