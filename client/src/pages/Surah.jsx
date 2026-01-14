@@ -4,7 +4,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 
-function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript }) {
+function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir }) {
   const { number } = useParams();
   const [surahData, setSurahData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -147,7 +147,7 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     if (!tafsirData[ayahNumber]) {
       setTafsirLoading(true);
       try {
-        const response = await axios.get(`/api/tafsir/${number}/${ayahNumber}`);
+        const response = await axios.get(`/api/tafsir/${number}/${ayahNumber}?edition=${selectedTafsir}`);
         setTafsirData(prev => ({
           ...prev,
           [ayahNumber]: response.data.data?.text || 'Tafsir not available'

@@ -36,6 +36,10 @@ function App() {
     return localStorage.getItem('selectedFont') || 'uthmani';
   });
 
+  const [selectedTafsir, setSelectedTafsir] = useState(() => {
+    return localStorage.getItem('selectedTafsir') || 'ar.muyassar';
+  });
+
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -68,6 +72,10 @@ function App() {
     document.documentElement.style.setProperty('--arabic-font-family', fontFamilies[selectedFont] || fontFamilies.uthmani);
   }, [selectedFont]);
 
+  useEffect(() => {
+    localStorage.setItem('selectedTafsir', selectedTafsir);
+  }, [selectedTafsir]);
+
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
   return (
@@ -86,6 +94,7 @@ function App() {
               setSelectedTranslation={setSelectedTranslation}
               selectedReciter={selectedReciter}
               selectedScript={selectedScript}
+              selectedTafsir={selectedTafsir}
             />
           } />
           <Route path="/search" element={<Search />} />
@@ -105,6 +114,8 @@ function App() {
               setSelectedScript={setSelectedScript}
               selectedFont={selectedFont}
               setSelectedFont={setSelectedFont}
+              selectedTafsir={selectedTafsir}
+              setSelectedTafsir={setSelectedTafsir}
             />
           } />
         </Routes>

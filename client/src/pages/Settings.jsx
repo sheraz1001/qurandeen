@@ -16,7 +16,9 @@ function Settings({
   selectedScript,
   setSelectedScript,
   selectedFont,
-  setSelectedFont
+  setSelectedFont,
+  selectedTafsir,
+  setSelectedTafsir
 }) {
   const fonts = [
     { id: 'uthmani', name: 'Uthmani', arabic: 'العثماني' },
@@ -27,20 +29,23 @@ function Settings({
   const [translations, setTranslations] = useState([]);
   const [reciters, setReciters] = useState([]);
   const [scripts, setScripts] = useState([]);
+  const [tafsirs, setTafsirs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('appearance');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [translationsRes, recitersRes, scriptsRes] = await Promise.all([
+        const [translationsRes, recitersRes, scriptsRes, tafsirsRes] = await Promise.all([
           axios.get('/api/translations'),
           axios.get('/api/reciters'),
-          axios.get('/api/scripts')
+          axios.get('/api/scripts'),
+          axios.get('/api/tafsirs')
         ]);
         setTranslations(translationsRes.data.data || []);
         setReciters(recitersRes.data.data || []);
         setScripts(scriptsRes.data.data || []);
+        setTafsirs(tafsirsRes.data.data || []);
       } catch (error) {
         console.error('Error fetching settings data:', error);
       } finally {
@@ -74,6 +79,7 @@ function Settings({
 
   const currentReciter = reciters.find(r => r.identifier === selectedReciter);
   const currentTranslation = translations.find(t => t.identifier === selectedTranslation);
+  const currentTafsir = tafsirs.find(t => t.identifier === selectedTafsir);
 
   if (loading) return <Loading />;
 
@@ -285,6 +291,36 @@ function Settings({
                   <span className="stat-divider">•</span>
                   <span className="stat">{translations.length} Translations</span>
                 </div>
+              </div>
+            </div>
+
+            <div className="settings-card full-width">
+              <div className="card-header">
+                <span className="card-icon">📚</span>
+                <h3>Tafsir (Commentary)</h3>
+                {currentTafsir && (
+                  <span className="current-selection">{currentTafsir.englishName}</span>
+                )}
+              </div>
+              <div className="card-content">
+                <div className="tafsir-grid">
+                  {tafsirs.map((tafsir) => (
+                    <button
+                      key={tafsir.identifier}
+                      className={`tafsir-btn ${selectedTafsir === tafsir.identifier ? 'active' : ''}`}
+                      onClick={() => setSelectedTafsir(tafsir.identifier)}
+                    >
+                      <div className="tafsir-info">
+                        <span className="tafsir-name">{tafsir.englishName}</span>
+                        <span className="tafsir-arabic">{tafsir.name}</span>
+                      </div>
+                      {selectedTafsir === tafsir.identifier && <span className="check-icon">✓</span>}
+                    </button>
+                  ))}
+                </div>
+                <p className="tafsir-note">
+                  Tafsir provides scholarly commentary and explanation of Quranic verses
+                </p>
               </div>
             </div>
           </div>
