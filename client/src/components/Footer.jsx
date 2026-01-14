@@ -87,7 +87,7 @@ function Footer() {
             &copy; {currentYear} Quran Online. All rights reserved.
           </p>
           <p className="api-credit">
-            Powered by <a href="https://alquran.cloud" target="_blank" rel="noopener noreferrer">Al Quran Cloud API</a>
+            Developed by <a href="https://webmaster.ae" target="_blank" rel="noopener noreferrer">Webmaster Technology</a>
           </p>
         </div>
       </div>
