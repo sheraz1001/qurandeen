@@ -5,11 +5,24 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 
 ## Features
 - **Home Page**: Lists all 114 surahs with Arabic and English names
-- **Daily Ayah**: Shows a random inspiring ayah on the home page (cached daily)
+- **Daily Ayah**: Shows Arabic, English, and Urdu translations (cached daily)
 - **Surah Page**: Displays ayahs with Arabic text, translation, and audio playback
 - **MP3 Audio Page**: Full surah audio playback with 150+ reciters including Youssef Edghouch (from MP3Quran.net API)
 - **Bookmarks**: Save favorite ayahs to a bookmarks page (stored in browser)
 - **Reading History**: Automatically tracks recently read surahs, shown on home page
+- **User Authentication**: Standalone signup/login system with email/password
+  - Signup collects: Name, Email, Password, City, Country
+  - JWT-based session management with bcrypt password hashing
+  - Admin user: admin@qurandeen.com / admin123
+- **User Dashboard**: Personal dashboard for logged-in users
+  - Quran Read Tracker: Mark surahs as completed, track progress
+  - Synced Bookmarks: Cloud-saved bookmarks across devices
+  - Free Resources: Curated Islamic resources (Quran.com, Sunnah.com, etc.)
+  - Progress statistics and visualization
+- **Admin Dashboard**: Admin-only management panel
+  - Blog Management: Create, edit, publish, delete blog posts
+  - User List: View all registered users
+- **Islamic Blog**: Public blog page for Islamic knowledge articles
 - **Settings Page**: Comprehensive settings for customization:
   - Arabic Font Style: Uthmani, IndoPak (Al Majeed Quranic font), Simple
   - Arabic Script Data: Uthmani, Simple, Simple Clean, Tajweed
@@ -43,16 +56,41 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 ```
 
 ## API Endpoints
+### Quran APIs
 - `GET /api/surahs` - List all 114 surahs
 - `GET /api/surah/:number?translation=&script=&reciter=` - Get surah details with Juz/Page/Ruku/Sajda info
 - `GET /api/translations` - List all available translations
 - `GET /api/reciters` - List all available audio reciters (23+ verse-by-verse)
 - `GET /api/mp3-reciters` - List all MP3 reciters (150+ full surah audio from MP3Quran.net)
 - `GET /api/scripts` - List available Arabic script styles
-- `GET /api/random-ayah` - Get a random ayah for daily inspiration
+- `GET /api/random-ayah` - Get a random ayah for daily inspiration (Arabic, English, Urdu)
 - `GET /api/search?keyword=` - Search ayahs by keyword
 - `GET /api/juz/:number` - Get all ayahs in a specific juz
 - `GET /api/tafsir/:surah/:ayah` - Get tafsir for a specific ayah
+
+### Auth APIs
+- `POST /api/auth/signup` - Register new user (name, email, password, city, country)
+- `POST /api/auth/login` - Login with email/password
+- `POST /api/auth/logout` - Logout user
+- `GET /api/auth/me` - Get current user info (protected)
+
+### User APIs (protected)
+- `GET /api/user/reading-progress` - Get user's reading progress
+- `POST /api/user/reading-progress` - Update reading progress
+- `GET /api/user/bookmarks` - Get user's bookmarks
+- `POST /api/user/bookmarks` - Add bookmark
+- `DELETE /api/user/bookmarks/:surah/:ayah` - Remove bookmark
+
+### Blog APIs
+- `GET /api/blogs` - List published blogs
+- `GET /api/blogs/:slug` - Get single blog post
+
+### Admin APIs (protected, admin only)
+- `GET /api/admin/blogs` - List all blogs
+- `POST /api/admin/blogs` - Create blog
+- `PUT /api/admin/blogs/:id` - Update blog
+- `DELETE /api/admin/blogs/:id` - Delete blog
+- `GET /api/admin/users` - List all users
 
 ## Running the Project
 - **Production**: `NODE_ENV=production node server/index.js` (serves built React app on port 5000)
@@ -78,6 +116,11 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 15, 2026: Added user authentication with signup/login (collects name, email, password, city, country)
+- January 15, 2026: Added User Dashboard with Quran Read Tracker, synced bookmarks, and free resources
+- January 15, 2026: Added Admin Dashboard with blog management (create, edit, publish, delete)
+- January 15, 2026: Added public Islamic Blog page
+- January 15, 2026: Updated Ayah of the Day to show Arabic, English, and Urdu translations
 - January 15, 2026: Added MP3 Audio page with 150+ reciters including Youssef Edghouch for full surah playback
 - January 15, 2026: Added multilingual Tafsir support (Urdu, Arabic, English, Bengali) via Tafsir API
 - January 15, 2026: Renamed website to Quran Deen (QuranDeen.com)

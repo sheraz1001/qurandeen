@@ -9,6 +9,12 @@ import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Juz from './pages/Juz';
 import MP3Audio from './pages/MP3Audio';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import { BlogList, BlogPost } from './pages/Blog';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -80,50 +86,58 @@ function App() {
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
   return (
-    <div className="app">
-      <Header 
-        darkMode={darkMode} 
-        toggleDarkMode={toggleDarkMode}
-      />
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/surah/:number" element={
-            <Surah 
-              fontSize={fontSize} 
-              selectedTranslation={selectedTranslation}
-              setSelectedTranslation={setSelectedTranslation}
-              selectedReciter={selectedReciter}
-              selectedScript={selectedScript}
-              selectedTafsir={selectedTafsir}
-            />
-          } />
-          <Route path="/search" element={<Search />} />
-          <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
-          <Route path="/juz" element={<Juz />} />
-          <Route path="/mp3" element={<MP3Audio />} />
-          <Route path="/settings" element={
-            <Settings 
-              darkMode={darkMode}
-              toggleDarkMode={toggleDarkMode}
-              fontSize={fontSize}
-              setFontSize={setFontSize}
-              selectedTranslation={selectedTranslation}
-              setSelectedTranslation={setSelectedTranslation}
-              selectedReciter={selectedReciter}
-              setSelectedReciter={setSelectedReciter}
-              selectedScript={selectedScript}
-              setSelectedScript={setSelectedScript}
-              selectedFont={selectedFont}
-              setSelectedFont={setSelectedFont}
-              selectedTafsir={selectedTafsir}
-              setSelectedTafsir={setSelectedTafsir}
-            />
-          } />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+    <AuthProvider>
+      <div className="app">
+        <Header 
+          darkMode={darkMode} 
+          toggleDarkMode={toggleDarkMode}
+        />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/surah/:number" element={
+              <Surah 
+                fontSize={fontSize} 
+                selectedTranslation={selectedTranslation}
+                setSelectedTranslation={setSelectedTranslation}
+                selectedReciter={selectedReciter}
+                selectedScript={selectedScript}
+                selectedTafsir={selectedTafsir}
+              />
+            } />
+            <Route path="/search" element={<Search />} />
+            <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
+            <Route path="/juz" element={<Juz />} />
+            <Route path="/mp3" element={<MP3Audio />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/settings" element={
+              <Settings 
+                darkMode={darkMode}
+                toggleDarkMode={toggleDarkMode}
+                fontSize={fontSize}
+                setFontSize={setFontSize}
+                selectedTranslation={selectedTranslation}
+                setSelectedTranslation={setSelectedTranslation}
+                selectedReciter={selectedReciter}
+                setSelectedReciter={setSelectedReciter}
+                selectedScript={selectedScript}
+                setSelectedScript={setSelectedScript}
+                selectedFont={selectedFont}
+                setSelectedFont={setSelectedFont}
+                selectedTafsir={selectedTafsir}
+                setSelectedTafsir={setSelectedTafsir}
+              />
+            } />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </AuthProvider>
   );
 }
 

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Header({ darkMode, toggleDarkMode }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -15,12 +17,19 @@ function Header({ darkMode, toggleDarkMode }) {
     }
   };
 
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+    setMobileMenuOpen(false);
+  };
+
   const isActive = (path) => location.pathname === path;
 
   const navLinks = [
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/juz', label: 'Juz', icon: '📖' },
     { path: '/mp3', label: 'MP3', icon: '🎧' },
+    { path: '/blog', label: 'Blog', icon: '📝' },
     { path: '/bookmarks', label: 'Bookmarks', icon: '🔖' },
     { path: '/settings', label: 'Settings', icon: '⚙️' },
   ];
@@ -80,6 +89,20 @@ function Header({ darkMode, toggleDarkMode }) {
               <span className="theme-icon">{darkMode ? '☀️' : '🌙'}</span>
             </button>
 
+            {user ? (
+              <div className="user-menu">
+                <Link 
+                  to={user.role === 'admin' ? '/admin' : '/dashboard'} 
+                  className="user-btn"
+                  title="Dashboard"
+                >
+                  <span className="user-avatar">{user.name?.charAt(0).toUpperCase()}</span>
+                </Link>
+              </div>
+            ) : (
+              <Link to="/login" className="login-btn">Login</Link>
+            )}
+
             <button 
               className="mobile-menu-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -121,6 +144,25 @@ function Header({ darkMode, toggleDarkMode }) {
             />
             <button type="submit" className="mobile-search-btn">Search</button>
           </form>
+          <div className="mobile-auth">
+            {user ? (
+              <>
+                <Link 
+                  to={user.role === 'admin' ? '/admin' : '/dashboard'} 
+                  className="mobile-auth-link"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  My Dashboard
+                </Link>
+                <button onClick={handleLogout} className="mobile-logout-btn">Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="mobile-auth-link" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+                <Link to="/signup" className="mobile-auth-link signup" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
+              </>
+            )}
+          </div>
         </div>
       )}
     </header>
