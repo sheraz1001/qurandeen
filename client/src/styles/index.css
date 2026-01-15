@@ -255,6 +255,55 @@ body {
   font-size: 1.125rem;
 }
 
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-link, .admin-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.dashboard-link:hover, .admin-link:hover {
+  border-color: var(--accent);
+}
+
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-icon {
+  font-size: 1.25rem;
+}
+
+.login-link {
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+
+.login-link:hover {
+  background: var(--accent-hover);
+}
+
 .mobile-menu-btn {
   display: flex;
   align-items: center;

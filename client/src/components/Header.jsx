@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function Header({ darkMode, toggleDarkMode }) {
+function Header({ darkMode, toggleDarkMode, user, isAuthenticated }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ function Header({ darkMode, toggleDarkMode }) {
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/juz', label: 'Juz', icon: '📖' },
     { path: '/mp3', label: 'MP3', icon: '🎧' },
+    { path: '/blog', label: 'Blog', icon: '📝' },
     { path: '/bookmarks', label: 'Bookmarks', icon: '🔖' },
     { path: '/settings', label: 'Settings', icon: '⚙️' },
   ];
@@ -79,6 +80,25 @@ function Header({ darkMode, toggleDarkMode }) {
             >
               <span className="theme-icon">{darkMode ? '☀️' : '🌙'}</span>
             </button>
+
+            {isAuthenticated ? (
+              <div className="auth-section">
+                <Link to="/dashboard" className="dashboard-link" title="My Dashboard">
+                  {user?.profileImageUrl ? (
+                    <img src={user.profileImageUrl} alt="" className="header-avatar" />
+                  ) : (
+                    <span className="user-icon">👤</span>
+                  )}
+                </Link>
+                {user?.role === 'admin' && (
+                  <Link to="/admin" className="admin-link" title="Admin Dashboard">
+                    ⚙️
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <a href="/api/login" className="login-link">Sign In</a>
+            )}
 
             <button 
               className="mobile-menu-btn"

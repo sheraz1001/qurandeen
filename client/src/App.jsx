@@ -9,8 +9,14 @@ import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Juz from './pages/Juz';
 import MP3Audio from './pages/MP3Audio';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import { BlogList, BlogPost } from './pages/Blog';
+import { useAuth } from './hooks/use-auth';
 
 function App() {
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : true;
@@ -84,6 +90,8 @@ function App() {
       <Header 
         darkMode={darkMode} 
         toggleDarkMode={toggleDarkMode}
+        user={user}
+        isAuthenticated={isAuthenticated}
       />
       <main className="main-content">
         <Routes>
@@ -102,6 +110,10 @@ function App() {
           <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
           <Route path="/juz" element={<Juz />} />
           <Route path="/mp3" element={<MP3Audio />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/settings" element={
             <Settings 
               darkMode={darkMode}
