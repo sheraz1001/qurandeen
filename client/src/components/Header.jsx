@@ -30,16 +30,11 @@ function Header({ darkMode, toggleDarkMode }) {
       <div className="header-top">
         <div className="header-container">
           <Link to="/" className="logo">
-            <div className="logo-icon-wrapper">
-              <svg viewBox="0 0 40 40" className="logo-svg">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <path d="M20 8 L20 32 M12 16 L28 16 M14 24 L26 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <div className="logo-text-wrapper">
-              <span className="logo-title">Quran Deen</span>
-              <span className="logo-subtitle">Read, Listen & Reflect</span>
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Quran Deen" 
+              className="logo-image"
+            />
           </Link>
 
           <nav className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>

@@ -95,6 +95,12 @@ body {
   transition: opacity 0.2s;
 }
 
+.logo-image {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
 .logo:hover {
   opacity: 0.85;
 }
@@ -1457,6 +1463,12 @@ body {
   width: 36px;
   height: 36px;
   color: var(--accent);
+}
+
+.footer-logo-image {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
 }
 
 .footer-logo-text {

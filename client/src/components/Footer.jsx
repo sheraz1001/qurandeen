@@ -24,11 +24,11 @@ function Footer() {
         <div className="footer-container">
           <div className="footer-section footer-brand">
             <div className="footer-logo">
-              <svg viewBox="0 0 40 40" className="footer-logo-svg">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <path d="M20 8 L20 32 M12 16 L28 16 M14 24 L26 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-              <span className="footer-logo-text">Quran Deen</span>
+              <img 
+                src="/logo.png" 
+                alt="Quran Deen" 
+                className="footer-logo-image"
+              />
             </div>
             <p className="footer-description">
               A comprehensive platform for reading, listening, and studying the Holy Quran. 
