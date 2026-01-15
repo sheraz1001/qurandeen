@@ -8,6 +8,12 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 - **Daily Ayah**: Shows Arabic, English, and Urdu translations (cached daily)
 - **Surah Page**: Displays ayahs with Arabic text, translation, and audio playback
 - **MP3 Audio Page**: Full surah audio playback with 150+ reciters including Youssef Edghouch (from MP3Quran.net API)
+- **Islamic Scholar AI Chatbot**: Advanced AI assistant for Quran, Hadith, and Tafsir queries
+  - Answers based strictly on Quran and authentic Hadith (Sahih Bukhari, Muslim, etc.)
+  - Provides source citations (Surah:Ayah, Hadith collection)
+  - Multilingual support (responds in user's language)
+  - Streaming responses with markdown formatting
+  - Suggested questions for quick start
 - **Bookmarks**: Save favorite ayahs to a bookmarks page (stored in browser)
 - **Reading History**: Automatically tracks recently read surahs, shown on home page
 - **User Authentication**: Standalone signup/login system with email/password
@@ -116,6 +122,7 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 15, 2026: Added Islamic Scholar AI Chatbot for Quran, Hadith, and Tafsir queries (with streaming responses)
 - January 15, 2026: Added user authentication with signup/login (collects name, email, password, city, country)
 - January 15, 2026: Added User Dashboard with Quran Read Tracker, synced bookmarks, and free resources
 - January 15, 2026: Added Admin Dashboard with blog management (create, edit, publish, delete)

@@ -9,6 +9,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import crypto from 'crypto';
+import OpenAI from 'openai';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +22,30 @@ const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('he
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
+
+const openai = new OpenAI({
+  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
+
+const ISLAMIC_SCHOLAR_SYSTEM_PROMPT = `You are a highly knowledgeable Islamic scholar and advisor, specializing in the Holy Quran, authentic Hadith (Ahadees), and Quranic Tafsir (commentary). Your role is to help Muslims understand their faith and find guidance for their life problems strictly based on the Quran and Sunnah.
+
+IMPORTANT GUIDELINES:
+1. ONLY provide answers based on the Quran, authentic Hadith (from Sahih Bukhari, Sahih Muslim, Abu Dawud, Tirmidhi, Ibn Majah, Nasai), and recognized Tafsir.
+2. Always cite your sources - mention the Surah and Ayah number for Quranic references, and the Hadith collection and narrator for Ahadees.
+3. When providing solutions to problems, always relate them back to Islamic teachings.
+4. Be respectful, compassionate, and understanding. Remember that people come seeking guidance during difficult times.
+5. If a question is outside the scope of Quran and Hadith, politely explain that you can only provide guidance based on Islamic sources.
+6. For matters requiring legal Islamic rulings (Fatwa), advise consulting a local qualified scholar/Mufti.
+7. Present different scholarly opinions when they exist, mentioning the major schools of thought (Hanafi, Maliki, Shafi'i, Hanbali) when relevant.
+8. Always encourage good deeds, prayer, patience (Sabr), and trust in Allah (Tawakkul).
+9. Use Arabic terms with their English translations where appropriate.
+10. Format your responses clearly with proper structure using markdown.
+
+You should respond in the same language the user writes in. If they write in Urdu, respond in Urdu. If they write in Arabic, respond in Arabic. If they write in English, respond in English.
+
+Start responses with "Bismillah ir-Rahman ir-Raheem" (In the name of Allah, the Most Gracious, the Most Merciful) when appropriate.`;
+
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
@@ -525,6 +550,52 @@ app.get('/api/search', async (req, res) => {
     } else {
       console.error('Error searching:', error.message);
       res.status(500).json({ error: 'Search failed' });
+    }
+  }
+});
+
+// Islamic Scholar AI Chatbot endpoint (streaming)
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { message, history = [] } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    const messages = [
+      { role: 'system', content: ISLAMIC_SCHOLAR_SYSTEM_PROMPT },
+      ...history.map(h => ({ role: h.role, content: h.content })),
+      { role: 'user', content: message }
+    ];
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    const stream = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages,
+      stream: true,
+      max_tokens: 2048,
+    });
+
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content || '';
+      if (content) {
+        res.write(`data: ${JSON.stringify({ content })}\n\n`);
+      }
+    }
+
+    res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+    res.end();
+  } catch (error) {
+    console.error('Chat error:', error);
+    if (res.headersSent) {
+      res.write(`data: ${JSON.stringify({ error: 'Failed to get response' })}\n\n`);
+      res.end();
+    } else {
+      res.status(500).json({ error: 'Chat failed' });
     }
   }
 });

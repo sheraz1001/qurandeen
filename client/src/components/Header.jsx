@@ -29,6 +29,7 @@ function Header({ darkMode, toggleDarkMode }) {
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/juz', label: 'Juz', icon: '📖' },
     { path: '/mp3', label: 'MP3', icon: '🎧' },
+    { path: '/chat', label: 'AI Scholar', icon: '🤖' },
     { path: '/blog', label: 'Blog', icon: '📝' },
     { path: '/bookmarks', label: 'Bookmarks', icon: '🔖' },
     { path: '/settings', label: 'Settings', icon: '⚙️' },

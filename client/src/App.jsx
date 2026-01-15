@@ -9,6 +9,7 @@ import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Juz from './pages/Juz';
 import MP3Audio from './pages/MP3Audio';
+import Chat from './pages/Chat';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -109,6 +110,7 @@ function App() {
             <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
             <Route path="/juz" element={<Juz />} />
             <Route path="/mp3" element={<MP3Audio />} />
+            <Route path="/chat" element={<Chat />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />
