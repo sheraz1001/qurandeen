@@ -123,6 +123,7 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 15, 2026: Added professional two-tier header with top utility bar (social icons, Bookmarks, Settings, Profile)
 - January 15, 2026: Added Islamic Scholar AI Chatbot for Quran, Hadith, and Tafsir queries (with streaming responses)
 - January 15, 2026: Added user authentication with signup/login (collects name, email, password, city, country)
 - January 15, 2026: Added User Dashboard with Quran Read Tracker, synced bookmarks, and free resources
