@@ -10,6 +10,7 @@ import Settings from './pages/Settings';
 import Juz from './pages/Juz';
 import MP3Audio from './pages/MP3Audio';
 import Chat from './pages/Chat';
+import Features from './pages/Features';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -111,6 +112,7 @@ function App() {
             <Route path="/juz" element={<Juz />} />
             <Route path="/mp3" element={<MP3Audio />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/features" element={<Features />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />

@@ -4,6 +4,7 @@
 A comprehensive web application for reading and listening to the Holy Quran. Built with Node.js/Express backend and React frontend. Uses the free Al Quran Cloud API for Quran data.
 
 ## Features
+- **Features Page**: Comprehensive showcase of all platform features, Quran stats, and facts
 - **Home Page**: Lists all 114 surahs with Arabic and English names
 - **Daily Ayah**: Shows Arabic, English, and Urdu translations (cached daily)
 - **Surah Page**: Displays ayahs with Arabic text, translation, and audio playback
