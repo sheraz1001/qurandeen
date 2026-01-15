@@ -486,11 +486,34 @@ body {
   color: white;
 }
 
-.daily-ayah-text {
-  font-size: 1.25rem;
-  line-height: 1.8;
+.daily-ayah-arabic {
+  font-family: var(--arabic-font-family, 'KFGQPC Uthmani'), 'Amiri', serif;
+  font-size: 2rem;
+  line-height: 2.2;
+  margin-bottom: 1.5rem;
+  direction: rtl;
+  text-align: center;
+}
+
+.daily-ayah-translations {
   margin-bottom: 1rem;
+}
+
+.daily-ayah-english {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 0.75rem;
   font-style: italic;
+  opacity: 0.95;
+}
+
+.daily-ayah-urdu {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+  font-size: 1.3rem;
+  line-height: 2;
+  direction: rtl;
+  text-align: center;
+  opacity: 0.9;
 }
 
 .daily-ayah-ref {
@@ -1404,8 +1427,16 @@ body {
     flex-wrap: wrap;
   }
 
-  .daily-ayah-text {
+  .daily-ayah-arabic {
+    font-size: 1.5rem;
+  }
+  
+  .daily-ayah-english {
     font-size: 1rem;
+  }
+  
+  .daily-ayah-urdu {
+    font-size: 1.1rem;
   }
 
   .history-list {

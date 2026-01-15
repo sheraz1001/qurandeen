@@ -185,16 +185,32 @@ app.get('/api/surah/:number', async (req, res) => {
 app.get('/api/random-ayah', async (req, res) => {
   try {
     const randomSurah = Math.floor(Math.random() * 114) + 1;
-    const surahRes = await axios.get(`${QURAN_API_BASE}/surah/${randomSurah}/en.asad`);
-    const ayahs = surahRes.data.data.ayahs;
-    const randomAyah = ayahs[Math.floor(Math.random() * ayahs.length)];
+    
+    // Fetch Arabic, English and Urdu translations in parallel
+    const [arabicRes, englishRes, urduRes] = await Promise.all([
+      axios.get(`${QURAN_API_BASE}/surah/${randomSurah}/quran-uthmani`),
+      axios.get(`${QURAN_API_BASE}/surah/${randomSurah}/en.asad`),
+      axios.get(`${QURAN_API_BASE}/surah/${randomSurah}/ur.jalandhry`)
+    ]);
+    
+    const ayahCount = arabicRes.data.data.ayahs.length;
+    const randomIndex = Math.floor(Math.random() * ayahCount);
+    
+    const arabicAyah = arabicRes.data.data.ayahs[randomIndex];
+    const englishAyah = englishRes.data.data.ayahs[randomIndex];
+    const urduAyah = urduRes.data.data.ayahs[randomIndex];
+    
     res.json({
       data: {
-        ...randomAyah,
+        number: arabicAyah.number,
+        numberInSurah: arabicAyah.numberInSurah,
+        arabic: arabicAyah.text,
+        english: englishAyah.text,
+        urdu: urduAyah.text,
         surah: {
-          number: surahRes.data.data.number,
-          name: surahRes.data.data.name,
-          englishName: surahRes.data.data.englishName
+          number: arabicRes.data.data.number,
+          name: arabicRes.data.data.name,
+          englishName: arabicRes.data.data.englishName
         }
       }
     });

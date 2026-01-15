@@ -101,7 +101,11 @@ function Home() {
         <div className="daily-ayah-section">
           <h2 className="section-title">Ayah of the Day</h2>
           <div className="daily-ayah-card">
-            <p className="daily-ayah-text">"{dailyAyah.text}"</p>
+            <p className="daily-ayah-arabic">{dailyAyah.arabic}</p>
+            <div className="daily-ayah-translations">
+              <p className="daily-ayah-english">{dailyAyah.english}</p>
+              <p className="daily-ayah-urdu">{dailyAyah.urdu}</p>
+            </div>
             <div className="daily-ayah-ref">
               <Link to={`/surah/${dailyAyah.surah.number}`}>
                 {dailyAyah.surah.englishName} ({dailyAyah.surah.number}:{dailyAyah.numberInSurah})
@@ -110,21 +114,21 @@ function Home() {
             <div className="share-buttons">
               <button 
                 className="share-btn"
-                onClick={() => shareAyah('twitter', dailyAyah.text, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
+                onClick={() => shareAyah('twitter', dailyAyah.english, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
                 title="Share on Twitter"
               >
                 𝕏
               </button>
               <button 
                 className="share-btn whatsapp"
-                onClick={() => shareAyah('whatsapp', dailyAyah.text, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
+                onClick={() => shareAyah('whatsapp', dailyAyah.english, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
                 title="Share on WhatsApp"
               >
                 💬
               </button>
               <button 
                 className="share-btn"
-                onClick={() => shareAyah('copy', dailyAyah.text, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
+                onClick={() => shareAyah('copy', `${dailyAyah.arabic}\n\n${dailyAyah.english}\n\n${dailyAyah.urdu}`, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
                 title="Copy to clipboard"
               >
                 📋
