@@ -9,10 +9,23 @@ function MP3Audio() {
   const [selectedReciter, setSelectedReciter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [playingSurah, setPlayingSurah] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const audioRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const fetchData = async () => {
@@ -24,10 +37,10 @@ function MP3Audio() {
       ]);
       setSurahs(surahsRes.data.data || []);
       const recitersData = recitersRes.data.data || [];
-      setReciters(recitersData);
-      if (recitersData.length > 0) {
-        setSelectedReciter(recitersData[0]);
-      }
+      const sortedReciters = recitersData.sort((a, b) => a.name.localeCompare(b.name));
+      setReciters(sortedReciters);
+      const youssef = sortedReciters.find(r => r.name.toLowerCase().includes('youssef'));
+      setSelectedReciter(youssef || sortedReciters[0]);
     } catch (err) {
       console.error('Error fetching data:', err);
     } finally {
@@ -66,14 +79,26 @@ function MP3Audio() {
     setPlayingSurah(null);
   };
 
-  const handleReciterChange = (e) => {
-    const reciter = reciters.find(r => r.id === parseInt(e.target.value));
+  const selectReciter = (reciter) => {
     setSelectedReciter(reciter);
+    setDropdownOpen(false);
+    setSearchQuery('');
     if (audioRef.current) {
       audioRef.current.pause();
     }
     setPlayingSurah(null);
   };
+
+  const filteredReciters = reciters.filter(r => 
+    r.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const groupedReciters = filteredReciters.reduce((acc, reciter) => {
+    const letter = reciter.name.charAt(0).toUpperCase();
+    if (!acc[letter]) acc[letter] = [];
+    acc[letter].push(reciter);
+    return acc;
+  }, {});
 
   if (loading) return <Loading />;
 
@@ -115,19 +140,76 @@ function MP3Audio() {
         </div>
       </div>
 
-      <div className="reciter-selector">
-        <label htmlFor="mp3-reciter">Select Reciter:</label>
-        <select 
-          id="mp3-reciter"
-          value={selectedReciter?.id || ''}
-          onChange={handleReciterChange}
-        >
-          {reciters.map(reciter => (
-            <option key={reciter.id} value={reciter.id}>
-              {reciter.name} ({reciter.availableSurahs.length} Surahs)
-            </option>
-          ))}
-        </select>
+      <div className="reciter-dropdown-container" ref={dropdownRef}>
+        <label className="dropdown-label">Select Reciter:</label>
+        <div className="custom-dropdown">
+          <button 
+            className={`dropdown-trigger ${dropdownOpen ? 'open' : ''}`}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <div className="selected-reciter">
+              {selectedReciter ? (
+                <>
+                  <span className="reciter-avatar">{selectedReciter.name.charAt(0)}</span>
+                  <div className="reciter-details">
+                    <span className="reciter-name">{selectedReciter.name}</span>
+                    <span className="reciter-meta">{selectedReciter.availableSurahs.length} Surahs • {selectedReciter.style?.split(' - ')[0] || 'Murattal'}</span>
+                  </div>
+                </>
+              ) : (
+                <span>Select a reciter...</span>
+              )}
+            </div>
+            <span className={`dropdown-arrow ${dropdownOpen ? 'open' : ''}`}>▼</span>
+          </button>
+          
+          {dropdownOpen && (
+            <div className="dropdown-menu">
+              <div className="dropdown-search">
+                <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search reciters..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button className="clear-search" onClick={() => setSearchQuery('')}>×</button>
+                )}
+              </div>
+              
+              <div className="dropdown-list">
+                {Object.keys(groupedReciters).length === 0 ? (
+                  <div className="no-results">No reciters found</div>
+                ) : (
+                  Object.entries(groupedReciters).sort(([a], [b]) => a.localeCompare(b)).map(([letter, letterReciters]) => (
+                    <div key={letter} className="letter-group">
+                      <div className="letter-header">{letter}</div>
+                      {letterReciters.map(reciter => (
+                        <button
+                          key={reciter.id}
+                          className={`dropdown-item ${selectedReciter?.id === reciter.id ? 'selected' : ''}`}
+                          onClick={() => selectReciter(reciter)}
+                        >
+                          <span className="item-avatar">{reciter.name.charAt(0)}</span>
+                          <div className="item-details">
+                            <span className="item-name">{reciter.name}</span>
+                            <span className="item-meta">{reciter.availableSurahs.length} Surahs</span>
+                          </div>
+                          {selectedReciter?.id === reciter.id && <span className="check-mark">✓</span>}
+                        </button>
+                      ))}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {selectedReciter && (

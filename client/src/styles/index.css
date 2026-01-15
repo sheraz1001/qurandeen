@@ -1609,6 +1609,273 @@ body {
   font-size: 1rem;
 }
 
+.reciter-dropdown-container {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.dropdown-label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dropdown-trigger:hover {
+  border-color: var(--accent);
+}
+
+.dropdown-trigger.open {
+  border-color: var(--accent);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.selected-reciter {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.reciter-avatar,
+.item-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #2e7d32);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.reciter-details,
+.item-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.reciter-details .reciter-name,
+.item-details .item-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.reciter-details .reciter-meta,
+.item-details .item-meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.dropdown-arrow {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  transition: transform 0.2s;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 100;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-search {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.dropdown-search .search-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.dropdown-search input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.dropdown-search input::placeholder {
+  color: var(--text-secondary);
+}
+
+.clear-search {
+  background: var(--text-secondary);
+  color: var(--bg-card);
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.dropdown-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.letter-group {
+  border-bottom: 1px solid var(--border);
+}
+
+.letter-group:last-child {
+  border-bottom: none;
+}
+
+.letter-header {
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.dropdown-item.selected {
+  background: rgba(76, 175, 80, 0.15);
+}
+
+.dropdown-item .item-avatar {
+  width: 36px;
+  height: 36px;
+  font-size: 0.9rem;
+}
+
+.check-mark {
+  color: var(--accent);
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.no-results {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.mp3-features {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.feature-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  min-width: 80px;
+}
+
+.feature-stat .stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.feature-stat .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mp3-features-list {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.mp3-features-list .feature-item {
+  padding: 0.375rem 0.75rem;
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--accent);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
 .reciter-info {
   display: flex;
   align-items: center;
