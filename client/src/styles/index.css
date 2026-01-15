@@ -1876,6 +1876,335 @@ body {
   font-weight: 500;
 }
 
+.playlist-toggle {
+  margin-bottom: 1rem;
+}
+
+.playlist-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.playlist-btn:hover,
+.playlist-btn.active {
+  border-color: var(--accent);
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.playlist-count {
+  background: var(--accent);
+  color: white;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+.playlist-panel {
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.playlist-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.playlist-repeat-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.playlist-repeat-control label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.repeat-input-group {
+  display: flex;
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.repeat-input-group button {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.repeat-input-group button:hover {
+  background: rgba(76, 175, 80, 0.2);
+}
+
+.repeat-input-group .repeat-value {
+  padding: 0 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 36px;
+  text-align: center;
+}
+
+.repeat-input-group.small button {
+  width: 26px;
+  height: 26px;
+  font-size: 0.85rem;
+}
+
+.repeat-input-group.small .repeat-value {
+  padding: 0 0.5rem;
+  min-width: 28px;
+  font-size: 0.85rem;
+}
+
+.playlist-empty {
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.playlist-empty .hint {
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+
+.playlist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.playlist-item.playing {
+  background: rgba(76, 175, 80, 0.2);
+  border-left: 3px solid var(--accent);
+}
+
+.playlist-item-order {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.playlist-item-order .order-num {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.playlist-item-order .move-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.6rem;
+  cursor: pointer;
+  padding: 2px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.playlist-item-order .move-btn:hover:not(:disabled) {
+  opacity: 1;
+  color: var(--accent);
+}
+
+.playlist-item-order .move-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.playlist-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.playlist-item-info .surah-name {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.playlist-item-info .surah-arabic {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.playlist-item-repeat {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.playlist-item-repeat label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #ef5350;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.remove-btn:hover {
+  opacity: 1;
+}
+
+.playlist-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.play-playlist-btn,
+.stop-playlist-btn,
+.clear-playlist-btn {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.play-playlist-btn {
+  background: var(--accent);
+  color: white;
+  flex: 1;
+}
+
+.play-playlist-btn:hover {
+  background: #43a047;
+}
+
+.stop-playlist-btn {
+  background: #ef5350;
+  color: white;
+  flex: 1;
+}
+
+.stop-playlist-btn:hover {
+  background: #e53935;
+}
+
+.clear-playlist-btn {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.clear-playlist-btn:hover {
+  background: rgba(239, 83, 80, 0.2);
+  color: #ef5350;
+}
+
+.playlist-progress {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.surah-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.add-playlist-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-playlist-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.add-playlist-btn.added {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.add-playlist-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.surah-audio-card.in-playlist {
+  border-color: var(--accent);
+}
+
+.playlist-status {
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: rgba(76, 175, 80, 0.15);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
 .reciter-info {
   display: flex;
   align-items: center;
