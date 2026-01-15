@@ -154,6 +154,62 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
   }
 });
 
+// User profile management
+app.put('/api/user/profile', authenticateToken, async (req, res) => {
+  try {
+    const { name, city, country } = req.body;
+    if (!name || name.trim().length === 0) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+    
+    const result = await pool.query(
+      'UPDATE users SET name = $1, city = $2, country = $3 WHERE id = $4 RETURNING id, name, email, city, country, role',
+      [name.trim(), city || null, country || null, req.user.id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    res.json({ user: result.rows[0], message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Profile update error:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+app.put('/api/user/password', authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required' });
+    }
+    
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: 'New password must be at least 6 characters' });
+    }
+    
+    const userResult = await pool.query('SELECT password_hash FROM users WHERE id = $1', [req.user.id]);
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const validPassword = await bcrypt.compare(currentPassword, userResult.rows[0].password_hash);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+    
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    await pool.query('UPDATE users SET password_hash = $1 WHERE id = $2', [newPasswordHash, req.user.id]);
+    
+    res.json({ message: 'Password changed successfully' });
+  } catch (error) {
+    console.error('Password change error:', error);
+    res.status(500).json({ error: 'Failed to change password' });
+  }
+});
+
 // User reading progress routes
 app.get('/api/user/reading-progress', authenticateToken, async (req, res) => {
   try {

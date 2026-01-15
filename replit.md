@@ -23,6 +23,7 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 - **User Dashboard**: Personal dashboard for logged-in users
   - Quran Read Tracker: Mark surahs as completed, track progress
   - Synced Bookmarks: Cloud-saved bookmarks across devices
+  - My Profile: Edit name, city, country; change password; view account info
   - Free Resources: Curated Islamic resources (Quran.com, Sunnah.com, etc.)
   - Progress statistics and visualization
 - **Admin Dashboard**: Admin-only management panel
