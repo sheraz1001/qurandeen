@@ -37,3 +37,6 @@ externalPort = 80
 deploymentTarget = "autoscale"
 run = ["bash", "-c", "NODE_ENV=production node server/index.js"]
 build = ["bash", "-c", "cd client && npm run build"]
+
+[objectStorage]
+defaultBucketID = "replit-objstore-f5211184-6fa6-4bbf-8c6d-d59d98cf7131"
