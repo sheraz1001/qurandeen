@@ -86,6 +86,33 @@ function MP3Audio() {
       <div className="page-header">
         <h1 className="page-title">🎧 MP3 Quran Audio</h1>
         <p className="page-subtitle">Listen to complete surah recitations</p>
+        
+        <div className="mp3-features">
+          <div className="feature-stat">
+            <span className="stat-number">{reciters.length}+</span>
+            <span className="stat-label">Reciters</span>
+          </div>
+          <div className="feature-stat">
+            <span className="stat-number">114</span>
+            <span className="stat-label">Surahs</span>
+          </div>
+          <div className="feature-stat">
+            <span className="stat-number">Full</span>
+            <span className="stat-label">Surah Audio</span>
+          </div>
+          <div className="feature-stat">
+            <span className="stat-number">Free</span>
+            <span className="stat-label">Unlimited</span>
+          </div>
+        </div>
+        
+        <div className="mp3-features-list">
+          <span className="feature-item">Hafs an Asim</span>
+          <span className="feature-item">Warsh</span>
+          <span className="feature-item">Murattal</span>
+          <span className="feature-item">Mujawwad</span>
+          <span className="feature-item">High Quality MP3</span>
+        </div>
       </div>
 
       <div className="reciter-selector">
