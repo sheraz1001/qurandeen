@@ -7,6 +7,7 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 - **Home Page**: Lists all 114 surahs with Arabic and English names
 - **Daily Ayah**: Shows a random inspiring ayah on the home page (cached daily)
 - **Surah Page**: Displays ayahs with Arabic text, translation, and audio playback
+- **MP3 Audio Page**: Full surah audio playback with 150+ reciters including Youssef Edghouch (from MP3Quran.net API)
 - **Bookmarks**: Save favorite ayahs to a bookmarks page (stored in browser)
 - **Reading History**: Automatically tracks recently read surahs, shown on home page
 - **Settings Page**: Comprehensive settings for customization:
@@ -45,7 +46,8 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 - `GET /api/surahs` - List all 114 surahs
 - `GET /api/surah/:number?translation=&script=&reciter=` - Get surah details with Juz/Page/Ruku/Sajda info
 - `GET /api/translations` - List all available translations
-- `GET /api/reciters` - List all available audio reciters (23+)
+- `GET /api/reciters` - List all available audio reciters (23+ verse-by-verse)
+- `GET /api/mp3-reciters` - List all MP3 reciters (150+ full surah audio from MP3Quran.net)
 - `GET /api/scripts` - List available Arabic script styles
 - `GET /api/random-ayah` - Get a random ayah for daily inspiration
 - `GET /api/search?keyword=` - Search ayahs by keyword
@@ -76,6 +78,9 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 15, 2026: Added MP3 Audio page with 150+ reciters including Youssef Edghouch for full surah playback
+- January 15, 2026: Added multilingual Tafsir support (Urdu, Arabic, English, Bengali) via Tafsir API
+- January 15, 2026: Renamed website to Quran Deen (QuranDeen.com)
 - January 14, 2026: Added Juz browser page with navigation and surah grouping
 - January 14, 2026: Added Juz/Para, Page, and Ruku information badges to each ayah
 - January 14, 2026: Added Sajda (prostration) markers with pulsing animation

@@ -20,6 +20,7 @@ function Header({ darkMode, toggleDarkMode }) {
   const navLinks = [
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/juz', label: 'Juz', icon: '📖' },
+    { path: '/mp3', label: 'MP3', icon: '🎧' },
     { path: '/bookmarks', label: 'Bookmarks', icon: '🔖' },
     { path: '/settings', label: 'Settings', icon: '⚙️' },
   ];

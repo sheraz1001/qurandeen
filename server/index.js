@@ -40,6 +40,35 @@ app.get('/api/reciters', async (req, res) => {
   }
 });
 
+app.get('/api/mp3-reciters', async (req, res) => {
+  try {
+    const response = await axios.get('https://www.mp3quran.net/api/v3/reciters?language=eng');
+    const reciters = response.data.reciters || [];
+    
+    const formattedReciters = reciters
+      .filter(r => r.moshaf && r.moshaf.length > 0)
+      .map(r => {
+        const moshaf = r.moshaf[0];
+        const surahList = moshaf.surah_list ? moshaf.surah_list.split(',').map(Number) : [];
+        return {
+          id: r.id,
+          name: r.name,
+          server: moshaf.server,
+          style: moshaf.name,
+          availableSurahs: surahList,
+          surahCount: moshaf.surah_total
+        };
+      })
+      .filter(r => r.availableSurahs.length > 0)
+      .sort((a, b) => b.surahCount - a.surahCount);
+    
+    res.json({ code: 200, data: formattedReciters });
+  } catch (error) {
+    console.error('Error fetching MP3 reciters:', error.message);
+    res.status(500).json({ error: 'Failed to fetch MP3 reciters' });
+  }
+});
+
 app.get('/api/scripts', async (req, res) => {
   try {
     const scripts = [

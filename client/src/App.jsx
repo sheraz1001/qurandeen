@@ -8,6 +8,7 @@ import Search from './pages/Search';
 import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Juz from './pages/Juz';
+import MP3Audio from './pages/MP3Audio';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -100,6 +101,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
           <Route path="/juz" element={<Juz />} />
+          <Route path="/mp3" element={<MP3Audio />} />
           <Route path="/settings" element={
             <Settings 
               darkMode={darkMode}
