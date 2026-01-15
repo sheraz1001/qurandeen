@@ -39,12 +39,15 @@ function Home() {
       const cached = localStorage.getItem('dailyAyah');
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (parsed.date === today) {
+        // Check if cache is valid and has new format (arabic, english, urdu)
+        if (parsed.date === today && parsed.ayah && parsed.ayah.arabic) {
           setDailyAyah(parsed.ayah);
           setDailyAyahLoading(false);
           return;
         }
       }
+      // Clear old cache and fetch fresh data
+      localStorage.removeItem('dailyAyah');
       const response = await axios.get('/api/random-ayah');
       const ayah = response.data.data;
       localStorage.setItem('dailyAyah', JSON.stringify({ date: today, ayah }));
