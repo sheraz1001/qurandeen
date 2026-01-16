@@ -531,13 +531,10 @@ app.get('/api/word-by-word/:surah/:ayah', async (req, res) => {
     const { surah, ayah } = req.params;
     const verseKey = `${surah}:${ayah}`;
     
-    // Fetch word-by-word data from Quran.com API
     const response = await axios.get(`${QURAN_COM_API}/verses/by_key/${verseKey}`, {
       params: {
         words: true,
-        word_fields: 'text_uthmani,text_indopak,text_imlaei,translation,transliteration,audio_url',
-        translation_fields: 'text',
-        translations: '131'
+        word_fields: 'text_uthmani,text_indopak'
       }
     });
     
@@ -546,13 +543,12 @@ app.get('/api/word-by-word/:surah/:ayah', async (req, res) => {
       return res.status(404).json({ error: 'Verse not found' });
     }
     
-    // Format words with audio URLs
-    const words = verse.words.map((word, index) => ({
+    const words = verse.words.map((word) => ({
       id: word.id,
       position: word.position,
-      text_uthmani: word.text_uthmani,
-      text_indopak: word.text_indopak || word.text_uthmani,
-      text_simple: word.text_imlaei || word.text_uthmani,
+      text_uthmani: word.text || word.text_uthmani || '',
+      text_indopak: word.text || word.text_indopak || '',
+      text_simple: word.text || '',
       translation: word.translation?.text || '',
       transliteration: word.transliteration?.text || '',
       audio_url: word.audio_url ? `https://audio.qurancdn.com/${word.audio_url}` : null,
@@ -581,8 +577,7 @@ app.get('/api/word-by-word/surah/:number', async (req, res) => {
     const response = await axios.get(`${QURAN_COM_API}/verses/by_chapter/${number}`, {
       params: {
         words: true,
-        word_fields: 'text_uthmani,text_indopak,text_imlaei,translation,transliteration,audio_url',
-        translations: '131',
+        word_fields: 'text_uthmani,text_indopak',
         per_page: per_page,
         page: page
       }
@@ -594,9 +589,9 @@ app.get('/api/word-by-word/surah/:number', async (req, res) => {
       words: verse.words.map(word => ({
         id: word.id,
         position: word.position,
-        text_uthmani: word.text_uthmani,
-        text_indopak: word.text_indopak || word.text_uthmani,
-        text_simple: word.text_imlaei || word.text_uthmani,
+        text_uthmani: word.text || word.text_uthmani || '',
+        text_indopak: word.text || word.text_indopak || '',
+        text_simple: word.text || '',
         translation: word.translation?.text || '',
         transliteration: word.transliteration?.text || '',
         audio_url: word.audio_url ? `https://audio.qurancdn.com/${word.audio_url}` : null,
