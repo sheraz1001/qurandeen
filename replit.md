@@ -6,7 +6,16 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 ## Features
 - **Features Page**: Comprehensive showcase of all platform features, Quran stats, and facts
 - **Tools Section**: Free Islamic tools collection including:
-  - Quran Share Card Generator: Create beautiful verse cards for social media sharing
+  - Advanced Quran Share Card Generator:
+    - 6 social media size presets (Instagram Post/Story, Facebook, Twitter, Pinterest, YouTube)
+    - 4 Arabic font styles (Uthmani, Naskh, Nastaliq, Modern)
+    - 15+ translation languages with API integration
+    - Font size slider control (24-64px)
+    - 8 gradient background options
+    - QuranDeen.com logo/watermark toggle
+    - Download as PNG (high resolution using html2canvas)
+    - Download as PDF (crisp exports using jsPDF)
+    - Share on Twitter/WhatsApp and copy text
   - Quran Verse of the Day: Daily random ayah with translation, reflection, and share buttons
   - Hijri-Gregorian Calendar Converter: Date conversion with important Islamic dates
   - Morning & Evening Adhkar: Authentic duas with Arabic, transliteration, translation
