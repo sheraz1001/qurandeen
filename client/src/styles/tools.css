@@ -339,67 +339,83 @@
   background: var(--accent) url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.share-buttons {
+.share-buttons,
+.votd-actions,
+.hadith-actions {
   display: flex;
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
+button.share-btn,
 .share-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 24px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  text-transform: uppercase;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  padding: 12px 28px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  letter-spacing: 0.5px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  min-height: 48px !important;
+  box-sizing: border-box !important;
 }
 
+button.share-btn svg,
 .share-btn svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+  width: 18px !important;
+  height: 18px !important;
+  flex-shrink: 0 !important;
 }
 
+button.share-btn:hover,
 .share-btn:hover {
-  transform: scale(1.02);
-  filter: brightness(1.1);
+  opacity: 0.9 !important;
+  transform: translateY(-1px) !important;
 }
 
+button.share-btn:active,
 .share-btn:active {
-  transform: scale(0.98);
+  transform: translateY(0) !important;
+  opacity: 1 !important;
 }
 
-.share-btn.download {
-  background: #2ea043;
-  color: white;
-}
-
+button.share-btn.twitter,
 .share-btn.twitter {
-  background: #000000;
-  color: white;
+  background-color: #0f1419 !important;
+  color: #ffffff !important;
 }
 
+button.share-btn.whatsapp,
 .share-btn.whatsapp {
-  background: #25d366;
-  color: white;
+  background-color: #25D366 !important;
+  color: #ffffff !important;
 }
 
+button.share-btn.copy,
 .share-btn.copy {
-  background: #6e7681;
-  color: white;
+  background-color: #484f58 !important;
+  color: #ffffff !important;
 }
 
+button.share-btn.copy.copied,
 .share-btn.copy.copied {
-  background: #2ea043;
+  background-color: #238636 !important;
+}
+
+button.share-btn.download,
+.share-btn.download {
+  background-color: #238636 !important;
+  color: #ffffff !important;
 }
 
 .votd-container {
@@ -484,12 +500,6 @@
   margin: 0;
 }
 
-.votd-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
 
 .hijri-converter {
   background: var(--bg-card);
@@ -952,14 +962,16 @@
   .share-buttons,
   .votd-actions,
   .hadith-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
   }
 
+  button.share-btn,
   .share-btn {
-    width: 100%;
-    padding: 16px 20px;
+    width: 100% !important;
+    padding: 14px 20px !important;
+    justify-content: center !important;
   }
 
   .names-grid {
