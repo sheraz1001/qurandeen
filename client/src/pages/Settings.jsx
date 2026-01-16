@@ -261,6 +261,45 @@ function Settings({
                     </button>
                   ))}
                 </div>
+                {selectedScript === 'quran-tajweed' && (
+                  <div className="tajweed-legend">
+                    <h4 className="legend-title">Tajweed Color Guide</h4>
+                    <div className="legend-grid">
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#3B82F6'}}></span>
+                        <span className="legend-label">Ghunnah (nasal sound)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#F97316'}}></span>
+                        <span className="legend-label">Ikhfa (concealment)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#A855F7'}}></span>
+                        <span className="legend-label">Qalqalah (echoing)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#EF4444'}}></span>
+                        <span className="legend-label">Madd (prolongation)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#14B8A6'}}></span>
+                        <span className="legend-label">Idgham (merging)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#EAB308'}}></span>
+                        <span className="legend-label">Iqlab (conversion)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#22C55E'}}></span>
+                        <span className="legend-label">Lam Shamsiyyah (assimilation)</span>
+                      </div>
+                      <div className="legend-item">
+                        <span className="legend-color" style={{backgroundColor: '#9CA3AF'}}></span>
+                        <span className="legend-label">Silent letters</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
