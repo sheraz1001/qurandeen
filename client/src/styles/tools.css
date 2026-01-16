@@ -341,64 +341,95 @@
 
 .share-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .share-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.5rem;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 500;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  min-width: 140px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.share-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
 }
 
 .share-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.share-btn:active {
+  transform: translateY(0);
 }
 
 .share-btn.download {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent) 0%, #1a5c3a 100%);
   color: white;
 }
 
 .share-btn.download:hover {
-  background: var(--accent-hover);
+  background: linear-gradient(135deg, #2ea043 0%, var(--accent) 100%);
 }
 
 .share-btn.twitter {
-  background: #1da1f2;
+  background: linear-gradient(135deg, #1da1f2 0%, #0c8de4 100%);
   color: white;
 }
 
 .share-btn.twitter:hover {
-  background: #0c8de4;
+  background: linear-gradient(135deg, #3db5ff 0%, #1da1f2 100%);
 }
 
 .share-btn.whatsapp {
-  background: #25d366;
+  background: linear-gradient(135deg, #25d366 0%, #128c47 100%);
   color: white;
 }
 
 .share-btn.whatsapp:hover {
-  background: #1da851;
+  background: linear-gradient(135deg, #34eb7a 0%, #25d366 100%);
 }
 
 .share-btn.copy {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #3d4450 0%, #2c3038 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .share-btn.copy:hover {
-  background: var(--bg-card);
+  background: linear-gradient(135deg, #4d5460 0%, #3d4450 100%);
+}
+
+.share-btn.copy.copied {
+  background: linear-gradient(135deg, var(--accent) 0%, #1a5c3a 100%);
 }
 
 .votd-container {
@@ -905,6 +936,35 @@
   flex-wrap: wrap;
 }
 
+.new-verse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 1.5rem;
+}
+
+.new-verse-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.new-verse-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
 @media (max-width: 768px) {
   .verse-selector {
     grid-template-columns: 1fr;
@@ -923,11 +983,13 @@
   .votd-actions,
   .hadith-actions {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .share-btn {
     width: 100%;
-    justify-content: center;
+    min-width: unset;
+    padding: 1rem 1.25rem;
   }
 
   .names-grid {
