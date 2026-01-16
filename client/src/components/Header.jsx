@@ -27,12 +27,11 @@ function Header({ darkMode, toggleDarkMode }) {
 
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/features', label: 'Features' },
-    { path: '/tools', label: 'Tools' },
     { path: '/juz', label: 'Juz Browser' },
-    { path: '/mp3', label: 'MP3 Audio' },
+    { path: '/mp3', label: 'Audio Quran' },
+    { path: '/tools', label: 'Resources' },
     { path: '/chat', label: 'AI Scholar' },
-    { path: '/blog', label: 'Blog' },
+    { path: '/blog', label: 'Blogs' },
   ];
 
   return (
