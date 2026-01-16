@@ -11,6 +11,13 @@ import Juz from './pages/Juz';
 import MP3Audio from './pages/MP3Audio';
 import Chat from './pages/Chat';
 import Features from './pages/Features';
+import Tools from './pages/Tools';
+import ShareCardGenerator from './pages/tools/ShareCardGenerator';
+import VerseOfDay from './pages/tools/VerseOfDay';
+import HijriConverter from './pages/tools/HijriConverter';
+import Adhkar from './pages/tools/Adhkar';
+import NamesOfAllah from './pages/tools/NamesOfAllah';
+import HadithOfDay from './pages/tools/HadithOfDay';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -113,6 +120,13 @@ function App() {
             <Route path="/mp3" element={<MP3Audio />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/features" element={<Features />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/tools/share-card" element={<ShareCardGenerator />} />
+            <Route path="/tools/verse-of-day" element={<VerseOfDay />} />
+            <Route path="/tools/hijri-converter" element={<HijriConverter />} />
+            <Route path="/tools/adhkar" element={<Adhkar />} />
+            <Route path="/tools/names-of-allah" element={<NamesOfAllah />} />
+            <Route path="/tools/hadith-of-day" element={<HadithOfDay />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/dashboard" element={<Dashboard />} />

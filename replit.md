@@ -5,6 +5,13 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
 
 ## Features
 - **Features Page**: Comprehensive showcase of all platform features, Quran stats, and facts
+- **Tools Section**: Free Islamic tools collection including:
+  - Quran Share Card Generator: Create beautiful verse cards for social media sharing
+  - Quran Verse of the Day: Daily random ayah with translation, reflection, and share buttons
+  - Hijri-Gregorian Calendar Converter: Date conversion with important Islamic dates
+  - Morning & Evening Adhkar: Authentic duas with Arabic, transliteration, translation
+  - 99 Names of Allah Explorer: Interactive list with meanings, Quranic verses, and reflections
+  - Hadith of the Day: Curated authentic hadith from Bukhari/Muslim with explanations
 - **Home Page**: Lists all 114 surahs with Arabic and English names
 - **Daily Ayah**: Shows Arabic, English, and Urdu translations (cached daily)
 - **Surah Page**: Displays ayahs with Arabic text, translation, and audio playback

@@ -28,6 +28,7 @@ function Header({ darkMode, toggleDarkMode }) {
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/features', label: 'Features' },
+    { path: '/tools', label: 'Tools' },
     { path: '/juz', label: 'Juz Browser' },
     { path: '/mp3', label: 'MP3 Audio' },
     { path: '/chat', label: 'AI Scholar' },

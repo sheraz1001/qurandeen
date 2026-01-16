@@ -576,13 +576,16 @@ app.get('/api/random-ayah', async (req, res) => {
       data: {
         number: arabicAyah.number,
         numberInSurah: arabicAyah.numberInSurah,
+        juz: arabicAyah.juz,
+        page: arabicAyah.page,
         arabic: arabicAyah.text,
         english: englishAyah.text,
         urdu: urduAyah.text,
         surah: {
           number: arabicRes.data.data.number,
           name: arabicRes.data.data.name,
-          englishName: arabicRes.data.data.englishName
+          englishName: arabicRes.data.data.englishName,
+          revelationType: arabicRes.data.data.revelationType
         }
       }
     });
