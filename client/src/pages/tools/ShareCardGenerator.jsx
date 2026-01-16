@@ -337,37 +337,48 @@ function ShareCardGenerator() {
                 className="card-canvas"
                 style={getPreviewStyle()}
               >
-                {loading ? (
-                  <div className="card-loading">Loading verse...</div>
-                ) : verseData ? (
-                  <>
-                    <div 
-                      className="card-arabic"
-                      style={{ 
-                        fontFamily: getCurrentFont().family,
-                        fontSize: `${fontSize}px`
-                      }}
-                    >
-                      {verseData.arabic}
-                    </div>
-                    <div className="card-translation">
-                      "{verseData.translation}"
-                    </div>
-                    <div className="card-reference">
-                      Surah {verseData.surahName} ({verseData.surahNumber}:{verseData.ayahNumber})
-                    </div>
-                    {showLogo && (
-                      <div className="card-logo">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                        QuranDeen.com
+                <div className="card-inner-content">
+                  {loading ? (
+                    <div className="card-loading">Loading verse...</div>
+                  ) : verseData ? (
+                    <>
+                      <div className="card-decorative-top">
+                        <span className="decorative-line"></span>
+                        <span className="decorative-icon">✦</span>
+                        <span className="decorative-line"></span>
                       </div>
-                    )}
-                  </>
-                ) : (
-                  <div className="card-placeholder">Select a verse to preview</div>
-                )}
+                      <div 
+                        className="card-arabic"
+                        style={{ 
+                          fontFamily: getCurrentFont().family,
+                          fontSize: `${fontSize}px`
+                        }}
+                      >
+                        {verseData.arabic}
+                      </div>
+                      <div className="card-divider">
+                        <span className="divider-ornament">❋</span>
+                      </div>
+                      <div className="card-translation">
+                        "{verseData.translation}"
+                      </div>
+                      <div className="card-reference">
+                        <span className="ref-surah">{verseData.surahName}</span>
+                        <span className="ref-ayah">{verseData.surahNumber}:{verseData.ayahNumber}</span>
+                      </div>
+                      {showLogo && (
+                        <div className="card-logo">
+                          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                          </svg>
+                          QuranDeen.com
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="card-placeholder">Select a verse to preview</div>
+                  )}
+                </div>
               </div>
 
               <div className="download-actions">
