@@ -66,6 +66,26 @@ function ShareCardGenerator() {
   const [copied, setCopied] = useState(false);
   const cardRef = useRef(null);
 
+  const calculateDynamicFontSize = (text, baseSize, isArabic = false) => {
+    if (!text) return baseSize;
+    const length = text.length;
+    if (isArabic) {
+      if (length > 400) return Math.max(14, baseSize * 0.4);
+      if (length > 300) return Math.max(16, baseSize * 0.5);
+      if (length > 200) return Math.max(18, baseSize * 0.6);
+      if (length > 150) return Math.max(20, baseSize * 0.7);
+      if (length > 100) return Math.max(22, baseSize * 0.8);
+      if (length > 60) return Math.max(24, baseSize * 0.9);
+      return baseSize;
+    } else {
+      if (length > 400) return Math.max(10, 14 * 0.6);
+      if (length > 300) return Math.max(11, 14 * 0.7);
+      if (length > 200) return Math.max(12, 14 * 0.8);
+      if (length > 100) return Math.max(13, 14 * 0.9);
+      return 14;
+    }
+  };
+
   useEffect(() => {
     fetch('/api/surahs')
       .then(res => res.json())
@@ -351,7 +371,7 @@ function ShareCardGenerator() {
                         className="card-arabic"
                         style={{ 
                           fontFamily: getCurrentFont().family,
-                          fontSize: `${fontSize}px`
+                          fontSize: `${calculateDynamicFontSize(verseData.arabic, fontSize, true)}px`
                         }}
                       >
                         {verseData.arabic}
@@ -359,7 +379,12 @@ function ShareCardGenerator() {
                       <div className="card-divider">
                         <span className="divider-ornament">❋</span>
                       </div>
-                      <div className="card-translation">
+                      <div 
+                        className="card-translation"
+                        style={{ 
+                          fontSize: `${calculateDynamicFontSize(verseData.translation, 14, false)}px`
+                        }}
+                      >
                         "{verseData.translation}"
                       </div>
                       <div className="card-reference">
