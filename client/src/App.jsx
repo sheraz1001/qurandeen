@@ -82,7 +82,8 @@ function App() {
     localStorage.setItem('selectedFont', selectedFont);
     const fontFamilies = {
       'uthmani': "'KFGQPC Uthmani', 'Amiri', serif",
-      'indopak': "'Al Majeed Quranic', 'IndoPak Nastaleeq', 'Amiri', serif",
+      'indopak': "'PDMS Saleem', 'Al Majeed Quranic', serif",
+      'nastaliq': "'IndoPak Nastaleeq', 'Noto Nastaliq Urdu', serif",
       'simple': "'Amiri', serif"
     };
     document.documentElement.style.setProperty('--arabic-font-family', fontFamilies[selectedFont] || fontFamilies.uthmani);
@@ -112,6 +113,7 @@ function App() {
                 selectedReciter={selectedReciter}
                 selectedScript={selectedScript}
                 selectedTafsir={selectedTafsir}
+                selectedFont={selectedFont}
               />
             } />
             <Route path="/search" element={<Search />} />

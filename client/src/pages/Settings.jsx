@@ -21,9 +21,10 @@ function Settings({
   setSelectedTafsir
 }) {
   const fonts = [
-    { id: 'uthmani', name: 'Uthmani', arabic: 'العثماني' },
-    { id: 'indopak', name: 'IndoPak', arabic: 'ہندوپاک' },
-    { id: 'simple', name: 'Simple', arabic: 'بسيط' }
+    { id: 'uthmani', name: 'Uthmani (KFGQPC)', arabic: 'العثماني' },
+    { id: 'indopak', name: 'IndoPak (PDMS Saleem)', arabic: 'ہندوپاک' },
+    { id: 'nastaliq', name: 'Nastaliq (Tarteel)', arabic: 'نستعلیق' },
+    { id: 'simple', name: 'Simple (Amiri)', arabic: 'بسيط' }
   ];
 
   const [translations, setTranslations] = useState([]);
@@ -182,8 +183,9 @@ function Settings({
                       onClick={() => setSelectedFont(font.id)}
                     >
                       <span className="font-preview" style={{ 
-                        fontFamily: font.id === 'indopak' ? "'Al Majeed Quranic', serif" : 
-                                   font.id === 'uthmani' ? "'KFGQPC Uthmani', serif" : "'Amiri', serif" 
+                        fontFamily: font.id === 'indopak' ? "'PDMS Saleem', 'Al Majeed Quranic', serif" : 
+                                   font.id === 'uthmani' ? "'KFGQPC Uthmani', serif" :
+                                   font.id === 'nastaliq' ? "'IndoPak Nastaleeq', 'Noto Nastaliq Urdu', serif" : "'Amiri', serif" 
                       }}>
                         {font.arabic}
                       </span>

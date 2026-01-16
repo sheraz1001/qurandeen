@@ -523,6 +523,100 @@ app.get('/api/sajda', async (req, res) => {
   }
 });
 
+// Word-by-word API using Quran.com API
+const QURAN_COM_API = 'https://api.quran.com/api/v4';
+
+app.get('/api/word-by-word/:surah/:ayah', async (req, res) => {
+  try {
+    const { surah, ayah } = req.params;
+    const verseKey = `${surah}:${ayah}`;
+    
+    // Fetch word-by-word data from Quran.com API
+    const response = await axios.get(`${QURAN_COM_API}/verses/by_key/${verseKey}`, {
+      params: {
+        words: true,
+        word_fields: 'text_uthmani,text_indopak,text_imlaei,translation,transliteration,audio_url',
+        translation_fields: 'text',
+        translations: '131'
+      }
+    });
+    
+    const verse = response.data.verse;
+    if (!verse || !verse.words) {
+      return res.status(404).json({ error: 'Verse not found' });
+    }
+    
+    // Format words with audio URLs
+    const words = verse.words.map((word, index) => ({
+      id: word.id,
+      position: word.position,
+      text_uthmani: word.text_uthmani,
+      text_indopak: word.text_indopak || word.text_uthmani,
+      text_simple: word.text_imlaei || word.text_uthmani,
+      translation: word.translation?.text || '',
+      transliteration: word.transliteration?.text || '',
+      audio_url: word.audio_url ? `https://audio.qurancdn.com/${word.audio_url}` : null,
+      char_type: word.char_type_name
+    }));
+    
+    res.json({
+      code: 200,
+      data: {
+        verse_key: verseKey,
+        words: words
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching word-by-word:', error.message);
+    res.status(500).json({ error: 'Failed to fetch word-by-word data' });
+  }
+});
+
+// Get all words for a surah (for word-by-word mode)
+app.get('/api/word-by-word/surah/:number', async (req, res) => {
+  try {
+    const { number } = req.params;
+    const { page = 1, per_page = 50 } = req.query;
+    
+    const response = await axios.get(`${QURAN_COM_API}/verses/by_chapter/${number}`, {
+      params: {
+        words: true,
+        word_fields: 'text_uthmani,text_indopak,text_imlaei,translation,transliteration,audio_url',
+        translations: '131',
+        per_page: per_page,
+        page: page
+      }
+    });
+    
+    const verses = response.data.verses.map(verse => ({
+      verse_key: verse.verse_key,
+      verse_number: verse.verse_number,
+      words: verse.words.map(word => ({
+        id: word.id,
+        position: word.position,
+        text_uthmani: word.text_uthmani,
+        text_indopak: word.text_indopak || word.text_uthmani,
+        text_simple: word.text_imlaei || word.text_uthmani,
+        translation: word.translation?.text || '',
+        transliteration: word.transliteration?.text || '',
+        audio_url: word.audio_url ? `https://audio.qurancdn.com/${word.audio_url}` : null,
+        char_type: word.char_type_name
+      }))
+    }));
+    
+    res.json({
+      code: 200,
+      data: {
+        verses: verses,
+        pagination: response.data.pagination
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching surah word-by-word:', error.message);
+    res.status(500).json({ error: 'Failed to fetch word-by-word data' });
+  }
+});
+
 app.get('/api/surahs', async (req, res) => {
   try {
     const response = await axios.get(`${QURAN_API_BASE}/surah`);

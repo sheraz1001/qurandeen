@@ -16,6 +16,18 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'PDMS Saleem';
+  src: url('https://cdn.jsdelivr.net/gh/nicegamer7/quran-fonts@main/pdms-saleem-quranfont.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quran Karim';
+  src: url('https://fonts.qurancdn.com/fonts/quran/hafs/v2/woff2/p1.woff2') format('woff2');
+  font-display: swap;
+}
+
 :root {
   --bg-primary: #ffffff;
   --bg-secondary: #f5f5f5;
@@ -848,6 +860,13 @@ body {
   text-transform: capitalize;
 }
 
+.surah-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
 .translation-selector {
   display: flex;
   align-items: center;
@@ -856,8 +875,56 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  margin-bottom: 1.5rem;
   flex-wrap: wrap;
+}
+
+.wbw-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.wbw-mode-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.wbw-mode-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.wbw-mode-info {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-left: auto;
+}
+
+.ayah-word-by-word {
+  margin: 1rem 0;
+}
+
+.wbw-loading {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 1rem;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.wbw-loading:hover {
+  color: var(--accent);
 }
 
 .translation-selector label {

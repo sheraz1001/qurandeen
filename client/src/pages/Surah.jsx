@@ -3,8 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import WordByWord from '../components/WordByWord';
 
-function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir }) {
+function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir, selectedFont }) {
   const { number } = useParams();
   const [surahData, setSurahData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,6 +18,11 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   const [tafsirData, setTafsirData] = useState({});
   const [tafsirLoading, setTafsirLoading] = useState(false);
   const [tafsirs, setTafsirs] = useState([]);
+  const [wordByWordMode, setWordByWordMode] = useState(() => {
+    return localStorage.getItem('wordByWordMode') === 'true';
+  });
+  const [wordByWordData, setWordByWordData] = useState({});
+  const [wbwLoading, setWbwLoading] = useState({});
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -184,6 +190,56 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     }
   };
 
+  const toggleWordByWordMode = () => {
+    const newMode = !wordByWordMode;
+    setWordByWordMode(newMode);
+    localStorage.setItem('wordByWordMode', newMode.toString());
+  };
+
+  const fetchWordByWord = async (ayahNumber) => {
+    if (wordByWordData[ayahNumber] || wbwLoading[ayahNumber]) return;
+    
+    setWbwLoading(prev => ({ ...prev, [ayahNumber]: true }));
+    try {
+      const response = await axios.get(`/api/word-by-word/${number}/${ayahNumber}`);
+      setWordByWordData(prev => ({
+        ...prev,
+        [ayahNumber]: response.data.data?.words || []
+      }));
+    } catch (err) {
+      console.error('Failed to fetch word-by-word:', err);
+    } finally {
+      setWbwLoading(prev => ({ ...prev, [ayahNumber]: false }));
+    }
+  };
+
+  useEffect(() => {
+    if (wordByWordMode && surahData) {
+      const ayahs = surahData.arabic.data.ayahs;
+      const loadBatch = async (startIndex, batchSize) => {
+        const batch = ayahs.slice(startIndex, startIndex + batchSize);
+        await Promise.all(batch.map(ayah => fetchWordByWord(ayah.numberInSurah)));
+        if (startIndex + batchSize < ayahs.length) {
+          setTimeout(() => loadBatch(startIndex + batchSize, batchSize), 100);
+        }
+      };
+      loadBatch(0, 10);
+    }
+  }, [wordByWordMode, surahData, number]);
+
+  const getFontFamily = () => {
+    switch (selectedFont) {
+      case 'indopak':
+        return "'PDMS Saleem', 'Al Majeed Quranic', serif";
+      case 'nastaliq':
+        return "'IndoPak Nastaleeq', 'Noto Nastaliq Urdu', serif";
+      case 'uthmani':
+        return "'KFGQPC Uthmani', serif";
+      default:
+        return "'Amiri', serif";
+    }
+  };
+
   const getLanguageName = (langCode) => {
     const languages = {
       'en': 'English', 'ar': 'Arabic', 'ur': 'Urdu', 'bn': 'Bengali', 'fa': 'Persian',
@@ -232,37 +288,53 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
         </div>
       </div>
 
-      <div className="translation-selector">
-        <label htmlFor="translation-select">Translation:</label>
-        <select 
-          id="translation-select"
-          value={selectedTranslation}
-          onChange={handleTranslationChange}
-          disabled={translationsLoading}
-        >
-          {translationsLoading ? (
-            <option>Loading...</option>
-          ) : (
-            Object.entries(groupedTranslations)
-              .sort(([a], [b]) => a.localeCompare(b))
-              .map(([language, editions]) => (
-                <optgroup key={language} label={language}>
-                  {editions.map((edition) => (
-                    <option key={edition.identifier} value={edition.identifier}>
-                      {edition.englishName}
-                    </option>
-                  ))}
-                </optgroup>
-              ))
+      <div className="surah-controls">
+        <div className="translation-selector">
+          <label htmlFor="translation-select">Translation:</label>
+          <select 
+            id="translation-select"
+            value={selectedTranslation}
+            onChange={handleTranslationChange}
+            disabled={translationsLoading}
+          >
+            {translationsLoading ? (
+              <option>Loading...</option>
+            ) : (
+              Object.entries(groupedTranslations)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([language, editions]) => (
+                  <optgroup key={language} label={language}>
+                    {editions.map((edition) => (
+                      <option key={edition.identifier} value={edition.identifier}>
+                        {edition.englishName}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))
+            )}
+          </select>
+          <span className="current-translation">
+            by {currentTranslationInfo.edition?.englishName || 'Unknown'}
+          </span>
+        </div>
+
+        <div className="wbw-mode-toggle">
+          <label>
+            <input 
+              type="checkbox" 
+              checked={wordByWordMode}
+              onChange={toggleWordByWordMode}
+            />
+            <span>Word-by-Word Mode</span>
+          </label>
+          {wordByWordMode && (
+            <span className="wbw-mode-info">Click any word to hear pronunciation</span>
           )}
-        </select>
-        <span className="current-translation">
-          by {currentTranslationInfo.edition?.englishName || 'Unknown'}
-        </span>
+        </div>
       </div>
 
       {surahInfo.number !== 1 && surahInfo.number !== 9 && (
-        <div className="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div className="bismillah" style={{ fontFamily: getFontFamily() }}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
       )}
 
       <div className="ayahs-list">
@@ -333,7 +405,30 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
                 <span>Sajda {ayah.sajda.obligatory ? '(Obligatory Prostration)' : '(Recommended Prostration)'}</span>
               </div>
             )}
-            <p className="ayah-arabic" style={{ fontSize: `${fontSize / 16}rem`, fontFamily: 'var(--arabic-font-family)' }}>{ayah.text}</p>
+            
+            {wordByWordMode ? (
+              <div className="ayah-word-by-word">
+                {wbwLoading[ayah.numberInSurah] ? (
+                  <div className="wbw-loading">Loading word-by-word...</div>
+                ) : wordByWordData[ayah.numberInSurah] ? (
+                  <WordByWord 
+                    words={wordByWordData[ayah.numberInSurah]} 
+                    selectedFont={selectedFont}
+                    fontSize={fontSize}
+                  />
+                ) : (
+                  <div 
+                    className="wbw-loading"
+                    onClick={() => fetchWordByWord(ayah.numberInSurah)}
+                    onTouchStart={() => fetchWordByWord(ayah.numberInSurah)}
+                  >
+                    Tap to load word-by-word...
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p className="ayah-arabic" style={{ fontSize: `${fontSize / 16}rem`, fontFamily: getFontFamily() }}>{ayah.text}</p>
+            )}
             <p className="ayah-translation">{translationAyahs[index]?.text}</p>
             
             <div className="ayah-footer">
