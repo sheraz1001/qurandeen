@@ -136,10 +136,18 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 
 ## Custom Fonts
 - **KFGQPC Uthmani**: Classic Uthmanic script (CDN)
-- **Al Majeed Quranic**: IndoPak Nastaleeq style (local)
-- **IndoPak Nastaleeq**: Tarteel CDN font
+- **PDMS Saleem**: Professional IndoPak style (local) - matches Quran.com style
+- **IndoPak Nastaleeq**: Tarteel CDN font (Nastaliq style)
+- **Al Majeed Quranic**: Alternative IndoPak style (local)
 
 ## Recent Changes
+- January 16, 2026: Added Word-by-Word Quran mode using Quran.com API:
+  - Clickable words with per-word audio playback
+  - Hover tooltips showing translation and transliteration
+  - Auto-loads all ayahs in batches when mode is enabled
+  - Mobile/touch friendly with tap support
+  - Playing state highlights active word
+- January 16, 2026: Added professional PDMS Saleem IndoPak font (Quran.com style)
 - January 16, 2026: Added comprehensive Islamic Tools section with 6 free tools:
   - Quran Share Card Generator: Create verse cards with multiple backgrounds for social sharing
   - Quran Verse of the Day: Daily cached ayah with full metadata and share functionality
