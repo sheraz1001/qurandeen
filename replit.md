@@ -48,8 +48,8 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
   - User List: View all registered users
 - **Islamic Blog**: Public blog page for Islamic knowledge articles
 - **Settings Page**: Comprehensive settings for customization:
-  - Arabic Font Style: Uthmani, IndoPak (Al Majeed Quranic font), Simple
-  - Arabic Script Data: Uthmani, Simple, Simple Clean, Tajweed
+  - Arabic Font Style: Uthmani, IndoPak (PDMS Saleem), Nastaliq, Naskh Nastaleeq, Me Quran
+  - Arabic Script Data: Uthmani, Simple, Simple Clean, Color-Coded Tajweed
   - Font Size Controls: Adjust Arabic text size (16-48px)
   - Reciter Selection: 23+ audio reciters including Mishary Rashid al-Afasy, Abdul Samad, Sudais, etc.
   - Translation Selection: 100+ translations in 40+ languages
