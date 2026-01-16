@@ -47,6 +47,7 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
   - Blog Management: Create, edit, publish, delete blog posts
   - User List: View all registered users
 - **Islamic Blog**: Public blog page for Islamic knowledge articles
+- **Contact Us Page**: Professional contact page with form, FAQ, social links, and mission statement
 - **Settings Page**: Comprehensive settings for customization:
   - Arabic Font Style: Uthmani, IndoPak (PDMS Saleem), Nastaliq, Naskh Nastaleeq, Me Quran
   - Arabic Script Data: Uthmani, Simple, Simple Clean, Color-Coded Tajweed
@@ -141,6 +142,20 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **Al Majeed Quranic**: Alternative IndoPak style (local)
 
 ## Recent Changes
+- January 16, 2026: Added professional Contact Us page with:
+  - Hero section with gradient background
+  - Contact methods (Email, Location, Support Hours)
+  - Contact form with subject dropdown and validation
+  - Social media links (Facebook, X, Instagram, YouTube)
+  - Quick links sidebar
+  - FAQ section (6 questions)
+  - Mission statement section
+  - Developer credit card
+- January 16, 2026: Updated social media links across entire site (Header, Footer)
+  - Facebook: facebook.com/qurandeencom
+  - X/Twitter: x.com/qurandeencom
+  - Instagram: instagram.com/qurandeencom
+  - YouTube: youtube.com/@qurandeencom
 - January 16, 2026: Added Word-by-Word Quran mode using Quran.com API:
   - Clickable words with per-word audio playback
   - Hover tooltips showing translation and transliteration
