@@ -1,20 +1,55 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import '../styles/chat.css';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const inputRef = useRef(null);
+  const userScrolledUp = useRef(false);
+  const lastScrollTime = useRef(0);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const isNearBottom = useCallback(() => {
+    const container = messagesContainerRef.current;
+    if (!container) return true;
+    const threshold = 100;
+    return container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+  }, []);
+
+  const scrollToBottom = useCallback((force = false) => {
+    if (userScrolledUp.current && !force) return;
+    
+    const now = Date.now();
+    if (isStreaming && now - lastScrollTime.current < 100) return;
+    lastScrollTime.current = now;
+
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [isStreaming]);
+
+  const handleScroll = useCallback(() => {
+    if (!isStreaming) {
+      userScrolledUp.current = !isNearBottom();
+    }
+  }, [isStreaming, isNearBottom]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (!isStreaming) {
+      scrollToBottom(true);
+      userScrolledUp.current = false;
+    }
+  }, [messages.length, isStreaming, scrollToBottom]);
+
+  useEffect(() => {
+    if (isStreaming && !userScrolledUp.current) {
+      scrollToBottom();
+    }
+  }, [messages, isStreaming, scrollToBottom]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,6 +77,8 @@ function Chat() {
       let assistantMessage = '';
 
       setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      setIsStreaming(true);
+      userScrolledUp.current = false;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -74,6 +111,7 @@ function Chat() {
       }]);
     } finally {
       setIsLoading(false);
+      setIsStreaming(false);
       inputRef.current?.focus();
     }
   };
@@ -149,7 +187,7 @@ function Chat() {
         )}
       </div>
 
-      <div className="chat-messages">
+      <div className="chat-messages" ref={messagesContainerRef} onScroll={handleScroll}>
         {messages.length === 0 ? (
           <div className="chat-welcome">
             <div className="welcome-icon">
