@@ -388,7 +388,7 @@ function Home() {
             </div>
             <div className="fact-card">
               <div className="fact-icon">🌟</div>
-              <h5">Heart of Quran</h5>
+              <h5>Heart of Quran</h5>
               <p>Surah Ya-Sin is often called the "Heart of the Quran" and Surah Al-Fatiha is recited in every prayer.</p>
             </div>
             <div className="fact-card">
