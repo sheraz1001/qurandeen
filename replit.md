@@ -131,6 +131,14 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **IndoPak Nastaleeq**: Tarteel CDN font
 
 ## Recent Changes
+- January 16, 2026: Added comprehensive Islamic Tools section with 6 free tools:
+  - Quran Share Card Generator: Create verse cards with multiple backgrounds for social sharing
+  - Quran Verse of the Day: Daily cached ayah with full metadata and share functionality
+  - Hijri-Gregorian Calendar Converter: Date conversion with list of important Islamic dates
+  - Morning & Evening Adhkar: Authentic duas with Arabic, transliteration, translation
+  - 99 Names of Allah Explorer: Interactive list with meanings, Quranic verses, search
+  - Hadith of the Day: Curated authentic hadiths with explanations and share options
+- January 16, 2026: Enhanced random-ayah API to include juz, page, and revelationType metadata
 - January 15, 2026: Added professional two-tier header with top utility bar (social icons, Bookmarks, Settings, Profile)
 - January 15, 2026: Added Islamic Scholar AI Chatbot for Quran, Hadith, and Tafsir queries (with streaming responses)
 - January 15, 2026: Added user authentication with signup/login (collects name, email, password, city, country)
