@@ -343,79 +343,87 @@
 .votd-actions,
 .hadith-actions {
   display: flex;
-  gap: 12px;
-  justify-content: center;
+  flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 0;
 }
 
 button.share-btn,
 .share-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 10px !important;
-  padding: 12px 28px !important;
-  border: none !important;
-  border-radius: 8px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  letter-spacing: 0.5px !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-  text-decoration: none !important;
-  white-space: nowrap !important;
-  min-height: 48px !important;
-  box-sizing: border-box !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  margin: 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 48px;
+  min-width: 140px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 button.share-btn svg,
 .share-btn svg {
-  width: 18px !important;
-  height: 18px !important;
-  flex-shrink: 0 !important;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 button.share-btn:hover,
 .share-btn:hover {
-  opacity: 0.9 !important;
-  transform: translateY(-1px) !important;
+  opacity: 0.85;
+  transform: translateY(-2px);
 }
 
 button.share-btn:active,
 .share-btn:active {
-  transform: translateY(0) !important;
-  opacity: 1 !important;
+  transform: translateY(0);
+  opacity: 1;
 }
 
 button.share-btn.twitter,
 .share-btn.twitter {
-  background-color: #0f1419 !important;
-  color: #ffffff !important;
+  background-color: #0f1419;
+  color: #ffffff;
 }
 
 button.share-btn.whatsapp,
 .share-btn.whatsapp {
-  background-color: #25D366 !important;
-  color: #ffffff !important;
+  background-color: #25D366;
+  color: #ffffff;
 }
 
 button.share-btn.copy,
 .share-btn.copy {
-  background-color: #484f58 !important;
-  color: #ffffff !important;
+  background-color: #484f58;
+  color: #ffffff;
 }
 
 button.share-btn.copy.copied,
 .share-btn.copy.copied {
-  background-color: #238636 !important;
+  background-color: #238636;
 }
 
 button.share-btn.download,
 .share-btn.download {
-  background-color: #238636 !important;
-  color: #ffffff !important;
+  background-color: #238636;
+  color: #ffffff;
 }
 
 .votd-container {
@@ -962,16 +970,17 @@ button.share-btn.download,
   .share-buttons,
   .votd-actions,
   .hadith-actions {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 10px !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
 
   button.share-btn,
   .share-btn {
-    width: 100% !important;
-    padding: 14px 20px !important;
-    justify-content: center !important;
+    width: 100%;
+    min-width: unset;
+    padding: 14px 20px;
+    justify-content: center;
   }
 
   .names-grid {

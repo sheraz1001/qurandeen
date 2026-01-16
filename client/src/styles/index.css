@@ -661,13 +661,13 @@ body {
   text-decoration: underline;
 }
 
-.share-buttons {
+.daily-ayah .share-buttons {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
 }
 
-.share-btn {
+.daily-ayah .share-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -680,9 +680,11 @@ body {
   justify-content: center;
   font-size: 1rem;
   transition: all 0.2s;
+  padding: 0;
+  min-width: unset;
 }
 
-.share-btn:hover {
+.daily-ayah .share-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: white;
 }
