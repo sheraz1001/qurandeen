@@ -233,11 +233,82 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
         return "'PDMS Saleem', 'Al Majeed Quranic', serif";
       case 'nastaliq':
         return "'IndoPak Nastaleeq', 'Noto Nastaliq Urdu', serif";
+      case 'naskh':
+        return "'Naskh Nastaleeq', 'PDMS Saleem', serif";
+      case 'mequran':
+        return "'Me Quran', 'Al Majeed Quranic', serif";
       case 'uthmani':
         return "'KFGQPC Uthmani', serif";
       default:
         return "'Amiri', serif";
     }
+  };
+
+  const parseTajweed = (text) => {
+    if (!text || selectedScript !== 'quran-tajweed') {
+      return <span>{text}</span>;
+    }
+    
+    const tajweedColors = {
+      'h': { className: 'tajweed-silent', title: 'Hamzah Wasl (Silent)' },
+      'l': { className: 'tajweed-lam-shamsiyyah', title: 'Lam Shamsiyyah' },
+      'n': { className: 'tajweed-madd-obligatory', title: 'Madd Lazim (Obligatory)' },
+      'p': { className: 'tajweed-madd-permissible', title: 'Madd Muttasil (Permissible)' },
+      'q': { className: 'tajweed-qalqalah', title: 'Qalqalah' },
+      'g': { className: 'tajweed-ghunnah', title: 'Ghunnah' },
+      'i': { className: 'tajweed-ikhfa', title: 'Ikhfa' },
+      'f': { className: 'tajweed-ikhfa-shafawi', title: 'Ikhfa Shafawi' },
+      'd': { className: 'tajweed-idgham-ghunnah', title: 'Idgham with Ghunnah' },
+      'e': { className: 'tajweed-idgham-no-ghunnah', title: 'Idgham without Ghunnah' },
+      'b': { className: 'tajweed-iqlab', title: 'Iqlab' },
+      's': { className: 'tajweed-silent', title: 'Silent' }
+    };
+
+    const parts = [];
+    let i = 0;
+    let key = 0;
+    let buffer = '';
+
+    while (i < text.length) {
+      if (text[i] === '[') {
+        if (buffer) {
+          parts.push(<span key={key++}>{buffer}</span>);
+          buffer = '';
+        }
+        
+        const codeMatch = text.substring(i).match(/^\[([a-z])(?::\d+)?\[/);
+        if (codeMatch) {
+          const code = codeMatch[1];
+          const startContentIdx = i + codeMatch[0].length;
+          const endBracketIdx = text.indexOf(']', startContentIdx);
+          
+          if (endBracketIdx !== -1) {
+            const content = text.substring(startContentIdx, endBracketIdx);
+            const tajweed = tajweedColors[code] || { className: '', title: '' };
+            
+            parts.push(
+              <span key={key++} className={tajweed.className} title={tajweed.title}>
+                {content}
+              </span>
+            );
+            
+            i = endBracketIdx + 1;
+            continue;
+          }
+        }
+        buffer += text[i];
+        i++;
+      } else {
+        buffer += text[i];
+        i++;
+      }
+    }
+    
+    if (buffer) {
+      parts.push(<span key={key++}>{buffer}</span>);
+    }
+
+    return <>{parts}</>;
   };
 
   const getLanguageName = (langCode) => {
@@ -427,7 +498,9 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
                 )}
               </div>
             ) : (
-              <p className="ayah-arabic" style={{ fontSize: `${fontSize / 16}rem`, fontFamily: getFontFamily() }}>{ayah.text}</p>
+              <p className="ayah-arabic" style={{ fontSize: `${fontSize / 16}rem`, fontFamily: getFontFamily() }}>
+                {selectedScript === 'quran-tajweed' ? parseTajweed(ayah.text) : ayah.text}
+              </p>
             )}
             <p className="ayah-translation">{translationAyahs[index]?.text}</p>
             

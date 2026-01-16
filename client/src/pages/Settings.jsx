@@ -21,10 +21,12 @@ function Settings({
   setSelectedTafsir
 }) {
   const fonts = [
-    { id: 'uthmani', name: 'Uthmani (KFGQPC)', arabic: 'العثماني' },
-    { id: 'indopak', name: 'IndoPak (PDMS Saleem)', arabic: 'ہندوپاک' },
-    { id: 'nastaliq', name: 'Nastaliq (Tarteel)', arabic: 'نستعلیق' },
-    { id: 'simple', name: 'Simple (Amiri)', arabic: 'بسيط' }
+    { id: 'uthmani', name: 'Uthmani (KFGQPC)', arabic: 'العثماني', desc: 'Classic Uthmanic script' },
+    { id: 'indopak', name: 'IndoPak (PDMS Saleem)', arabic: 'ہندوپاک', desc: 'Professional Pakistani style' },
+    { id: 'nastaliq', name: 'Nastaliq (Tarteel)', arabic: 'نستعلیق', desc: 'Beautiful calligraphic style' },
+    { id: 'naskh', name: 'Naskh Nastaleeq', arabic: 'نسخ نستعلیق', desc: 'Quran.com IndoPak style' },
+    { id: 'mequran', name: 'Me Quran', arabic: 'قرآن', desc: 'Modern IndoPak font' },
+    { id: 'simple', name: 'Simple (Amiri)', arabic: 'بسيط', desc: 'Clean readable style' }
   ];
 
   const [translations, setTranslations] = useState([]);

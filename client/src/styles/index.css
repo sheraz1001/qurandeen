@@ -17,6 +17,12 @@
 }
 
 @font-face {
+  font-family: 'Naskh Nastaleeq';
+  src: url('https://cdn.jsdelivr.net/gh/nicegamer7/quran-fonts@main/Naskh-Nastaleeq-v2.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'PDMS Saleem';
   src: url('https://cdn.jsdelivr.net/gh/nicegamer7/quran-fonts@main/pdms-saleem-quranfont.ttf') format('truetype');
   font-display: swap;
@@ -27,6 +33,32 @@
   src: url('https://fonts.qurancdn.com/fonts/quran/hafs/v2/woff2/p1.woff2') format('woff2');
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Me Quran';
+  src: url('https://cdn.jsdelivr.net/gh/nicegamer7/quran-fonts@main/me_quran_volt_newmet.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Tajweed Color Coding */
+.tajweed-ghunnah { color: #169200 !important; }
+.tajweed-ikhfa { color: #169200 !important; }
+.tajweed-ikhfa-shafawi { color: #D500B7 !important; }
+.tajweed-idgham-shafawi { color: #D500B7 !important; }
+.tajweed-iqlab { color: #26BFFD !important; }
+.tajweed-idgham-ghunnah { color: #169200 !important; }
+.tajweed-idgham-no-ghunnah { color: #A1A1A1 !important; }
+.tajweed-idgham-mutajanisayn { color: #A1A1A1 !important; }
+.tajweed-idgham-mutaqaribayn { color: #A1A1A1 !important; }
+.tajweed-qalqalah { color: #DD0008 !important; }
+.tajweed-madd-normal { color: #AAAAAA !important; }
+.tajweed-madd-permissible { color: #FFA500 !important; }
+.tajweed-madd-obligatory { color: #537FFF !important; }
+.tajweed-madd-munfasil { color: #FFA500 !important; }
+.tajweed-madd-muttasil { color: #537FFF !important; }
+.tajweed-madd-silah { color: #537FFF !important; }
+.tajweed-lam-shamsiyyah { color: #A1A1A1 !important; }
+.tajweed-silent { color: #AAAAAA !important; }
 
 :root {
   --bg-primary: #ffffff;

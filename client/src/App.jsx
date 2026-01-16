@@ -84,6 +84,8 @@ function App() {
       'uthmani': "'KFGQPC Uthmani', 'Amiri', serif",
       'indopak': "'PDMS Saleem', 'Al Majeed Quranic', serif",
       'nastaliq': "'IndoPak Nastaleeq', 'Noto Nastaliq Urdu', serif",
+      'naskh': "'Naskh Nastaleeq', 'PDMS Saleem', serif",
+      'mequran': "'Me Quran', 'Al Majeed Quranic', serif",
       'simple': "'Amiri', serif"
     };
     document.documentElement.style.setProperty('--arabic-font-family', fontFamilies[selectedFont] || fontFamilies.uthmani);
