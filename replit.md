@@ -142,15 +142,20 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **Al Majeed Quranic**: Alternative IndoPak style (local)
 
 ## Recent Changes
-- January 16, 2026: Added professional Contact Us page with:
-  - Hero section with gradient background
-  - Contact methods (Email, Location, Support Hours)
-  - Contact form with subject dropdown and validation
-  - Social media links (Facebook, X, Instagram, YouTube)
-  - Quick links sidebar
-  - FAQ section (6 questions)
-  - Mission statement section
-  - Developer credit card
+- January 16, 2026: Enhanced professional Contact Us page with:
+  - SEO-optimized with dynamic title and meta description
+  - Hero section with "Get In Touch" badge and email CTA
+  - "How Can We Help You?" section (4 categories: Inquiries, Features, Bugs, Partnerships)
+  - Contact form with 9 subject options and validation
+  - Email card with prominent info@qurandeen.com
+  - Social media cards with follower info
+  - Quick response time card
+  - Platform overview section (6 feature cards)
+  - FAQ section (8 questions)
+  - Mission section with 4 core values
+  - Call-to-action section
+  - Developer credit section
+  - Contact link added to header top bar (next to Settings)
 - January 16, 2026: Updated social media links across entire site (Header, Footer)
   - Facebook: facebook.com/qurandeencom
   - X/Twitter: x.com/qurandeencom

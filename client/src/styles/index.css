@@ -3555,3 +3555,341 @@ body {
     align-items: center;
   }
 }
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.hero-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  margin-top: 1.5rem;
+  color: white;
+}
+
+.hero-email a {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hero-email a:hover {
+  text-decoration: underline;
+}
+
+.why-contact-section {
+  margin-bottom: 4rem;
+}
+
+.why-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.why-contact-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.why-contact-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.why-contact-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--accent) 0%, #166534 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: white;
+}
+
+.why-contact-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.why-contact-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.email-card {
+  background: linear-gradient(135deg, var(--accent) 0%, #166534 100%);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+}
+
+.email-card-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.email-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.email-card p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+
+.email-link {
+  display: inline-block;
+  background: white;
+  color: var(--accent);
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.email-link:hover {
+  transform: translateY(-2px);
+}
+
+.social-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.social-followers {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.response-time-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.response-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+  color: var(--accent);
+}
+
+.response-time-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.response-time-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.platform-overview {
+  margin-bottom: 4rem;
+}
+
+.platform-features-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+.platform-feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.platform-feature-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.platform-feature-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.platform-feature-card h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.platform-feature-card p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.mission-values {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.mission-value {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.value-icon {
+  font-size: 1.75rem;
+}
+
+.mission-value h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.mission-value p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.developer-section {
+  margin-top: 3rem;
+}
+
+.developer-card-large {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.developer-header {
+  margin-bottom: 1.5rem;
+}
+
+.developer-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.developer-header p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.developer-link-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--accent) 0%, #166534 100%);
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.2s;
+}
+
+.developer-link-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+}
+
+.developer-info-large {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.developer-name-large {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.developer-tagline {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 1024px) {
+  .why-contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .platform-features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .mission-values {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .why-contact-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .platform-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .hero-email {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
