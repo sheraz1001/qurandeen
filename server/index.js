@@ -171,7 +171,12 @@ app.get('/api/auth/google', (req, res) => {
   }
   
   const state = crypto.randomBytes(32).toString('hex');
-  res.cookie('oauth_state', state, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 10 * 60 * 1000 });
+  res.cookie('oauth_state', state, { 
+    httpOnly: true, 
+    secure: true, 
+    sameSite: 'lax',
+    maxAge: 10 * 60 * 1000 
+  });
   
   const authUrl = googleOAuthClient.generateAuthUrl({
     access_type: 'offline',
@@ -180,6 +185,7 @@ app.get('/api/auth/google', (req, res) => {
     state: state
   });
   
+  console.log('Google OAuth redirect URL:', GOOGLE_REDIRECT_URI);
   res.redirect(authUrl);
 });
 
@@ -191,13 +197,17 @@ app.get('/api/auth/google/callback', async (req, res) => {
   const { code, error, state } = req.query;
   const storedState = req.cookies.oauth_state;
   
+  console.log('OAuth callback - state match:', state === storedState, 'has stored state:', !!storedState);
+  
   res.clearCookie('oauth_state');
   
   if (!state || !storedState || state !== storedState) {
+    console.log('OAuth state validation failed - state:', !!state, 'storedState:', !!storedState);
     return res.redirect('/login?error=google_invalid_state');
   }
   
   if (error) {
+    console.log('OAuth error from Google:', error);
     return res.redirect('/login?error=google_cancelled');
   }
   
@@ -239,10 +249,16 @@ app.get('/api/auth/google/callback', async (req, res) => {
     const dbUser = user.rows[0];
     const token = jwt.sign({ id: dbUser.id, email: dbUser.email, role: dbUser.role }, JWT_SECRET, { expiresIn: '7d' });
     
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.cookie('token', token, { 
+      httpOnly: true, 
+      secure: true, 
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000 
+    });
+    console.log('Google OAuth successful for user:', dbUser.email);
     res.redirect('/dashboard');
   } catch (error) {
-    console.error('Google OAuth error:', error);
+    console.error('Google OAuth error:', error.message || error);
     res.redirect('/login?error=google_failed');
   }
 });
