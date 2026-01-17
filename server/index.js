@@ -1016,27 +1016,64 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
       }
     });
 
-    const subscription = await stripe.subscriptions.create({
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amountInCents,
+      currency: 'usd',
       customer: customer.id,
-      items: [{ price: price.id }],
-      payment_behavior: 'default_incomplete',
-      payment_settings: { save_default_payment_method: 'on_subscription' },
-      expand: ['latest_invoice.payment_intent'],
+      setup_future_usage: 'off_session',
       metadata: {
         donorName: donorName || 'Anonymous',
         donorEmail: donorEmail,
         message: message || '',
-        type: 'monthly_donation'
-      }
+        type: 'monthly_donation_initial',
+        priceId: price.id
+      },
+      description: `QuranDeen Monthly Donation - $${amount}/month${donorName ? ` from ${donorName}` : ''}`
     });
 
     res.json({ 
-      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
-      subscriptionId: subscription.id
+      clientSecret: paymentIntent.client_secret,
+      customerId: customer.id,
+      priceId: price.id
     });
   } catch (error) {
     console.error('Stripe subscription error:', error);
     res.status(500).json({ error: error.message || 'Failed to create subscription' });
+  }
+});
+
+app.post('/api/stripe/finalize-subscription', async (req, res) => {
+  if (!stripe) {
+    return res.status(503).json({ error: 'Payment system not configured' });
+  }
+
+  try {
+    const { customerId, priceId, paymentMethodId } = req.body;
+    
+    if (!customerId || !priceId || !paymentMethodId) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
+    
+    await stripe.customers.update(customerId, {
+      invoice_settings: { default_payment_method: paymentMethodId }
+    });
+
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{ price: priceId }],
+      default_payment_method: paymentMethodId,
+      metadata: { type: 'monthly_donation' }
+    });
+
+    res.json({ 
+      subscriptionId: subscription.id,
+      status: subscription.status
+    });
+  } catch (error) {
+    console.error('Finalize subscription error:', error);
+    res.status(500).json({ error: error.message || 'Failed to finalize subscription' });
   }
 });
 

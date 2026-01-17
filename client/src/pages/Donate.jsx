@@ -75,7 +75,12 @@ function DonateForm({ onSuccess }) {
 
         if (stripeError) {
           setError(stripeError.message);
-        } else if (paymentIntent.status === 'succeeded' || paymentIntent.status === 'requires_action') {
+        } else if (paymentIntent.status === 'succeeded') {
+          await axios.post('/api/stripe/finalize-subscription', {
+            customerId: data.customerId,
+            priceId: data.priceId,
+            paymentMethodId: paymentIntent.payment_method
+          });
           onSuccess(finalAmount, true);
         } else {
           setError('Payment processing. Please wait...');
