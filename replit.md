@@ -47,9 +47,15 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
   - Security: Change password with security tips
   - Account Info: View account details and quick links
   - Responsive design for all screen sizes
-- **Admin Dashboard**: Admin-only management panel
-  - Blog Management: Create, edit, publish, delete blog posts
-  - User List: View all registered users
+- **Admin Dashboard**: Professional sidebar-based admin panel
+  - Left sidebar navigation with collapsible menu
+  - Overview: Stats cards (blogs, published, drafts, users), quick actions, recent activity
+  - Blog Management: Create, edit, publish, delete blog posts with improved table view
+  - User Management: View all registered users with avatar and role badges
+  - Analytics: Coming soon placeholder
+  - Admin Settings: Site info and quick links to public pages
+  - Red accent theme for admin distinction
+  - Responsive design for all screen sizes
 - **Islamic Blog**: Public blog page for Islamic knowledge articles
 - **Contact Us Page**: Professional contact page with form, FAQ, social links, and mission statement
 - **Settings Page**: Comprehensive settings for customization:
@@ -146,6 +152,15 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **Al Majeed Quranic**: Alternative IndoPak style (local)
 
 ## Recent Changes
+- January 17, 2026: Redesigned Admin Dashboard with professional sidebar layout:
+  - Left sidebar navigation with collapsible menu (Overview, Blogs, Users, Analytics, Settings)
+  - Overview section with stats cards, quick actions, recent blog activity
+  - Blog management with improved table view and inline editing
+  - User management with avatar display and role badges
+  - Analytics placeholder (coming soon)
+  - Admin Settings with site info and quick links
+  - Red accent theme to distinguish from user dashboard
+  - Responsive design for mobile/tablet
 - January 17, 2026: Redesigned User Dashboard with professional sidebar layout:
   - Left sidebar navigation with collapsible menu (Dashboard, Tracker, Bookmarks, Tools, Profile, Security, Account)
   - Overview section with stats cards, progress ring, quick actions
