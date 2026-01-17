@@ -137,6 +137,11 @@ app.post('/api/auth/login', async (req, res) => {
     }
     
     const user = result.rows[0];
+    
+    if (!user.password_hash) {
+      return res.status(401).json({ error: 'This account uses Google login. Please sign in with Google.' });
+    }
+    
     const validPassword = await bcrypt.compare(password, user.password_hash);
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid email or password' });
@@ -165,10 +170,14 @@ app.get('/api/auth/google', (req, res) => {
     return res.status(503).json({ error: 'Google OAuth not configured' });
   }
   
+  const state = crypto.randomBytes(32).toString('hex');
+  res.cookie('oauth_state', state, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 10 * 60 * 1000 });
+  
   const authUrl = googleOAuthClient.generateAuthUrl({
     access_type: 'offline',
     scope: ['openid', 'email', 'profile'],
-    prompt: 'select_account'
+    prompt: 'select_account',
+    state: state
   });
   
   res.redirect(authUrl);
@@ -179,7 +188,14 @@ app.get('/api/auth/google/callback', async (req, res) => {
     return res.redirect('/login?error=google_not_configured');
   }
   
-  const { code, error } = req.query;
+  const { code, error, state } = req.query;
+  const storedState = req.cookies.oauth_state;
+  
+  res.clearCookie('oauth_state');
+  
+  if (!state || !storedState || state !== storedState) {
+    return res.redirect('/login?error=google_invalid_state');
+  }
   
   if (error) {
     return res.redirect('/login?error=google_cancelled');

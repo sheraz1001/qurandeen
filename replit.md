@@ -33,7 +33,9 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
   - Suggested questions for quick start
 - **Bookmarks**: Save favorite ayahs to a bookmarks page (stored in browser)
 - **Reading History**: Automatically tracks recently read surahs, shown on home page
-- **User Authentication**: Standalone signup/login system with email/password
+- **User Authentication**: Standalone signup/login system with multiple options
+  - Email/Password login with secure JWT-based sessions
+  - Google OAuth login (optional, requires GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET)
   - Signup collects: Name, Email, Password, City, Country
   - JWT-based session management with bcrypt password hashing
   - Admin user: admin@qurandeen.com / admin123
@@ -152,6 +154,11 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **Al Majeed Quranic**: Alternative IndoPak style (local)
 
 ## Recent Changes
+- January 17, 2026: Added Google OAuth login option:
+  - "Continue with Google" button on login and signup pages
+  - Optional - works with or without Google credentials
+  - Links existing accounts when same email is used
+  - Creates new accounts for new Google users
 - January 17, 2026: Redesigned Admin Dashboard with professional sidebar layout:
   - Left sidebar navigation with collapsible menu (Overview, Blogs, Users, Analytics, Settings)
   - Overview section with stats cards, quick actions, recent blog activity
