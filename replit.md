@@ -37,12 +37,16 @@ A comprehensive web application for reading and listening to the Holy Quran. Bui
   - Signup collects: Name, Email, Password, City, Country
   - JWT-based session management with bcrypt password hashing
   - Admin user: admin@qurandeen.com / admin123
-- **User Dashboard**: Personal dashboard for logged-in users
+- **User Dashboard**: Professional sidebar-based dashboard for logged-in users
+  - Left sidebar navigation with collapsible menu
+  - Overview: Stats cards, progress ring, quick actions, recent bookmarks
   - Quran Read Tracker: Mark surahs as completed, track progress
-  - Synced Bookmarks: Cloud-saved bookmarks across devices
-  - My Profile: Edit name, city, country; change password; view account info
-  - Free Resources: Curated Islamic resources (Quran.com, Sunnah.com, etc.)
-  - Progress statistics and visualization
+  - My Bookmarks: View and manage cloud-synced bookmarks
+  - QuranDeen Tools: Internal resources organized by category (Reading, Tools, AI & Knowledge)
+  - Edit Profile: Update name, city, country
+  - Security: Change password with security tips
+  - Account Info: View account details and quick links
+  - Responsive design for all screen sizes
 - **Admin Dashboard**: Admin-only management panel
   - Blog Management: Create, edit, publish, delete blog posts
   - User List: View all registered users
@@ -142,6 +146,15 @@ Uses Al Quran Cloud API (https://api.alquran.cloud/v1/)
 - **Al Majeed Quranic**: Alternative IndoPak style (local)
 
 ## Recent Changes
+- January 17, 2026: Redesigned User Dashboard with professional sidebar layout:
+  - Left sidebar navigation with collapsible menu (Dashboard, Tracker, Bookmarks, Tools, Profile, Security, Account)
+  - Overview section with stats cards, progress ring, quick actions
+  - Removed external links from Resources - now shows only internal QuranDeen tools
+  - Tools organized by category: Reading & Learning, Islamic Tools, AI & Knowledge
+  - Edit Profile and Security sections separated
+  - Account Info section with quick links
+  - Responsive design for mobile/tablet
+- January 16, 2026: Fixed Ayah of the Day share to include Arabic text, English translation, reference, and website URL
 - January 16, 2026: Enhanced professional Contact Us page with:
   - SEO-optimized with dynamic title and meta description
   - Hero section with "Get In Touch" badge and email CTA
