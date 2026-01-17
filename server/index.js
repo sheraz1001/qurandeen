@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import crypto from 'crypto';
 import OpenAI from 'openai';
 import { OAuth2Client } from 'google-auth-library';
+import Stripe from 'stripe';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,6 +37,16 @@ if (GOOGLE_CLIENT_ID) {
   console.log(`Google OAuth configured. Callback URL: ${GOOGLE_REDIRECT_URI}`);
 } else {
   console.log('Google OAuth not configured. Set GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET to enable.');
+}
+
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY;
+const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY) : null;
+
+if (stripe) {
+  console.log('Stripe payment processing configured.');
+} else {
+  console.log('Stripe not configured. Set STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY to enable donations.');
 }
 
 const pool = new Pool({
@@ -914,6 +925,62 @@ app.post('/api/chat', async (req, res) => {
     } else {
       res.status(500).json({ error: 'Chat failed' });
     }
+  }
+});
+
+// Stripe Donation Endpoints
+app.get('/api/stripe/config', (req, res) => {
+  if (!STRIPE_PUBLISHABLE_KEY) {
+    return res.status(503).json({ error: 'Payment system not configured' });
+  }
+  res.json({ publishableKey: STRIPE_PUBLISHABLE_KEY });
+});
+
+app.post('/api/stripe/create-payment-intent', async (req, res) => {
+  if (!stripe) {
+    return res.status(503).json({ error: 'Payment system not configured' });
+  }
+
+  try {
+    const { amount, donorName, donorEmail, message } = req.body;
+    
+    if (!amount || amount < 1) {
+      return res.status(400).json({ error: 'Invalid donation amount' });
+    }
+
+    const amountInCents = Math.round(amount * 100);
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amountInCents,
+      currency: 'usd',
+      metadata: {
+        donorName: donorName || 'Anonymous',
+        donorEmail: donorEmail || '',
+        message: message || '',
+        type: 'donation'
+      },
+      description: `Donation to QuranDeen.com${donorName ? ` from ${donorName}` : ''}`
+    });
+
+    res.json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.error('Stripe payment intent error:', error);
+    res.status(500).json({ error: error.message || 'Failed to create payment' });
+  }
+});
+
+app.get('/api/stripe/payment-status/:paymentIntentId', async (req, res) => {
+  if (!stripe) {
+    return res.status(503).json({ error: 'Payment system not configured' });
+  }
+
+  try {
+    const { paymentIntentId } = req.params;
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    res.json({ status: paymentIntent.status });
+  } catch (error) {
+    console.error('Stripe payment status error:', error);
+    res.status(500).json({ error: 'Failed to get payment status' });
   }
 });
 
