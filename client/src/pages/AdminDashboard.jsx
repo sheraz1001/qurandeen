@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import Loading from '../components/Loading';
 
 function AdminDashboard() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -18,6 +18,7 @@ function AdminDashboard() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth check to complete
     if (!user) {
       navigate('/login');
       return;
@@ -27,7 +28,7 @@ function AdminDashboard() {
       return;
     }
     fetchData();
-  }, [user, navigate]);
+  }, [user, authLoading, navigate]);
 
   const fetchData = async () => {
     try {
@@ -150,7 +151,7 @@ function AdminDashboard() {
     }
   };
 
-  if (loading) return <Loading />;
+  if (authLoading || loading) return <Loading />;
 
   return (
     <div className="dashboard-layout admin-layout">

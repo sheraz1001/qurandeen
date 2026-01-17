@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import Loading from '../components/Loading';
 
 function Dashboard() {
-  const { user, logout, checkAuth } = useAuth();
+  const { user, logout, checkAuth, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [readingProgress, setReadingProgress] = useState([]);
   const [bookmarks, setBookmarks] = useState([]);
@@ -22,12 +22,13 @@ function Dashboard() {
   const [changingPassword, setChangingPassword] = useState(false);
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth check to complete
     if (!user) {
       navigate('/login');
       return;
     }
     fetchData();
-  }, [user, navigate]);
+  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (user) {
@@ -175,7 +176,7 @@ function Dashboard() {
     )},
   ];
 
-  if (loading) return <Loading />;
+  if (authLoading || loading) return <Loading />;
 
   return (
     <div className="dashboard-layout">
