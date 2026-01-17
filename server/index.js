@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import crypto from 'crypto';
 import OpenAI from 'openai';
+import { OAuth2Client } from 'google-auth-library';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,24 @@ const app = express();
 const PORT = 5000;
 const QURAN_API_BASE = 'https://api.alquran.cloud/v1';
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex');
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_OAUTH_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_OAUTH_CLIENT_SECRET;
+const GOOGLE_REDIRECT_URI = process.env.NODE_ENV === 'production' 
+  ? 'https://qurandeen.com/api/auth/google/callback'
+  : `https://${process.env.REPLIT_DEV_DOMAIN}/api/auth/google/callback`;
+
+const googleOAuthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_REDIRECT_URI
+) : null;
+
+if (GOOGLE_CLIENT_ID) {
+  console.log(`Google OAuth configured. Callback URL: ${GOOGLE_REDIRECT_URI}`);
+} else {
+  console.log('Google OAuth not configured. Set GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET to enable.');
+}
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -139,6 +158,81 @@ app.post('/api/auth/login', async (req, res) => {
 app.post('/api/auth/logout', (req, res) => {
   res.clearCookie('token');
   res.json({ message: 'Logged out successfully' });
+});
+
+app.get('/api/auth/google', (req, res) => {
+  if (!googleOAuthClient) {
+    return res.status(503).json({ error: 'Google OAuth not configured' });
+  }
+  
+  const authUrl = googleOAuthClient.generateAuthUrl({
+    access_type: 'offline',
+    scope: ['openid', 'email', 'profile'],
+    prompt: 'select_account'
+  });
+  
+  res.redirect(authUrl);
+});
+
+app.get('/api/auth/google/callback', async (req, res) => {
+  if (!googleOAuthClient) {
+    return res.redirect('/login?error=google_not_configured');
+  }
+  
+  const { code, error } = req.query;
+  
+  if (error) {
+    return res.redirect('/login?error=google_cancelled');
+  }
+  
+  if (!code) {
+    return res.redirect('/login?error=google_no_code');
+  }
+  
+  try {
+    const { tokens } = await googleOAuthClient.getToken(code);
+    googleOAuthClient.setCredentials(tokens);
+    
+    const ticket = await googleOAuthClient.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: GOOGLE_CLIENT_ID
+    });
+    
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name, picture } = payload;
+    
+    if (!email) {
+      return res.redirect('/login?error=google_no_email');
+    }
+    
+    let user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    
+    if (user.rows.length === 0) {
+      const id = crypto.randomUUID();
+      const result = await pool.query(
+        'INSERT INTO users (id, name, email, password_hash, google_id, profile_image, role) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, email, city, country, role',
+        [id, name || email.split('@')[0], email, null, googleId, picture, 'user']
+      );
+      user = { rows: result.rows };
+    } else {
+      if (!user.rows[0].google_id) {
+        await pool.query('UPDATE users SET google_id = $1, profile_image = $2 WHERE email = $3', [googleId, picture, email]);
+      }
+    }
+    
+    const dbUser = user.rows[0];
+    const token = jwt.sign({ id: dbUser.id, email: dbUser.email, role: dbUser.role }, JWT_SECRET, { expiresIn: '7d' });
+    
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error('Google OAuth error:', error);
+    res.redirect('/login?error=google_failed');
+  }
+});
+
+app.get('/api/auth/google/status', (req, res) => {
+  res.json({ enabled: !!googleOAuthClient });
 });
 
 app.get('/api/auth/me', authenticateToken, async (req, res) => {
