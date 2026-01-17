@@ -195,10 +195,16 @@ app.get('/api/auth/google/callback', async (req, res) => {
     return res.redirect('/login?error=google_not_configured');
   }
   
-  const { code, error, state } = req.query;
+  const { code, error, error_description, state } = req.query;
   const storedState = req.cookies.oauth_state;
   
+  console.log('OAuth callback - full query:', JSON.stringify(req.query));
   console.log('OAuth callback - has code:', !!code, 'has state:', !!state, 'has stored state:', !!storedState);
+  
+  if (error) {
+    console.log('Google returned error:', error, error_description);
+    return res.redirect(`/login?error=google_cancelled&detail=${encodeURIComponent(error_description || error)}`);
+  }
   
   res.clearCookie('oauth_state');
   
@@ -207,11 +213,6 @@ app.get('/api/auth/google/callback', async (req, res) => {
   } else if (!state || state !== storedState) {
     console.log('OAuth state validation failed - state:', state, 'storedState:', storedState);
     return res.redirect('/login?error=google_invalid_state');
-  }
-  
-  if (error) {
-    console.log('OAuth error from Google:', error);
-    return res.redirect('/login?error=google_cancelled');
   }
   
   if (!code) {
