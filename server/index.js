@@ -66,6 +66,7 @@ You should respond in the same language the user writes in. If they write in Urd
 Start responses with "Bismillah ir-Rahman ir-Raheem" (In the name of Allah, the Most Gracious, the Most Merciful) when appropriate.`;
 
 
+app.set('trust proxy', 1);
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
