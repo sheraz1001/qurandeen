@@ -969,6 +969,77 @@ app.post('/api/stripe/create-payment-intent', async (req, res) => {
   }
 });
 
+app.post('/api/stripe/create-subscription', async (req, res) => {
+  if (!stripe) {
+    return res.status(503).json({ error: 'Payment system not configured' });
+  }
+
+  try {
+    const { amount, donorName, donorEmail, message } = req.body;
+    
+    if (!amount || amount < 1) {
+      return res.status(400).json({ error: 'Invalid donation amount' });
+    }
+
+    if (!donorEmail) {
+      return res.status(400).json({ error: 'Email is required for monthly donations' });
+    }
+
+    const amountInCents = Math.round(amount * 100);
+
+    let customer = await stripe.customers.list({ email: donorEmail, limit: 1 });
+    if (customer.data.length > 0) {
+      customer = customer.data[0];
+    } else {
+      customer = await stripe.customers.create({
+        email: donorEmail,
+        name: donorName || undefined,
+        metadata: {
+          source: 'QuranDeen Donation'
+        }
+      });
+    }
+
+    const product = await stripe.products.create({
+      name: `QuranDeen Monthly Donation - $${amount}`,
+      metadata: {
+        type: 'recurring_donation'
+      }
+    });
+
+    const price = await stripe.prices.create({
+      product: product.id,
+      unit_amount: amountInCents,
+      currency: 'usd',
+      recurring: {
+        interval: 'month'
+      }
+    });
+
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ price: price.id }],
+      payment_behavior: 'default_incomplete',
+      payment_settings: { save_default_payment_method: 'on_subscription' },
+      expand: ['latest_invoice.payment_intent'],
+      metadata: {
+        donorName: donorName || 'Anonymous',
+        donorEmail: donorEmail,
+        message: message || '',
+        type: 'monthly_donation'
+      }
+    });
+
+    res.json({ 
+      clientSecret: subscription.latest_invoice.payment_intent.client_secret,
+      subscriptionId: subscription.id
+    });
+  } catch (error) {
+    console.error('Stripe subscription error:', error);
+    res.status(500).json({ error: error.message || 'Failed to create subscription' });
+  }
+});
+
 app.get('/api/stripe/payment-status/:paymentIntentId', async (req, res) => {
   if (!stripe) {
     return res.status(503).json({ error: 'Payment system not configured' });

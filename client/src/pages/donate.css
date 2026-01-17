@@ -3,6 +3,65 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
+.donation-type-toggle {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.type-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.type-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.type-btn:hover {
+  border-color: #1a5f3c;
+  color: #1a5f3c;
+}
+
+.type-btn.active {
+  border-color: #1a5f3c;
+  background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%);
+  color: white;
+}
+
+.recurring-note {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #1a5f3c;
+}
+
+.recurring-confirmation {
+  font-size: 0.95rem;
+  color: #1a5f3c;
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #c8e6c9;
+}
+
 .donate-header {
   background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%);
   color: white;

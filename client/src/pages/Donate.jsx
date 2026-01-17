@@ -16,6 +16,7 @@ function DonateForm({ onSuccess }) {
   const [message, setMessage] = useState('');
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
+  const [donationType, setDonationType] = useState('one-time');
 
   const handleAmountSelect = (value) => {
     setAmount(value);
@@ -42,36 +43,71 @@ function DonateForm({ onSuccess }) {
       return;
     }
 
+    if (donationType === 'monthly' && !donorEmail) {
+      setError('Email is required for monthly donations');
+      return;
+    }
+
     setProcessing(true);
     setError('');
 
     try {
-      const { data } = await axios.post('/api/stripe/create-payment-intent', {
-        amount: finalAmount,
-        donorName,
-        donorEmail,
-        message
-      });
+      if (donationType === 'monthly') {
+        const { data } = await axios.post('/api/stripe/create-subscription', {
+          amount: finalAmount,
+          donorName,
+          donorEmail,
+          message
+        });
 
-      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
-        data.clientSecret,
-        {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: {
-              name: donorName || undefined,
-              email: donorEmail || undefined
+        const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
+          data.clientSecret,
+          {
+            payment_method: {
+              card: elements.getElement(CardElement),
+              billing_details: {
+                name: donorName || undefined,
+                email: donorEmail
+              }
             }
           }
-        }
-      );
+        );
 
-      if (stripeError) {
-        setError(stripeError.message);
-      } else if (paymentIntent.status === 'succeeded') {
-        onSuccess(finalAmount);
+        if (stripeError) {
+          setError(stripeError.message);
+        } else if (paymentIntent.status === 'succeeded' || paymentIntent.status === 'requires_action') {
+          onSuccess(finalAmount, true);
+        } else {
+          setError('Payment processing. Please wait...');
+        }
       } else {
-        setError('Payment processing. Please wait...');
+        const { data } = await axios.post('/api/stripe/create-payment-intent', {
+          amount: finalAmount,
+          donorName,
+          donorEmail,
+          message
+        });
+
+        const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
+          data.clientSecret,
+          {
+            payment_method: {
+              card: elements.getElement(CardElement),
+              billing_details: {
+                name: donorName || undefined,
+                email: donorEmail || undefined
+              }
+            }
+          }
+        );
+
+        if (stripeError) {
+          setError(stripeError.message);
+        } else if (paymentIntent.status === 'succeeded') {
+          onSuccess(finalAmount, false);
+        } else {
+          setError('Payment processing. Please wait...');
+        }
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Payment failed. Please try again.');
@@ -100,7 +136,37 @@ function DonateForm({ onSuccess }) {
   return (
     <form onSubmit={handleSubmit} className="donate-form">
       <div className="form-section">
-        <label className="form-label">Select Donation Amount</label>
+        <label className="form-label">Donation Type</label>
+        <div className="donation-type-toggle">
+          <button
+            type="button"
+            className={`type-btn ${donationType === 'one-time' ? 'active' : ''}`}
+            onClick={() => setDonationType('one-time')}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            One-Time
+          </button>
+          <button
+            type="button"
+            className={`type-btn ${donationType === 'monthly' ? 'active' : ''}`}
+            onClick={() => setDonationType('monthly')}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Monthly
+          </button>
+        </div>
+        {donationType === 'monthly' && (
+          <p className="recurring-note">Your card will be charged monthly. You can cancel anytime.</p>
+        )}
+      </div>
+
+      <div className="form-section">
+        <label className="form-label">Select Donation Amount {donationType === 'monthly' && '(per month)'}</label>
         <div className="amount-grid">
           {PRESET_AMOUNTS.map((value) => (
             <button
@@ -176,7 +242,7 @@ function DonateForm({ onSuccess }) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            Donate ${customAmount || amount}
+            {donationType === 'monthly' ? `Donate $${customAmount || amount}/month` : `Donate $${customAmount || amount}`}
           </>
         )}
       </button>
@@ -197,6 +263,7 @@ function Donate() {
   const [configError, setConfigError] = useState('');
   const [success, setSuccess] = useState(false);
   const [donatedAmount, setDonatedAmount] = useState(0);
+  const [isRecurring, setIsRecurring] = useState(false);
 
   useEffect(() => {
     axios.get('/api/stripe/config')
@@ -210,8 +277,9 @@ function Donate() {
       });
   }, []);
 
-  const handleSuccess = (amount) => {
+  const handleSuccess = (amount, recurring = false) => {
     setDonatedAmount(amount);
+    setIsRecurring(recurring);
     setSuccess(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -228,8 +296,17 @@ function Donate() {
           </div>
           <h1>JazakAllah Khair!</h1>
           <p className="success-message">
-            Your generous donation of <strong>${donatedAmount.toFixed(2)}</strong> has been received successfully.
+            {isRecurring ? (
+              <>Your monthly donation of <strong>${donatedAmount.toFixed(2)}/month</strong> has been set up successfully.</>
+            ) : (
+              <>Your generous donation of <strong>${donatedAmount.toFixed(2)}</strong> has been received successfully.</>
+            )}
           </p>
+          {isRecurring && (
+            <p className="recurring-confirmation">
+              Your card will be charged ${donatedAmount.toFixed(2)} monthly. You can manage or cancel your subscription anytime through your email receipt.
+            </p>
+          )}
           <p className="success-dua">
             May Allah (SWT) accept your contribution and bless you abundantly. Your support helps us continue spreading the message of the Holy Quran.
           </p>
