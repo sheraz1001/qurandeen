@@ -46,8 +46,8 @@ defaultBucketID = "replit-objstore-f5211184-6fa6-4bbf-8c6d-d59d98cf7131"
 
 [userenv.shared]
 JWT_SECRET = "65758598f96e0cd2fbcfa0a0ba70ee2fe41f85a3f4333bc6f5c932b8d302a1dbdcd01080d12d0c061889ffeeb09263d6ef1acac31dc8f3e37e34bfcc864e616a"
-SMTP_HOST = "qurandeen.com"
+SMTP_HOST = "smtp.hostinger.com"
 SMTP_USER = "info@qurandeen.com"
-SMTP_PORT = "587"
+SMTP_PORT = "465"
 FROM_EMAIL = "info@qurandeen.com"
 ADMIN_EMAIL = "info@qurandeen.com"
