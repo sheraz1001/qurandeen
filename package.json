@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@replit/object-storage": "^1.0.0",
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.6.1",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
@@ -25,6 +27,7 @@
     "p-limit": "^7.2.0",
     "p-retry": "^7.1.1",
     "pg": "^8.17.1",
+    "stripe": "^20.2.0",
     "zod": "^4.3.5",
     "zod-validation-error": "^5.0.0"
   },
