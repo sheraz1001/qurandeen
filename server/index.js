@@ -217,15 +217,32 @@ app.get('/api/auth/google/callback', async (req, res) => {
   }
   
   try {
-    const { tokens } = await googleOAuthClient.getToken(code);
+    let tokens;
+    try {
+      const tokenResponse = await googleOAuthClient.getToken(code);
+      tokens = tokenResponse.tokens;
+    } catch (tokenError) {
+      console.error('Token exchange failed:', tokenError.message);
+      if (tokenError.message.includes('redirect_uri_mismatch')) {
+        return res.redirect('/login?error=google_redirect_mismatch');
+      }
+      return res.redirect('/login?error=google_token_failed');
+    }
+    
     googleOAuthClient.setCredentials(tokens);
     
-    const ticket = await googleOAuthClient.verifyIdToken({
-      idToken: tokens.id_token,
-      audience: GOOGLE_CLIENT_ID
-    });
+    let payload;
+    try {
+      const ticket = await googleOAuthClient.verifyIdToken({
+        idToken: tokens.id_token,
+        audience: GOOGLE_CLIENT_ID
+      });
+      payload = ticket.getPayload();
+    } catch (verifyError) {
+      console.error('Token verification failed:', verifyError.message);
+      return res.redirect('/login?error=google_verify_failed');
+    }
     
-    const payload = ticket.getPayload();
     const { sub: googleId, email, name, picture } = payload;
     
     if (!email) {

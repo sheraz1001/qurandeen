@@ -26,7 +26,10 @@ function Login() {
         'google_no_code': 'Google login failed. Please try again.',
         'google_no_email': 'Could not retrieve email from Google account.',
         'google_failed': 'Google login failed. Please try again.',
-        'google_invalid_state': 'Security validation failed. Please try again.'
+        'google_invalid_state': 'Security validation failed. Please try again.',
+        'google_redirect_mismatch': 'Google OAuth configuration error. Please contact support.',
+        'google_token_failed': 'Failed to authenticate with Google. Please try again.',
+        'google_verify_failed': 'Failed to verify Google account. Please try again.'
       };
       setError(errorMessages[errorParam] || 'Login failed. Please try again.');
     }
