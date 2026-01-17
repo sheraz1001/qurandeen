@@ -301,7 +301,8 @@ app.get('/api/auth/google/callback', async (req, res) => {
     }
   } catch (error) {
     console.error('Google OAuth unexpected error:', error.message || error, error.stack);
-    res.redirect('/login?error=google_failed');
+    const errorMsg = encodeURIComponent(error.message || 'Unknown error');
+    res.redirect(`/login?error=google_failed&detail=${errorMsg}`);
   }
 });
 

@@ -19,6 +19,7 @@ function Login() {
     }).catch(() => {});
 
     const errorParam = searchParams.get('error');
+    const errorDetail = searchParams.get('detail');
     if (errorParam) {
       const errorMessages = {
         'google_not_configured': 'Google login is not available at this time.',
@@ -33,7 +34,11 @@ function Login() {
         'google_db_error': 'Database error during login. Please try again.',
         'google_user_error': 'Failed to create user account. Please try again.'
       };
-      setError(errorMessages[errorParam] || 'Login failed. Please try again.');
+      let errorMsg = errorMessages[errorParam] || 'Login failed. Please try again.';
+      if (errorDetail) {
+        errorMsg += ` (${decodeURIComponent(errorDetail)})`;
+      }
+      setError(errorMsg);
     }
   }, [searchParams]);
 
