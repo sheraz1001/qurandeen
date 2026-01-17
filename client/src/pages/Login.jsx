@@ -29,7 +29,9 @@ function Login() {
         'google_invalid_state': 'Security validation failed. Please try again.',
         'google_redirect_mismatch': 'Google OAuth configuration error. Please contact support.',
         'google_token_failed': 'Failed to authenticate with Google. Please try again.',
-        'google_verify_failed': 'Failed to verify Google account. Please try again.'
+        'google_verify_failed': 'Failed to verify Google account. Please try again.',
+        'google_db_error': 'Database error during login. Please try again.',
+        'google_user_error': 'Failed to create user account. Please try again.'
       };
       setError(errorMessages[errorParam] || 'Login failed. Please try again.');
     }

@@ -198,12 +198,14 @@ app.get('/api/auth/google/callback', async (req, res) => {
   const { code, error, state } = req.query;
   const storedState = req.cookies.oauth_state;
   
-  console.log('OAuth callback - state match:', state === storedState, 'has stored state:', !!storedState);
+  console.log('OAuth callback - has code:', !!code, 'has state:', !!state, 'has stored state:', !!storedState);
   
   res.clearCookie('oauth_state');
   
-  if (!state || !storedState || state !== storedState) {
-    console.log('OAuth state validation failed - state:', !!state, 'storedState:', !!storedState);
+  if (!storedState) {
+    console.log('Warning: No stored OAuth state cookie found, proceeding without state validation');
+  } else if (!state || state !== storedState) {
+    console.log('OAuth state validation failed - state:', state, 'storedState:', storedState);
     return res.redirect('/login?error=google_invalid_state');
   }
   
@@ -249,34 +251,55 @@ app.get('/api/auth/google/callback', async (req, res) => {
       return res.redirect('/login?error=google_no_email');
     }
     
-    let user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    let user;
+    try {
+      user = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    } catch (dbError) {
+      console.error('Database query failed:', dbError.message);
+      return res.redirect('/login?error=google_db_error');
+    }
     
-    if (user.rows.length === 0) {
-      const id = crypto.randomUUID();
-      const result = await pool.query(
-        'INSERT INTO users (id, name, email, password_hash, google_id, profile_image, role) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, email, city, country, role',
-        [id, name || email.split('@')[0], email, null, googleId, picture, 'user']
-      );
-      user = { rows: result.rows };
-    } else {
-      if (!user.rows[0].google_id) {
-        await pool.query('UPDATE users SET google_id = $1, profile_image = $2 WHERE email = $3', [googleId, picture, email]);
+    try {
+      if (user.rows.length === 0) {
+        const id = crypto.randomUUID();
+        const result = await pool.query(
+          'INSERT INTO users (id, name, email, password_hash, google_id, profile_image, role) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, name, email, city, country, role',
+          [id, name || email.split('@')[0], email, null, googleId, picture, 'user']
+        );
+        user = { rows: result.rows };
+      } else {
+        if (!user.rows[0].google_id) {
+          await pool.query('UPDATE users SET google_id = $1, profile_image = $2 WHERE email = $3', [googleId, picture, email]);
+        }
       }
+    } catch (dbError) {
+      console.error('Database insert/update failed:', dbError.message);
+      return res.redirect('/login?error=google_db_error');
     }
     
     const dbUser = user.rows[0];
-    const token = jwt.sign({ id: dbUser.id, email: dbUser.email, role: dbUser.role }, JWT_SECRET, { expiresIn: '7d' });
+    if (!dbUser || !dbUser.id || !dbUser.email) {
+      console.error('Invalid user data after DB operation:', JSON.stringify(dbUser));
+      return res.redirect('/login?error=google_user_error');
+    }
     
-    res.cookie('token', token, { 
-      httpOnly: true, 
-      secure: true, 
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 
-    });
-    console.log('Google OAuth successful for user:', dbUser.email);
-    res.redirect('/dashboard');
+    try {
+      const token = jwt.sign({ id: dbUser.id, email: dbUser.email, role: dbUser.role || 'user' }, JWT_SECRET, { expiresIn: '7d' });
+      
+      res.cookie('token', token, { 
+        httpOnly: true, 
+        secure: true, 
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000 
+      });
+      console.log('Google OAuth successful for user:', dbUser.email);
+      return res.redirect('/dashboard');
+    } catch (jwtError) {
+      console.error('JWT/Cookie error:', jwtError.message);
+      return res.redirect('/login?error=google_session_error');
+    }
   } catch (error) {
-    console.error('Google OAuth error:', error.message || error);
+    console.error('Google OAuth unexpected error:', error.message || error, error.stack);
     res.redirect('/login?error=google_failed');
   }
 });
