@@ -1410,6 +1410,126 @@ app.get('/api/stripe/payment-status/:paymentIntentId', async (req, res) => {
   }
 });
 
+// Sync donations from Stripe (admin only)
+app.post('/api/admin/sync-stripe-donations', authenticateToken, isAdmin, async (req, res) => {
+  if (!stripe) {
+    return res.status(503).json({ error: 'Stripe not configured' });
+  }
+
+  try {
+    // Get payments from the last 7 days
+    const sevenDaysAgo = Math.floor(Date.now() / 1000) - (7 * 24 * 60 * 60);
+    
+    // Fetch successful payment intents
+    const paymentIntents = await stripe.paymentIntents.list({
+      limit: 100,
+      created: { gte: sevenDaysAgo }
+    });
+
+    // Fetch invoices (for subscriptions)
+    const invoices = await stripe.invoices.list({
+      limit: 100,
+      created: { gte: sevenDaysAgo },
+      status: 'paid'
+    });
+
+    let syncedCount = 0;
+
+    // Process payment intents
+    for (const pi of paymentIntents.data) {
+      if (pi.status !== 'succeeded') continue;
+      
+      const metadata = pi.metadata || {};
+      const amount = pi.amount / 100;
+      
+      // Check if already exists
+      const existing = await pool.query(
+        'SELECT id FROM donations WHERE stripe_payment_id = $1',
+        [pi.id]
+      );
+      
+      if (existing.rows.length === 0) {
+        const donationType = metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time';
+        
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, message, created_at)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, to_timestamp($14))`,
+          [
+            pi.id,
+            pi.customer,
+            metadata.donorName || 'Anonymous',
+            metadata.donorEmail || '',
+            metadata.firstName || '',
+            metadata.lastName || '',
+            metadata.city || '',
+            metadata.country || '',
+            amount,
+            pi.currency,
+            donationType,
+            'succeeded',
+            metadata.message || '',
+            pi.created
+          ]
+        );
+        syncedCount++;
+      }
+    }
+
+    // Process invoices
+    for (const inv of invoices.data) {
+      const amount = (inv.amount_paid || inv.total) / 100;
+      
+      // Check if already exists
+      const existing = await pool.query(
+        'SELECT id FROM donations WHERE stripe_payment_id = $1',
+        [inv.id]
+      );
+      
+      if (existing.rows.length === 0) {
+        // Get customer metadata
+        let customerDetails = {};
+        if (inv.customer) {
+          try {
+            const customer = await stripe.customers.retrieve(inv.customer);
+            customerDetails = customer.metadata || {};
+          } catch (e) {}
+        }
+        
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, created_at)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, to_timestamp($14))`,
+          [
+            inv.id,
+            inv.customer,
+            inv.subscription || null,
+            customerDetails.donorName || inv.customer_name || 'Anonymous',
+            inv.customer_email || '',
+            customerDetails.firstName || '',
+            customerDetails.lastName || '',
+            customerDetails.city || '',
+            customerDetails.country || '',
+            amount,
+            inv.currency,
+            inv.subscription ? 'monthly' : 'one_time',
+            'succeeded',
+            inv.created
+          ]
+        );
+        syncedCount++;
+      }
+    }
+
+    res.json({ 
+      success: true, 
+      message: `Synced ${syncedCount} donations from Stripe`,
+      synced: syncedCount
+    });
+  } catch (error) {
+    console.error('Stripe sync error:', error);
+    res.status(500).json({ error: 'Failed to sync donations from Stripe' });
+  }
+});
+
 app.get('/api/admin/donations', authenticateToken, isAdmin, async (req, res) => {
   try {
     const result = await pool.query(

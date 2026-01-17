@@ -2409,6 +2409,28 @@
   gap: 0.25rem;
 }
 
+.sync-btn {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sync-btn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.sync-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .amount-cell {
   font-weight: 700;
   color: #1a5f3c;

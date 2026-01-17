@@ -18,6 +18,7 @@ function AdminDashboard() {
   const [blogForm, setBlogForm] = useState({ title: '', content: '', excerpt: '', published: false });
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     if (authLoading) return; // Wait for auth check to complete
@@ -53,6 +54,20 @@ function AdminDashboard() {
   const handleLogout = async () => {
     await logout();
     navigate('/');
+  };
+
+  const handleSyncDonations = async () => {
+    setSyncing(true);
+    try {
+      const res = await axios.post('/api/admin/sync-stripe-donations');
+      alert(`Synced ${res.data.synced} donations from Stripe`);
+      fetchData();
+    } catch (error) {
+      console.error('Error syncing donations:', error);
+      alert('Failed to sync donations from Stripe');
+    } finally {
+      setSyncing(false);
+    }
   };
 
   const handleBlogSubmit = async (e) => {
@@ -653,6 +668,13 @@ function AdminDashboard() {
 
               <div className="section-header">
                 <h2>Recent Donations</h2>
+                <button 
+                  className="sync-btn" 
+                  onClick={handleSyncDonations}
+                  disabled={syncing}
+                >
+                  {syncing ? 'Syncing...' : 'Sync from Stripe'}
+                </button>
               </div>
               
               {donations.length === 0 ? (
