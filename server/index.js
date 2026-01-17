@@ -12,6 +12,7 @@ import crypto from 'crypto';
 import OpenAI from 'openai';
 import { OAuth2Client } from 'google-auth-library';
 import Stripe from 'stripe';
+import { sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin } from './emailService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -942,24 +943,33 @@ app.post('/api/stripe/create-payment-intent', async (req, res) => {
   }
 
   try {
-    const { amount, donorName, donorEmail, message } = req.body;
+    const { amount, firstName, lastName, donorEmail, city, country, message } = req.body;
     
     if (!amount || amount < 1) {
       return res.status(400).json({ error: 'Invalid donation amount' });
     }
 
+    if (!firstName || !lastName || !donorEmail) {
+      return res.status(400).json({ error: 'First name, last name, and email are required' });
+    }
+
     const amountInCents = Math.round(amount * 100);
+    const donorName = `${firstName} ${lastName}`;
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amountInCents,
       currency: 'usd',
       metadata: {
-        donorName: donorName || 'Anonymous',
-        donorEmail: donorEmail || '',
+        firstName: firstName,
+        lastName: lastName,
+        donorName: donorName,
+        donorEmail: donorEmail,
+        city: city || '',
+        country: country || '',
         message: message || '',
         type: 'donation'
       },
-      description: `Donation to QuranDeen.com${donorName ? ` from ${donorName}` : ''}`
+      description: `Donation to QuranDeen.com from ${donorName}`
     });
 
     res.json({ clientSecret: paymentIntent.client_secret });
@@ -975,17 +985,18 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
   }
 
   try {
-    const { amount, donorName, donorEmail, message } = req.body;
+    const { amount, firstName, lastName, donorEmail, city, country, message } = req.body;
     
     if (!amount || amount < 1) {
       return res.status(400).json({ error: 'Invalid donation amount' });
     }
 
-    if (!donorEmail) {
-      return res.status(400).json({ error: 'Email is required for monthly donations' });
+    if (!firstName || !lastName || !donorEmail) {
+      return res.status(400).json({ error: 'First name, last name, and email are required' });
     }
 
     const amountInCents = Math.round(amount * 100);
+    const donorName = `${firstName} ${lastName}`;
 
     let customer = await stripe.customers.list({ email: donorEmail, limit: 1 });
     if (customer.data.length > 0) {
@@ -993,9 +1004,13 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
     } else {
       customer = await stripe.customers.create({
         email: donorEmail,
-        name: donorName || undefined,
+        name: donorName,
         metadata: {
-          source: 'QuranDeen Donation'
+          source: 'QuranDeen Donation',
+          firstName: firstName,
+          lastName: lastName,
+          city: city || '',
+          country: country || ''
         }
       });
     }
@@ -1022,13 +1037,17 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
       customer: customer.id,
       setup_future_usage: 'off_session',
       metadata: {
-        donorName: donorName || 'Anonymous',
+        firstName: firstName,
+        lastName: lastName,
+        donorName: donorName,
         donorEmail: donorEmail,
+        city: city || '',
+        country: country || '',
         message: message || '',
         type: 'monthly_donation_initial',
         priceId: price.id
       },
-      description: `QuranDeen Monthly Donation - $${amount}/month${donorName ? ` from ${donorName}` : ''}`
+      description: `QuranDeen Monthly Donation - $${amount}/month from ${donorName}`
     });
 
     res.json({ 
@@ -1115,23 +1134,64 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
         const paymentIntent = event.data.object;
         const amount = paymentIntent.amount / 100;
         const metadata = paymentIntent.metadata || {};
+        const donationType = metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time';
+        
+        let userId = null;
+        if (metadata.donorEmail) {
+          const existingUser = await pool.query('SELECT id FROM users WHERE email = $1', [metadata.donorEmail]);
+          if (existingUser.rows.length > 0) {
+            userId = existingUser.rows[0].id;
+          } else {
+            const tempPassword = crypto.randomBytes(8).toString('hex');
+            const hashedPassword = await bcrypt.hash(tempPassword, 10);
+            const newUserId = crypto.randomUUID();
+            await pool.query(
+              `INSERT INTO users (id, name, email, password_hash, city, country, force_password_change) 
+               VALUES ($1, $2, $3, $4, $5, $6, true)`,
+              [newUserId, metadata.donorName || 'Donor', metadata.donorEmail, hashedPassword, metadata.city || null, metadata.country || null]
+            );
+            userId = newUserId;
+            await sendNewAccountEmail(metadata.donorEmail, tempPassword, metadata.firstName);
+            console.log('New user account created for donor:', metadata.donorEmail);
+          }
+        }
         
         await pool.query(
-          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, donor_name, donor_email, amount, currency, donation_type, status, message)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $8, updated_at = CURRENT_TIMESTAMP`,
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, message, user_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $12, updated_at = CURRENT_TIMESTAMP`,
           [
             paymentIntent.id,
             paymentIntent.customer,
             metadata.donorName || 'Anonymous',
             metadata.donorEmail || '',
+            metadata.firstName || '',
+            metadata.lastName || '',
+            metadata.city || '',
+            metadata.country || '',
             amount,
             paymentIntent.currency,
-            metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time',
+            donationType,
             'succeeded',
-            metadata.message || ''
+            metadata.message || '',
+            userId
           ]
         );
+        
+        const donationData = {
+          donor_email: metadata.donorEmail,
+          first_name: metadata.firstName,
+          last_name: metadata.lastName,
+          amount,
+          donation_type: donationType,
+          city: metadata.city,
+          country: metadata.country,
+          message: metadata.message,
+          created_at: new Date()
+        };
+        await sendDonationReceipt(donationData);
+        await sendAdminNotification(donationData);
+        
         console.log('Donation recorded:', paymentIntent.id);
         break;
       }
@@ -1232,6 +1292,131 @@ app.get('/api/admin/donations', authenticateToken, isAdmin, async (req, res) => 
   } catch (error) {
     console.error('Admin donations error:', error);
     res.status(500).json({ error: 'Failed to get donations' });
+  }
+});
+
+app.get('/api/user/donations', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM donations WHERE user_id = $1 OR donor_email = (SELECT email FROM users WHERE id = $1) ORDER BY created_at DESC`,
+      [req.user.id]
+    );
+    res.json({ data: result.rows });
+  } catch (error) {
+    console.error('User donations error:', error);
+    res.status(500).json({ error: 'Failed to get donations' });
+  }
+});
+
+app.get('/api/user/subscriptions', authenticateToken, async (req, res) => {
+  try {
+    const userResult = await pool.query('SELECT email FROM users WHERE id = $1', [req.user.id]);
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const userEmail = userResult.rows[0].email;
+
+    const result = await pool.query(
+      `SELECT DISTINCT ON (stripe_subscription_id) * FROM donations 
+       WHERE (user_id = $1 OR donor_email = $2) 
+       AND donation_type = 'monthly' 
+       AND stripe_subscription_id IS NOT NULL 
+       AND status != 'cancelled'
+       ORDER BY stripe_subscription_id, created_at DESC`,
+      [req.user.id, userEmail]
+    );
+
+    const subscriptions = await Promise.all(result.rows.map(async (row) => {
+      if (stripe && row.stripe_subscription_id) {
+        try {
+          const sub = await stripe.subscriptions.retrieve(row.stripe_subscription_id);
+          return {
+            ...row,
+            stripe_status: sub.status,
+            current_period_end: sub.current_period_end,
+            cancel_at_period_end: sub.cancel_at_period_end
+          };
+        } catch (e) {
+          return { ...row, stripe_status: 'unknown' };
+        }
+      }
+      return row;
+    }));
+
+    res.json({ data: subscriptions });
+  } catch (error) {
+    console.error('User subscriptions error:', error);
+    res.status(500).json({ error: 'Failed to get subscriptions' });
+  }
+});
+
+app.post('/api/user/subscriptions/:subscriptionId/cancel', authenticateToken, async (req, res) => {
+  try {
+    const { subscriptionId } = req.params;
+    
+    const userResult = await pool.query('SELECT email FROM users WHERE id = $1', [req.user.id]);
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const userEmail = userResult.rows[0].email;
+
+    const donationResult = await pool.query(
+      `SELECT * FROM donations 
+       WHERE stripe_subscription_id = $1 
+       AND (user_id = $2 OR donor_email = $3)`,
+      [subscriptionId, req.user.id, userEmail]
+    );
+
+    if (donationResult.rows.length === 0) {
+      return res.status(403).json({ error: 'Subscription not found or access denied' });
+    }
+
+    if (stripe) {
+      await stripe.subscriptions.cancel(subscriptionId);
+    }
+
+    await pool.query(
+      `UPDATE donations SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP 
+       WHERE stripe_subscription_id = $1`,
+      [subscriptionId]
+    );
+
+    await sendSubscriptionCancelledAdmin({
+      donor_email: donationResult.rows[0].donor_email,
+      amount: donationResult.rows[0].amount
+    });
+
+    res.json({ success: true, message: 'Subscription cancelled successfully' });
+  } catch (error) {
+    console.error('Cancel subscription error:', error);
+    res.status(500).json({ error: 'Failed to cancel subscription' });
+  }
+});
+
+app.get('/api/user/force-password-change', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT force_password_change FROM users WHERE id = $1', [req.user.id]);
+    res.json({ forcePasswordChange: result.rows[0]?.force_password_change || false });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to check password status' });
+  }
+});
+
+app.post('/api/user/complete-password-change', authenticateToken, async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await pool.query(
+      'UPDATE users SET password_hash = $1, force_password_change = false WHERE id = $2',
+      [hashedPassword, req.user.id]
+    );
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Password change error:', error);
+    res.status(500).json({ error: 'Failed to update password' });
   }
 });
 

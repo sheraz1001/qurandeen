@@ -282,6 +282,17 @@
   box-shadow: 0 0 0 3px rgba(26, 95, 60, 0.1);
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.required {
+  color: #dc3545;
+  font-weight: 600;
+}
+
 .form-input,
 .form-textarea {
   padding: 15px;

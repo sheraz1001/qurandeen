@@ -11,8 +11,11 @@ function DonateForm({ onSuccess }) {
   const elements = useElements();
   const [amount, setAmount] = useState(25);
   const [customAmount, setCustomAmount] = useState('');
-  const [donorName, setDonorName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [donorEmail, setDonorEmail] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [message, setMessage] = useState('');
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
@@ -43,8 +46,13 @@ function DonateForm({ onSuccess }) {
       return;
     }
 
-    if (donationType === 'monthly' && !donorEmail) {
-      setError('Email is required for monthly donations');
+    if (!firstName.trim() || !lastName.trim()) {
+      setError('First name and last name are required');
+      return;
+    }
+
+    if (!donorEmail.trim()) {
+      setError('Email address is required');
       return;
     }
 
@@ -55,8 +63,11 @@ function DonateForm({ onSuccess }) {
       if (donationType === 'monthly') {
         const { data } = await axios.post('/api/stripe/create-subscription', {
           amount: finalAmount,
-          donorName,
+          firstName,
+          lastName,
           donorEmail,
+          city,
+          country,
           message
         });
 
@@ -66,7 +77,7 @@ function DonateForm({ onSuccess }) {
             payment_method: {
               card: elements.getElement(CardElement),
               billing_details: {
-                name: donorName || undefined,
+                name: `${firstName} ${lastName}`,
                 email: donorEmail
               }
             }
@@ -88,8 +99,11 @@ function DonateForm({ onSuccess }) {
       } else {
         const { data } = await axios.post('/api/stripe/create-payment-intent', {
           amount: finalAmount,
-          donorName,
+          firstName,
+          lastName,
           donorEmail,
+          city,
+          country,
           message
         });
 
@@ -99,8 +113,8 @@ function DonateForm({ onSuccess }) {
             payment_method: {
               card: elements.getElement(CardElement),
               billing_details: {
-                name: donorName || undefined,
-                email: donorEmail || undefined
+                name: `${firstName} ${lastName}`,
+                email: donorEmail
               }
             }
           }
@@ -199,21 +213,49 @@ function DonateForm({ onSuccess }) {
       </div>
 
       <div className="form-section">
-        <label className="form-label">Your Information (Optional)</label>
-        <input
-          type="text"
-          placeholder="Your Name"
-          value={donorName}
-          onChange={(e) => setDonorName(e.target.value)}
-          className="form-input"
-        />
+        <label className="form-label">Your Information <span className="required">*</span></label>
+        <div className="form-row">
+          <input
+            type="text"
+            placeholder="First Name *"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="form-input"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Last Name *"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="form-input"
+            required
+          />
+        </div>
         <input
           type="email"
-          placeholder="Email Address"
+          placeholder="Email Address *"
           value={donorEmail}
           onChange={(e) => setDonorEmail(e.target.value)}
           className="form-input"
+          required
         />
+        <div className="form-row">
+          <input
+            type="text"
+            placeholder="City (optional)"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            className="form-input"
+          />
+          <input
+            type="text"
+            placeholder="Country (optional)"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="form-input"
+          />
+        </div>
         <textarea
           placeholder="Leave a message (optional)"
           value={message}

@@ -20,15 +20,97 @@ function Dashboard() {
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
   const [savingProfile, setSavingProfile] = useState(false);
   const [changingPassword, setChangingPassword] = useState(false);
+  
+  const [donations, setDonations] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [billingLoading, setBillingLoading] = useState(false);
+  const [cancellingSubscription, setCancellingSubscription] = useState(null);
+  const [forcePasswordChange, setForcePasswordChange] = useState(false);
+  const [newPasswordForce, setNewPasswordForce] = useState('');
+  const [confirmPasswordForce, setConfirmPasswordForce] = useState('');
+  const [forcePasswordError, setForcePasswordError] = useState('');
 
   useEffect(() => {
-    if (authLoading) return; // Wait for auth check to complete
+    if (authLoading) return;
     if (!user) {
       navigate('/login');
       return;
     }
     fetchData();
+    checkForcePasswordChange();
   }, [user, authLoading, navigate]);
+
+  useEffect(() => {
+    if (activeSection === 'billing') {
+      fetchBillingData();
+    }
+  }, [activeSection]);
+
+  const checkForcePasswordChange = async () => {
+    try {
+      const res = await axios.get('/api/user/force-password-change');
+      if (res.data.forcePasswordChange) {
+        setForcePasswordChange(true);
+      }
+    } catch (error) {
+      console.error('Error checking password status:', error);
+    }
+  };
+
+  const fetchBillingData = async () => {
+    setBillingLoading(true);
+    try {
+      const [donationsRes, subscriptionsRes] = await Promise.all([
+        axios.get('/api/user/donations'),
+        axios.get('/api/user/subscriptions')
+      ]);
+      setDonations(donationsRes.data.data || []);
+      setSubscriptions(subscriptionsRes.data.data || []);
+    } catch (error) {
+      console.error('Error fetching billing data:', error);
+    } finally {
+      setBillingLoading(false);
+    }
+  };
+
+  const handleCancelSubscription = async (subscriptionId) => {
+    if (!window.confirm('Are you sure you want to cancel this monthly donation? This action cannot be undone.')) {
+      return;
+    }
+    setCancellingSubscription(subscriptionId);
+    try {
+      await axios.post(`/api/user/subscriptions/${subscriptionId}/cancel`);
+      fetchBillingData();
+    } catch (error) {
+      console.error('Error cancelling subscription:', error);
+      alert('Failed to cancel subscription. Please try again.');
+    } finally {
+      setCancellingSubscription(null);
+    }
+  };
+
+  const handleForcePasswordSubmit = async (e) => {
+    e.preventDefault();
+    setForcePasswordError('');
+    
+    if (newPasswordForce !== confirmPasswordForce) {
+      setForcePasswordError('Passwords do not match');
+      return;
+    }
+    if (newPasswordForce.length < 6) {
+      setForcePasswordError('Password must be at least 6 characters');
+      return;
+    }
+    
+    try {
+      await axios.post('/api/user/complete-password-change', { newPassword: newPasswordForce });
+      setForcePasswordChange(false);
+      setNewPasswordForce('');
+      setConfirmPasswordForce('');
+    } catch (error) {
+      setForcePasswordError(error.response?.data?.error || 'Failed to change password');
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -174,6 +256,12 @@ function Dashboard() {
         <line x1="12" y1="8" x2="12.01" y2="8"/>
       </svg>
     )},
+    { id: 'billing', label: 'Billing & Donations', icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+        <line x1="1" y1="10" x2="23" y2="10"/>
+      </svg>
+    )},
   ];
 
   if (authLoading || loading) return <Loading />;
@@ -263,6 +351,7 @@ function Dashboard() {
               {activeSection === 'profile' && 'Edit Profile'}
               {activeSection === 'security' && 'Security Settings'}
               {activeSection === 'account' && 'Account Information'}
+              {activeSection === 'billing' && 'Billing & Donations'}
             </h1>
           </div>
           <div className="topbar-right">
@@ -816,8 +905,147 @@ function Dashboard() {
               </div>
             </div>
           )}
+
+          {activeSection === 'billing' && (
+            <div className="billing-section">
+              {billingLoading ? (
+                <div className="billing-loading">Loading billing information...</div>
+              ) : (
+                <>
+                  {subscriptions.length > 0 && (
+                    <div className="billing-card">
+                      <div className="card-header">
+                        <h2>Active Subscriptions</h2>
+                        <p>Manage your monthly donations</p>
+                      </div>
+                      <div className="subscriptions-list">
+                        {subscriptions.map((sub) => (
+                          <div key={sub.stripe_subscription_id} className="subscription-item">
+                            <div className="subscription-info">
+                              <span className="subscription-amount">${parseFloat(sub.amount).toFixed(2)}/month</span>
+                              <span className={`subscription-status ${sub.stripe_status || 'active'}`}>
+                                {sub.cancel_at_period_end ? 'Cancelling' : (sub.stripe_status || 'active')}
+                              </span>
+                            </div>
+                            <div className="subscription-details">
+                              {sub.current_period_end && (
+                                <span className="next-billing">
+                                  Next billing: {new Date(sub.current_period_end * 1000).toLocaleDateString()}
+                                </span>
+                              )}
+                            </div>
+                            {!sub.cancel_at_period_end && sub.stripe_status === 'active' && (
+                              <button 
+                                className="cancel-subscription-btn"
+                                onClick={() => handleCancelSubscription(sub.stripe_subscription_id)}
+                                disabled={cancellingSubscription === sub.stripe_subscription_id}
+                              >
+                                {cancellingSubscription === sub.stripe_subscription_id ? 'Cancelling...' : 'Cancel Subscription'}
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="billing-card">
+                    <div className="card-header">
+                      <h2>Donation History</h2>
+                      <p>Your contribution record</p>
+                    </div>
+                    {donations.length > 0 ? (
+                      <div className="donations-table-wrapper">
+                        <table className="donations-table">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Amount</th>
+                              <th>Type</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {donations.map((donation) => (
+                              <tr key={donation.id || donation.stripe_payment_id}>
+                                <td>{new Date(donation.created_at).toLocaleDateString()}</td>
+                                <td className="amount-cell">${parseFloat(donation.amount).toFixed(2)}</td>
+                                <td>
+                                  <span className={`donation-type-badge ${donation.donation_type}`}>
+                                    {donation.donation_type === 'monthly' ? 'Monthly' : 'One-Time'}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className={`status-badge ${donation.status}`}>
+                                    {donation.status}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="no-donations">
+                        <p>No donation history found.</p>
+                        <Link to="/donate" className="donate-link-btn">Make Your First Donation</Link>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="billing-info-card">
+                    <h3>JazakAllah Khair for Your Support</h3>
+                    <p>Your generous contributions help us maintain and improve QuranDeen.com, spreading the light of the Holy Quran to Muslims worldwide.</p>
+                    <Link to="/donate" className="donate-again-btn">Make Another Donation</Link>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </main>
+
+      {forcePasswordChange && (
+        <div className="force-password-modal-overlay">
+          <div className="force-password-modal">
+            <h2>Password Change Required</h2>
+            <p>For security reasons, please set a new password for your account.</p>
+            
+            {forcePasswordError && (
+              <div className="message error">{forcePasswordError}</div>
+            )}
+            
+            <form onSubmit={handleForcePasswordSubmit}>
+              <div className="form-group">
+                <label htmlFor="newPasswordForce">New Password</label>
+                <input
+                  type="password"
+                  id="newPasswordForce"
+                  value={newPasswordForce}
+                  onChange={(e) => setNewPasswordForce(e.target.value)}
+                  placeholder="Enter new password"
+                  className="form-input"
+                  required
+                  minLength={6}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirmPasswordForce">Confirm Password</label>
+                <input
+                  type="password"
+                  id="confirmPasswordForce"
+                  value={confirmPasswordForce}
+                  onChange={(e) => setConfirmPasswordForce(e.target.value)}
+                  placeholder="Confirm new password"
+                  className="form-input"
+                  required
+                />
+              </div>
+              <button type="submit" className="save-btn">Set New Password</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
