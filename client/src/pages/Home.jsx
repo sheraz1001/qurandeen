@@ -64,16 +64,22 @@ function Home() {
     setReadingHistory(history.slice(0, 5));
   };
 
-  const shareAyah = (platform, text, surahName, verseRef) => {
-    const shareText = `"${text}" - ${surahName} (${verseRef})`;
-    const url = window.location.origin;
+  const shareAyah = (platform, ayahData) => {
+    const { arabic, english, surahName, verseRef } = ayahData;
+    const url = 'https://qurandeen.com';
+    
+    // Full share text with Arabic, English, reference and website
+    const fullShareText = `${arabic}\n\n"${english}"\n\n— ${surahName} (${verseRef})\n\n${url}`;
+    
+    // Shorter version for Twitter (character limit)
+    const twitterText = `${arabic}\n\n"${english}"\n\n— ${surahName} (${verseRef})`;
     
     if (platform === 'twitter') {
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`, '_blank');
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(url)}`, '_blank');
     } else if (platform === 'whatsapp') {
-      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + url)}`, '_blank');
+      window.open(`https://wa.me/?text=${encodeURIComponent(fullShareText)}`, '_blank');
     } else if (platform === 'copy') {
-      navigator.clipboard.writeText(shareText);
+      navigator.clipboard.writeText(fullShareText);
       alert('Copied to clipboard!');
     }
   };
@@ -117,21 +123,36 @@ function Home() {
             <div className="share-buttons">
               <button 
                 className="share-btn"
-                onClick={() => shareAyah('twitter', dailyAyah.english, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
+                onClick={() => shareAyah('twitter', {
+                  arabic: dailyAyah.arabic,
+                  english: dailyAyah.english,
+                  surahName: dailyAyah.surah.englishName,
+                  verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
+                })}
                 title="Share on Twitter"
               >
                 𝕏
               </button>
               <button 
                 className="share-btn whatsapp"
-                onClick={() => shareAyah('whatsapp', dailyAyah.english, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
+                onClick={() => shareAyah('whatsapp', {
+                  arabic: dailyAyah.arabic,
+                  english: dailyAyah.english,
+                  surahName: dailyAyah.surah.englishName,
+                  verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
+                })}
                 title="Share on WhatsApp"
               >
                 💬
               </button>
               <button 
                 className="share-btn"
-                onClick={() => shareAyah('copy', `${dailyAyah.arabic}\n\n${dailyAyah.english}\n\n${dailyAyah.urdu}`, dailyAyah.surah.englishName, `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`)}
+                onClick={() => shareAyah('copy', {
+                  arabic: dailyAyah.arabic,
+                  english: dailyAyah.english,
+                  surahName: dailyAyah.surah.englishName,
+                  verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
+                })}
                 title="Copy to clipboard"
               >
                 📋
