@@ -1,6 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Ensure cookies are sent with all requests
+axios.defaults.withCredentials = true;
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -16,12 +19,14 @@ export function AuthProvider({ children }) {
       const token = localStorage.getItem('token');
       if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const response = await axios.get('/api/auth/me');
-        setUser(response.data.user);
       }
+      // Always try to check auth - cookies might be set from Google OAuth
+      const response = await axios.get('/api/auth/me', { withCredentials: true });
+      setUser(response.data.user);
     } catch (error) {
       localStorage.removeItem('token');
       delete axios.defaults.headers.common['Authorization'];
+      setUser(null);
     } finally {
       setLoading(false);
     }
