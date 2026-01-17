@@ -80,6 +80,165 @@ Start responses with "Bismillah ir-Rahman ir-Raheem" (In the name of Allah, the 
 
 app.set('trust proxy', 1);
 app.use(cors({ origin: true, credentials: true }));
+
+// Stripe webhook must be before express.json() to receive raw body
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    if (endpointSecret && sig) {
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } else {
+      event = JSON.parse(req.body.toString());
+    }
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  try {
+    switch (event.type) {
+      case 'payment_intent.succeeded': {
+        const paymentIntent = event.data.object;
+        const amount = paymentIntent.amount / 100;
+        const metadata = paymentIntent.metadata || {};
+        const donationType = metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time';
+        
+        let userId = null;
+        if (metadata.donorEmail) {
+          const existingUser = await pool.query('SELECT id FROM users WHERE email = $1', [metadata.donorEmail]);
+          if (existingUser.rows.length > 0) {
+            userId = existingUser.rows[0].id;
+          } else {
+            const tempPassword = crypto.randomBytes(8).toString('hex');
+            const hashedPassword = await bcrypt.hash(tempPassword, 10);
+            const newUserId = crypto.randomUUID();
+            await pool.query(
+              `INSERT INTO users (id, name, email, password_hash, city, country, force_password_change) 
+               VALUES ($1, $2, $3, $4, $5, $6, true)`,
+              [newUserId, metadata.donorName || 'Donor', metadata.donorEmail, hashedPassword, metadata.city || null, metadata.country || null]
+            );
+            userId = newUserId;
+            await sendNewAccountEmail(metadata.donorEmail, tempPassword, metadata.firstName);
+            console.log('New user account created for donor:', metadata.donorEmail);
+          }
+        }
+        
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, message, user_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $12, updated_at = CURRENT_TIMESTAMP`,
+          [
+            paymentIntent.id,
+            paymentIntent.customer,
+            metadata.donorName || 'Anonymous',
+            metadata.donorEmail || '',
+            metadata.firstName || '',
+            metadata.lastName || '',
+            metadata.city || '',
+            metadata.country || '',
+            amount,
+            paymentIntent.currency,
+            donationType,
+            'succeeded',
+            metadata.message || '',
+            userId
+          ]
+        );
+        
+        const donationData = {
+          donor_email: metadata.donorEmail,
+          first_name: metadata.firstName,
+          last_name: metadata.lastName,
+          amount,
+          donation_type: donationType,
+          city: metadata.city,
+          country: metadata.country,
+          message: metadata.message,
+          created_at: new Date()
+        };
+        await sendDonationReceipt(donationData);
+        await sendAdminNotification(donationData);
+        
+        console.log('Donation recorded:', paymentIntent.id);
+        break;
+      }
+      
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object;
+        if (invoice.subscription) {
+          const amount = invoice.amount_paid / 100;
+          await pool.query(
+            `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_email, amount, currency, donation_type, status)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+             ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $8, updated_at = CURRENT_TIMESTAMP`,
+            [
+              invoice.id,
+              invoice.customer,
+              invoice.subscription,
+              invoice.customer_email || '',
+              amount,
+              invoice.currency,
+              'monthly',
+              'succeeded'
+            ]
+          );
+          console.log('Subscription payment recorded:', invoice.id);
+        }
+        break;
+      }
+
+      case 'customer.subscription.created': {
+        const subscription = event.data.object;
+        console.log('Subscription created:', subscription.id);
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object;
+        await pool.query(
+          `UPDATE donations SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP 
+           WHERE stripe_subscription_id = $1`,
+          [subscription.id]
+        );
+        console.log('Subscription cancelled:', subscription.id);
+        break;
+      }
+
+      case 'payment_intent.payment_failed': {
+        const paymentIntent = event.data.object;
+        const metadata = paymentIntent.metadata || {};
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, donor_name, donor_email, amount, donation_type, status, message)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $6, updated_at = CURRENT_TIMESTAMP`,
+          [
+            paymentIntent.id,
+            metadata.donorName || 'Anonymous',
+            metadata.donorEmail || '',
+            paymentIntent.amount / 100,
+            metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time',
+            'failed',
+            metadata.message || ''
+          ]
+        );
+        break;
+      }
+
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    res.status(500).json({ error: 'Webhook processing failed' });
+  }
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -1108,163 +1267,6 @@ app.get('/api/stripe/payment-status/:paymentIntentId', async (req, res) => {
   } catch (error) {
     console.error('Stripe payment status error:', error);
     res.status(500).json({ error: 'Failed to get payment status' });
-  }
-});
-
-app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  let event;
-
-  try {
-    if (endpointSecret && sig) {
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-    } else {
-      event = JSON.parse(req.body.toString());
-    }
-  } catch (err) {
-    console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  try {
-    switch (event.type) {
-      case 'payment_intent.succeeded': {
-        const paymentIntent = event.data.object;
-        const amount = paymentIntent.amount / 100;
-        const metadata = paymentIntent.metadata || {};
-        const donationType = metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time';
-        
-        let userId = null;
-        if (metadata.donorEmail) {
-          const existingUser = await pool.query('SELECT id FROM users WHERE email = $1', [metadata.donorEmail]);
-          if (existingUser.rows.length > 0) {
-            userId = existingUser.rows[0].id;
-          } else {
-            const tempPassword = crypto.randomBytes(8).toString('hex');
-            const hashedPassword = await bcrypt.hash(tempPassword, 10);
-            const newUserId = crypto.randomUUID();
-            await pool.query(
-              `INSERT INTO users (id, name, email, password_hash, city, country, force_password_change) 
-               VALUES ($1, $2, $3, $4, $5, $6, true)`,
-              [newUserId, metadata.donorName || 'Donor', metadata.donorEmail, hashedPassword, metadata.city || null, metadata.country || null]
-            );
-            userId = newUserId;
-            await sendNewAccountEmail(metadata.donorEmail, tempPassword, metadata.firstName);
-            console.log('New user account created for donor:', metadata.donorEmail);
-          }
-        }
-        
-        await pool.query(
-          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, message, user_id)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $12, updated_at = CURRENT_TIMESTAMP`,
-          [
-            paymentIntent.id,
-            paymentIntent.customer,
-            metadata.donorName || 'Anonymous',
-            metadata.donorEmail || '',
-            metadata.firstName || '',
-            metadata.lastName || '',
-            metadata.city || '',
-            metadata.country || '',
-            amount,
-            paymentIntent.currency,
-            donationType,
-            'succeeded',
-            metadata.message || '',
-            userId
-          ]
-        );
-        
-        const donationData = {
-          donor_email: metadata.donorEmail,
-          first_name: metadata.firstName,
-          last_name: metadata.lastName,
-          amount,
-          donation_type: donationType,
-          city: metadata.city,
-          country: metadata.country,
-          message: metadata.message,
-          created_at: new Date()
-        };
-        await sendDonationReceipt(donationData);
-        await sendAdminNotification(donationData);
-        
-        console.log('Donation recorded:', paymentIntent.id);
-        break;
-      }
-      
-      case 'invoice.payment_succeeded': {
-        const invoice = event.data.object;
-        if (invoice.subscription) {
-          const amount = invoice.amount_paid / 100;
-          await pool.query(
-            `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_email, amount, currency, donation_type, status)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-             ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $8, updated_at = CURRENT_TIMESTAMP`,
-            [
-              invoice.id,
-              invoice.customer,
-              invoice.subscription,
-              invoice.customer_email || '',
-              amount,
-              invoice.currency,
-              'monthly',
-              'succeeded'
-            ]
-          );
-          console.log('Subscription payment recorded:', invoice.id);
-        }
-        break;
-      }
-
-      case 'customer.subscription.created': {
-        const subscription = event.data.object;
-        console.log('Subscription created:', subscription.id);
-        break;
-      }
-
-      case 'customer.subscription.deleted': {
-        const subscription = event.data.object;
-        await pool.query(
-          `UPDATE donations SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP 
-           WHERE stripe_subscription_id = $1`,
-          [subscription.id]
-        );
-        console.log('Subscription cancelled:', subscription.id);
-        break;
-      }
-
-      case 'payment_intent.payment_failed': {
-        const paymentIntent = event.data.object;
-        const metadata = paymentIntent.metadata || {};
-        await pool.query(
-          `INSERT INTO donations (stripe_payment_id, donor_name, donor_email, amount, donation_type, status, message)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)
-           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $6, updated_at = CURRENT_TIMESTAMP`,
-          [
-            paymentIntent.id,
-            metadata.donorName || 'Anonymous',
-            metadata.donorEmail || '',
-            paymentIntent.amount / 100,
-            metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time',
-            'failed',
-            metadata.message || ''
-          ]
-        );
-        break;
-      }
-
-      default:
-        console.log(`Unhandled event type: ${event.type}`);
-    }
-
-    res.json({ received: true });
-  } catch (error) {
-    console.error('Webhook processing error:', error);
-    res.status(500).json({ error: 'Webhook processing failed' });
   }
 });
 
