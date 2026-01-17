@@ -11,6 +11,8 @@ function AdminDashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [users, setUsers] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [donationStats, setDonationStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [editingBlog, setEditingBlog] = useState(null);
   const [blogForm, setBlogForm] = useState({ title: '', content: '', excerpt: '', published: false });
@@ -32,12 +34,15 @@ function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const [blogsRes, usersRes] = await Promise.all([
+      const [blogsRes, usersRes, donationsRes] = await Promise.all([
         axios.get('/api/admin/blogs'),
-        axios.get('/api/admin/users')
+        axios.get('/api/admin/users'),
+        axios.get('/api/admin/donations')
       ]);
       setBlogs(blogsRes.data.data || []);
       setUsers(usersRes.data.data || []);
+      setDonations(donationsRes.data.data || []);
+      setDonationStats(donationsRes.data.stats || {});
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -125,6 +130,11 @@ function AdminDashboard() {
         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
     )},
+    { id: 'donations', label: 'Donations', icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    )},
     { id: 'analytics', label: 'Analytics', icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M18 20V10"/>
@@ -145,6 +155,7 @@ function AdminDashboard() {
       case 'overview': return 'Admin Overview';
       case 'blogs': return 'Blog Management';
       case 'users': return 'User Management';
+      case 'donations': return 'Donation Management';
       case 'analytics': return 'Analytics';
       case 'settings': return 'Admin Settings';
       default: return 'Admin Dashboard';
@@ -576,6 +587,118 @@ function AdminDashboard() {
                             <span className={`role-badge ${u.role}`}>{u.role}</span>
                           </td>
                           <td>{new Date(u.created_at).toLocaleDateString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeSection === 'donations' && (
+            <div className="donations-section">
+              <div className="donation-stats-grid">
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Total Donations</h3>
+                    <p className="stat-value">${parseFloat(donationStats.total_amount || 0).toFixed(2)}</p>
+                  </div>
+                </div>
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 6v6l4 2"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>One-Time Donations</h3>
+                    <p className="stat-value">${parseFloat(donationStats.onetime_amount || 0).toFixed(2)}</p>
+                    <span className="stat-count">{donationStats.onetime_count || 0} donations</span>
+                  </div>
+                </div>
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8" y1="2" x2="8" y2="6"/>
+                      <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Monthly Subscriptions</h3>
+                    <p className="stat-value">${parseFloat(donationStats.monthly_amount || 0).toFixed(2)}</p>
+                    <span className="stat-count">{donationStats.monthly_count || 0} active</span>
+                  </div>
+                </div>
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Total Donors</h3>
+                    <p className="stat-value">{donationStats.total_count || 0}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="section-header">
+                <h2>Recent Donations</h2>
+              </div>
+              
+              {donations.length === 0 ? (
+                <div className="empty-state">
+                  <div className="empty-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </div>
+                  <h3>No Donations Yet</h3>
+                  <p>Donations will appear here once they are received via Stripe webhook</p>
+                </div>
+              ) : (
+                <div className="donations-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Donor</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {donations.map((d) => (
+                        <tr key={d.id}>
+                          <td className="donor-cell">
+                            <div className="donor-avatar">{(d.donor_name || d.donor_email || 'A')[0].toUpperCase()}</div>
+                            <div className="donor-info">
+                              <span className="donor-name">{d.donor_name || 'Anonymous'}</span>
+                              <span className="donor-email">{d.donor_email || '-'}</span>
+                            </div>
+                          </td>
+                          <td className="amount-cell">${parseFloat(d.amount).toFixed(2)}</td>
+                          <td>
+                            <span className={`type-badge ${d.donation_type}`}>
+                              {d.donation_type === 'monthly' ? 'Monthly' : 'One-Time'}
+                            </span>
+                          </td>
+                          <td>
+                            <span className={`status-badge ${d.status}`}>{d.status}</span>
+                          </td>
+                          <td className="message-cell">{d.message || '-'}</td>
+                          <td>{new Date(d.created_at).toLocaleDateString()}</td>
                         </tr>
                       ))}
                     </tbody>

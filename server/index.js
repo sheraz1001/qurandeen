@@ -1092,6 +1092,149 @@ app.get('/api/stripe/payment-status/:paymentIntentId', async (req, res) => {
   }
 });
 
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    if (endpointSecret && sig) {
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } else {
+      event = JSON.parse(req.body.toString());
+    }
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  try {
+    switch (event.type) {
+      case 'payment_intent.succeeded': {
+        const paymentIntent = event.data.object;
+        const amount = paymentIntent.amount / 100;
+        const metadata = paymentIntent.metadata || {};
+        
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, donor_name, donor_email, amount, currency, donation_type, status, message)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $8, updated_at = CURRENT_TIMESTAMP`,
+          [
+            paymentIntent.id,
+            paymentIntent.customer,
+            metadata.donorName || 'Anonymous',
+            metadata.donorEmail || '',
+            amount,
+            paymentIntent.currency,
+            metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time',
+            'succeeded',
+            metadata.message || ''
+          ]
+        );
+        console.log('Donation recorded:', paymentIntent.id);
+        break;
+      }
+      
+      case 'invoice.payment_succeeded': {
+        const invoice = event.data.object;
+        if (invoice.subscription) {
+          const amount = invoice.amount_paid / 100;
+          await pool.query(
+            `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_email, amount, currency, donation_type, status)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+             ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $8, updated_at = CURRENT_TIMESTAMP`,
+            [
+              invoice.id,
+              invoice.customer,
+              invoice.subscription,
+              invoice.customer_email || '',
+              amount,
+              invoice.currency,
+              'monthly',
+              'succeeded'
+            ]
+          );
+          console.log('Subscription payment recorded:', invoice.id);
+        }
+        break;
+      }
+
+      case 'customer.subscription.created': {
+        const subscription = event.data.object;
+        console.log('Subscription created:', subscription.id);
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object;
+        await pool.query(
+          `UPDATE donations SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP 
+           WHERE stripe_subscription_id = $1`,
+          [subscription.id]
+        );
+        console.log('Subscription cancelled:', subscription.id);
+        break;
+      }
+
+      case 'payment_intent.payment_failed': {
+        const paymentIntent = event.data.object;
+        const metadata = paymentIntent.metadata || {};
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, donor_name, donor_email, amount, donation_type, status, message)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $6, updated_at = CURRENT_TIMESTAMP`,
+          [
+            paymentIntent.id,
+            metadata.donorName || 'Anonymous',
+            metadata.donorEmail || '',
+            paymentIntent.amount / 100,
+            metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time',
+            'failed',
+            metadata.message || ''
+          ]
+        );
+        break;
+      }
+
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    res.status(500).json({ error: 'Webhook processing failed' });
+  }
+});
+
+app.get('/api/admin/donations', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM donations ORDER BY created_at DESC LIMIT 100`
+    );
+    
+    const stats = await pool.query(`
+      SELECT 
+        COUNT(*) as total_count,
+        COALESCE(SUM(CASE WHEN status = 'succeeded' THEN amount ELSE 0 END), 0) as total_amount,
+        COUNT(CASE WHEN donation_type = 'monthly' AND status = 'succeeded' THEN 1 END) as monthly_count,
+        COUNT(CASE WHEN donation_type = 'one_time' AND status = 'succeeded' THEN 1 END) as onetime_count,
+        COALESCE(SUM(CASE WHEN donation_type = 'monthly' AND status = 'succeeded' THEN amount ELSE 0 END), 0) as monthly_amount,
+        COALESCE(SUM(CASE WHEN donation_type = 'one_time' AND status = 'succeeded' THEN amount ELSE 0 END), 0) as onetime_amount
+      FROM donations
+    `);
+
+    res.json({ 
+      data: result.rows,
+      stats: stats.rows[0]
+    });
+  } catch (error) {
+    console.error('Admin donations error:', error);
+    res.status(500).json({ error: 'Failed to get donations' });
+  }
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
