@@ -2398,6 +2398,17 @@
   color: var(--text-secondary);
 }
 
+.location-cell {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.location-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .amount-cell {
   font-weight: 700;
   color: #1a5f3c;

@@ -670,7 +670,8 @@ function AdminDashboard() {
                   <table>
                     <thead>
                       <tr>
-                        <th>Donor</th>
+                        <th>Donor Details</th>
+                        <th>Location</th>
                         <th>Amount</th>
                         <th>Type</th>
                         <th>Status</th>
@@ -682,11 +683,22 @@ function AdminDashboard() {
                       {donations.map((d) => (
                         <tr key={d.id}>
                           <td className="donor-cell">
-                            <div className="donor-avatar">{(d.donor_name || d.donor_email || 'A')[0].toUpperCase()}</div>
+                            <div className="donor-avatar">{(d.first_name || d.donor_name || d.donor_email || 'A')[0].toUpperCase()}</div>
                             <div className="donor-info">
-                              <span className="donor-name">{d.donor_name || 'Anonymous'}</span>
+                              <span className="donor-name">
+                                {d.first_name && d.last_name 
+                                  ? `${d.first_name} ${d.last_name}` 
+                                  : d.donor_name || 'Anonymous'}
+                              </span>
                               <span className="donor-email">{d.donor_email || '-'}</span>
                             </div>
+                          </td>
+                          <td className="location-cell">
+                            {d.city || d.country ? (
+                              <span className="location-text">
+                                {[d.city, d.country].filter(Boolean).join(', ')}
+                              </span>
+                            ) : '-'}
                           </td>
                           <td className="amount-cell">${parseFloat(d.amount).toFixed(2)}</td>
                           <td>

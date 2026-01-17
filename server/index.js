@@ -178,27 +178,156 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
         break;
       }
       
-      case 'invoice.payment_succeeded': {
+      case 'invoice.payment_succeeded':
+      case 'invoice_payment.paid': {
         const invoice = event.data.object;
-        if (invoice.subscription) {
-          const amount = invoice.amount_paid / 100;
-          await pool.query(
-            `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_email, amount, currency, donation_type, status)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-             ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $8, updated_at = CURRENT_TIMESTAMP`,
-            [
-              invoice.id,
-              invoice.customer,
-              invoice.subscription,
-              invoice.customer_email || '',
-              amount,
-              invoice.currency,
-              'monthly',
-              'succeeded'
-            ]
-          );
-          console.log('Subscription payment recorded:', invoice.id);
+        const amount = (invoice.amount_paid || invoice.total) / 100;
+        const customerEmail = invoice.customer_email || '';
+        
+        // Get customer details from Stripe if available
+        let customerDetails = {};
+        if (invoice.customer) {
+          try {
+            const customer = await stripe.customers.retrieve(invoice.customer);
+            customerDetails = customer.metadata || {};
+          } catch (e) {
+            console.log('Could not retrieve customer details:', e.message);
+          }
         }
+        
+        // Check/create user account for the donor
+        let userId = null;
+        if (customerEmail) {
+          const existingUser = await pool.query('SELECT id FROM users WHERE email = $1', [customerEmail]);
+          if (existingUser.rows.length > 0) {
+            userId = existingUser.rows[0].id;
+          } else {
+            // Create new account for this donor
+            const tempPassword = crypto.randomBytes(8).toString('hex');
+            const hashedPassword = await bcrypt.hash(tempPassword, 10);
+            const newUserId = crypto.randomUUID();
+            const donorName = customerDetails.donorName || invoice.customer_name || 'Donor';
+            await pool.query(
+              `INSERT INTO users (id, name, email, password_hash, city, country, force_password_change) 
+               VALUES ($1, $2, $3, $4, $5, $6, true)`,
+              [newUserId, donorName, customerEmail, hashedPassword, customerDetails.city || null, customerDetails.country || null]
+            );
+            userId = newUserId;
+            await sendNewAccountEmail(customerEmail, tempPassword, customerDetails.firstName || donorName.split(' ')[0]);
+            console.log('New user account created for invoice donor:', customerEmail);
+          }
+        }
+        
+        const donationType = invoice.subscription ? 'monthly' : 'one_time';
+        
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, user_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $13, updated_at = CURRENT_TIMESTAMP`,
+          [
+            invoice.id,
+            invoice.customer,
+            invoice.subscription || null,
+            customerDetails.donorName || invoice.customer_name || 'Anonymous',
+            customerEmail,
+            customerDetails.firstName || '',
+            customerDetails.lastName || '',
+            customerDetails.city || '',
+            customerDetails.country || '',
+            amount,
+            invoice.currency,
+            donationType,
+            'succeeded',
+            userId
+          ]
+        );
+        
+        // Send email notifications
+        const donationData = {
+          donor_email: customerEmail,
+          first_name: customerDetails.firstName || invoice.customer_name?.split(' ')[0] || 'Donor',
+          last_name: customerDetails.lastName || '',
+          amount,
+          donation_type: donationType,
+          city: customerDetails.city || '',
+          country: customerDetails.country || '',
+          message: customerDetails.message || '',
+          created_at: new Date()
+        };
+        await sendDonationReceipt(donationData);
+        await sendAdminNotification(donationData);
+        
+        console.log('Invoice payment recorded:', invoice.id, 'Event type:', event.type);
+        break;
+      }
+      
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        const metadata = session.metadata || {};
+        const amount = session.amount_total / 100;
+        const customerEmail = session.customer_email || session.customer_details?.email || '';
+        
+        // Check/create user account
+        let userId = null;
+        if (customerEmail) {
+          const existingUser = await pool.query('SELECT id FROM users WHERE email = $1', [customerEmail]);
+          if (existingUser.rows.length > 0) {
+            userId = existingUser.rows[0].id;
+          } else {
+            const tempPassword = crypto.randomBytes(8).toString('hex');
+            const hashedPassword = await bcrypt.hash(tempPassword, 10);
+            const newUserId = crypto.randomUUID();
+            await pool.query(
+              `INSERT INTO users (id, name, email, password_hash, city, country, force_password_change) 
+               VALUES ($1, $2, $3, $4, $5, $6, true)`,
+              [newUserId, metadata.donorName || 'Donor', customerEmail, hashedPassword, metadata.city || null, metadata.country || null]
+            );
+            userId = newUserId;
+            await sendNewAccountEmail(customerEmail, tempPassword, metadata.firstName || 'Donor');
+            console.log('New user account created for checkout donor:', customerEmail);
+          }
+        }
+        
+        const donationType = session.mode === 'subscription' ? 'monthly' : 'one_time';
+        
+        await pool.query(
+          `INSERT INTO donations (stripe_payment_id, stripe_customer_id, stripe_subscription_id, donor_name, donor_email, first_name, last_name, city, country, amount, currency, donation_type, status, message, user_id)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+           ON CONFLICT (stripe_payment_id) DO UPDATE SET status = $13, updated_at = CURRENT_TIMESTAMP`,
+          [
+            session.id,
+            session.customer,
+            session.subscription || null,
+            metadata.donorName || 'Anonymous',
+            customerEmail,
+            metadata.firstName || '',
+            metadata.lastName || '',
+            metadata.city || '',
+            metadata.country || '',
+            amount,
+            session.currency,
+            donationType,
+            'succeeded',
+            metadata.message || '',
+            userId
+          ]
+        );
+        
+        const donationData = {
+          donor_email: customerEmail,
+          first_name: metadata.firstName || 'Donor',
+          last_name: metadata.lastName || '',
+          amount,
+          donation_type: donationType,
+          city: metadata.city || '',
+          country: metadata.country || '',
+          message: metadata.message || '',
+          created_at: new Date()
+        };
+        await sendDonationReceipt(donationData);
+        await sendAdminNotification(donationData);
+        
+        console.log('Checkout session completed:', session.id);
         break;
       }
 
@@ -1176,8 +1305,11 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
           source: 'QuranDeen Donation',
           firstName: firstName,
           lastName: lastName,
+          donorName: donorName,
+          donorEmail: donorEmail,
           city: city || '',
-          country: country || ''
+          country: country || '',
+          message: message || ''
         }
       });
     }
