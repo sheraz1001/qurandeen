@@ -1836,15 +1836,44 @@ body {
 
 .footer-bottom .footer-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.5rem 1rem;
 }
 
 .copyright {
   color: var(--text-secondary);
   font-size: 0.875rem;
+}
+
+.footer-legal-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-legal-links .separator {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.footer-legal-links .legal-link {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-legal-links .legal-link:hover {
+  color: var(--accent);
 }
 
 .api-credit {

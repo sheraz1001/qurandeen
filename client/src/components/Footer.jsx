@@ -106,9 +106,16 @@ function Footer() {
 
       <div className="footer-bottom">
         <div className="footer-container">
-          <p className="copyright">
-            &copy; {currentYear} QuranDeen.com. All rights reserved.
-          </p>
+          <div className="footer-bottom-content">
+            <p className="copyright">
+              &copy; {currentYear} QuranDeen.com. All rights reserved.
+            </p>
+            <div className="footer-legal-links">
+              <Link to="/privacy" className="legal-link">Privacy Policy</Link>
+              <span className="separator">|</span>
+              <Link to="/terms" className="legal-link">Terms of Use</Link>
+            </div>
+          </div>
           <p className="api-credit">
             Developed by <a href="https://webmaster.ae" target="_blank" rel="noopener noreferrer">Webmaster Technology</a>
           </p>
