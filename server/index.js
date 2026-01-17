@@ -12,7 +12,7 @@ import crypto from 'crypto';
 import OpenAI from 'openai';
 import { OAuth2Client } from 'google-auth-library';
 import Stripe from 'stripe';
-import { sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin } from './emailService.js';
+import { sendEmail, sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin } from './emailService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1417,6 +1417,45 @@ app.post('/api/user/complete-password-change', authenticateToken, async (req, re
   } catch (error) {
     console.error('Password change error:', error);
     res.status(500).json({ error: 'Failed to update password' });
+  }
+});
+
+app.post('/api/admin/test-email', authenticateToken, isAdmin, async (req, res) => {
+  const { to } = req.body;
+  if (!to) {
+    return res.status(400).json({ error: 'Email address required' });
+  }
+  
+  const html = `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div style="background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <h1 style="margin: 0;">QuranDeen Email Test</h1>
+      </div>
+      <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+        <p>Assalamu Alaikum!</p>
+        <p>This is a test email from <strong>QuranDeen.com</strong>.</p>
+        <p>If you received this email, your email service is configured correctly and working properly.</p>
+        <p style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #1a5f3c;">
+          <strong>Email Configuration:</strong><br>
+          Server: ${process.env.SMTP_HOST}<br>
+          Port: ${process.env.SMTP_PORT}<br>
+          From: ${process.env.FROM_EMAIL}
+        </p>
+        <p style="color: #666; font-size: 14px; margin-top: 20px;">QuranDeen.com - Spreading the Light of the Holy Quran</p>
+      </div>
+    </div>
+  `;
+  
+  try {
+    const result = await sendEmail(to, 'QuranDeen Email Test - Configuration Successful', html, 'This is a test email from QuranDeen.com. Your email service is configured correctly.');
+    if (result) {
+      res.json({ success: true, message: `Test email sent successfully to ${to}` });
+    } else {
+      res.status(500).json({ error: 'Email service not configured or failed to send' });
+    }
+  } catch (error) {
+    console.error('Test email error:', error);
+    res.status(500).json({ error: error.message || 'Failed to send test email' });
   }
 });
 

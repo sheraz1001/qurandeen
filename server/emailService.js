@@ -12,14 +12,20 @@ let transporter = null;
 if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
   transporter = nodemailer.createTransport({
     host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_PORT == 465,
+    port: parseInt(SMTP_PORT),
+    secure: parseInt(SMTP_PORT) === 465,
     auth: {
       user: SMTP_USER,
       pass: SMTP_PASS
-    }
+    },
+    tls: {
+      rejectUnauthorized: false
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000
   });
-  console.log('Email service configured');
+  console.log('Email service configured with host:', SMTP_HOST, 'port:', SMTP_PORT);
 } else {
   console.log('Email service not configured. Set SMTP_HOST, SMTP_USER, SMTP_PASS to enable emails.');
 }
