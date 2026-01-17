@@ -12,7 +12,7 @@ import crypto from 'crypto';
 import OpenAI from 'openai';
 import { OAuth2Client } from 'google-auth-library';
 import Stripe from 'stripe';
-import { sendEmail, sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin } from './emailService.js';
+import { sendEmail, sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin, sendPasswordResetEmail, sendAdminPasswordChangeNotification } from './emailService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -474,6 +474,96 @@ app.post('/api/auth/logout', (req, res) => {
   res.json({ message: 'Logged out successfully' });
 });
 
+// Password Reset - Request
+app.post('/api/auth/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const result = await pool.query('SELECT id, name FROM users WHERE email = $1', [email]);
+    
+    // Always return success to prevent email enumeration
+    if (result.rows.length === 0) {
+      return res.json({ message: 'If an account exists with this email, a password reset link will be sent.' });
+    }
+
+    const user = result.rows[0];
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetExpires = new Date(Date.now() + 3600000); // 1 hour
+
+    await pool.query(
+      'UPDATE users SET reset_token = $1, reset_token_expires = $2 WHERE id = $3',
+      [resetToken, resetExpires, user.id]
+    );
+
+    await sendPasswordResetEmail(email, resetToken, user.name?.split(' ')[0]);
+
+    res.json({ message: 'If an account exists with this email, a password reset link will be sent.' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Failed to process request' });
+  }
+});
+
+// Password Reset - Verify Token
+app.get('/api/auth/reset-password/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    
+    const result = await pool.query(
+      'SELECT id, email FROM users WHERE reset_token = $1 AND reset_token_expires > NOW()',
+      [token]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ error: 'Invalid or expired reset token' });
+    }
+
+    res.json({ valid: true, email: result.rows[0].email });
+  } catch (error) {
+    console.error('Token verification error:', error);
+    res.status(500).json({ error: 'Failed to verify token' });
+  }
+});
+
+// Password Reset - Set New Password
+app.post('/api/auth/reset-password', async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    
+    if (!token || !password) {
+      return res.status(400).json({ error: 'Token and password are required' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    const result = await pool.query(
+      'SELECT id FROM users WHERE reset_token = $1 AND reset_token_expires > NOW()',
+      [token]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ error: 'Invalid or expired reset token' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    
+    await pool.query(
+      'UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expires = NULL, force_password_change = false WHERE id = $2',
+      [passwordHash, result.rows[0].id]
+    );
+
+    res.json({ message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({ error: 'Failed to reset password' });
+  }
+});
+
 app.get('/api/auth/google', (req, res) => {
   if (!googleOAuthClient) {
     return res.status(503).json({ error: 'Google OAuth not configured' });
@@ -860,6 +950,81 @@ app.get('/api/admin/users', authenticateToken, isAdmin, async (req, res) => {
   } catch (error) {
     console.error('Admin users error:', error);
     res.status(500).json({ error: 'Failed to get users' });
+  }
+});
+
+// Admin - Update user
+app.put('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { name, email, city, country, role } = req.body;
+    const userId = req.params.id;
+
+    // Prevent admin from changing their own role
+    if (userId === req.user.id && role !== 'admin') {
+      return res.status(400).json({ error: 'Cannot change your own admin role' });
+    }
+
+    const result = await pool.query(
+      `UPDATE users SET name = $1, email = $2, city = $3, country = $4, role = $5, updated_at = CURRENT_TIMESTAMP 
+       WHERE id = $6 RETURNING id, name, email, city, country, role`,
+      [name, email, city || null, country || null, role, userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ data: result.rows[0], message: 'User updated successfully' });
+  } catch (error) {
+    console.error('Update user error:', error);
+    res.status(500).json({ error: 'Failed to update user' });
+  }
+});
+
+// Admin - Delete user
+app.delete('/api/admin/users/:id', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Prevent admin from deleting themselves
+    if (userId === req.user.id) {
+      return res.status(400).json({ error: 'Cannot delete your own account' });
+    }
+
+    await pool.query('DELETE FROM users WHERE id = $1', [userId]);
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Delete user error:', error);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
+// Admin - Reset user password
+app.post('/api/admin/users/:id/reset-password', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    
+    const userResult = await pool.query('SELECT email, name FROM users WHERE id = $1', [userId]);
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const user = userResult.rows[0];
+    const newPassword = crypto.randomBytes(8).toString('hex');
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+
+    await pool.query(
+      'UPDATE users SET password_hash = $1, force_password_change = true WHERE id = $2',
+      [passwordHash, userId]
+    );
+
+    // Send email with new password
+    await sendAdminPasswordChangeNotification(user.email, user.name?.split(' ')[0], newPassword);
+
+    res.json({ message: 'Password reset successfully. New password sent to user via email.' });
+  } catch (error) {
+    console.error('Admin password reset error:', error);
+    res.status(500).json({ error: 'Failed to reset password' });
   }
 });
 

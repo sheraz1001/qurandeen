@@ -203,10 +203,109 @@ async function sendSubscriptionCancelledAdmin(subscription) {
   return sendEmail(ADMIN_EMAIL, 'Subscription Cancelled', html, html);
 }
 
+async function sendPasswordResetEmail(email, resetToken, firstName) {
+  const resetLink = `https://qurandeen.com/reset-password?token=${resetToken}`;
+  
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+        .button { display: inline-block; background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+        .footer { text-align: center; color: #666; font-size: 14px; margin-top: 20px; }
+        .warning { background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 8px; margin: 20px 0; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>Password Reset Request</h1>
+        </div>
+        <div class="content">
+          <p>Assalamu Alaikum ${firstName || 'Dear User'},</p>
+          
+          <p>We received a request to reset the password for your QuranDeen account. Click the button below to set a new password:</p>
+          
+          <p style="text-align: center;">
+            <a href="${resetLink}" class="button">Reset Your Password</a>
+          </p>
+          
+          <div class="warning">
+            <strong>Important:</strong> This link will expire in 1 hour. If you did not request a password reset, please ignore this email - your account is safe.
+          </div>
+          
+          <p>If the button doesn't work, copy and paste this link into your browser:</p>
+          <p style="word-break: break-all; color: #1a5f3c;">${resetLink}</p>
+          
+          <div class="footer">
+            <p>QuranDeen.com - Read, Listen & Learn the Holy Quran</p>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `Password Reset Request\n\nAssalamu Alaikum ${firstName || 'Dear User'},\n\nWe received a request to reset your password. Visit this link to reset it:\n\n${resetLink}\n\nThis link expires in 1 hour.\n\nIf you did not request this, please ignore this email.\n\nQuranDeen.com`;
+
+  return sendEmail(email, 'Reset Your QuranDeen Password', html, text);
+}
+
+async function sendAdminPasswordChangeNotification(email, firstName, newPassword) {
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+        .credentials { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+        .password { font-size: 24px; font-weight: bold; color: #1a5f3c; font-family: monospace; }
+        .button { display: inline-block; background: linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>Your Password Has Been Changed</h1>
+        </div>
+        <div class="content">
+          <p>Assalamu Alaikum ${firstName || 'Dear User'},</p>
+          
+          <p>Your QuranDeen account password has been changed by an administrator. Here is your new password:</p>
+          
+          <div class="credentials">
+            <p class="password">${newPassword}</p>
+          </div>
+          
+          <p>Please login with this new password and change it to something you can remember.</p>
+          
+          <p style="text-align: center;">
+            <a href="https://qurandeen.com/login" class="button">Login Now</a>
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `Your Password Has Been Changed\n\nYour QuranDeen password has been changed by an administrator.\n\nNew Password: ${newPassword}\n\nPlease login and change it.\n\nQuranDeen.com`;
+
+  return sendEmail(email, 'Your QuranDeen Password Has Been Changed', html, text);
+}
+
 export {
   sendEmail,
   sendDonationReceipt,
   sendNewAccountEmail,
   sendAdminNotification,
-  sendSubscriptionCancelledAdmin
+  sendSubscriptionCancelledAdmin,
+  sendPasswordResetEmail,
+  sendAdminPasswordChangeNotification
 };

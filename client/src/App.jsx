@@ -20,6 +20,8 @@ import NamesOfAllah from './pages/tools/NamesOfAllah';
 import HadithOfDay from './pages/tools/HadithOfDay';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import { BlogList, BlogPost } from './pages/Blog';
@@ -137,6 +139,8 @@ function App() {
             <Route path="/tools/hadith-of-day" element={<HadithOfDay />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/blog" element={<BlogList />} />
