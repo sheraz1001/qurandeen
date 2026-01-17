@@ -81,7 +81,18 @@ Start responses with "Bismillah ir-Rahman ir-Raheem" (In the name of Allah, the 
 app.set('trust proxy', 1);
 app.use(cors({ origin: true, credentials: true }));
 
-// Stripe webhook must be before express.json() to receive raw body
+// Use JSON parser for all routes EXCEPT the webhook
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/stripe/webhook') {
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+});
+
+app.use(cookieParser());
+
+// Stripe webhook with raw body parser
 app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -238,9 +249,6 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
     res.status(500).json({ error: 'Webhook processing failed' });
   }
 });
-
-app.use(express.json());
-app.use(cookieParser());
 
 // Auth middleware
 const authenticateToken = (req, res, next) => {
