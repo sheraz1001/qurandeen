@@ -94,11 +94,19 @@ A marketplace connecting Quran teachers with students worldwide, similar to Prep
 - `/book-class/:id` - Book a class with a teacher (4-step with payment)
 
 **Implemented Features:**
-- Student Dashboard with upcoming classes, subscriptions, payment history, and messages
-- Booking System with package selection, date/time picker, and Stripe payment integration
+- Student Dashboard with upcoming classes, subscriptions, payment history, and messages interface
+- Booking System with 4-step flow: package selection → date/time picker → review → Stripe payment
 - Payment Processing with 20% platform / 80% teacher commission split
-- Review System allowing students to rate teachers after completed classes
-- Teacher Booking Management (confirm, complete bookings)
+- Review System allowing students to rate teachers after completed classes (updates teacher rating)
+- Teacher Booking Management (view, confirm, complete bookings)
+- Race Condition Protection:
+  - Pre-validation in payment intent creation (checks availability before Stripe is called)
+  - Database unique constraint on `(teacher_id, scheduled_at)` for active bookings
+  - Automatic Stripe refund if booking conflict occurs during confirmation
+
+**Future Enhancements:**
+- Consider Stripe manual capture (hold payment, only capture after booking confirmed) for even tighter race-condition control
+- Reservation/hold system that locks a timeslot before payment is initiated
 
 **Pending Features:**
 - Jitsi Meet video integration for live classes
