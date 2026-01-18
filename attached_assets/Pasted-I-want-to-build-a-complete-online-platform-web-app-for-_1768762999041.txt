@@ -1,0 +1,79 @@
+I want to build a complete online platform (web app) for Quran teaching classes, similar to platforms like Preply, Italki or Outschool but focused only on Quran studies.
+
+Main concept / business model:
+- Teachers from all over the world can create their own profile and offer online Quran classes
+- Students from anywhere can browse teachers, see their profiles, and subscribe/book classes
+- We (the platform) take 20% commission on every payment, and the teacher receives 80%
+- Platform name idea: "Quran Deen" or "Deen Quran Academy" (you can suggest better names)
+
+Key features needed:
+
+1. User Roles
+   - Students (learners)
+   - Teachers (Quran tutors)
+   - Admin (us – platform owners)
+
+2. Teacher Profile (very important – should be detailed)
+   - Full name, profile photo, country/location
+   - Languages spoken (Arabic, English, Urdu, Indonesian, French, etc.)
+   - Years of experience + Ijazah/certificates (upload option)
+   - Available teaching timings (time zone aware – show availability calendar)
+   - Teaching style / specialties (Tajweed, Qiraat, Translation/Tafseer, Hifz/memorization, Noorani Qaida for kids, etc.)
+   - Bio / about section
+   - Hourly rate or package prices (set by teacher)
+   - Rating & reviews from students
+   - Number of students taught + total hours taught
+
+3. Class/Teaching Types (teachers can offer multiple)
+   - Quran reading with Tajweed
+   - Quran with translation (Tarjuma)
+   - Tafsir (explanation) – e.g. Tafsir Ibn Kathir, Jalalayn
+   - Hifz / memorization
+   - Noorani Qaida / basics for beginners & kids
+   - Revision / Nazra
+   - One-to-one live classes (via integrated video)
+
+4. Pricing & Subscription Plans (students subscribe to teacher)
+   - Teachers can create different plans/packages, examples:
+     - Weekly plan (e.g. 4 classes/week)
+     - Monthly plan (8–16 classes)
+     - Quarterly plan
+     - Yearly plan
+   - Or per-class / pay-per-session option
+   - Different prices for different services (Tajweed vs Hifz vs Tafsir)
+
+5. Payment & Commission
+   - Students pay through platform (Stripe or similar integration)
+   - Platform automatically keeps 20% commission
+   - 80% goes to teacher’s connected payout account
+   - Show clear breakdown in receipts
+
+6. Booking & Scheduling
+   - Teachers set their weekly availability (Google Calendar style)
+   - Students see real-time available slots
+   - Book & pay for package or single class
+   - Video classes (integrate Zoom, Jitsi, or Whereby – simple & free option preferred)
+
+7. Other important features
+   - Student dashboard: upcoming classes, past recordings (if teacher allows), progress notes
+   - Teacher dashboard: earnings, students list, schedule, reviews
+   - Search & filter: by teacher country, language, price, specialty, rating
+   - Reviews & star ratings after classes
+   - Basic admin panel to verify teachers (approve Ijazah, block users, see earnings report)
+
+Tech stack suggestion (use what works best & fastest in Replit):
+- Frontend: React.js or Next.js
+- Backend: Node.js + Express
+- Database: PostgreSQL or MongoDB
+- Authentication: Clerk, Auth0 or Supabase Auth
+- Payments: Stripe
+- Video: Jitsi Meet (open source) or Zoom API
+- File uploads: for certificates/photos
+- Timezone handling: important (use luxon or date-fns-tz)
+
+Please:
+1. First explain the full app structure and main pages/screens in detail
+2. Then start building step-by-step (database schema → auth → teacher profile → student search → booking flow → payments)
+3. Make it modern, clean, mobile-friendly and culturally respectful (use appropriate colors, no unnecessary images)
+
+Start by showing me the main pages and database models you plan to create.
