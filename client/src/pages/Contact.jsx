@@ -446,7 +446,7 @@ function Contact() {
           <p>Experience the beauty of the Holy Quran with QuranDeen - completely free, forever.</p>
           <div className="cta-buttons">
             <Link to="/" className="cta-btn primary">Start Reading</Link>
-            <Link to="/tools" className="cta-btn secondary">Explore Resources</Link>
+            <Link to="/islamic-resources" className="cta-btn secondary">Explore Resources</Link>
           </div>
         </section>
 

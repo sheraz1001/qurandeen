@@ -101,12 +101,12 @@ function Adhkar() {
   return (
     <div className="tools-page">
       <div className="tool-page-header">
-        <Link to="/tools" className="back-link">
+        <Link to="/islamic-resources" className="back-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="19" y1="12" x2="5" y2="12" />
             <polyline points="12 19 5 12 12 5" />
           </svg>
-          Back to Tools
+          Back to Resources
         </Link>
         <h1>Morning & Evening Adhkar</h1>
         <p>Authentic supplications for daily protection and blessings</p>

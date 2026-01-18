@@ -135,7 +135,7 @@ function Features() {
           </p>
           <div className="hero-actions">
             <Link to="/" className="hero-btn primary">Start Reading</Link>
-            <Link to="/mp3" className="hero-btn secondary">Listen Now</Link>
+            <Link to="/quran-mp3-audio" className="hero-btn secondary">Listen Now</Link>
           </div>
         </div>
       </section>
@@ -188,7 +188,7 @@ function Features() {
                 QuranDeen brings together the best resources from around the world, 
                 making the Quran accessible to everyone regardless of language or location.
               </p>
-              <Link to="/chat" className="platform-cta">Ask AI Scholar</Link>
+              <Link to="/islamic-ai-scholar" className="platform-cta">Ask AI Scholar</Link>
             </div>
             <div className="platform-stats-grid">
               {platformStats.map((stat, index) => (

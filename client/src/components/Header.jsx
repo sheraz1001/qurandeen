@@ -27,11 +27,11 @@ function Header({ darkMode, toggleDarkMode }) {
 
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/juz', label: 'Juz Browser' },
-    { path: '/mp3', label: 'Audio Quran' },
-    { path: '/tools', label: 'Resources' },
-    { path: '/chat', label: 'AI Scholar' },
-    { path: '/blog', label: 'Blogs' },
+    { path: '/quran-juz-browser', label: 'Juz Browser' },
+    { path: '/quran-mp3-audio', label: 'Audio Quran' },
+    { path: '/islamic-resources', label: 'Resources' },
+    { path: '/islamic-ai-scholar', label: 'AI Scholar' },
+    { path: '/blogs', label: 'Blogs' },
   ];
 
   return (

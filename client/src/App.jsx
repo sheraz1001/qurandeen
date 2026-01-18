@@ -126,25 +126,25 @@ function App() {
             } />
             <Route path="/search" element={<Search />} />
             <Route path="/bookmarks" element={<Bookmarks fontSize={fontSize} />} />
-            <Route path="/juz" element={<Juz />} />
-            <Route path="/mp3" element={<MP3Audio />} />
-            <Route path="/chat" element={<Chat />} />
+            <Route path="/quran-juz-browser" element={<Juz />} />
+            <Route path="/quran-mp3-audio" element={<MP3Audio />} />
+            <Route path="/islamic-ai-scholar" element={<Chat />} />
             <Route path="/features" element={<Features />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/tools/share-card" element={<ShareCardGenerator />} />
-            <Route path="/tools/verse-of-day" element={<VerseOfDay />} />
-            <Route path="/tools/hijri-converter" element={<HijriConverter />} />
-            <Route path="/tools/adhkar" element={<Adhkar />} />
-            <Route path="/tools/names-of-allah" element={<NamesOfAllah />} />
-            <Route path="/tools/hadith-of-day" element={<HadithOfDay />} />
+            <Route path="/islamic-resources" element={<Tools />} />
+            <Route path="/islamic-resources/share-card" element={<ShareCardGenerator />} />
+            <Route path="/islamic-resources/verse-of-day" element={<VerseOfDay />} />
+            <Route path="/islamic-resources/hijri-converter" element={<HijriConverter />} />
+            <Route path="/islamic-resources/adhkar" element={<Adhkar />} />
+            <Route path="/islamic-resources/names-of-allah" element={<NamesOfAllah />} />
+            <Route path="/islamic-resources/hadith-of-day" element={<HadithOfDay />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/blog" element={<BlogList />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/blogs" element={<BlogList />} />
+            <Route path="/blogs/:slug" element={<BlogPost />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />

@@ -16,7 +16,7 @@ function Tools() {
           <polyline points="21 15 16 10 5 21" />
         </svg>
       ),
-      path: '/tools/share-card',
+      path: '/islamic-resources/share-card',
       color: '#2ea043'
     },
     {
@@ -29,7 +29,7 @@ function Tools() {
           <path d="M12 6v6l4 2" />
         </svg>
       ),
-      path: '/tools/verse-of-day',
+      path: '/islamic-resources/verse-of-day',
       color: '#0969da'
     },
     {
@@ -44,7 +44,7 @@ function Tools() {
           <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
       ),
-      path: '/tools/hijri-converter',
+      path: '/islamic-resources/hijri-converter',
       color: '#8250df'
     },
     {
@@ -56,7 +56,7 @@ function Tools() {
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
         </svg>
       ),
-      path: '/tools/adhkar',
+      path: '/islamic-resources/adhkar',
       color: '#bf8700'
     },
     {
@@ -68,7 +68,7 @@ function Tools() {
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       ),
-      path: '/tools/names-of-allah',
+      path: '/islamic-resources/names-of-allah',
       color: '#cf222e'
     },
     {
@@ -81,28 +81,28 @@ function Tools() {
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
         </svg>
       ),
-      path: '/tools/hadith-of-day',
+      path: '/islamic-resources/hadith-of-day',
       color: '#1f6feb'
     }
   ];
 
   const breadcrumbs = [
     { name: 'Home', href: '/' },
-    { name: 'Islamic Tools' }
+    { name: 'Islamic Resources' }
   ];
 
   return (
     <div className="tools-page">
       <SEO 
-        title="Free Islamic Tools - Quran Share Card, Hijri Calendar, Adhkar, 99 Names of Allah"
-        description="Free Islamic tools including Quran Share Card Generator, Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Hadith of the Day, and more."
-        canonical="https://qurandeen.com/tools"
-        keywords="Islamic tools, Quran tools, Hijri calendar, Adhkar, 99 Names of Allah, Hadith, Islamic resources, Quran share card"
+        title="Free Islamic Resources - Quran Share Card, Hijri Calendar, Adhkar, 99 Names of Allah"
+        description="Free Islamic resources including Quran Share Card Generator, Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Hadith of the Day, and more."
+        canonical="https://qurandeen.com/islamic-resources"
+        keywords="Islamic resources, Quran tools, Hijri calendar, Adhkar, 99 Names of Allah, Hadith, Islamic tools, Quran share card"
         breadcrumbs={breadcrumbs}
       />
       <HeroAnimated
         icon="🛠️"
-        title="Islamic Tools"
+        title="Islamic Resources"
         subtitle="Free tools to help you in your daily Islamic practice and learning"
         stats={['6 Tools', 'Free Forever', 'No Ads']}
         breadcrumbs={breadcrumbs}

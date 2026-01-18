@@ -1914,67 +1914,67 @@ app.get('/sitemap.xml', (req, res) => {
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${baseUrl}/juz</loc>
+    <loc>${baseUrl}/quran-juz-browser</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/mp3</loc>
+    <loc>${baseUrl}/quran-mp3-audio</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/chat</loc>
+    <loc>${baseUrl}/islamic-ai-scholar</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools</loc>
+    <loc>${baseUrl}/islamic-resources</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools/share-card</loc>
+    <loc>${baseUrl}/islamic-resources/share-card</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools/verse-of-day</loc>
+    <loc>${baseUrl}/islamic-resources/verse-of-day</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools/hijri-converter</loc>
+    <loc>${baseUrl}/islamic-resources/hijri-converter</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools/adhkar</loc>
+    <loc>${baseUrl}/islamic-resources/adhkar</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools/names-of-allah</loc>
+    <loc>${baseUrl}/islamic-resources/names-of-allah</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${baseUrl}/tools/hadith-of-day</loc>
+    <loc>${baseUrl}/islamic-resources/hadith-of-day</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>${baseUrl}/blog</loc>
+    <loc>${baseUrl}/blogs</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

@@ -37,6 +37,13 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Data Storage:** Utilizes local storage for user preferences (dark mode, font size, selected reciter/translation/script/font), bookmarks, reading history, and cached daily ayah.
 - **SEO Optimization:**
     - **SEO-Friendly URLs:** All 114 Surah pages use numbered slug-based URLs (e.g., `/surah/1-al-fatihah`, `/surah/2-al-baqarah`). Old numeric URLs (`/surah/1`) and old slug URLs (`/surah/al-fatihah`) automatically redirect to the canonical numbered slugs.
+    - **Keyword-Rich Route Names:** Main navigation routes use descriptive SEO-friendly slugs:
+        - `/quran-juz-browser` - Browse Quran by Juz (Para)
+        - `/quran-mp3-audio` - Full Surah audio recitations
+        - `/islamic-resources` - Islamic tools hub (replaces `/tools`)
+        - `/islamic-ai-scholar` - AI Islamic Scholar chatbot
+        - `/blogs` - Islamic blog articles
+        - Tool subpages: `/islamic-resources/share-card`, `/islamic-resources/verse-of-day`, etc.
     - **Automatic Redirects:** Intelligent redirect system handles legacy URLs:
         - Numeric: `/surah/1` → `/surah/1-al-fatihah`
         - Old slugs: `/surah/al-fatihah` → `/surah/1-al-fatihah`

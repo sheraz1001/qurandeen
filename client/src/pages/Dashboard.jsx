@@ -429,7 +429,7 @@ function Dashboard() {
                     </div>
                     <span>Read Quran</span>
                   </Link>
-                  <Link to="/juz" className="action-card">
+                  <Link to="/quran-juz-browser" className="action-card">
                     <div className="action-icon">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -582,14 +582,14 @@ function Dashboard() {
                       <p>Browse all 114 Surahs with multiple translations and Arabic scripts</p>
                     </div>
                   </Link>
-                  <Link to="/juz" className="resource-card internal">
+                  <Link to="/quran-juz-browser" className="resource-card internal">
                     <div className="resource-icon">📚</div>
                     <div className="resource-content">
                       <h4>Juz Browser</h4>
                       <p>Navigate the Quran by Juz (Para) with easy navigation</p>
                     </div>
                   </Link>
-                  <Link to="/audio" className="resource-card internal">
+                  <Link to="/quran-mp3-audio" className="resource-card internal">
                     <div className="resource-icon">🎧</div>
                     <div className="resource-content">
                       <h4>Audio Quran</h4>
@@ -609,42 +609,42 @@ function Dashboard() {
               <div className="resources-category">
                 <h3>Islamic Tools</h3>
                 <div className="resources-grid">
-                  <Link to="/tools/share-card" className="resource-card internal">
+                  <Link to="/islamic-resources/share-card" className="resource-card internal">
                     <div className="resource-icon">🎨</div>
                     <div className="resource-content">
                       <h4>Quran Share Card</h4>
                       <p>Create beautiful verse cards for social media sharing</p>
                     </div>
                   </Link>
-                  <Link to="/tools/verse-of-day" className="resource-card internal">
+                  <Link to="/islamic-resources/verse-of-day" className="resource-card internal">
                     <div className="resource-icon">✨</div>
                     <div className="resource-content">
                       <h4>Verse of the Day</h4>
                       <p>Daily inspiration with a random Quran verse</p>
                     </div>
                   </Link>
-                  <Link to="/tools/hijri-converter" className="resource-card internal">
+                  <Link to="/islamic-resources/hijri-converter" className="resource-card internal">
                     <div className="resource-icon">📅</div>
                     <div className="resource-content">
                       <h4>Hijri Calendar</h4>
                       <p>Convert between Hijri and Gregorian dates</p>
                     </div>
                   </Link>
-                  <Link to="/tools/adhkar" className="resource-card internal">
+                  <Link to="/islamic-resources/adhkar" className="resource-card internal">
                     <div className="resource-icon">🤲</div>
                     <div className="resource-content">
                       <h4>Morning & Evening Adhkar</h4>
                       <p>Authentic duas for morning and evening remembrance</p>
                     </div>
                   </Link>
-                  <Link to="/tools/names-of-allah" className="resource-card internal">
+                  <Link to="/islamic-resources/names-of-allah" className="resource-card internal">
                     <div className="resource-icon">💫</div>
                     <div className="resource-content">
                       <h4>99 Names of Allah</h4>
                       <p>Explore the beautiful names with meanings and references</p>
                     </div>
                   </Link>
-                  <Link to="/tools/hadith" className="resource-card internal">
+                  <Link to="/islamic-resources/hadith-of-day" className="resource-card internal">
                     <div className="resource-icon">📜</div>
                     <div className="resource-content">
                       <h4>Hadith of the Day</h4>
@@ -657,7 +657,7 @@ function Dashboard() {
               <div className="resources-category">
                 <h3>AI & Knowledge</h3>
                 <div className="resources-grid">
-                  <Link to="/ai-scholar" className="resource-card internal featured">
+                  <Link to="/islamic-ai-scholar" className="resource-card internal featured">
                     <div className="resource-icon">🤖</div>
                     <div className="resource-content">
                       <h4>AI Islamic Scholar</h4>

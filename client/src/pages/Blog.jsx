@@ -93,11 +93,11 @@ function BlogPost() {
   };
 
   if (loading) return <Loading />;
-  if (error) return <div className="error-page"><h2>{error}</h2><Link to="/blog">Back to Blog</Link></div>;
+  if (error) return <div className="error-page"><h2>{error}</h2><Link to="/blogs">Back to Blog</Link></div>;
 
   return (
     <div className="blog-post-page">
-      <Link to="/blog" className="back-link">← Back to Blog</Link>
+      <Link to="/blogs" className="back-link">← Back to Blog</Link>
       <article className="blog-article">
         <header className="article-header">
           <h1>{blog.title}</h1>

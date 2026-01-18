@@ -144,7 +144,7 @@ function Home() {
       </div>
 
       <div className="browse-links">
-        <Link to="/juz" className="browse-link">
+        <Link to="/quran-juz-browser" className="browse-link">
           <span>📖</span> Browse by Juz
         </Link>
         <Link to="/bookmarks" className="browse-link">
@@ -483,8 +483,8 @@ function Home() {
           <h3>Start Your Journey Today</h3>
           <p>Explore the divine guidance of the Holy Quran with our comprehensive tools and features.</p>
           <div className="cta-buttons">
-            <Link to="/surah/1" className="cta-btn primary">Start Reading</Link>
-            <Link to="/tools" className="cta-btn secondary">Explore Resources</Link>
+            <Link to="/surah/1-al-fatihah" className="cta-btn primary">Start Reading</Link>
+            <Link to="/islamic-resources" className="cta-btn secondary">Explore Resources</Link>
           </div>
         </div>
       </section>

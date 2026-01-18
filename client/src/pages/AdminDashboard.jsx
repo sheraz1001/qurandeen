@@ -437,7 +437,7 @@ function AdminDashboard() {
                     </div>
                     <span>View Users</span>
                   </button>
-                  <Link to="/blog" className="action-card">
+                  <Link to="/blogs" className="action-card">
                     <div className="action-icon">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -972,7 +972,7 @@ function AdminDashboard() {
                     </svg>
                     View Home Page
                   </Link>
-                  <Link to="/blog" className="quick-link">
+                  <Link to="/blogs" className="quick-link">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                     </svg>

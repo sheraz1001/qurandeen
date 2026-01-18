@@ -5,18 +5,18 @@ function Footer() {
 
   const quickLinks = [
     { path: '/', label: 'Home' },
-    { path: '/juz', label: 'Browse Juz' },
+    { path: '/quran-juz-browser', label: 'Browse Juz' },
     { path: '/bookmarks', label: 'My Bookmarks' },
     { path: '/settings', label: 'Settings' },
     { path: '/contact', label: 'Contact Us' },
   ];
 
   const popularSurahs = [
-    { slug: 'al-fatihah', name: 'Al-Fatiha' },
-    { slug: 'ya-sin', name: 'Ya-Sin' },
-    { slug: 'ar-rahman', name: 'Ar-Rahman' },
-    { slug: 'al-mulk', name: 'Al-Mulk' },
-    { slug: 'al-ikhlas', name: 'Al-Ikhlas' },
+    { slug: '1-al-fatihah', name: 'Al-Fatiha' },
+    { slug: '36-ya-sin', name: 'Ya-Sin' },
+    { slug: '55-ar-rahman', name: 'Ar-Rahman' },
+    { slug: '67-al-mulk', name: 'Al-Mulk' },
+    { slug: '112-al-ikhlas', name: 'Al-Ikhlas' },
   ];
 
   return (
