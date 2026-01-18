@@ -2040,6 +2040,65 @@ Disallow: /reset-password
   res.send(robots);
 });
 
+const oldSlugsMap = {
+  'al-fatihah': '1-al-fatihah', 'al-baqarah': '2-al-baqarah', 'aali-imran': '3-aali-imran', 
+  'an-nisa': '4-an-nisa', 'al-maidah': '5-al-maidah', 'al-anam': '6-al-anam', 
+  'al-araf': '7-al-araf', 'al-anfal': '8-al-anfal', 'at-tawbah': '9-at-tawbah', 
+  'yunus': '10-yunus', 'hud': '11-hud', 'yusuf': '12-yusuf', 'ar-rad': '13-ar-rad', 
+  'ibrahim': '14-ibrahim', 'al-hijr': '15-al-hijr', 'an-nahl': '16-an-nahl', 
+  'al-isra': '17-al-isra', 'al-kahf': '18-al-kahf', 'maryam': '19-maryam', 
+  'ta-ha': '20-ta-ha', 'al-anbiya': '21-al-anbiya', 'al-hajj': '22-al-hajj', 
+  'al-muminun': '23-al-muminun', 'an-nur': '24-an-nur', 'al-furqan': '25-al-furqan', 
+  'ash-shuara': '26-ash-shuara', 'an-naml': '27-an-naml', 'al-qasas': '28-al-qasas', 
+  'al-ankabut': '29-al-ankabut', 'ar-rum': '30-ar-rum', 'luqman': '31-luqman', 
+  'as-sajdah': '32-as-sajdah', 'al-ahzab': '33-al-ahzab', 'saba': '34-saba', 
+  'fatir': '35-fatir', 'ya-sin': '36-ya-sin', 'as-saffat': '37-as-saffat', 
+  'sad': '38-sad', 'az-zumar': '39-az-zumar', 'ghafir': '40-ghafir', 
+  'fussilat': '41-fussilat', 'ash-shura': '42-ash-shura', 'az-zukhruf': '43-az-zukhruf', 
+  'ad-dukhan': '44-ad-dukhan', 'al-jathiyah': '45-al-jathiyah', 'al-ahqaf': '46-al-ahqaf', 
+  'muhammad': '47-muhammad', 'al-fath': '48-al-fath', 'al-hujurat': '49-al-hujurat', 
+  'qaf': '50-qaf', 'adh-dhariyat': '51-adh-dhariyat', 'at-tur': '52-at-tur', 
+  'an-najm': '53-an-najm', 'al-qamar': '54-al-qamar', 'ar-rahman': '55-ar-rahman', 
+  'al-waqiah': '56-al-waqiah', 'al-hadid': '57-al-hadid', 'al-mujadila': '58-al-mujadila', 
+  'al-hashr': '59-al-hashr', 'al-mumtahanah': '60-al-mumtahanah', 'as-saff': '61-as-saff', 
+  'al-jumuah': '62-al-jumuah', 'al-munafiqun': '63-al-munafiqun', 'at-taghabun': '64-at-taghabun', 
+  'at-talaq': '65-at-talaq', 'at-tahrim': '66-at-tahrim', 'al-mulk': '67-al-mulk', 
+  'al-qalam': '68-al-qalam', 'al-haqqah': '69-al-haqqah', 'al-maarij': '70-al-maarij', 
+  'nuh': '71-nuh', 'al-jinn': '72-al-jinn', 'al-muzzammil': '73-al-muzzammil', 
+  'al-muddaththir': '74-al-muddaththir', 'al-qiyamah': '75-al-qiyamah', 'al-insan': '76-al-insan', 
+  'al-mursalat': '77-al-mursalat', 'an-naba': '78-an-naba', 'an-naziat': '79-an-naziat', 
+  'abasa': '80-abasa', 'at-takwir': '81-at-takwir', 'al-infitar': '82-al-infitar', 
+  'al-mutaffifin': '83-al-mutaffifin', 'al-inshiqaq': '84-al-inshiqaq', 'al-buruj': '85-al-buruj', 
+  'at-tariq': '86-at-tariq', 'al-ala': '87-al-ala', 'al-ghashiyah': '88-al-ghashiyah', 
+  'al-fajr': '89-al-fajr', 'al-balad': '90-al-balad', 'ash-shams': '91-ash-shams', 
+  'al-layl': '92-al-layl', 'ad-duhaa': '93-ad-duhaa', 'ash-sharh': '94-ash-sharh', 
+  'at-tin': '95-at-tin', 'al-alaq': '96-al-alaq', 'al-qadr': '97-al-qadr', 
+  'al-bayyinah': '98-al-bayyinah', 'az-zalzalah': '99-az-zalzalah', 'al-adiyat': '100-al-adiyat', 
+  'al-qariah': '101-al-qariah', 'at-takathur': '102-at-takathur', 'al-asr': '103-al-asr', 
+  'al-humazah': '104-al-humazah', 'al-fil': '105-al-fil', 'quraysh': '106-quraysh', 
+  'al-maun': '107-al-maun', 'al-kawthar': '108-al-kawthar', 'al-kafirun': '109-al-kafirun', 
+  'an-nasr': '110-an-nasr', 'al-masad': '111-al-masad', 'al-ikhlas': '112-al-ikhlas', 
+  'al-falaq': '113-al-falaq', 'an-nas': '114-an-nas'
+};
+
+app.get('/surah/:identifier', (req, res, next) => {
+  const identifier = req.params.identifier.toLowerCase();
+  
+  if (oldSlugsMap[identifier]) {
+    return res.redirect(301, `/surah/${oldSlugsMap[identifier]}`);
+  }
+  
+  if (/^\d+$/.test(identifier)) {
+    const num = parseInt(identifier);
+    if (num >= 1 && num <= 114) {
+      const canonicalSlug = surahSlugs[num - 1];
+      return res.redirect(301, `/surah/${canonicalSlug}`);
+    }
+  }
+  
+  next();
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
