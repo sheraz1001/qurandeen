@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import SEO from '../components/SEO';
 import HeroAnimated from '../components/HeroAnimated';
 import '../styles/chat.css';
@@ -8,50 +8,14 @@ function Chat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
-  const messagesEndRef = useRef(null);
-  const messagesContainerRef = useRef(null);
   const inputRef = useRef(null);
-  const userScrolledUp = useRef(false);
-  const lastScrollTime = useRef(0);
-
-  const isNearBottom = useCallback(() => {
-    const container = messagesContainerRef.current;
-    if (!container) return true;
-    const threshold = 100;
-    return container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
-  }, []);
-
-  const scrollToBottom = useCallback((force = false) => {
-    if (userScrolledUp.current && !force) return;
-    
-    const now = Date.now();
-    if (isStreaming && now - lastScrollTime.current < 100) return;
-    lastScrollTime.current = now;
-
-    const container = messagesContainerRef.current;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
-    }
-  }, [isStreaming]);
-
-  const handleScroll = useCallback(() => {
-    if (!isStreaming) {
-      userScrolledUp.current = !isNearBottom();
-    }
-  }, [isStreaming, isNearBottom]);
+  const latestMessageRef = useRef(null);
 
   useEffect(() => {
-    if (!isStreaming) {
-      scrollToBottom(true);
-      userScrolledUp.current = false;
+    if (latestMessageRef.current && !isStreaming) {
+      latestMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }, [messages.length, isStreaming, scrollToBottom]);
-
-  useEffect(() => {
-    if (isStreaming && !userScrolledUp.current) {
-      scrollToBottom();
-    }
-  }, [messages, isStreaming, scrollToBottom]);
+  }, [messages.length, isStreaming]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +44,6 @@ function Chat() {
 
       setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
       setIsStreaming(true);
-      userScrolledUp.current = false;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -169,11 +132,11 @@ function Chat() {
   ];
 
   return (
-    <div className="chat-container">
+    <div className="chat-page">
       <SEO 
         title="Islamic Scholar AI - Ask Questions about Quran & Hadith"
         description="Chat with our AI Islamic Scholar for answers based on Quran and authentic Hadith. Get guidance on Islamic teachings, Salah, fasting, Zakat, and more with source citations."
-        canonical="https://qurandeen.com/chat"
+        canonical="https://qurandeen.com/islamic-ai-scholar"
         keywords="Islamic AI, Ask about Quran, Hadith questions, Islamic guidance, AI scholar, Islamic chat, Quran AI, Muslim AI assistant"
         breadcrumbs={breadcrumbs}
       />
@@ -184,120 +147,127 @@ function Chat() {
         stats={['Quran-based', 'Authentic Hadith', 'Source Citations']}
         breadcrumbs={breadcrumbs}
       />
-      <div className="chat-header">
+      
+      <div className="chat-main-content">
         {messages.length > 0 && (
-          <button onClick={clearChat} className="clear-chat-btn" title="Clear conversation">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-            </svg>
-            New Chat
-          </button>
+          <div className="chat-header">
+            <button onClick={clearChat} className="clear-chat-btn" title="Start new conversation">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+              </svg>
+              New Conversation
+            </button>
+          </div>
         )}
-      </div>
 
-      <div className="chat-messages" ref={messagesContainerRef} onScroll={handleScroll}>
-        {messages.length === 0 ? (
-          <div className="chat-welcome">
-            <div className="welcome-icon">
-              <span className="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
-            </div>
-            <h2>Welcome to Islamic Scholar AI</h2>
-            <p>
-              I am here to help you understand the Holy Quran, authentic Hadith, and provide 
-              Islamic guidance for your questions. All answers are based on Quran and Sunnah.
-            </p>
-            <div className="suggested-questions">
-              <h3>Suggested Questions:</h3>
-              <div className="suggestions-grid">
-                {suggestedQuestions.map((question, i) => (
-                  <button 
-                    key={i} 
-                    className="suggestion-btn"
-                    onClick={() => setInput(question)}
-                  >
-                    {question}
-                  </button>
-                ))}
+        <div className="chat-messages-area">
+          {messages.length === 0 ? (
+            <div className="chat-welcome">
+              <div className="welcome-icon">
+                <span className="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
+              </div>
+              <h2>Welcome to Islamic Scholar AI</h2>
+              <p>
+                I am here to help you understand the Holy Quran, authentic Hadith, and provide 
+                Islamic guidance for your questions. All answers are based on Quran and Sunnah.
+              </p>
+              <div className="suggested-questions">
+                <h3>Suggested Questions</h3>
+                <div className="suggestions-grid">
+                  {suggestedQuestions.map((question, i) => (
+                    <button 
+                      key={i} 
+                      className="suggestion-btn"
+                      onClick={() => setInput(question)}
+                    >
+                      {question}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          messages.map((message, index) => (
-            <div key={index} className={`chat-message ${message.role}`}>
+          ) : (
+            messages.map((message, index) => (
+              <div 
+                key={index} 
+                className={`chat-message ${message.role}`}
+                ref={index === messages.length - 1 ? latestMessageRef : null}
+              >
+                <div className="message-avatar">
+                  {message.role === 'user' ? (
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                  )}
+                </div>
+                <div className="message-content">
+                  {message.role === 'assistant' ? (
+                    <div className="formatted-content">
+                      {formatMessage(message.content)}
+                    </div>
+                  ) : (
+                    <p>{message.content}</p>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+          
+          {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
+            <div className="chat-message assistant">
               <div className="message-avatar">
-                {message.role === 'user' ? (
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                  </svg>
-                )}
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
               </div>
               <div className="message-content">
-                {message.role === 'assistant' ? (
-                  <div className="formatted-content">
-                    {formatMessage(message.content)}
-                  </div>
-                ) : (
-                  <p>{message.content}</p>
-                )}
+                <div className="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </div>
             </div>
-          ))
-        )}
-        
-        {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
-          <div className="chat-message assistant">
-            <div className="message-avatar">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <div className="message-content">
-              <div className="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        <div ref={messagesEndRef} />
-      </div>
-
-      <form onSubmit={handleSubmit} className="chat-input-form">
-        <div className="input-wrapper">
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleSubmit(e);
-              }
-            }}
-            placeholder="Ask about Quran, Hadith, or Islamic guidance..."
-            rows={1}
-            disabled={isLoading}
-          />
-          <button 
-            type="submit" 
-            disabled={!input.trim() || isLoading}
-            className="send-btn"
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
-          </button>
+          )}
         </div>
-        <p className="chat-disclaimer">
-          Responses are AI-generated based on Islamic sources. For legal rulings (Fatwa), please consult a qualified scholar.
-        </p>
-      </form>
+
+        <div className="chat-input-section">
+          <form onSubmit={handleSubmit} className="chat-input-form">
+            <div className="input-wrapper">
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+                placeholder="Ask about Quran, Hadith, or Islamic guidance..."
+                rows={1}
+                disabled={isLoading}
+              />
+              <button 
+                type="submit" 
+                disabled={!input.trim() || isLoading}
+                className="send-btn"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                </svg>
+              </button>
+            </div>
+            <p className="chat-disclaimer">
+              Responses are AI-generated based on Islamic sources. For legal rulings (Fatwa), please consult a qualified scholar.
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
