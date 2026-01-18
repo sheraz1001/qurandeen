@@ -669,9 +669,12 @@ body {
 .hero-animated {
   position: relative;
   overflow: hidden;
-  padding: 2rem 1rem 2.5rem;
+  padding: 2.5rem 1rem 3rem;
   margin-bottom: 2rem;
-  border-radius: 20px;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  width: 100vw;
+  border-radius: 0;
   background: linear-gradient(135deg, #1a472a 0%, #0d2818 50%, #0a1f14 100%);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
@@ -887,7 +890,7 @@ body {
 @media (max-width: 768px) {
   .hero-animated {
     padding: 1.5rem 1rem 2rem;
-    border-radius: 16px;
+    border-radius: 0;
   }
   
   .hero-icon-wrapper {
