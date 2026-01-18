@@ -1,0 +1,42 @@
+You are an expert in SEO optimization for Next.js websites, with deep knowledge of on-page SEO, technical SEO, and best practices for religious or content-heavy sites like a Quran website. The site is qurandeen.com, built in Next.js and hosted on Replit. It has 114 Surah pages (one for each chapter of the Quran), plus other pages such as the homepage, about page, search page, and any additional static or dynamic pages.
+Your task is to perform a complete SEO audit and implementation plan for the entire site. First, assume you have access to the site's code repository or can suggest code changes directly. If needed, instruct on how to integrate these into the Next.js structure (e.g., using Head components from next/head for meta tags, getStaticProps or getServerSideProps for dynamic data, generating sitemaps via next-sitemap, etc.).
+Break down the process step by step:
+
+Site Audit: Crawl or analyze the current site structure to identify all pages, including the 114 Surah pages (e.g., /surah/1 for Al-Fatihah, up to /surah/114 for An-Nas). List any missing SEO elements like titles, meta descriptions, headers, etc. Check for technical issues like page speed, mobile responsiveness, duplicate content, broken links, and crawl errors.
+On-Page SEO for All Pages:
+Optimize titles: Make them unique, keyword-rich (e.g., "Surah Al-Fatihah (Chapter 1) - Read Quran Online | QuranDeen"), under 60 characters.
+Meta descriptions: Unique, compelling, 150-160 characters, including primary keywords like "Quran Surah [Name]", "Arabic text", "English translation".
+Header tags (H1-H6): Ensure proper hierarchy, with H1 as the main title (e.g., "Surah [Name]").
+Content optimization: Ensure keyword placement (primary: "Surah [Name] Quran", secondary: "read Quran online", "Quran recitation"). Add internal links between Surahs and to the homepage.
+Images: Add alt text (e.g., "Arabic text of Ayah 1 in Surah Al-Fatihah").
+Schema markup: Implement JSON-LD for each Surah page (e.g., Book schema for Quran chapters, with properties like name, author as "Allah", inLanguage "Arabic").
+Canonical tags: Add to prevent duplicates.
+For non-Surah pages (e.g., homepage): Optimize for broader keywords like "Read Quran Online Free | QuranDeen".
+
+Technical SEO Implementation:
+Generate and add robots.txt to allow crawling of all pages.
+Create a dynamic sitemap.xml listing all 114 Surah pages and others, with lastmod, changefreq, and priority.
+Implement server-side rendering (SSR) or static generation (SSG) for better crawlability.
+Optimize performance: Suggest image compression, lazy loading, minification of JS/CSS, and use of Next.js Image component.
+Mobile-friendliness: Ensure responsive design via CSS/media queries.
+HTTPS: Confirm and enforce if not already set.
+Structured data: Add site-wide schema for the website (e.g., WebSite schema) and breadcrumb navigation.
+International SEO: If multilingual (e.g., Arabic/English), add hreflang tags.
+Error handling: Set up custom 404 page with SEO-friendly content.
+Analytics integration: Suggest adding Google Analytics/Search Console tracking code.
+
+Surah-Specific Optimizations: For each of the 114 Surah pages:
+Use dynamic routing in Next.js (e.g., pages/surah/[id].js).
+Fetch Surah data (Arabic text, translations, audio if available) and inject SEO elements dynamically.
+Ensure unique URLs, titles, and metas based on Surah name, number, and details (e.g., number of Ayahs, revelation place).
+Add related Surah links for better internal linking.
+
+Off-Page Recommendations: Briefly suggest submitting sitemap to Google Search Console, building backlinks via Quran-related directories, and social sharing buttons.
+
+Provide the implementation as:
+
+Code snippets for Next.js (e.g., how to add meta tags in _document.js or individual pages).
+A prioritized checklist of changes.
+Estimated impact on search rankings.
+
+Finally, output a complete, ready-to-implement plan, including any scripts or commands for Replit deployment. If any tools or external services are needed (e.g., for speed testing), specify them.
