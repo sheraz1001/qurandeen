@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 import { getSurahByNumber } from '../data/surahData';
 
 function Juz() {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Juz Browser' }
+  ];
   const [selectedJuz, setSelectedJuz] = useState(1);
   const [juzData, setJuzData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -46,8 +52,20 @@ function Juz() {
 
   return (
     <div className="juz-page">
-      <Link to="/" className="back-link">← Back to Home</Link>
-      <h1 className="page-title">Browse by Juz (Para)</h1>
+      <SEO 
+        title="Browse Quran by Juz (Para) - All 30 Parts"
+        description="Navigate the Holy Quran by Juz (Para). Browse all 30 parts of the Quran with surah breakdown and ayah count for each Juz."
+        canonical="https://qurandeen.com/juz"
+        keywords="Quran Juz, Quran Para, 30 Juz, Quran parts, browse Quran, Juz browser"
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="📖"
+        title="Juz Browser"
+        subtitle="Navigate the Quran by Juz (Para)"
+        stats={['30 Juz', 'All 114 Surahs', 'Easy Navigation']}
+        breadcrumbs={breadcrumbs}
+      />
       
       <div className="juz-selector">
         <label htmlFor="juz-select">Select Juz:</label>

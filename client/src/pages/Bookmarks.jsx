@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 import { getSurahByNumber } from '../data/surahData';
 
 function Bookmarks({ fontSize }) {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Bookmarks' }
+  ];
   const [bookmarks, setBookmarks] = useState([]);
 
   useEffect(() => {
@@ -30,7 +36,19 @@ function Bookmarks({ fontSize }) {
   if (bookmarks.length === 0) {
     return (
       <div className="bookmarks-page">
-        <h1>Your Bookmarks</h1>
+        <SEO 
+          title="Your Bookmarks - Saved Quran Verses"
+          description="View and manage your saved Quran bookmarks. Keep track of your favorite ayahs and return to them anytime."
+          canonical="https://qurandeen.com/bookmarks"
+          breadcrumbs={breadcrumbs}
+          noindex={true}
+        />
+        <HeroAnimated
+          icon="🔖"
+          title="Your Bookmarks"
+          subtitle="Save and organize your favorite ayahs"
+          breadcrumbs={breadcrumbs}
+        />
         <div className="empty-bookmarks">
           <p>No bookmarks yet</p>
           <p className="empty-hint">While reading, tap the bookmark icon on any ayah to save it here.</p>
@@ -42,8 +60,20 @@ function Bookmarks({ fontSize }) {
 
   return (
     <div className="bookmarks-page">
+      <SEO 
+        title="Your Bookmarks - Saved Quran Verses"
+        description="View and manage your saved Quran bookmarks. Keep track of your favorite ayahs and return to them anytime."
+        canonical="https://qurandeen.com/bookmarks"
+        breadcrumbs={breadcrumbs}
+        noindex={true}
+      />
+      <HeroAnimated
+        icon="🔖"
+        title="Your Bookmarks"
+        subtitle={`${bookmarks.length} saved ayahs`}
+        breadcrumbs={breadcrumbs}
+      />
       <div className="bookmarks-header">
-        <h1>Your Bookmarks</h1>
         <button className="clear-btn" onClick={clearAllBookmarks}>
           Clear All
         </button>

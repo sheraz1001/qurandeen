@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 import './donate.css';
 
 const PRESET_AMOUNTS = [5, 10, 25, 50, 100, 250];
@@ -305,6 +307,10 @@ function DonateForm({ onSuccess }) {
 }
 
 function Donate() {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Donate' }
+  ];
   const [stripePromise, setStripePromise] = useState(null);
   const [loading, setLoading] = useState(true);
   const [configError, setConfigError] = useState('');
@@ -370,10 +376,20 @@ function Donate() {
 
   return (
     <div className="donate-page">
-      <div className="donate-header">
-        <h1>Support QuranDeen</h1>
-        <p>Help us spread the light of the Holy Quran to millions worldwide</p>
-      </div>
+      <SEO 
+        title="Donate to QuranDeen - Support Free Quran Access for All"
+        description="Support QuranDeen with your donation. Help us maintain free Quran access, 150+ reciters, 100+ translations, and Islamic tools for Muslims worldwide. Sadaqah Jariyah."
+        canonical="https://qurandeen.com/donate"
+        keywords="Donate to QuranDeen, Islamic charity, Sadaqah Jariyah, support Quran website, Islamic donation"
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="❤️"
+        title="Support QuranDeen"
+        subtitle="Help us spread the light of the Holy Quran to millions worldwide"
+        stats={['Sadaqah Jariyah', 'Secure Payment', 'Tax Deductible']}
+        breadcrumbs={breadcrumbs}
+      />
 
       <div className="donate-container">
         <div className="donate-info">

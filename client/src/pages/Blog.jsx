@@ -2,8 +2,14 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 
 function BlogList() {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Blog' }
+  ];
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,10 +32,20 @@ function BlogList() {
 
   return (
     <div className="blog-page">
-      <div className="blog-header">
-        <h1>Islamic Knowledge Blog</h1>
-        <p>Articles and insights to strengthen your faith</p>
-      </div>
+      <SEO 
+        title="Islamic Knowledge Blog - Articles to Strengthen Your Faith"
+        description="Read inspiring Islamic articles covering Quran, Hadith, Islamic history, spirituality, and practical guidance for Muslims. Expert insights to strengthen your faith."
+        canonical="https://qurandeen.com/blog"
+        keywords="Islamic blog, Islamic articles, Quran blog, Muslim knowledge, Islamic spirituality, faith articles"
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="📝"
+        title="Islamic Blog"
+        subtitle="Articles and insights to strengthen your faith"
+        stats={[`${blogs.length} Articles`, 'Expert Authors', 'Free to Read']}
+        breadcrumbs={breadcrumbs}
+      />
 
       {blogs.length === 0 ? (
         <div className="empty-blog">

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 import '../styles/chat.css';
 
 function Chat() {
@@ -162,6 +163,11 @@ function Chat() {
     "What is the importance of Zakat?"
   ];
 
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'AI Scholar' }
+  ];
+
   return (
     <div className="chat-container">
       <SEO 
@@ -169,21 +175,16 @@ function Chat() {
         description="Chat with our AI Islamic Scholar for answers based on Quran and authentic Hadith. Get guidance on Islamic teachings, Salah, fasting, Zakat, and more with source citations."
         canonical="https://qurandeen.com/chat"
         keywords="Islamic AI, Ask about Quran, Hadith questions, Islamic guidance, AI scholar, Islamic chat, Quran AI, Muslim AI assistant"
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="🤖"
+        title="Islamic Scholar AI"
+        subtitle="Ask questions about Quran, Hadith & Islamic guidance"
+        stats={['Quran-based', 'Authentic Hadith', 'Source Citations']}
+        breadcrumbs={breadcrumbs}
       />
       <div className="chat-header">
-        <div className="chat-header-content">
-          <div className="chat-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
-          <div>
-            <h1>Islamic Scholar AI</h1>
-            <p>Ask questions about Quran, Hadith & Islamic guidance</p>
-          </div>
-        </div>
         {messages.length > 0 && (
           <button onClick={clearChat} className="clear-chat-btn" title="Clear conversation">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

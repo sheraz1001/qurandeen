@@ -2,8 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 
 function MP3Audio() {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Audio Quran' }
+  ];
   const [surahs, setSurahs] = useState([]);
   const [reciters, setReciters] = useState([]);
   const [selectedReciter, setSelectedReciter] = useState(null);
@@ -195,41 +201,21 @@ function MP3Audio() {
 
   return (
     <div className="mp3-audio-page">
+      <SEO 
+        title="MP3 Quran Audio - Listen to 150+ Reciters Online Free"
+        description="Listen to full Quran recitations from 150+ world-renowned reciters. Stream high-quality MP3 audio for all 114 Surahs including Mishary Rashid, Abdul Basit, and more."
+        canonical="https://qurandeen.com/audio"
+        keywords="Quran MP3, Quran audio, Quran recitation, listen Quran online, Quran reciters, Mishary Rashid, Abdul Basit, full Quran audio"
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="🎧"
+        title="Audio Quran"
+        subtitle="Listen to complete surah recitations from world-renowned Qaris"
+        stats={[`${reciters.length}+ Reciters`, '114 Surahs', 'Free & Unlimited']}
+        breadcrumbs={breadcrumbs}
+      />
       <audio ref={audioRef} onEnded={handleAudioEnded} />
-      
-      <Link to="/" className="back-link">← Back to Home</Link>
-      
-      <div className="page-header">
-        <h1 className="page-title">🎧 MP3 Quran Audio</h1>
-        <p className="page-subtitle">Listen to complete surah recitations</p>
-        
-        <div className="mp3-features">
-          <div className="feature-stat">
-            <span className="stat-number">{reciters.length}+</span>
-            <span className="stat-label">Reciters</span>
-          </div>
-          <div className="feature-stat">
-            <span className="stat-number">114</span>
-            <span className="stat-label">Surahs</span>
-          </div>
-          <div className="feature-stat">
-            <span className="stat-number">Full</span>
-            <span className="stat-label">Surah Audio</span>
-          </div>
-          <div className="feature-stat">
-            <span className="stat-number">Free</span>
-            <span className="stat-label">Unlimited</span>
-          </div>
-        </div>
-        
-        <div className="mp3-features-list">
-          <span className="feature-item">Hafs an Asim</span>
-          <span className="feature-item">Warsh</span>
-          <span className="feature-item">Murattal</span>
-          <span className="feature-item">Mujawwad</span>
-          <span className="feature-item">High Quality MP3</span>
-        </div>
-      </div>
 
       <div className="reciter-dropdown-container" ref={dropdownRef}>
         <label className="dropdown-label">Select Reciter:</label>

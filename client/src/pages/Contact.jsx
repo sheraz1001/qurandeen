@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 
 function Contact() {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Contact Us' }
+  ];
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -165,21 +171,20 @@ function Contact() {
 
   return (
     <div className="contact-page">
-      <div className="contact-hero">
-        <div className="contact-hero-content">
-          <span className="hero-badge">Get In Touch</span>
-          <h1>Contact QuranDeen</h1>
-          <p>We value your feedback and are committed to providing exceptional support. Reach out to us for questions, suggestions, or partnership opportunities.</p>
-          <div className="hero-email">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            <a href="mailto:info@qurandeen.com">info@qurandeen.com</a>
-          </div>
-        </div>
-        <div className="contact-hero-pattern"></div>
-      </div>
+      <SEO 
+        title="Contact Us - QuranDeen | Get in Touch for Questions & Feedback"
+        description="Contact QuranDeen for questions, feedback, feature requests, or partnerships. We are dedicated to providing the best Quran reading and learning experience for Muslims worldwide."
+        canonical="https://qurandeen.com/contact"
+        keywords="Contact QuranDeen, QuranDeen support, Islamic website contact, Quran app feedback"
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="✉️"
+        title="Contact Us"
+        subtitle="We value your feedback and are here to help"
+        stats={['24-48hr Response', 'info@qurandeen.com']}
+        breadcrumbs={breadcrumbs}
+      />
 
       <div className="contact-container">
         <section className="why-contact-section" aria-labelledby="why-contact-title">

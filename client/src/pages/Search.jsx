@@ -3,9 +3,15 @@ import { useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 import { getSurahByNumber } from '../data/surahData';
 
 function Search() {
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Search' }
+  ];
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
   const [results, setResults] = useState([]);
@@ -47,8 +53,21 @@ function Search() {
   if (!query) {
     return (
       <div className="search-page">
+        <SEO 
+          title="Search the Holy Quran - Find Ayahs by Keyword"
+          description="Search through the Holy Quran to find ayahs by keyword. Explore verses with translations and navigate directly to any surah."
+          canonical="https://qurandeen.com/search"
+          keywords="Search Quran, find ayah, Quran search, Islamic search, Quran verses"
+          breadcrumbs={breadcrumbs}
+        />
+        <HeroAnimated
+          icon="🔍"
+          title="Search Quran"
+          subtitle="Find ayahs by keyword across all 114 Surahs"
+          stats={['6,236 Ayahs', 'Instant Results', 'Multiple Translations']}
+          breadcrumbs={breadcrumbs}
+        />
         <div className="search-empty">
-          <h2>Search the Quran</h2>
           <p>Enter a keyword in the search bar above to find ayahs.</p>
         </div>
       </div>
@@ -60,10 +79,18 @@ function Search() {
 
   return (
     <div className="search-page">
-      <div className="search-header">
-        <h2>Search Results for "{query}"</h2>
-        <p className="results-count">{totalCount} results found</p>
-      </div>
+      <SEO 
+        title={`Search Results for "${query}" - QuranDeen`}
+        description={`Found ${totalCount} results for "${query}" in the Holy Quran. Browse matching ayahs with translations.`}
+        canonical={`https://qurandeen.com/search?q=${encodeURIComponent(query)}`}
+        breadcrumbs={breadcrumbs}
+      />
+      <HeroAnimated
+        icon="🔍"
+        title="Search Results"
+        subtitle={`Found ${totalCount} results for "${query}"`}
+        breadcrumbs={breadcrumbs}
+      />
 
       {results.length === 0 ? (
         <div className="no-results">

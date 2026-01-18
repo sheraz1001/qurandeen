@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import HeroAnimated from '../components/HeroAnimated';
 import '../styles/tools.css';
 
 function Tools() {
@@ -85,6 +86,11 @@ function Tools() {
     }
   ];
 
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Islamic Tools' }
+  ];
+
   return (
     <div className="tools-page">
       <SEO 
@@ -92,12 +98,15 @@ function Tools() {
         description="Free Islamic tools including Quran Share Card Generator, Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Hadith of the Day, and more."
         canonical="https://qurandeen.com/tools"
         keywords="Islamic tools, Quran tools, Hijri calendar, Adhkar, 99 Names of Allah, Hadith, Islamic resources, Quran share card"
+        breadcrumbs={breadcrumbs}
       />
-      <div className="tools-hero">
-        <span className="tools-badge">Free Islamic Tools</span>
-        <h1>Islamic Resources & Tools</h1>
-        <p>A collection of free tools to help you in your daily Islamic practice and learning</p>
-      </div>
+      <HeroAnimated
+        icon="🛠️"
+        title="Islamic Tools"
+        subtitle="Free tools to help you in your daily Islamic practice and learning"
+        stats={['6 Tools', 'Free Forever', 'No Ads']}
+        breadcrumbs={breadcrumbs}
+      />
 
       <div className="tools-grid">
         {tools.map(tool => (

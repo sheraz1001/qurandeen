@@ -8,11 +8,27 @@ function SEO({
   ogImage = 'https://qurandeen.com/og-image.png',
   keywords,
   noindex = false,
-  schema
+  schema,
+  breadcrumbs = []
 }) {
   const siteName = 'QuranDeen';
   const fullTitle = title.includes('QuranDeen') ? title : `${title} | ${siteName}`;
   const canonicalUrl = canonical || 'https://qurandeen.com';
+
+  const breadcrumbSchema = breadcrumbs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": crumb.name,
+      "item": crumb.href ? `https://qurandeen.com${crumb.href}` : undefined
+    }))
+  } : null;
+
+  const schemas = [];
+  if (schema) schemas.push(schema);
+  if (breadcrumbSchema) schemas.push(breadcrumbSchema);
 
   return (
     <Helmet>
@@ -36,11 +52,11 @@ function SEO({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
       
-      {schema && (
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
+      {schemas.map((s, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(s)}
         </script>
-      )}
+      ))}
     </Helmet>
   );
 }
