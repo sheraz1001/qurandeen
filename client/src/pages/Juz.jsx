@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import { getSurahByNumber } from '../data/surahData';
 
 function Juz() {
   const [selectedJuz, setSelectedJuz] = useState(1);
@@ -75,7 +76,7 @@ function Juz() {
             {groupBySurah(juzData.ayahs || []).map(({ surah, ayahs }) => (
               <div key={surah.number} className="juz-surah-card">
                 <div className="juz-surah-header">
-                  <Link to={`/surah/${surah.number}`} className="surah-link">
+                  <Link to={`/surah/${getSurahByNumber(surah.number)?.slug || surah.number}`} className="surah-link">
                     <span className="surah-number-badge">{surah.number}</span>
                     <div className="surah-details">
                       <span className="surah-name">{surah.name}</span>

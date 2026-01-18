@@ -1886,6 +1886,160 @@ app.post('/api/admin/test-email', authenticateToken, isAdmin, async (req, res) =
   }
 });
 
+const surahSlugs = [
+  'al-fatihah', 'al-baqarah', 'aali-imran', 'an-nisa', 'al-maidah', 'al-anam', 'al-araf', 'al-anfal', 'at-tawbah', 'yunus',
+  'hud', 'yusuf', 'ar-rad', 'ibrahim', 'al-hijr', 'an-nahl', 'al-isra', 'al-kahf', 'maryam', 'ta-ha',
+  'al-anbiya', 'al-hajj', 'al-muminun', 'an-nur', 'al-furqan', 'ash-shuara', 'an-naml', 'al-qasas', 'al-ankabut', 'ar-rum',
+  'luqman', 'as-sajdah', 'al-ahzab', 'saba', 'fatir', 'ya-sin', 'as-saffat', 'sad', 'az-zumar', 'ghafir',
+  'fussilat', 'ash-shura', 'az-zukhruf', 'ad-dukhan', 'al-jathiyah', 'al-ahqaf', 'muhammad', 'al-fath', 'al-hujurat', 'qaf',
+  'adh-dhariyat', 'at-tur', 'an-najm', 'al-qamar', 'ar-rahman', 'al-waqiah', 'al-hadid', 'al-mujadila', 'al-hashr', 'al-mumtahanah',
+  'as-saff', 'al-jumuah', 'al-munafiqun', 'at-taghabun', 'at-talaq', 'at-tahrim', 'al-mulk', 'al-qalam', 'al-haqqah', 'al-maarij',
+  'nuh', 'al-jinn', 'al-muzzammil', 'al-muddaththir', 'al-qiyamah', 'al-insan', 'al-mursalat', 'an-naba', 'an-naziat', 'abasa',
+  'at-takwir', 'al-infitar', 'al-mutaffifin', 'al-inshiqaq', 'al-buruj', 'at-tariq', 'al-ala', 'al-ghashiyah', 'al-fajr', 'al-balad',
+  'ash-shams', 'al-layl', 'ad-duhaa', 'ash-sharh', 'at-tin', 'al-alaq', 'al-qadr', 'al-bayyinah', 'az-zalzalah', 'al-adiyat',
+  'al-qariah', 'at-takathur', 'al-asr', 'al-humazah', 'al-fil', 'quraysh', 'al-maun', 'al-kawthar', 'al-kafirun', 'an-nasr',
+  'al-masad', 'al-ikhlas', 'al-falaq', 'an-nas'
+];
+
+app.get('/sitemap.xml', (req, res) => {
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
+  
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/juz</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/mp3</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/chat</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools/share-card</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools/verse-of-day</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools/hijri-converter</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools/adhkar</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools/names-of-allah</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/tools/hadith-of-day</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/blog</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/contact</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/donate</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/privacy</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/terms</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>`;
+
+  surahSlugs.forEach((slug, index) => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/surah/${slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>`;
+  });
+
+  sitemap += `
+</urlset>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.send(sitemap);
+});
+
+app.get('/robots.txt', (req, res) => {
+  const robots = `User-agent: *
+Allow: /
+
+Sitemap: https://qurandeen.com/sitemap.xml
+
+Disallow: /api/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+`;
+
+  res.header('Content-Type', 'text/plain');
+  res.send(robots);
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import Loading from '../components/Loading';
+import { getSurahByNumber } from '../data/surahData';
 
 function Dashboard() {
   const { user, logout, checkAuth, loading: authLoading } = useAuth();
@@ -473,7 +474,7 @@ function Dashboard() {
                         {bookmark.arabic_text && (
                           <p className="bookmark-arabic">{bookmark.arabic_text.substring(0, 100)}...</p>
                         )}
-                        <Link to={`/surah/${bookmark.surah_number}`} className="view-link">View</Link>
+                        <Link to={`/surah/${getSurahByNumber(bookmark.surah_number)?.slug || bookmark.surah_number}`} className="view-link">View</Link>
                       </div>
                     ))}
                   </div>
@@ -504,7 +505,7 @@ function Dashboard() {
                         </div>
                       </div>
                       <div className="tracker-actions">
-                        <Link to={`/surah/${surah.number}`} className="read-btn">Read</Link>
+                        <Link to={`/surah/${getSurahByNumber(surah.number)?.slug || surah.number}`} className="read-btn">Read</Link>
                         <button 
                           className={`mark-btn ${isCompleted ? 'completed' : ''}`}
                           onClick={() => markSurahRead(surah.number, !isCompleted)}
@@ -557,7 +558,7 @@ function Dashboard() {
                       {bookmark.translation && (
                         <p className="bookmark-translation">{bookmark.translation}</p>
                       )}
-                      <Link to={`/surah/${bookmark.surah_number}`} className="view-btn">View in Surah</Link>
+                      <Link to={`/surah/${getSurahByNumber(bookmark.surah_number)?.slug || bookmark.surah_number}`} className="view-btn">View in Surah</Link>
                     </div>
                   ))}
                 </div>

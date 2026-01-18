@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getSurahByNumber } from '../data/surahData';
 
 function Bookmarks({ fontSize }) {
   const [bookmarks, setBookmarks] = useState([]);
@@ -52,7 +53,7 @@ function Bookmarks({ fontSize }) {
         {bookmarks.map((bookmark, index) => (
           <div key={index} className="bookmark-card">
             <div className="bookmark-header">
-              <Link to={`/surah/${bookmark.surah}`} className="bookmark-ref">
+              <Link to={`/surah/${getSurahByNumber(bookmark.surah)?.slug || bookmark.surah}`} className="bookmark-ref">
                 {bookmark.surahName} ({bookmark.surah}:{bookmark.ayah})
               </Link>
               <button 

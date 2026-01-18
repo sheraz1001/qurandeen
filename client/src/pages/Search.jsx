@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import { getSurahByNumber } from '../data/surahData';
 
 function Search() {
   const [searchParams] = useSearchParams();
@@ -73,7 +74,7 @@ function Search() {
         <div className="search-results">
           {results.map((match, index) => (
             <Link 
-              to={`/surah/${match.surah.number}`} 
+              to={`/surah/${getSurahByNumber(match.surah.number)?.slug || match.surah.number}`} 
               key={index} 
               className="search-result-card"
             >

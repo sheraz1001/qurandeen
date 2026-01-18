@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
+import SEO from '../components/SEO';
+import { getSurahByNumber } from '../data/surahData';
 
 function Home() {
   const [surahs, setSurahs] = useState([]);
@@ -87,8 +89,28 @@ function Home() {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={fetchSurahs} />;
 
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "QuranDeen",
+    "url": "https://qurandeen.com",
+    "description": "Read, listen, and study the Holy Quran online with translations, tafsir, and audio recitations.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://qurandeen.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <div className="home">
+      <SEO 
+        title="QuranDeen - Read, Listen & Study the Holy Quran Online"
+        description="Read the Holy Quran online with 100+ translations, 150+ audio reciters, Tafsir, word-by-word meaning, and Islamic tools. Access all 114 Surahs with Arabic text and translations."
+        canonical="https://qurandeen.com"
+        keywords="Quran online, Holy Quran, Quran reading, Quran audio, Quran translation, Quran tafsir, Islamic website, Read Quran, Listen Quran, Surah, Ayah"
+        schema={homeSchema}
+      />
       <div className="hero">
         <h1>The Holy Quran</h1>
         <p>Read, listen, and explore the divine words</p>
@@ -116,7 +138,7 @@ function Home() {
               <p className="daily-ayah-urdu">{dailyAyah.urdu}</p>
             </div>
             <div className="daily-ayah-ref">
-              <Link to={`/surah/${dailyAyah.surah.number}`}>
+              <Link to={`/surah/${getSurahByNumber(dailyAyah.surah.number)?.slug || dailyAyah.surah.number}`}>
                 {dailyAyah.surah.englishName} ({dailyAyah.surah.number}:{dailyAyah.numberInSurah})
               </Link>
             </div>
@@ -167,7 +189,7 @@ function Home() {
           <h2 className="section-title">Continue Reading</h2>
           <div className="history-list">
             {readingHistory.map((item) => (
-              <Link to={`/surah/${item.number}`} key={item.number} className="history-item">
+              <Link to={`/surah/${getSurahByNumber(item.number)?.slug || item.number}`} key={item.number} className="history-item">
                 <span className="history-number">{item.number}</span>
                 <div className="history-info">
                   <span className="history-name">{item.englishName}</span>
@@ -182,7 +204,7 @@ function Home() {
       <h2 className="section-title">All Surahs</h2>
       <div className="surahs-grid">
         {surahs.map((surah) => (
-          <Link to={`/surah/${surah.number}`} key={surah.number} className="surah-card">
+          <Link to={`/surah/${getSurahByNumber(surah.number)?.slug || surah.number}`} key={surah.number} className="surah-card">
             <div className="surah-number">{surah.number}</div>
             <div className="surah-info">
               <h3 className="surah-name-arabic">{surah.name}</h3>

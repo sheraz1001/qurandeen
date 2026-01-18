@@ -35,6 +35,13 @@ The application follows a client-server architecture with a Node.js/Express back
     - **Contact Us Page:** Professional contact form with FAQs, social links, and mission statement.
     - **Legal Pages:** Comprehensive Privacy Policy and Terms of Use.
 - **Data Storage:** Utilizes local storage for user preferences (dark mode, font size, selected reciter/translation/script/font), bookmarks, reading history, and cached daily ayah.
+- **SEO Optimization:**
+    - **SEO-Friendly URLs:** All 114 Surah pages use slug-based URLs (e.g., `/surah/al-fatihah`, `/surah/al-baqarah`) with numeric fallback support.
+    - **Dynamic Meta Tags:** Uses react-helmet-async for unique title, description, canonical, Open Graph, and Twitter Card meta tags on each page.
+    - **JSON-LD Schema Markup:** Implements Article and Book schema for Surah pages following schema.org best practices.
+    - **Sitemap.xml:** Server-generated sitemap includes all 114 Surah slugs and key pages with proper priority and changefreq settings.
+    - **Robots.txt:** Configured to allow all crawlers while blocking private routes (admin, dashboard, login).
+    - **Surah Data Module:** Central `client/src/data/surahData.js` contains all 114 Surah slugs, names, meanings, and metadata.
 
 ## External Dependencies
 - **Al Quran Cloud API:** Used for fetching Quranic text, translations, surah information, and reciter data.

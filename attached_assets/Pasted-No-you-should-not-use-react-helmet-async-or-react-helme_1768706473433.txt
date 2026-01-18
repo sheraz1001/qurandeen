@@ -1,0 +1,94 @@
+No, you should not use react-helmet-async (or react-helmet) in your Next.js project on qurandeen.com — especially since it's built with Next.js (likely Pages Router, given Replit setup and dynamic Surah pages with [id].js style slugs).
+Here's a clear breakdown of why, and what to do instead in 2026.
+Quick Recommendation Table
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SituationRecommended ApproachUse react-helmet-async?ReasonNext.js Pages Router (your current setup)Use built-in next/headNonext/head is designed for Next.js, handles SSR perfectly, no extra depsNext.js App Router (if you migrate later)Use generateMetadata + metadata objectNoNative, type-safe, supports async + streamingPlain CRA / Vite / custom SSRUse react-helmet-asyncYesOnly when Next.js built-in isn't availableYou need <html lang> or <body className> per-page dynamicallynext/head + custom _document.jsStill No (most cases)Rare edge case; usually overkill
+Why not react-helmet-async in Next.js?
+
+Next.js already has a better, built-in solutionnext/head (Pages Router) or the metadata API (App Router) were created specifically because libraries like Helmet cause issues in SSR environments (memory leaks in the original react-helmet, context problems per-request, etc.).
+Extra dependency & bundle size
+Adds ~5–10 KB (minified) + Provider wrapper boilerplate — completely unnecessary when Next.js handles it natively.
+SSR safetynext/head automatically collects head tags from any component in the tree and flushes them correctly on the server. react-helmet-async needs extra setup (HelmetProvider per request in custom SSR), but Next.js already does this for you.
+Community consensus (2025–2026)
+Almost every recent discussion / Stack Overflow / Reddit thread says:
+"If you're using Next.js → don't use Helmet, use next/head or metadata API."
+Your site needs (114 Surah pages + homepage)
+All of these are perfectly handled by next/head in dynamic pages:tsx// pages/surah/[slug].js
+import Head from 'next/head';
+
+export default function SurahPage({ surah }) {
+  return (
+    <>
+      <Head>
+        <title>Surah {surah.name} ({surah.id}) - Quran Arabic & English | QuranDeen</title>
+        <meta name="description" content={`Read Surah ${surah.name} with Arabic text, English translation, and transliteration on QuranDeen.com`} />
+        <meta property="og:title" content={`Surah ${surah.name}`} />
+        {/* add canonical, twitter cards, schema json-ld, etc. */}
+      </Head>
+
+      <h1>Surah {surah.name}</h1>
+      {/* ayahs ... */}
+    </>
+  );
+}
+
+When WOULD you actually need react-helmet-async?
+Only in these rare cases (none apply to your project):
+
+You're not using Next.js (pure React SPA + your own SSR via Express / custom server)
+You have very complex head logic that conflicts with Next.js internals (extremely rare)
+You're stuck on an ancient Next.js version without next/head (pre-9, basically impossible now)
+
+What should you do right now?
+
+Stick with next/head for all your Pages Router pages (Surah pages, homepage, etc.)
+Add it dynamically per page — exactly as shown above.
+For site-wide defaults (e.g. base title, favicon, charset), put them in _document.js or a custom <Head> in _app.js.
+If you ever migrate to App Router (recommended long-term for better performance / streaming), switch to this pattern:tsx// app/surah/[slug]/page.tsx
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const surah = await getSurah(params.slug);
+  return {
+    title: `Surah ${surah.name} (${surah.id}) - QuranDeen`,
+    description: `Read Surah ${surah.name} online...`,
+    openGraph: { ... },
+  };
+}
+
+Bottom line: Skip react-helmet-async completely. It would add complexity with zero benefit (and possible tiny downsides) on your Next.js site.
+If you're seeing any specific head-related problem (e.g. meta tags not updating, title flickering), share the symptom/code — it's almost always fixable with proper next/head usage. Let me know!

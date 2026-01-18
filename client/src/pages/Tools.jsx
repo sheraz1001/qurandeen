@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import '../styles/tools.css';
 
 function Tools() {
@@ -86,6 +87,12 @@ function Tools() {
 
   return (
     <div className="tools-page">
+      <SEO 
+        title="Free Islamic Tools - Quran Share Card, Hijri Calendar, Adhkar, 99 Names of Allah"
+        description="Free Islamic tools including Quran Share Card Generator, Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Hadith of the Day, and more."
+        canonical="https://qurandeen.com/tools"
+        keywords="Islamic tools, Quran tools, Hijri calendar, Adhkar, 99 Names of Allah, Hadith, Islamic resources, Quran share card"
+      />
       <div className="tools-hero">
         <span className="tools-badge">Free Islamic Tools</span>
         <h1>Islamic Resources & Tools</h1>

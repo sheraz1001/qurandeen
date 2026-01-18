@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import SEO from '../components/SEO';
 import '../styles/chat.css';
 
 function Chat() {
@@ -163,6 +164,12 @@ function Chat() {
 
   return (
     <div className="chat-container">
+      <SEO 
+        title="Islamic Scholar AI - Ask Questions about Quran & Hadith"
+        description="Chat with our AI Islamic Scholar for answers based on Quran and authentic Hadith. Get guidance on Islamic teachings, Salah, fasting, Zakat, and more with source citations."
+        canonical="https://qurandeen.com/chat"
+        keywords="Islamic AI, Ask about Quran, Hadith questions, Islamic guidance, AI scholar, Islamic chat, Quran AI, Muslim AI assistant"
+      />
       <div className="chat-header">
         <div className="chat-header-content">
           <div className="chat-icon">

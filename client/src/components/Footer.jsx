@@ -12,11 +12,11 @@ function Footer() {
   ];
 
   const popularSurahs = [
-    { number: 1, name: 'Al-Fatiha' },
-    { number: 36, name: 'Ya-Sin' },
-    { number: 55, name: 'Ar-Rahman' },
-    { number: 67, name: 'Al-Mulk' },
-    { number: 112, name: 'Al-Ikhlas' },
+    { slug: 'al-fatihah', name: 'Al-Fatiha' },
+    { slug: 'ya-sin', name: 'Ya-Sin' },
+    { slug: 'ar-rahman', name: 'Ar-Rahman' },
+    { slug: 'al-mulk', name: 'Al-Mulk' },
+    { slug: 'al-ikhlas', name: 'Al-Ikhlas' },
   ];
 
   return (
@@ -82,8 +82,8 @@ function Footer() {
             <h3 className="footer-title">Popular Surahs</h3>
             <ul className="footer-links">
               {popularSurahs.map((surah) => (
-                <li key={surah.number}>
-                  <Link to={`/surah/${surah.number}`} className="footer-link">
+                <li key={surah.slug}>
+                  <Link to={`/surah/${surah.slug}`} className="footer-link">
                     {surah.name}
                   </Link>
                 </li>

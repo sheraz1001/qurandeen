@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import WordByWord from '../components/WordByWord';
+import { resolveSurahIdentifier, getSurahByNumber } from '../data/surahData';
 
 function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir, selectedFont }) {
-  const { number } = useParams();
+  const { identifier } = useParams();
+  const navigate = useNavigate();
+  const number = resolveSurahIdentifier(identifier);
   const [surahData, setSurahData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,6 +40,11 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   }, [selectedTafsir]);
 
   useEffect(() => {
+    if (!number) {
+      setError('Invalid surah. Please select a valid surah.');
+      setLoading(false);
+      return;
+    }
     fetchSurah();
     loadBookmarks();
   }, [number, selectedTranslation, selectedReciter, selectedScript]);
@@ -344,8 +353,64 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   const audioAyahs = audio.data.ayahs;
   const currentTranslationInfo = translation.data;
 
+  const currentSurahData = getSurahByNumber(number);
+  const surahSlug = currentSurahData?.slug || number;
+  const surahMeaning = currentSurahData?.meaning || surahInfo.englishNameTranslation;
+
+  const seoTitle = `Surah ${surahInfo.englishName} - ${surahMeaning} | Read Surah ${number} with Translation | QuranDeen`;
+  const seoDescription = `Read Surah ${surahInfo.englishName} (${surahInfo.name}) - ${surahMeaning}. Complete Arabic text with ${surahInfo.numberOfAyahs} ayahs, English translation, Tafsir, and audio recitation. ${surahInfo.revelationType} Surah.`;
+  const canonicalUrl = `https://qurandeen.com/surah/${surahSlug}`;
+
   return (
     <div className="surah-page">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
+        <link rel="canonical" href={canonicalUrl} />
+        
+        <meta property="og:title" content={`Surah ${surahInfo.englishName} - ${surahMeaning}`} />
+        <meta property="og:description" content={seoDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="QuranDeen" />
+        <meta property="og:image" content="https://qurandeen.com/og-image.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`Surah ${surahInfo.englishName} - ${surahMeaning}`} />
+        <meta name="twitter:description" content={seoDescription} />
+        <meta name="twitter:image" content="https://qurandeen.com/og-image.png" />
+        
+        <meta name="keywords" content={`Surah ${surahInfo.englishName}, ${surahInfo.name}, ${surahMeaning}, Quran Surah ${number}, ${surahInfo.englishName} translation, ${surahInfo.englishName} audio, ${surahInfo.englishName} tafsir, Holy Quran`} />
+        
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": `Surah ${surahInfo.englishName} - ${surahMeaning}`,
+            "description": seoDescription,
+            "url": canonicalUrl,
+            "publisher": {
+              "@type": "Organization",
+              "name": "QuranDeen",
+              "url": "https://qurandeen.com"
+            },
+            "mainEntity": {
+              "@type": "Book",
+              "name": "The Holy Quran",
+              "bookFormat": "EBook",
+              "numberOfPages": 604,
+              "hasPart": {
+                "@type": "Chapter",
+                "name": surahInfo.englishName,
+                "alternateName": surahInfo.name,
+                "position": surahInfo.number,
+                "description": surahMeaning
+              }
+            }
+          })}
+        </script>
+      </Helmet>
+      
       <audio ref={audioRef} onEnded={handleAudioEnded} />
       
       <div className="surah-header">
@@ -531,12 +596,12 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
 
       <div className="surah-navigation">
         {parseInt(number) > 1 && (
-          <Link to={`/surah/${parseInt(number) - 1}`} className="nav-btn prev">
+          <Link to={`/surah/${getSurahByNumber(parseInt(number) - 1)?.slug}`} className="nav-btn prev">
             ← Previous Surah
           </Link>
         )}
         {parseInt(number) < 114 && (
-          <Link to={`/surah/${parseInt(number) + 1}`} className="nav-btn next">
+          <Link to={`/surah/${getSurahByNumber(parseInt(number) + 1)?.slug}`} className="nav-btn next">
             Next Surah →
           </Link>
         )}
