@@ -1,16 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { useParams, Link, useNavigate, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import WordByWord from '../components/WordByWord';
-import { resolveSurahIdentifier, getSurahByNumber } from '../data/surahData';
+import { resolveSurahIdentifier, getSurahByNumber, getCanonicalSlug } from '../data/surahData';
 
 function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir, selectedFont }) {
   const { identifier } = useParams();
   const navigate = useNavigate();
-  const number = resolveSurahIdentifier(identifier);
+  
+  const resolved = useMemo(() => resolveSurahIdentifier(identifier), [identifier]);
+  const shouldRedirect = resolved && resolved.redirect;
+  const redirectSlug = shouldRedirect ? getCanonicalSlug(resolved.number) : null;
+  const number = resolved ? resolved.number : null;
+  
   const [surahData, setSurahData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -342,6 +347,10 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     return acc;
   }, {});
 
+  if (shouldRedirect && redirectSlug) {
+    return <Navigate to={`/surah/${redirectSlug}`} replace />;
+  }
+  
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={fetchSurah} />;
   if (!surahData) return null;

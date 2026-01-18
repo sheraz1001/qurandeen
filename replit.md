@@ -36,12 +36,16 @@ The application follows a client-server architecture with a Node.js/Express back
     - **Legal Pages:** Comprehensive Privacy Policy and Terms of Use.
 - **Data Storage:** Utilizes local storage for user preferences (dark mode, font size, selected reciter/translation/script/font), bookmarks, reading history, and cached daily ayah.
 - **SEO Optimization:**
-    - **SEO-Friendly URLs:** All 114 Surah pages use slug-based URLs (e.g., `/surah/al-fatihah`, `/surah/al-baqarah`) with numeric fallback support.
+    - **SEO-Friendly URLs:** All 114 Surah pages use numbered slug-based URLs (e.g., `/surah/1-al-fatihah`, `/surah/2-al-baqarah`). Old numeric URLs (`/surah/1`) and old slug URLs (`/surah/al-fatihah`) automatically redirect to the canonical numbered slugs.
+    - **Automatic Redirects:** Intelligent redirect system handles legacy URLs:
+        - Numeric: `/surah/1` → `/surah/1-al-fatihah`
+        - Old slugs: `/surah/al-fatihah` → `/surah/1-al-fatihah`
     - **Dynamic Meta Tags:** Uses react-helmet-async for unique title, description, canonical, Open Graph, and Twitter Card meta tags on each page.
-    - **JSON-LD Schema Markup:** Implements Article and Book schema for Surah pages following schema.org best practices.
-    - **Sitemap.xml:** Server-generated sitemap includes all 114 Surah slugs and key pages with proper priority and changefreq settings.
+    - **JSON-LD Schema Markup:** Implements Article, Book, and BreadcrumbList schema following schema.org best practices.
+    - **Animated Hero Headers:** All major pages feature animated hero sections with breadcrumb navigation.
+    - **Sitemap.xml:** Server-generated sitemap includes all 114 Surah numbered slugs and key pages with proper priority and changefreq settings.
     - **Robots.txt:** Configured to allow all crawlers while blocking private routes (admin, dashboard, login).
-    - **Surah Data Module:** Central `client/src/data/surahData.js` contains all 114 Surah slugs, names, meanings, and metadata.
+    - **Surah Data Module:** Central `client/src/data/surahData.js` contains all 114 Surah numbered slugs, names, meanings, metadata, and redirect mappings.
 
 ## External Dependencies
 - **Al Quran Cloud API:** Used for fetching Quranic text, translations, surah information, and reciter data.
