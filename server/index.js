@@ -2380,6 +2380,606 @@ app.get('/api/teacher/check', authenticateToken, async (req, res) => {
   }
 });
 
+// Student Dashboard Stats
+app.get('/api/student/dashboard', authenticateToken, async (req, res) => {
+  try {
+    const studentId = req.user.id;
+    
+    // Get upcoming classes
+    const upcomingClasses = await pool.query(`
+      SELECT b.*, tp.headline, u.name as teacher_name, u.profile_image as teacher_image, cp.name as package_name
+      FROM bookings b
+      JOIN teacher_profiles tp ON b.teacher_id = tp.id
+      JOIN users u ON tp.user_id = u.id
+      LEFT JOIN class_packages cp ON b.package_id = cp.id
+      WHERE b.student_id = $1 AND b.scheduled_at > NOW() AND b.status IN ('scheduled', 'confirmed')
+      ORDER BY b.scheduled_at
+      LIMIT 10
+    `, [studentId]);
+    
+    // Get active subscriptions
+    const activeSubscriptions = await pool.query(`
+      SELECT ss.*, cp.name as package_name, cp.total_classes, u.name as teacher_name, u.profile_image as teacher_image
+      FROM student_subscriptions ss
+      JOIN class_packages cp ON ss.package_id = cp.id
+      JOIN teacher_profiles tp ON ss.teacher_id = tp.id
+      JOIN users u ON tp.user_id = u.id
+      WHERE ss.student_id = $1 AND ss.status = 'active' AND ss.expires_at > NOW()
+    `, [studentId]);
+    
+    // Get completed classes count
+    const completedClasses = await pool.query(`
+      SELECT COUNT(*) as count FROM bookings
+      WHERE student_id = $1 AND status = 'completed'
+    `, [studentId]);
+    
+    // Get reviews given count
+    const reviewsGiven = await pool.query(`
+      SELECT COUNT(*) as count FROM teacher_reviews
+      WHERE student_id = $1
+    `, [studentId]);
+    
+    // Get payment history
+    const payments = await pool.query(`
+      SELECT pp.*, u.name as teacher_name
+      FROM platform_payments pp
+      JOIN teacher_profiles tp ON pp.teacher_id = tp.id
+      JOIN users u ON tp.user_id = u.id
+      WHERE pp.student_id = $1
+      ORDER BY pp.created_at DESC
+      LIMIT 20
+    `, [studentId]);
+    
+    // Get conversations
+    const conversations = await pool.query(`
+      SELECT DISTINCT ON (m.teacher_id) m.teacher_id, u.name as teacher_name, u.profile_image as teacher_image,
+             m.content as last_message, m.created_at as last_message_at,
+             (SELECT COUNT(*) FROM messages WHERE teacher_id = m.teacher_id AND student_id = $1 AND sender_type = 'teacher' AND is_read = false) as unread_count
+      FROM messages m
+      JOIN teacher_profiles tp ON m.teacher_id = tp.id
+      JOIN users u ON tp.user_id = u.id
+      WHERE m.student_id = $1
+      ORDER BY m.teacher_id, m.created_at DESC
+    `, [studentId]);
+    
+    res.json({
+      upcomingClasses: upcomingClasses.rows,
+      activeSubscriptions: activeSubscriptions.rows,
+      completedClasses: parseInt(completedClasses.rows[0].count),
+      reviewsGiven: parseInt(reviewsGiven.rows[0].count),
+      payments: payments.rows,
+      conversations: conversations.rows
+    });
+  } catch (error) {
+    console.error('Error fetching student dashboard:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard data' });
+  }
+});
+
+// Book a class
+app.post('/api/bookings', authenticateToken, async (req, res) => {
+  try {
+    const { teacherId, packageId, scheduledAt, notes } = req.body;
+    const studentId = req.user.id;
+    
+    // Verify teacher exists
+    const teacher = await pool.query('SELECT id, hourly_rate FROM teacher_profiles WHERE id = $1 AND is_active = true', [teacherId]);
+    if (teacher.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher not found' });
+    }
+    
+    // Create booking
+    const result = await pool.query(`
+      INSERT INTO bookings (teacher_id, student_id, package_id, scheduled_at, notes, status)
+      VALUES ($1, $2, $3, $4, $5, 'pending')
+      RETURNING *
+    `, [teacherId, studentId, packageId || null, scheduledAt, notes || '']);
+    
+    res.json({ success: true, booking: result.rows[0] });
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    res.status(500).json({ error: 'Failed to create booking' });
+  }
+});
+
+// Create payment intent for class booking
+app.post('/api/payments/create-intent', authenticateToken, async (req, res) => {
+  try {
+    if (!stripe || !STRIPE_SECRET_KEY) {
+      return res.status(503).json({ error: 'Payment processing is not available. Please contact support.' });
+    }
+    
+    const { teacherId, packageId, scheduledAt } = req.body;
+    const studentId = req.user.id;
+    
+    // Pre-validate availability if scheduledAt is provided
+    if (scheduledAt) {
+      const scheduledDate = new Date(scheduledAt);
+      const dayOfWeek = scheduledDate.getDay();
+      const scheduledTime = scheduledDate.toTimeString().slice(0, 5);
+      
+      const availabilityCheck = await pool.query(`
+        SELECT id FROM teacher_availability 
+        WHERE teacher_id = $1 AND day_of_week = $2 AND is_available = true
+        AND start_time <= $3 AND end_time > $3
+      `, [teacherId, dayOfWeek, scheduledTime]);
+      
+      if (availabilityCheck.rows.length === 0) {
+        return res.status(400).json({ error: 'Selected time slot is not available' });
+      }
+      
+      // Check for existing bookings
+      const existingBooking = await pool.query(`
+        SELECT id FROM bookings 
+        WHERE teacher_id = $1 AND scheduled_at = $2 
+        AND status IN ('scheduled', 'confirmed', 'pending')
+      `, [teacherId, scheduledAt]);
+      
+      if (existingBooking.rows.length > 0) {
+        return res.status(400).json({ error: 'This time slot is already booked' });
+      }
+    }
+    
+    // Get teacher info
+    const teacher = await pool.query(`
+      SELECT tp.*, u.name, u.email FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      WHERE tp.id = $1
+    `, [teacherId]);
+    
+    if (teacher.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher not found' });
+    }
+    
+    let amount;
+    let description;
+    
+    if (packageId) {
+      // Get package price
+      const pkg = await pool.query('SELECT * FROM class_packages WHERE id = $1 AND teacher_id = $2', [packageId, teacherId]);
+      if (pkg.rows.length === 0) {
+        return res.status(404).json({ error: 'Package not found' });
+      }
+      amount = Math.round(pkg.rows[0].price * 100);
+      description = `${pkg.rows[0].name} - ${pkg.rows[0].total_classes} classes with ${teacher.rows[0].name}`;
+    } else {
+      // Single session at hourly rate
+      amount = Math.round(teacher.rows[0].hourly_rate * 100);
+      description = `Single session with ${teacher.rows[0].name}`;
+    }
+    
+    // Calculate commission split (20% platform, 80% teacher)
+    const platformAmount = Math.round(amount * 0.20);
+    const teacherAmount = amount - platformAmount;
+    
+    // Create payment intent
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: 'usd',
+      metadata: {
+        studentId: studentId.toString(),
+        teacherId: teacherId.toString(),
+        packageId: packageId?.toString() || '',
+        bookingId: bookingId?.toString() || '',
+        platformAmount: platformAmount.toString(),
+        teacherAmount: teacherAmount.toString()
+      },
+      description
+    });
+    
+    res.json({
+      clientSecret: paymentIntent.client_secret,
+      amount: amount / 100,
+      platformFee: platformAmount / 100,
+      teacherEarnings: teacherAmount / 100
+    });
+  } catch (error) {
+    console.error('Error creating payment intent:', error);
+    res.status(500).json({ error: 'Failed to create payment' });
+  }
+});
+
+// Confirm payment and create booking record
+app.post('/api/payments/confirm', authenticateToken, async (req, res) => {
+  try {
+    const { paymentIntentId, teacherId, packageId, scheduledAt, notes } = req.body;
+    const studentId = req.user.id;
+    
+    // Verify payment with Stripe
+    if (!stripe) {
+      return res.status(500).json({ error: 'Payment processing not configured' });
+    }
+    
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    
+    if (paymentIntent.status !== 'succeeded') {
+      return res.status(400).json({ error: 'Payment not completed' });
+    }
+    
+    const amount = paymentIntent.amount / 100;
+    const platformAmount = parseFloat(paymentIntent.metadata.platformAmount) / 100;
+    const teacherAmount = parseFloat(paymentIntent.metadata.teacherAmount) / 100;
+    
+    // Start transaction with locking to prevent race conditions
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      
+      // Create booking if scheduledAt provided (with locking)
+      let bookingId = null;
+      if (scheduledAt) {
+        const scheduledDate = new Date(scheduledAt);
+        const dayOfWeek = scheduledDate.getDay();
+        const scheduledTime = scheduledDate.toTimeString().slice(0, 5);
+        
+        // Check availability within transaction
+        const availabilityCheck = await client.query(`
+          SELECT id FROM teacher_availability 
+          WHERE teacher_id = $1 AND day_of_week = $2 AND is_available = true
+          AND start_time <= $3 AND end_time > $3
+        `, [teacherId, dayOfWeek, scheduledTime]);
+        
+        if (availabilityCheck.rows.length === 0) {
+          await client.query('ROLLBACK');
+          return res.status(400).json({ error: 'Selected time slot is not available' });
+        }
+        
+        // Check for existing bookings with FOR UPDATE to lock the row
+        const existingBooking = await client.query(`
+          SELECT id FROM bookings 
+          WHERE teacher_id = $1 AND scheduled_at = $2 
+          AND status IN ('scheduled', 'confirmed', 'pending')
+          FOR UPDATE NOWAIT
+        `, [teacherId, scheduledAt]);
+        
+        if (existingBooking.rows.length > 0) {
+          await client.query('ROLLBACK');
+          return res.status(400).json({ error: 'This time slot is already booked' });
+        }
+        
+        const bookingResult = await client.query(`
+          INSERT INTO bookings (teacher_id, student_id, package_id, scheduled_at, notes, status)
+          VALUES ($1, $2, $3, $4, $5, 'scheduled')
+          RETURNING id
+        `, [teacherId, studentId, packageId || null, scheduledAt, notes || '']);
+        bookingId = bookingResult.rows[0].id;
+      }
+      
+      // If it's a package, create subscription
+      if (packageId) {
+        const pkg = await client.query('SELECT * FROM class_packages WHERE id = $1', [packageId]);
+        if (pkg.rows.length === 0) {
+          throw new Error('Package not found');
+        }
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + (pkg.rows[0].validity_days || 30));
+        
+        await client.query(`
+          INSERT INTO student_subscriptions (student_id, teacher_id, package_id, classes_used, status, expires_at, stripe_subscription_id)
+          VALUES ($1, $2, $3, 0, 'active', $4, $5)
+        `, [studentId, teacherId, packageId, expiresAt, paymentIntentId]);
+      }
+      
+      // Record payment with commission split
+      await client.query(`
+        INSERT INTO platform_payments (
+          teacher_id, student_id, booking_id, stripe_payment_id,
+          amount, platform_amount, teacher_amount, status, description
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, 'completed', $8)
+      `, [teacherId, studentId, bookingId, paymentIntentId, amount, platformAmount, teacherAmount, 
+          packageId ? 'Package purchase' : 'Single session']);
+      
+      await client.query('COMMIT');
+      
+      res.json({ success: true, bookingId });
+    } catch (err) {
+      await client.query('ROLLBACK');
+      
+      // Check for unique constraint violation (duplicate booking)
+      if (err.code === '23505' && err.constraint === 'bookings_teacher_scheduled_unique') {
+        // Attempt to refund the payment since slot is no longer available
+        try {
+          await stripe.refunds.create({ payment_intent: paymentIntentId });
+          console.log('Refund initiated for duplicate booking attempt:', paymentIntentId);
+        } catch (refundErr) {
+          console.error('Refund failed for payment:', paymentIntentId, refundErr);
+        }
+        return res.status(409).json({ 
+          error: 'This time slot was just booked by someone else. Your payment will be refunded.',
+          refunded: true
+        });
+      }
+      
+      throw err;
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Error confirming payment:', error);
+    res.status(500).json({ error: 'Failed to confirm payment. Please contact support.' });
+  }
+});
+
+// Get payment history for student
+app.get('/api/student/payments', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT pp.*, u.name as teacher_name
+      FROM platform_payments pp
+      JOIN teacher_profiles tp ON pp.teacher_id = tp.id
+      JOIN users u ON tp.user_id = u.id
+      WHERE pp.student_id = $1
+      ORDER BY pp.created_at DESC
+    `, [req.user.id]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching payment history:', error);
+    res.status(500).json({ error: 'Failed to fetch payments' });
+  }
+});
+
+// Get teacher earnings
+app.get('/api/teacher/earnings', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    const teacherId = teacherProfile.rows[0].id;
+    
+    // Get earnings summary
+    const [totalEarnings, monthlyEarnings, pendingEarnings, recentPayments] = await Promise.all([
+      pool.query(`
+        SELECT COALESCE(SUM(teacher_amount), 0) as total
+        FROM platform_payments WHERE teacher_id = $1 AND status = 'completed'
+      `, [teacherId]),
+      pool.query(`
+        SELECT COALESCE(SUM(teacher_amount), 0) as total
+        FROM platform_payments 
+        WHERE teacher_id = $1 AND status = 'completed'
+        AND created_at >= DATE_TRUNC('month', CURRENT_DATE)
+      `, [teacherId]),
+      pool.query(`
+        SELECT COALESCE(SUM(teacher_amount), 0) as total
+        FROM platform_payments WHERE teacher_id = $1 AND status = 'pending'
+      `, [teacherId]),
+      pool.query(`
+        SELECT pp.*, u.name as student_name
+        FROM platform_payments pp
+        JOIN users u ON pp.student_id = u.id
+        WHERE pp.teacher_id = $1
+        ORDER BY pp.created_at DESC
+        LIMIT 20
+      `, [teacherId])
+    ]);
+    
+    res.json({
+      totalEarnings: parseFloat(totalEarnings.rows[0].total),
+      monthlyEarnings: parseFloat(monthlyEarnings.rows[0].total),
+      pendingEarnings: parseFloat(pendingEarnings.rows[0].total),
+      recentPayments: recentPayments.rows
+    });
+  } catch (error) {
+    console.error('Error fetching earnings:', error);
+    res.status(500).json({ error: 'Failed to fetch earnings' });
+  }
+});
+
+// Get student's bookings
+app.get('/api/student/bookings', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT b.*, tp.headline, u.name as teacher_name, u.profile_image as teacher_image, cp.name as package_name
+      FROM bookings b
+      JOIN teacher_profiles tp ON b.teacher_id = tp.id
+      JOIN users u ON tp.user_id = u.id
+      LEFT JOIN class_packages cp ON b.package_id = cp.id
+      WHERE b.student_id = $1
+      ORDER BY b.scheduled_at DESC
+    `, [req.user.id]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    res.status(500).json({ error: 'Failed to fetch bookings' });
+  }
+});
+
+// Cancel a booking
+app.put('/api/bookings/:id/cancel', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      UPDATE bookings SET status = 'cancelled', updated_at = NOW()
+      WHERE id = $1 AND student_id = $2 AND status IN ('pending', 'scheduled')
+      RETURNING *
+    `, [req.params.id, req.user.id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Booking not found or cannot be cancelled' });
+    }
+    res.json({ success: true, booking: result.rows[0] });
+  } catch (error) {
+    console.error('Error cancelling booking:', error);
+    res.status(500).json({ error: 'Failed to cancel booking' });
+  }
+});
+
+// Get teacher's availability for booking
+app.get('/api/teachers/:id/availability', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT * FROM teacher_availability
+      WHERE teacher_id = $1 AND is_available = true
+      ORDER BY day_of_week, start_time
+    `, [req.params.id]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching availability:', error);
+    res.status(500).json({ error: 'Failed to fetch availability' });
+  }
+});
+
+// Submit a review for a teacher
+app.post('/api/reviews', authenticateToken, async (req, res) => {
+  try {
+    const { teacherId, bookingId, rating, comment } = req.body;
+    const studentId = req.user.id;
+    
+    // Verify the student had a completed booking with this teacher
+    const booking = await pool.query(`
+      SELECT id FROM bookings 
+      WHERE id = $1 AND student_id = $2 AND teacher_id = $3 AND status = 'completed'
+    `, [bookingId, studentId, teacherId]);
+    
+    if (booking.rows.length === 0) {
+      return res.status(400).json({ error: 'You can only review teachers after completing a class' });
+    }
+    
+    // Check if already reviewed this booking
+    const existingReview = await pool.query(
+      'SELECT id FROM teacher_reviews WHERE booking_id = $1',
+      [bookingId]
+    );
+    
+    if (existingReview.rows.length > 0) {
+      return res.status(400).json({ error: 'You have already reviewed this class' });
+    }
+    
+    // Create review
+    const result = await pool.query(`
+      INSERT INTO teacher_reviews (teacher_id, student_id, booking_id, rating, comment)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+    `, [teacherId, studentId, bookingId, rating, comment || '']);
+    
+    // Update teacher's average rating
+    await pool.query(`
+      UPDATE teacher_profiles 
+      SET rating = (SELECT AVG(rating) FROM teacher_reviews WHERE teacher_id = $1),
+          total_reviews = (SELECT COUNT(*) FROM teacher_reviews WHERE teacher_id = $1)
+      WHERE id = $1
+    `, [teacherId]);
+    
+    res.json({ success: true, review: result.rows[0] });
+  } catch (error) {
+    console.error('Error submitting review:', error);
+    res.status(500).json({ error: 'Failed to submit review' });
+  }
+});
+
+// Get reviews for a teacher
+app.get('/api/teachers/:id/reviews', async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (page - 1) * limit;
+    
+    const [reviews, total] = await Promise.all([
+      pool.query(`
+        SELECT tr.*, u.name, u.profile_image
+        FROM teacher_reviews tr
+        JOIN users u ON tr.student_id = u.id
+        WHERE tr.teacher_id = $1
+        ORDER BY tr.created_at DESC
+        LIMIT $2 OFFSET $3
+      `, [req.params.id, limit, offset]),
+      pool.query('SELECT COUNT(*) FROM teacher_reviews WHERE teacher_id = $1', [req.params.id])
+    ]);
+    
+    res.json({
+      reviews: reviews.rows,
+      total: parseInt(total.rows[0].count),
+      page: parseInt(page),
+      totalPages: Math.ceil(total.rows[0].count / limit)
+    });
+  } catch (error) {
+    console.error('Error fetching reviews:', error);
+    res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
+// Teacher accepts/confirms a booking
+app.put('/api/teacher/bookings/:id/confirm', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(403).json({ error: 'Not a teacher' });
+    }
+    
+    const result = await pool.query(`
+      UPDATE bookings SET status = 'scheduled', updated_at = NOW()
+      WHERE id = $1 AND teacher_id = $2 AND status = 'pending'
+      RETURNING *
+    `, [req.params.id, teacherProfile.rows[0].id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+    
+    res.json({ success: true, booking: result.rows[0] });
+  } catch (error) {
+    console.error('Error confirming booking:', error);
+    res.status(500).json({ error: 'Failed to confirm booking' });
+  }
+});
+
+// Teacher marks a class as completed
+app.put('/api/teacher/bookings/:id/complete', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(403).json({ error: 'Not a teacher' });
+    }
+    
+    const result = await pool.query(`
+      UPDATE bookings SET status = 'completed', completed_at = NOW(), updated_at = NOW()
+      WHERE id = $1 AND teacher_id = $2 AND status = 'scheduled'
+      RETURNING *
+    `, [req.params.id, teacherProfile.rows[0].id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Booking not found' });
+    }
+    
+    // If booking uses a subscription, increment classes_used
+    if (result.rows[0].package_id) {
+      await pool.query(`
+        UPDATE student_subscriptions 
+        SET classes_used = classes_used + 1
+        WHERE student_id = $1 AND teacher_id = $2 AND package_id = $3 AND status = 'active'
+      `, [result.rows[0].student_id, teacherProfile.rows[0].id, result.rows[0].package_id]);
+    }
+    
+    res.json({ success: true, booking: result.rows[0] });
+  } catch (error) {
+    console.error('Error completing booking:', error);
+    res.status(500).json({ error: 'Failed to complete booking' });
+  }
+});
+
+// Get teacher's pending and upcoming bookings
+app.get('/api/teacher/bookings', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(403).json({ error: 'Not a teacher' });
+    }
+    
+    const result = await pool.query(`
+      SELECT b.*, u.name as student_name, u.profile_image as student_image, cp.name as package_name
+      FROM bookings b
+      JOIN users u ON b.student_id = u.id
+      LEFT JOIN class_packages cp ON b.package_id = cp.id
+      WHERE b.teacher_id = $1 AND b.status IN ('pending', 'scheduled')
+      ORDER BY b.scheduled_at
+    `, [teacherProfile.rows[0].id]);
+    
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    res.status(500).json({ error: 'Failed to fetch bookings' });
+  }
+});
+
 // ==========================================
 // END QURAN TEACHING PLATFORM API ROUTES
 // ==========================================

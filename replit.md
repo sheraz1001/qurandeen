@@ -90,9 +90,17 @@ A marketplace connecting Quran teachers with students worldwide, similar to Prep
 - `/teachers/:id` - Individual teacher profile page
 - `/become-teacher` - Teacher registration form (4-step)
 - `/teacher-dashboard` - Teacher's management dashboard
+- `/student-dashboard` - Student's learning dashboard
+- `/book-class/:id` - Book a class with a teacher (4-step with payment)
+
+**Implemented Features:**
+- Student Dashboard with upcoming classes, subscriptions, payment history, and messages
+- Booking System with package selection, date/time picker, and Stripe payment integration
+- Payment Processing with 20% platform / 80% teacher commission split
+- Review System allowing students to rate teachers after completed classes
+- Teacher Booking Management (confirm, complete bookings)
 
 **Pending Features:**
-- Stripe Connect integration for split payments
 - Jitsi Meet video integration for live classes
 - Real-time messaging between students and teachers
-- Student dashboard with class management
+- Admin dashboard for teacher verification and earnings report

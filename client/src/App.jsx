@@ -33,6 +33,8 @@ import TeacherDirectory from './pages/teaching/TeacherDirectory';
 import TeacherProfile from './pages/teaching/TeacherProfile';
 import BecomeTeacher from './pages/teaching/BecomeTeacher';
 import TeacherDashboard from './pages/teaching/TeacherDashboard';
+import StudentDashboard from './pages/teaching/StudentDashboard';
+import BookClass from './pages/teaching/BookClass';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -157,6 +159,8 @@ function App() {
             <Route path="/teachers/:id" element={<TeacherProfile />} />
             <Route path="/become-teacher" element={<BecomeTeacher />} />
             <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+            <Route path="/student-dashboard" element={<StudentDashboard />} />
+            <Route path="/book-class/:id" element={<BookClass />} />
             <Route path="/settings" element={
               <Settings 
                 darkMode={darkMode}
