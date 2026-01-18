@@ -29,6 +29,10 @@ import Contact from './pages/Contact';
 import Donate from './pages/Donate';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
+import TeacherDirectory from './pages/teaching/TeacherDirectory';
+import TeacherProfile from './pages/teaching/TeacherProfile';
+import BecomeTeacher from './pages/teaching/BecomeTeacher';
+import TeacherDashboard from './pages/teaching/TeacherDashboard';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -149,6 +153,10 @@ function App() {
             <Route path="/donate" element={<Donate />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfUse />} />
+            <Route path="/teachers" element={<TeacherDirectory />} />
+            <Route path="/teachers/:id" element={<TeacherProfile />} />
+            <Route path="/become-teacher" element={<BecomeTeacher />} />
+            <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="/settings" element={
               <Settings 
                 darkMode={darkMode}

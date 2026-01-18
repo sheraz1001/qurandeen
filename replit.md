@@ -61,3 +61,38 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Google OAuth:** For user authentication via Google accounts.
 - **html2canvas:** For client-side rendering of HTML elements to canvas, used in the Share Card Generator for PNG downloads.
 - **jsPDF:** For generating client-side PDF documents, used in the Share Card Generator for crisp PDF exports.
+
+## Quran Teaching Platform (NEW - In Development)
+A marketplace connecting Quran teachers with students worldwide, similar to Preply/Italki but focused on Quran education.
+
+**Core Features:**
+- **User Roles:** Students, Teachers, and Admin
+- **Teacher Profiles:** Bio, headline, languages, specialties (Tajweed, Hifz, Tafsir, etc.), hourly rates, certificates, availability
+- **Teacher Directory:** Browse/search teachers with filters (specialty, language, price, country, rating)
+- **Class Packages:** Teachers create packages (single sessions, weekly/monthly plans)
+- **Booking System:** Students book classes based on teacher availability
+- **Commission Model:** Platform takes 20% commission, teacher receives 80%
+
+**Database Tables:**
+- `teacher_profiles` - Teacher information linked to users
+- `teacher_certificates` - Uploaded credentials/Ijazah
+- `teaching_specialties` - Lookup table for teaching categories
+- `teacher_availability` - Weekly schedule slots
+- `class_packages` - Pricing packages created by teachers
+- `bookings` - Scheduled class sessions
+- `student_subscriptions` - Student package purchases
+- `platform_payments` - Payment records with commission split
+- `teacher_reviews` - Student ratings and reviews
+- `messages` - Student-teacher communication
+
+**Routes:**
+- `/teachers` - Teacher directory with search/filters
+- `/teachers/:id` - Individual teacher profile page
+- `/become-teacher` - Teacher registration form (4-step)
+- `/teacher-dashboard` - Teacher's management dashboard
+
+**Pending Features:**
+- Stripe Connect integration for split payments
+- Jitsi Meet video integration for live classes
+- Real-time messaging between students and teachers
+- Student dashboard with class management

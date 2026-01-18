@@ -31,6 +31,7 @@ function Header({ darkMode, toggleDarkMode }) {
     { path: '/quran-mp3-audio', label: 'Audio Quran' },
     { path: '/islamic-resources', label: 'Resources' },
     { path: '/islamic-ai-scholar', label: 'AI Scholar' },
+    { path: '/teachers', label: 'Find Teachers' },
     { path: '/blogs', label: 'Blogs' },
   ];
 

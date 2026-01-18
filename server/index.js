@@ -1886,6 +1886,504 @@ app.post('/api/admin/test-email', authenticateToken, isAdmin, async (req, res) =
   }
 });
 
+// ==========================================
+// QURAN TEACHING PLATFORM API ROUTES
+// ==========================================
+
+// Get all teaching specialties
+app.get('/api/teaching/specialties', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM teaching_specialties ORDER BY name');
+    res.json({ specialties: result.rows });
+  } catch (error) {
+    console.error('Error fetching specialties:', error);
+    res.status(500).json({ error: 'Failed to fetch specialties' });
+  }
+});
+
+// Become a teacher - create teacher profile
+app.post('/api/teacher/register', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // Check if already a teacher
+    const existing = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [userId]);
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ error: 'You already have a teacher profile' });
+    }
+    
+    const { bio, headline, yearsExperience, hourlyRate, languages, specialties, timezone } = req.body;
+    
+    const result = await pool.query(`
+      INSERT INTO teacher_profiles (user_id, bio, headline, years_experience, hourly_rate, languages, specialties, timezone)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING *
+    `, [userId, bio, headline, yearsExperience || 0, hourlyRate, languages || [], specialties || [], timezone || 'UTC']);
+    
+    // Update user role to teacher
+    await pool.query("UPDATE users SET role = 'teacher' WHERE id = $1", [userId]);
+    
+    res.json({ success: true, profile: result.rows[0] });
+  } catch (error) {
+    console.error('Error creating teacher profile:', error);
+    res.status(500).json({ error: 'Failed to create teacher profile' });
+  }
+});
+
+// Get current user's teacher profile
+app.get('/api/teacher/profile', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT tp.*, u.name, u.email, u.profile_image, u.country, u.city
+      FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      WHERE tp.user_id = $1
+    `, [req.user.id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    // Get certificates
+    const certs = await pool.query('SELECT * FROM teacher_certificates WHERE teacher_id = $1', [result.rows[0].id]);
+    
+    // Get class packages
+    const packages = await pool.query('SELECT * FROM class_packages WHERE teacher_id = $1 AND is_active = true', [result.rows[0].id]);
+    
+    // Get availability
+    const availability = await pool.query('SELECT * FROM teacher_availability WHERE teacher_id = $1 ORDER BY day_of_week, start_time', [result.rows[0].id]);
+    
+    res.json({ 
+      profile: result.rows[0],
+      certificates: certs.rows,
+      packages: packages.rows,
+      availability: availability.rows
+    });
+  } catch (error) {
+    console.error('Error fetching teacher profile:', error);
+    res.status(500).json({ error: 'Failed to fetch teacher profile' });
+  }
+});
+
+// Update teacher profile
+app.put('/api/teacher/profile', authenticateToken, async (req, res) => {
+  try {
+    const { bio, headline, yearsExperience, hourlyRate, languages, specialties, timezone, videoIntroUrl } = req.body;
+    
+    const result = await pool.query(`
+      UPDATE teacher_profiles 
+      SET bio = COALESCE($1, bio),
+          headline = COALESCE($2, headline),
+          years_experience = COALESCE($3, years_experience),
+          hourly_rate = COALESCE($4, hourly_rate),
+          languages = COALESCE($5, languages),
+          specialties = COALESCE($6, specialties),
+          timezone = COALESCE($7, timezone),
+          video_intro_url = COALESCE($8, video_intro_url),
+          updated_at = NOW()
+      WHERE user_id = $9
+      RETURNING *
+    `, [bio, headline, yearsExperience, hourlyRate, languages, specialties, timezone, videoIntroUrl, req.user.id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    res.json({ success: true, profile: result.rows[0] });
+  } catch (error) {
+    console.error('Error updating teacher profile:', error);
+    res.status(500).json({ error: 'Failed to update teacher profile' });
+  }
+});
+
+// Add certificate
+app.post('/api/teacher/certificates', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    const { title, issuer, issueDate, certificateUrl } = req.body;
+    
+    const result = await pool.query(`
+      INSERT INTO teacher_certificates (teacher_id, title, issuer, issue_date, certificate_url)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+    `, [teacherProfile.rows[0].id, title, issuer, issueDate, certificateUrl]);
+    
+    res.json({ success: true, certificate: result.rows[0] });
+  } catch (error) {
+    console.error('Error adding certificate:', error);
+    res.status(500).json({ error: 'Failed to add certificate' });
+  }
+});
+
+// Delete certificate
+app.delete('/api/teacher/certificates/:id', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    await pool.query('DELETE FROM teacher_certificates WHERE id = $1 AND teacher_id = $2', [req.params.id, teacherProfile.rows[0].id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting certificate:', error);
+    res.status(500).json({ error: 'Failed to delete certificate' });
+  }
+});
+
+// Set teacher availability
+app.post('/api/teacher/availability', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    const { slots } = req.body; // Array of { dayOfWeek, startTime, endTime }
+    const teacherId = teacherProfile.rows[0].id;
+    
+    // Clear existing availability and add new
+    await pool.query('DELETE FROM teacher_availability WHERE teacher_id = $1', [teacherId]);
+    
+    for (const slot of slots) {
+      await pool.query(`
+        INSERT INTO teacher_availability (teacher_id, day_of_week, start_time, end_time)
+        VALUES ($1, $2, $3, $4)
+      `, [teacherId, slot.dayOfWeek, slot.startTime, slot.endTime]);
+    }
+    
+    const result = await pool.query('SELECT * FROM teacher_availability WHERE teacher_id = $1 ORDER BY day_of_week, start_time', [teacherId]);
+    res.json({ success: true, availability: result.rows });
+  } catch (error) {
+    console.error('Error setting availability:', error);
+    res.status(500).json({ error: 'Failed to set availability' });
+  }
+});
+
+// Create class package
+app.post('/api/teacher/packages', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    const { name, description, specialty, durationMinutes, sessionsCount, price, validityDays } = req.body;
+    
+    const result = await pool.query(`
+      INSERT INTO class_packages (teacher_id, name, description, specialty, duration_minutes, sessions_count, price, validity_days)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      RETURNING *
+    `, [teacherProfile.rows[0].id, name, description, specialty, durationMinutes || 60, sessionsCount || 1, price, validityDays || 30]);
+    
+    res.json({ success: true, package: result.rows[0] });
+  } catch (error) {
+    console.error('Error creating package:', error);
+    res.status(500).json({ error: 'Failed to create package' });
+  }
+});
+
+// Update class package
+app.put('/api/teacher/packages/:id', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    const { name, description, specialty, durationMinutes, sessionsCount, price, validityDays, isActive } = req.body;
+    
+    const result = await pool.query(`
+      UPDATE class_packages 
+      SET name = COALESCE($1, name),
+          description = COALESCE($2, description),
+          specialty = COALESCE($3, specialty),
+          duration_minutes = COALESCE($4, duration_minutes),
+          sessions_count = COALESCE($5, sessions_count),
+          price = COALESCE($6, price),
+          validity_days = COALESCE($7, validity_days),
+          is_active = COALESCE($8, is_active),
+          updated_at = NOW()
+      WHERE id = $9 AND teacher_id = $10
+      RETURNING *
+    `, [name, description, specialty, durationMinutes, sessionsCount, price, validityDays, isActive, req.params.id, teacherProfile.rows[0].id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Package not found' });
+    }
+    
+    res.json({ success: true, package: result.rows[0] });
+  } catch (error) {
+    console.error('Error updating package:', error);
+    res.status(500).json({ error: 'Failed to update package' });
+  }
+});
+
+// Delete class package
+app.delete('/api/teacher/packages/:id', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT id FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    await pool.query('DELETE FROM class_packages WHERE id = $1 AND teacher_id = $2', [req.params.id, teacherProfile.rows[0].id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting package:', error);
+    res.status(500).json({ error: 'Failed to delete package' });
+  }
+});
+
+// PUBLIC: Browse teachers with filters
+app.get('/api/teachers', async (req, res) => {
+  try {
+    const { language, specialty, minPrice, maxPrice, country, search, page = 1, limit = 12 } = req.query;
+    const offset = (page - 1) * limit;
+    
+    let query = `
+      SELECT tp.*, u.name, u.profile_image, u.country, u.city
+      FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      WHERE tp.is_active = true AND tp.is_verified = true
+    `;
+    const params = [];
+    let paramIndex = 1;
+    
+    if (language) {
+      query += ` AND $${paramIndex} = ANY(tp.languages)`;
+      params.push(language);
+      paramIndex++;
+    }
+    
+    if (specialty) {
+      query += ` AND $${paramIndex} = ANY(tp.specialties)`;
+      params.push(specialty);
+      paramIndex++;
+    }
+    
+    if (minPrice) {
+      query += ` AND tp.hourly_rate >= $${paramIndex}`;
+      params.push(minPrice);
+      paramIndex++;
+    }
+    
+    if (maxPrice) {
+      query += ` AND tp.hourly_rate <= $${paramIndex}`;
+      params.push(maxPrice);
+      paramIndex++;
+    }
+    
+    if (country) {
+      query += ` AND LOWER(u.country) = LOWER($${paramIndex})`;
+      params.push(country);
+      paramIndex++;
+    }
+    
+    if (search) {
+      query += ` AND (LOWER(u.name) LIKE LOWER($${paramIndex}) OR LOWER(tp.headline) LIKE LOWER($${paramIndex}) OR LOWER(tp.bio) LIKE LOWER($${paramIndex}))`;
+      params.push(`%${search}%`);
+      paramIndex++;
+    }
+    
+    // Count total
+    const countResult = await pool.query(`SELECT COUNT(*) FROM (${query}) AS filtered`, params);
+    const total = parseInt(countResult.rows[0].count);
+    
+    // Add ordering and pagination
+    query += ` ORDER BY tp.average_rating DESC, tp.total_students DESC LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`;
+    params.push(limit, offset);
+    
+    const result = await pool.query(query, params);
+    
+    res.json({
+      teachers: result.rows,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching teachers:', error);
+    res.status(500).json({ error: 'Failed to fetch teachers' });
+  }
+});
+
+// PUBLIC: Get single teacher profile
+app.get('/api/teachers/:id', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT tp.*, u.name, u.profile_image, u.country, u.city
+      FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      WHERE tp.id = $1 AND tp.is_active = true
+    `, [req.params.id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher not found' });
+    }
+    
+    // Get certificates
+    const certs = await pool.query('SELECT * FROM teacher_certificates WHERE teacher_id = $1 AND is_verified = true', [req.params.id]);
+    
+    // Get packages
+    const packages = await pool.query('SELECT * FROM class_packages WHERE teacher_id = $1 AND is_active = true ORDER BY price', [req.params.id]);
+    
+    // Get availability
+    const availability = await pool.query('SELECT * FROM teacher_availability WHERE teacher_id = $1 ORDER BY day_of_week, start_time', [req.params.id]);
+    
+    // Get reviews
+    const reviews = await pool.query(`
+      SELECT tr.*, u.name, u.profile_image
+      FROM teacher_reviews tr
+      JOIN users u ON tr.student_id = u.id
+      WHERE tr.teacher_id = $1 AND tr.is_public = true
+      ORDER BY tr.created_at DESC
+      LIMIT 10
+    `, [req.params.id]);
+    
+    res.json({
+      teacher: result.rows[0],
+      certificates: certs.rows,
+      packages: packages.rows,
+      availability: availability.rows,
+      reviews: reviews.rows
+    });
+  } catch (error) {
+    console.error('Error fetching teacher:', error);
+    res.status(500).json({ error: 'Failed to fetch teacher' });
+  }
+});
+
+// ADMIN: Get pending teacher verifications
+app.get('/api/admin/teachers/pending', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT tp.*, u.name, u.email, u.profile_image, u.country
+      FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      WHERE tp.is_verified = false
+      ORDER BY tp.created_at DESC
+    `);
+    
+    // Get certificates for each teacher
+    const teachers = await Promise.all(result.rows.map(async (teacher) => {
+      const certs = await pool.query('SELECT * FROM teacher_certificates WHERE teacher_id = $1', [teacher.id]);
+      return { ...teacher, certificates: certs.rows };
+    }));
+    
+    res.json({ teachers });
+  } catch (error) {
+    console.error('Error fetching pending teachers:', error);
+    res.status(500).json({ error: 'Failed to fetch pending teachers' });
+  }
+});
+
+// ADMIN: Verify teacher
+app.post('/api/admin/teachers/:id/verify', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    await pool.query('UPDATE teacher_profiles SET is_verified = true WHERE id = $1', [req.params.id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error verifying teacher:', error);
+    res.status(500).json({ error: 'Failed to verify teacher' });
+  }
+});
+
+// ADMIN: Reject/unverify teacher
+app.post('/api/admin/teachers/:id/reject', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    await pool.query('UPDATE teacher_profiles SET is_verified = false, is_active = false WHERE id = $1', [req.params.id]);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error rejecting teacher:', error);
+    res.status(500).json({ error: 'Failed to reject teacher' });
+  }
+});
+
+// Teacher Dashboard Stats
+app.get('/api/teacher/dashboard', authenticateToken, async (req, res) => {
+  try {
+    const teacherProfile = await pool.query('SELECT * FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    if (teacherProfile.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher profile not found' });
+    }
+    
+    const teacherId = teacherProfile.rows[0].id;
+    
+    // Get upcoming bookings
+    const upcomingBookings = await pool.query(`
+      SELECT b.*, u.name as student_name, u.profile_image as student_image, cp.name as package_name
+      FROM bookings b
+      JOIN users u ON b.student_id = u.id
+      LEFT JOIN class_packages cp ON b.package_id = cp.id
+      WHERE b.teacher_id = $1 AND b.scheduled_at > NOW() AND b.status = 'scheduled'
+      ORDER BY b.scheduled_at
+      LIMIT 10
+    `, [teacherId]);
+    
+    // Get recent reviews
+    const recentReviews = await pool.query(`
+      SELECT tr.*, u.name, u.profile_image
+      FROM teacher_reviews tr
+      JOIN users u ON tr.student_id = u.id
+      WHERE tr.teacher_id = $1
+      ORDER BY tr.created_at DESC
+      LIMIT 5
+    `, [teacherId]);
+    
+    // Get earnings this month
+    const monthlyEarnings = await pool.query(`
+      SELECT COALESCE(SUM(teacher_amount), 0) as total
+      FROM platform_payments
+      WHERE teacher_id = $1 AND status = 'completed'
+      AND created_at >= DATE_TRUNC('month', CURRENT_DATE)
+    `, [teacherId]);
+    
+    // Get total students (unique)
+    const totalStudents = await pool.query(`
+      SELECT COUNT(DISTINCT student_id) as count
+      FROM student_subscriptions
+      WHERE teacher_id = $1
+    `, [teacherId]);
+    
+    res.json({
+      profile: teacherProfile.rows[0],
+      upcomingBookings: upcomingBookings.rows,
+      recentReviews: recentReviews.rows,
+      monthlyEarnings: parseFloat(monthlyEarnings.rows[0].total),
+      totalStudents: parseInt(totalStudents.rows[0].count)
+    });
+  } catch (error) {
+    console.error('Error fetching teacher dashboard:', error);
+    res.status(500).json({ error: 'Failed to fetch dashboard data' });
+  }
+});
+
+// Check if current user is a teacher
+app.get('/api/teacher/check', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT id, is_verified, is_active FROM teacher_profiles WHERE user_id = $1', [req.user.id]);
+    res.json({ 
+      isTeacher: result.rows.length > 0,
+      profile: result.rows[0] || null
+    });
+  } catch (error) {
+    console.error('Error checking teacher status:', error);
+    res.status(500).json({ error: 'Failed to check teacher status' });
+  }
+});
+
+// ==========================================
+// END QURAN TEACHING PLATFORM API ROUTES
+// ==========================================
+
 const surahSlugs = [
   '1-al-fatihah', '2-al-baqarah', '3-aali-imran', '4-an-nisa', '5-al-maidah', '6-al-anam', '7-al-araf', '8-al-anfal', '9-at-tawbah', '10-yunus',
   '11-hud', '12-yusuf', '13-ar-rad', '14-ibrahim', '15-al-hijr', '16-an-nahl', '17-al-isra', '18-al-kahf', '19-maryam', '20-ta-ha',
