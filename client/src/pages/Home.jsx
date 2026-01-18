@@ -111,9 +111,36 @@ function Home() {
         keywords="Quran online, Holy Quran, Quran reading, Quran audio, Quran translation, Quran tafsir, Islamic website, Read Quran, Listen Quran, Surah, Ayah"
         schema={homeSchema}
       />
-      <div className="hero">
-        <h1>The Holy Quran</h1>
-        <p>Read, listen, and explore the divine words</p>
+      <div className="hero-animated">
+        <div className="hero-bg-pattern"></div>
+        <div className="hero-glow"></div>
+        <div className="hero-content">
+          <div className="hero-icon-wrapper">
+            <div className="hero-icon-ring"></div>
+            <div className="hero-icon-ring delay-1"></div>
+            <div className="hero-icon-ring delay-2"></div>
+            <span className="hero-icon">☪</span>
+          </div>
+          <h1 className="hero-title">
+            <span className="hero-title-line">The Holy</span>
+            <span className="hero-title-main">Quran</span>
+          </h1>
+          <p className="hero-subtitle">Read, listen, and explore the divine words</p>
+          <div className="hero-stats-mini">
+            <span>114 Surahs</span>
+            <span className="hero-dot">•</span>
+            <span>6,236 Ayahs</span>
+            <span className="hero-dot">•</span>
+            <span>100+ Translations</span>
+          </div>
+        </div>
+        <div className="hero-particles">
+          <span className="particle"></span>
+          <span className="particle"></span>
+          <span className="particle"></span>
+          <span className="particle"></span>
+          <span className="particle"></span>
+        </div>
       </div>
 
       <div className="browse-links">
