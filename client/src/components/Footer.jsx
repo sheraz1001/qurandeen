@@ -27,7 +27,7 @@ function Footer() {
             <div className="footer-logo">
               <img 
                 src="/logo.png" 
-                alt="Quran Deen" 
+                alt="Quran Deen - Online Quran Explorer and AI Scholar" 
                 className="footer-logo-image"
               />
             </div>

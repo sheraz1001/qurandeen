@@ -138,7 +138,7 @@ function Header({ darkMode, toggleDarkMode }) {
           <Link to="/" className="logo">
             <img 
               src="/logo.png" 
-              alt="Quran Deen" 
+              alt="Quran Deen - Online Quran Explorer and AI Scholar" 
               className="logo-image"
             />
           </Link>
