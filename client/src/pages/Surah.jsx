@@ -5,6 +5,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import WordByWord from '../components/WordByWord';
+import HeroAnimated from '../components/HeroAnimated';
 import { resolveSurahIdentifier, getSurahByNumber, getCanonicalSlug } from '../data/surahData';
 
 function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir, selectedFont }) {
@@ -418,20 +419,47 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
             }
           })}
         </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://qurandeen.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Quran",
+                "item": "https://qurandeen.com"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": `Surah ${surahInfo.englishName}`,
+                "item": canonicalUrl
+              }
+            ]
+          })}
+        </script>
       </Helmet>
       
       <audio ref={audioRef} onEnded={handleAudioEnded} />
       
-      <div className="surah-header">
-        <Link to="/" className="back-link">← Back to Surahs</Link>
-        <div className="surah-title">
-          <h1 className="surah-name-arabic-large">{surahInfo.name}</h1>
-          <h2>{surahInfo.englishName}</h2>
-          <p className="surah-subtitle">
-            {surahInfo.englishNameTranslation} • {surahInfo.revelationType} • {surahInfo.numberOfAyahs} Ayahs
-          </p>
-        </div>
-      </div>
+      <HeroAnimated
+        icon={surahInfo.name}
+        title={`Surah ${surahInfo.englishName}`}
+        subtitle={surahMeaning}
+        stats={[surahInfo.revelationType, `${surahInfo.numberOfAyahs} Ayahs`, `Surah ${surahInfo.number}`]}
+        breadcrumbs={[
+          { name: 'Home', href: '/' },
+          { name: 'Quran', href: '/' },
+          { name: `Surah ${surahInfo.englishName}` }
+        ]}
+      />
 
       <div className="surah-controls">
         <div className="translation-selector">
