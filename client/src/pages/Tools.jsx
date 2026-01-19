@@ -48,15 +48,15 @@ function Tools() {
       color: '#8250df'
     },
     {
-      id: 'adhkar',
-      title: 'Morning & Evening Adhkar',
-      description: 'Authentic duas with Arabic, transliteration, translation and audio',
+      id: 'azkaar',
+      title: 'Daily Azkaar & Duas',
+      description: 'Complete Hisnul Muslim collection with 300+ authentic duas in 24 categories',
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
         </svg>
       ),
-      path: '/islamic-resources/adhkar',
+      path: '/azkaar',
       color: '#bf8700'
     },
     {

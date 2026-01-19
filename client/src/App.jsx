@@ -36,6 +36,8 @@ import TeachWithUs from './pages/teaching/TeachWithUs';
 import TeacherDashboard from './pages/teaching/TeacherDashboard';
 import StudentDashboard from './pages/teaching/StudentDashboard';
 import BookClass from './pages/teaching/BookClass';
+import Azkaar from './pages/Azkaar';
+import AzkaarCategory from './pages/AzkaarCategory';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -163,6 +165,8 @@ function App() {
             <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/book-class/:id" element={<BookClass />} />
+            <Route path="/azkaar" element={<Azkaar />} />
+            <Route path="/azkaar/:categoryId" element={<AzkaarCategory />} />
             <Route path="/settings" element={
               <Settings 
                 darkMode={darkMode}
