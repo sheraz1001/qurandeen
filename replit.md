@@ -113,3 +113,40 @@ A marketplace connecting Quran teachers with students worldwide, similar to Prep
 - Reservation/hold system that locks a timeslot before payment is initiated
 - WebSocket-based messaging for instant real-time updates (currently uses polling)
 - Push notifications for new messages and upcoming classes
+
+## Daily Azkaar & Duas Section (Complete Hisnul Muslim)
+A comprehensive collection of authentic Islamic supplications from Hisnul Muslim (Fortress of the Muslim).
+
+**Data Source:**
+- Complete Hisnul Muslim book with **134 categories** and **298+ authentic duas**
+- Arabic text from rn0x/hisn_almuslim_json GitHub repository
+- English translations from khalid-hussain/hisnulMuslimDB XML database
+- Stored locally in `client/src/data/azkaarData.js` for fast loading and offline capability
+
+**Categories Include:**
+- Morning & Evening Adhkar (25 duas)
+- Prayer-related: Before/After Wudu, Entering/Leaving Masjid, Opening Prayer, Ruku, Sujud, Tashahhud, After Prayer, Istikhara
+- Daily Life: Waking Up, Sleeping, Wearing Clothes, Eating, Drinking, Traveling, Entering Home/Market
+- Protection: Against Shaytan, Evil Eye, Anxiety, Distress, Fear, Sickness
+- Special Occasions: Hajj/Umrah (Talbiyah, Safa/Marwa, Day of Arafah), Rain, New Moon, Ramadan/Fasting
+- Social: Marriage, Newborn, Visiting Sick, Funeral, Condolences, Gatherings
+- Worship: Istighfar, Virtues of Dhikr, Salawat on Prophet
+
+**Features:**
+- Interactive recitation counter with tap-to-count functionality
+- Progress tracking persisted to localStorage across sessions
+- Font size controls (small, medium, large)
+- Toggle transliteration and translation display
+- Reset current dua or reset all progress
+- Search functionality across all categories
+- Featured categories section highlighting essential daily adhkar
+- Responsive grid layout for browsing all 134 categories
+
+**Routes:**
+- `/azkaar` - Main listing page with all 134 categories
+- `/azkaar/:categoryId` - Individual category page with all duas
+
+**Technical Implementation:**
+- Local data module exports `azkaarCategories`, `getAllAzkaar()`, `getDuaById()`, `searchDuas()`, `getFeaturedCategories()`
+- Progress stored in localStorage with key pattern: `azkaar_progress_{categoryId}`
+- SEO optimized with JSON-LD CollectionPage schema and dynamic meta tags

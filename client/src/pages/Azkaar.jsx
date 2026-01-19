@@ -14,9 +14,9 @@ function Azkaar() {
     cat.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const featuredCategories = ['morning', 'evening', 'after-prayer', 'sleep'];
-  const featured = azkaarCategories.filter(c => featuredCategories.includes(c.id));
-  const other = filteredCategories.filter(c => !featuredCategories.includes(c.id));
+  const featuredCategoryIds = ['morning-evening', 'after-prayer', 'before-sleep', 'waking-up', 'anxiety-sorrow', 'distress', 'istikhara', 'travel'];
+  const featured = azkaarCategories.filter(c => featuredCategoryIds.includes(c.id));
+  const other = filteredCategories.filter(c => !featuredCategoryIds.includes(c.id));
 
   return (
     <div className="azkaar-page">
