@@ -18,6 +18,8 @@ function Azkaar() {
   const featured = azkaarCategories.filter(c => featuredCategoryIds.includes(c.id));
   const other = filteredCategories.filter(c => !featuredCategoryIds.includes(c.id));
 
+  const totalDuas = azkaarCategories.reduce((sum, cat) => sum + cat.count, 0);
+
   return (
     <div className="azkaar-page">
       <Helmet>
@@ -51,7 +53,7 @@ function Azkaar() {
         subtitle="Authentic supplications from Hisnul Muslim (Fortress of the Muslim)"
         stats={[
           `${azkaarCategories.length} Categories`,
-          '300+ Duas',
+          `${totalDuas}+ Duas`,
           'Arabic & English'
         ]}
         breadcrumbs={[
@@ -68,6 +70,21 @@ function Azkaar() {
             from the Quran and Sunnah. Regular recitation of these supplications strengthens one's connection 
             with Allah and provides protection, blessings, and peace of mind.
           </p>
+        </div>
+
+        <div className="stats-bar">
+          <div className="stat-item">
+            <div className="stat-number">{azkaarCategories.length}</div>
+            <div className="stat-label">Categories</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">{totalDuas}+</div>
+            <div className="stat-label">Authentic Duas</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-number">24/7</div>
+            <div className="stat-label">Daily Protection</div>
+          </div>
         </div>
 
         <div className="search-section">
@@ -87,8 +104,11 @@ function Azkaar() {
 
         {!searchTerm && (
           <section className="featured-section">
-            <h2>Essential Daily Azkaar</h2>
-            <p className="section-subtitle">Most important supplications for your daily routine</p>
+            <div className="section-header">
+              <h2>Essential Daily Azkaar</h2>
+              <div className="section-line"></div>
+              <p className="section-subtitle">Most important supplications for your daily routine</p>
+            </div>
             <div className="featured-grid">
               {featured.map(category => (
                 <Link to={`/azkaar/${category.id}`} key={category.id} className="featured-card">
@@ -106,8 +126,15 @@ function Azkaar() {
         )}
 
         <section className="all-categories">
-          <h2>{searchTerm ? 'Search Results' : 'All Categories'}</h2>
-          {searchTerm && <p className="section-subtitle">Found {filteredCategories.length} categories</p>}
+          <div className="section-header">
+            <h2>{searchTerm ? 'Search Results' : 'All Categories'}</h2>
+            <div className="section-line"></div>
+            {searchTerm ? (
+              <p className="section-subtitle">Found {filteredCategories.length} categories</p>
+            ) : (
+              <p className="section-subtitle">Browse all {azkaarCategories.length - featured.length} additional categories</p>
+            )}
+          </div>
           
           <div className="categories-grid">
             {(searchTerm ? filteredCategories : other).map(category => (
@@ -131,37 +158,41 @@ function Azkaar() {
         </section>
 
         <section className="benefits-section">
-          <h2>Benefits of Regular Dhikr</h2>
+          <div className="section-header">
+            <h2>Benefits of Regular Dhikr</h2>
+            <div className="section-line"></div>
+            <p className="section-subtitle">Why reciting duas daily transforms your life</p>
+          </div>
           <div className="benefits-grid">
             <div className="benefit-card">
               <span className="benefit-icon">🛡️</span>
-              <h3>Protection</h3>
-              <p>Regular recitation provides protection from harm, evil eye, and negative influences.</p>
+              <h3>Divine Protection</h3>
+              <p>Regular recitation provides protection from harm, evil eye, and negative influences throughout your day.</p>
             </div>
             <div className="benefit-card">
               <span className="benefit-icon">💚</span>
-              <h3>Peace of Mind</h3>
-              <p>Dhikr calms the heart and brings tranquility, reducing anxiety and stress.</p>
+              <h3>Inner Peace</h3>
+              <p>Dhikr calms the heart and brings tranquility, reducing anxiety and stress in daily life.</p>
             </div>
             <div className="benefit-card">
               <span className="benefit-icon">✨</span>
               <h3>Barakah</h3>
-              <p>Blessings in your time, wealth, health, and all aspects of life.</p>
+              <p>Blessings in your time, wealth, health, and all aspects of life through remembrance of Allah.</p>
             </div>
             <div className="benefit-card">
               <span className="benefit-icon">🌟</span>
-              <h3>Rewards</h3>
-              <p>Immense rewards from Allah for every word of remembrance and supplication.</p>
+              <h3>Immense Rewards</h3>
+              <p>Every word of remembrance and supplication brings immense rewards from Allah in this life and the next.</p>
             </div>
           </div>
         </section>
 
         <section className="cta-section">
           <h2>Start Your Daily Practice</h2>
-          <p>Begin with the morning and evening adhkar - the most essential supplications for protection throughout the day and night.</p>
+          <p>Begin with the morning and evening adhkar - the most essential supplications for protection throughout the day and night. Make dhikr a consistent part of your routine.</p>
           <div className="cta-buttons">
-            <Link to="/azkaar/morning" className="btn-primary btn-large">Morning Adhkar 🌅</Link>
-            <Link to="/azkaar/evening" className="btn-secondary btn-large">Evening Adhkar 🌙</Link>
+            <Link to="/azkaar/morning-evening" className="btn-primary btn-large">Start Morning Adhkar 🌅</Link>
+            <Link to="/azkaar/before-sleep" className="btn-secondary btn-large">Evening & Sleep Duas 🌙</Link>
           </div>
         </section>
       </div>
