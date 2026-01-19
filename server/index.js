@@ -1912,13 +1912,25 @@ app.post('/api/teacher/register', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'You already have a teacher profile' });
     }
     
-    const { bio, headline, yearsExperience, hourlyRate, languages, specialties, timezone } = req.body;
+    const { 
+      bio, headline, yearsExperience, hourlyRate, languages, specialties, 
+      timezone, nationality, country, gender, phone, educationLevel, 
+      ijazahDetails, teachingExperience, videoIntroUrl, teachingStyles, availabilityNotes 
+    } = req.body;
     
     const result = await pool.query(`
-      INSERT INTO teacher_profiles (user_id, bio, headline, years_experience, hourly_rate, languages, specialties, timezone)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO teacher_profiles (
+        user_id, bio, headline, years_experience, hourly_rate, languages, specialties, 
+        timezone, nationality, country, gender, phone, education_level, 
+        ijazah_details, teaching_experience, video_intro_url, teaching_styles, availability_notes
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
       RETURNING *
-    `, [userId, bio, headline, yearsExperience || 0, hourlyRate, languages || [], specialties || [], timezone || 'UTC']);
+    `, [
+      userId, bio, headline, yearsExperience || 0, hourlyRate, languages || [], specialties || [], 
+      timezone || 'UTC', nationality, country, gender, phone, educationLevel, 
+      ijazahDetails, teachingExperience, videoIntroUrl, teachingStyles || [], availabilityNotes
+    ]);
     
     // Update user role to teacher
     await pool.query("UPDATE users SET role = 'teacher' WHERE id = $1", [userId]);
