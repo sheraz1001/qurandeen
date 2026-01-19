@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import axios from 'axios';
 import HeroAnimated from '../../components/HeroAnimated';
 import Loading from '../../components/Loading';
 import { useAuth } from '../../context/AuthContext';
@@ -14,6 +15,13 @@ function TeacherDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
   const [activeSection, setActiveSection] = useState('overview');
   const [error, setError] = useState('');
+  
+  const [conversations, setConversations] = useState([]);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -40,6 +48,71 @@ function TeacherDashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    if (activeSection === 'messages') {
+      fetchConversations();
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
+    if (selectedConversation) {
+      fetchMessages(selectedConversation.partner_id);
+      const interval = setInterval(() => fetchMessages(selectedConversation.partner_id), 5000);
+      return () => clearInterval(interval);
+    }
+  }, [selectedConversation]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const fetchConversations = async () => {
+    try {
+      const response = await axios.get('/api/messages/conversations');
+      setConversations(response.data);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
+  };
+
+  const fetchMessages = async (partnerId) => {
+    try {
+      const response = await axios.get(`/api/messages/${partnerId}`);
+      setMessages(response.data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !selectedConversation || sendingMessage) return;
+
+    setSendingMessage(true);
+    try {
+      await axios.post('/api/messages', {
+        receiverId: selectedConversation.partner_id,
+        content: newMessage.trim()
+      });
+      setNewMessage('');
+      fetchMessages(selectedConversation.partner_id);
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setSendingMessage(false);
+    }
+  };
+
+  const formatMessageTime = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+    if (isToday) {
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   };
 
   if (!isAuthenticated) return null;
@@ -122,6 +195,12 @@ function TeacherDashboard() {
               >
                 ⭐ Reviews
               </button>
+              <button 
+                className={activeSection === 'messages' ? 'active' : ''}
+                onClick={() => setActiveSection('messages')}
+              >
+                💬 Messages
+              </button>
             </nav>
             <div className="sidebar-profile-link">
               <Link to={`/teachers/${profile.id}`} className="btn-secondary btn-small">
@@ -196,6 +275,11 @@ function TeacherDashboard() {
                               {new Date(booking.scheduled_at).toLocaleString()}
                             </div>
                             <div className="booking-package">{booking.package_name}</div>
+                            {booking.meeting_url && (
+                              <a href={booking.meeting_url} className="btn-small btn-join" target="_blank" rel="noopener noreferrer">
+                                🎥 Join
+                              </a>
+                            )}
                           </li>
                         ))}
                       </ul>
@@ -298,6 +382,95 @@ function TeacherDashboard() {
                   </div>
                 )}
               </div>
+            )}
+
+            {activeSection === 'messages' && (
+              <section className="dashboard-section messages-section">
+                <h2>Messages</h2>
+                
+                <div className="messaging-container">
+                  <div className="conversations-sidebar">
+                    <h3>Conversations</h3>
+                    {conversations.length > 0 ? (
+                      <div className="conversations-list">
+                        {conversations.map((conv) => (
+                          <div 
+                            key={conv.partner_id} 
+                            className={`conversation-item ${selectedConversation?.partner_id === conv.partner_id ? 'active' : ''}`}
+                            onClick={() => setSelectedConversation(conv)}
+                          >
+                            <img 
+                              src={conv.partner_image || '/default-avatar.png'} 
+                              alt={conv.partner_name}
+                              className="conv-avatar"
+                            />
+                            <div className="conv-content">
+                              <div className="conv-header">
+                                <span className="conv-name">{conv.partner_name}</span>
+                                <span className="conv-time">{formatMessageTime(conv.last_message_at)}</span>
+                              </div>
+                              <p className="conv-preview">{conv.last_message?.substring(0, 40)}{conv.last_message?.length > 40 ? '...' : ''}</p>
+                            </div>
+                            {parseInt(conv.unread_count) > 0 && (
+                              <span className="unread-badge">{conv.unread_count}</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="empty-conversations">
+                        <p>No conversations yet</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="chat-area">
+                    {selectedConversation ? (
+                      <>
+                        <div className="chat-header">
+                          <img 
+                            src={selectedConversation.partner_image || '/default-avatar.png'} 
+                            alt={selectedConversation.partner_name}
+                            className="chat-avatar"
+                          />
+                          <span className="chat-name">{selectedConversation.partner_name}</span>
+                        </div>
+                        <div className="messages-list">
+                          {messages.map((msg) => (
+                            <div 
+                              key={msg.id} 
+                              className={`message ${msg.sender_id === user.id ? 'sent' : 'received'}`}
+                            >
+                              <div className="message-content">
+                                <p>{msg.content}</p>
+                                <span className="message-time">{formatMessageTime(msg.created_at)}</span>
+                              </div>
+                            </div>
+                          ))}
+                          <div ref={messagesEndRef} />
+                        </div>
+                        <form className="message-input-form" onSubmit={sendMessage}>
+                          <input
+                            type="text"
+                            placeholder="Type a message..."
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            disabled={sendingMessage}
+                          />
+                          <button type="submit" disabled={sendingMessage || !newMessage.trim()}>
+                            {sendingMessage ? 'Sending...' : 'Send'}
+                          </button>
+                        </form>
+                      </>
+                    ) : (
+                      <div className="no-chat-selected">
+                        <span className="chat-icon">💬</span>
+                        <p>Select a conversation to start messaging</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </section>
             )}
           </main>
         </div>

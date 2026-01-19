@@ -2261,6 +2261,58 @@ app.get('/api/teachers/:id', async (req, res) => {
   }
 });
 
+// ADMIN: Get all teachers with stats
+app.get('/api/admin/teachers', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const teachers = await pool.query(`
+      SELECT tp.*, u.name, u.email, u.profile_image, u.country,
+        (SELECT COUNT(*) FROM bookings b WHERE b.teacher_id = tp.id AND b.status = 'completed') as total_students
+      FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      ORDER BY tp.created_at DESC
+    `);
+    
+    const [pending, verified, total, earnings] = await Promise.all([
+      pool.query(`SELECT COUNT(*) as count FROM teacher_profiles WHERE is_verified = false`),
+      pool.query(`SELECT COUNT(*) as count FROM teacher_profiles WHERE is_verified = true`),
+      pool.query(`SELECT COUNT(*) as count FROM teacher_profiles`),
+      pool.query(`SELECT COALESCE(SUM(platform_amount), 0) as total FROM platform_payments WHERE status = 'completed'`)
+    ]);
+    
+    res.json({
+      teachers: teachers.rows,
+      stats: {
+        pending: parseInt(pending.rows[0].count),
+        verified: parseInt(verified.rows[0].count),
+        total: parseInt(total.rows[0].count),
+        platformEarnings: parseFloat(earnings.rows[0].total)
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching teachers:', error);
+    res.status(500).json({ error: 'Failed to fetch teachers' });
+  }
+});
+
+// ADMIN: Verify or reject teacher
+app.put('/api/admin/teachers/:id/verify', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { action } = req.body;
+    if (!action || !['approve', 'reject'].includes(action)) {
+      return res.status(400).json({ error: 'Invalid action. Must be "approve" or "reject"' });
+    }
+    if (action === 'approve') {
+      await pool.query('UPDATE teacher_profiles SET is_verified = true, is_active = true WHERE id = $1', [req.params.id]);
+    } else if (action === 'reject') {
+      await pool.query('UPDATE teacher_profiles SET is_verified = false, is_active = false WHERE id = $1', [req.params.id]);
+    }
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error updating teacher verification:', error);
+    res.status(500).json({ error: 'Failed to update teacher verification' });
+  }
+});
+
 // ADMIN: Get pending teacher verifications
 app.get('/api/admin/teachers/pending', authenticateToken, isAdmin, async (req, res) => {
   try {
@@ -2637,11 +2689,15 @@ app.post('/api/payments/confirm', authenticateToken, async (req, res) => {
           return res.status(400).json({ error: 'This time slot is already booked' });
         }
         
+        // Generate Jitsi meeting room
+        const meetingRoomId = `qurandeen-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        const meetingUrl = `https://meet.jit.si/${meetingRoomId}`;
+        
         const bookingResult = await client.query(`
-          INSERT INTO bookings (teacher_id, student_id, package_id, scheduled_at, notes, status)
-          VALUES ($1, $2, $3, $4, $5, 'scheduled')
+          INSERT INTO bookings (teacher_id, student_id, package_id, scheduled_at, notes, status, meeting_room_id, meeting_url)
+          VALUES ($1, $2, $3, $4, $5, 'scheduled', $6, $7)
           RETURNING id
-        `, [teacherId, studentId, packageId || null, scheduledAt, notes || '']);
+        `, [teacherId, studentId, packageId || null, scheduledAt, notes || '', meetingRoomId, meetingUrl]);
         bookingId = bookingResult.rows[0].id;
       }
       
@@ -2977,6 +3033,136 @@ app.get('/api/teacher/bookings', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Error fetching bookings:', error);
     res.status(500).json({ error: 'Failed to fetch bookings' });
+  }
+});
+
+// ==========================================
+// MESSAGING API ROUTES
+// ==========================================
+
+// Get conversations list for user
+app.get('/api/messages/conversations', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // Get unique conversation partners
+    const result = await pool.query(`
+      SELECT DISTINCT 
+        CASE WHEN m.sender_id = $1 THEN m.receiver_id ELSE m.sender_id END as partner_id,
+        u.name as partner_name,
+        u.profile_image as partner_image,
+        (SELECT content FROM messages 
+         WHERE (sender_id = $1 AND receiver_id = u.id) OR (sender_id = u.id AND receiver_id = $1)
+         ORDER BY created_at DESC LIMIT 1) as last_message,
+        (SELECT created_at FROM messages 
+         WHERE (sender_id = $1 AND receiver_id = u.id) OR (sender_id = u.id AND receiver_id = $1)
+         ORDER BY created_at DESC LIMIT 1) as last_message_at,
+        (SELECT COUNT(*) FROM messages WHERE sender_id = u.id AND receiver_id = $1 AND is_read = false) as unread_count
+      FROM messages m
+      JOIN users u ON (CASE WHEN m.sender_id = $1 THEN m.receiver_id ELSE m.sender_id END) = u.id
+      WHERE m.sender_id = $1 OR m.receiver_id = $1
+      ORDER BY last_message_at DESC
+    `, [userId]);
+    
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching conversations:', error);
+    res.status(500).json({ error: 'Failed to fetch conversations' });
+  }
+});
+
+// Get messages with a specific user
+app.get('/api/messages/:partnerId', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const partnerId = req.params.partnerId;
+    
+    // Get messages between the two users
+    const result = await pool.query(`
+      SELECT m.*, 
+        sender.name as sender_name, 
+        sender.profile_image as sender_image
+      FROM messages m
+      JOIN users sender ON m.sender_id = sender.id
+      WHERE (m.sender_id = $1 AND m.receiver_id = $2) OR (m.sender_id = $2 AND m.receiver_id = $1)
+      ORDER BY m.created_at ASC
+    `, [userId, partnerId]);
+    
+    // Mark messages as read
+    await pool.query(`
+      UPDATE messages SET is_read = true
+      WHERE sender_id = $2 AND receiver_id = $1 AND is_read = false
+    `, [userId, partnerId]);
+    
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    res.status(500).json({ error: 'Failed to fetch messages' });
+  }
+});
+
+// Send a message
+app.post('/api/messages', authenticateToken, async (req, res) => {
+  try {
+    const senderId = req.user.id;
+    const { receiverId, content } = req.body;
+    
+    if (!receiverId || !content?.trim()) {
+      return res.status(400).json({ error: 'Receiver and message content are required' });
+    }
+    
+    const result = await pool.query(`
+      INSERT INTO messages (sender_id, receiver_id, content, is_read)
+      VALUES ($1, $2, $3, false)
+      RETURNING *
+    `, [senderId, receiverId, content.trim()]);
+    
+    res.json({ success: true, message: result.rows[0] });
+  } catch (error) {
+    console.error('Error sending message:', error);
+    res.status(500).json({ error: 'Failed to send message' });
+  }
+});
+
+// Get unread message count
+app.get('/api/messages/unread/count', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT COUNT(*) as count FROM messages WHERE receiver_id = $1 AND is_read = false
+    `, [req.user.id]);
+    res.json({ count: parseInt(result.rows[0].count) });
+  } catch (error) {
+    console.error('Error fetching unread count:', error);
+    res.status(500).json({ error: 'Failed to fetch unread count' });
+  }
+});
+
+// Start a new conversation (get or create)
+app.post('/api/messages/start-conversation', authenticateToken, async (req, res) => {
+  try {
+    const { teacherId } = req.body;
+    
+    // Get teacher's user_id from teacher_profiles
+    const teacher = await pool.query(`
+      SELECT user_id, u.name as name, u.profile_image as image
+      FROM teacher_profiles tp
+      JOIN users u ON tp.user_id = u.id
+      WHERE tp.id = $1
+    `, [teacherId]);
+    
+    if (teacher.rows.length === 0) {
+      return res.status(404).json({ error: 'Teacher not found' });
+    }
+    
+    res.json({ 
+      success: true, 
+      partnerId: teacher.rows[0].user_id,
+      partnerName: teacher.rows[0].name,
+      partnerImage: teacher.rows[0].image
+    });
+  } catch (error) {
+    console.error('Error starting conversation:', error);
+    res.status(500).json({ error: 'Failed to start conversation' });
   }
 });
 

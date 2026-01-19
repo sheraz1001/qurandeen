@@ -22,6 +22,8 @@ function AdminDashboard() {
   const [editingUser, setEditingUser] = useState(null);
   const [userForm, setUserForm] = useState({ name: '', email: '', city: '', country: '', role: 'user' });
   const [userAction, setUserAction] = useState(null);
+  const [teachers, setTeachers] = useState([]);
+  const [teacherStats, setTeacherStats] = useState({ pending: 0, verified: 0, total: 0, platformEarnings: 0 });
 
   useEffect(() => {
     if (authLoading) return; // Wait for auth check to complete
@@ -38,19 +40,33 @@ function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const [blogsRes, usersRes, donationsRes] = await Promise.all([
+      const [blogsRes, usersRes, donationsRes, teachersRes] = await Promise.all([
         axios.get('/api/admin/blogs'),
         axios.get('/api/admin/users'),
-        axios.get('/api/admin/donations')
+        axios.get('/api/admin/donations'),
+        axios.get('/api/admin/teachers').catch(() => ({ data: { teachers: [], stats: {} } }))
       ]);
       setBlogs(blogsRes.data.data || []);
       setUsers(usersRes.data.data || []);
       setDonations(donationsRes.data.data || []);
       setDonationStats(donationsRes.data.stats || {});
+      setTeachers(teachersRes.data.teachers || []);
+      setTeacherStats(teachersRes.data.stats || {});
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const verifyTeacher = async (teacherId, action) => {
+    try {
+      await axios.put(`/api/admin/teachers/${teacherId}/verify`, { action });
+      fetchData();
+      alert(`Teacher ${action === 'approve' ? 'verified' : 'rejected'} successfully`);
+    } catch (error) {
+      console.error('Error verifying teacher:', error);
+      alert('Failed to update teacher verification status');
     }
   };
 
@@ -219,6 +235,14 @@ function AdminDashboard() {
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
       </svg>
     )},
+    { id: 'teachers', label: 'Teachers', icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+    )},
     { id: 'analytics', label: 'Analytics', icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M18 20V10"/>
@@ -281,7 +305,7 @@ function AdminDashboard() {
         <nav className="sidebar-nav">
           <div className="nav-section">
             {!sidebarCollapsed && <span className="nav-section-title">Dashboard</span>}
-            {navItems.slice(0, 4).map(item => (
+            {navItems.slice(0, 5).map(item => (
               <button
                 key={item.id}
                 className={`nav-item ${activeSection === item.id ? 'active' : ''}`}
@@ -907,6 +931,137 @@ function AdminDashboard() {
                           </td>
                           <td className="message-cell">{d.message || '-'}</td>
                           <td>{new Date(d.created_at).toLocaleDateString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeSection === 'teachers' && (
+            <div className="teachers-section">
+              <div className="donation-stats-grid">
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Total Teachers</h3>
+                    <p className="stat-value">{teacherStats.total || 0}</p>
+                  </div>
+                </div>
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 6v6l4 2"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Pending Verification</h3>
+                    <p className="stat-value">{teacherStats.pending || 0}</p>
+                  </div>
+                </div>
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Verified Teachers</h3>
+                    <p className="stat-value">{teacherStats.verified || 0}</p>
+                  </div>
+                </div>
+                <div className="stat-card donation-stat">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Platform Earnings</h3>
+                    <p className="stat-value">${parseFloat(teacherStats.platformEarnings || 0).toFixed(2)}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="section-header">
+                <h2>Teacher Management</h2>
+              </div>
+
+              {teachers.length === 0 ? (
+                <div className="empty-state">
+                  <p>No teachers registered yet.</p>
+                </div>
+              ) : (
+                <div className="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Teacher</th>
+                        <th>Headline</th>
+                        <th>Rate</th>
+                        <th>Students</th>
+                        <th>Rating</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {teachers.map((t) => (
+                        <tr key={t.id}>
+                          <td className="donor-cell">
+                            <div className="donor-avatar">
+                              {t.profile_image ? (
+                                <img src={t.profile_image} alt={t.name} style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
+                              ) : (
+                                (t.name || 'T')[0].toUpperCase()
+                              )}
+                            </div>
+                            <div className="donor-info">
+                              <span className="donor-name">{t.name}</span>
+                              <span className="donor-email">{t.email}</span>
+                            </div>
+                          </td>
+                          <td>{t.headline || '-'}</td>
+                          <td>${parseFloat(t.hourly_rate || 0).toFixed(2)}/hr</td>
+                          <td>{t.total_students || 0}</td>
+                          <td>
+                            {t.average_rating ? (
+                              <span>⭐ {parseFloat(t.average_rating).toFixed(1)}</span>
+                            ) : '-'}
+                          </td>
+                          <td>
+                            <span className={`status-badge ${t.is_verified ? 'completed' : 'pending'}`}>
+                              {t.is_verified ? 'Verified' : 'Pending'}
+                            </span>
+                          </td>
+                          <td>
+                            {!t.is_verified && (
+                              <div className="action-buttons">
+                                <button 
+                                  className="action-btn approve"
+                                  onClick={() => verifyTeacher(t.id, 'approve')}
+                                >
+                                  Approve
+                                </button>
+                                <button 
+                                  className="action-btn reject"
+                                  onClick={() => verifyTeacher(t.id, 'reject')}
+                                >
+                                  Reject
+                                </button>
+                              </div>
+                            )}
+                            <Link to={`/teachers/${t.id}`} className="view-link">View</Link>
+                          </td>
                         </tr>
                       ))}
                     </tbody>

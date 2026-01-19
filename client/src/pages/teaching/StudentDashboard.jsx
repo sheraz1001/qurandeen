@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
@@ -14,6 +14,13 @@ function StudentDashboard() {
   const [loading, setLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState(null);
   const [activeSection, setActiveSection] = useState('overview');
+  
+  const [conversations, setConversations] = useState([]);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -53,6 +60,71 @@ function StudentDashboard() {
       expired: 'status-badge expired'
     };
     return <span className={statusClasses[status] || 'status-badge'}>{status}</span>;
+  };
+
+  useEffect(() => {
+    if (activeSection === 'messages') {
+      fetchConversations();
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
+    if (selectedConversation) {
+      fetchMessages(selectedConversation.partner_id);
+      const interval = setInterval(() => fetchMessages(selectedConversation.partner_id), 5000);
+      return () => clearInterval(interval);
+    }
+  }, [selectedConversation]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const fetchConversations = async () => {
+    try {
+      const response = await axios.get('/api/messages/conversations');
+      setConversations(response.data);
+    } catch (error) {
+      console.error('Error fetching conversations:', error);
+    }
+  };
+
+  const fetchMessages = async (partnerId) => {
+    try {
+      const response = await axios.get(`/api/messages/${partnerId}`);
+      setMessages(response.data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+    }
+  };
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !selectedConversation || sendingMessage) return;
+
+    setSendingMessage(true);
+    try {
+      await axios.post('/api/messages', {
+        receiverId: selectedConversation.partner_id,
+        content: newMessage.trim()
+      });
+      setNewMessage('');
+      fetchMessages(selectedConversation.partner_id);
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      setSendingMessage(false);
+    }
+  };
+
+  const formatMessageTime = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+    if (isToday) {
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   };
 
   if (loading) {
@@ -186,9 +258,9 @@ function StudentDashboard() {
                       <span className="time-value">{formatDate(dashboardData.upcomingClasses[0].scheduled_at)}</span>
                     </div>
                     <div className="class-actions">
-                      {dashboardData.upcomingClasses[0].meeting_link && (
-                        <a href={dashboardData.upcomingClasses[0].meeting_link} className="btn-join-class" target="_blank" rel="noopener noreferrer">
-                          Join Class
+                      {dashboardData.upcomingClasses[0].meeting_url && (
+                        <a href={dashboardData.upcomingClasses[0].meeting_url} className="btn-join-class" target="_blank" rel="noopener noreferrer">
+                          🎥 Join Class
                         </a>
                       )}
                     </div>
@@ -233,9 +305,9 @@ function StudentDashboard() {
                         {getStatusBadge(cls.status)}
                       </div>
                       <div className="class-actions">
-                        {cls.meeting_link && cls.status === 'scheduled' && (
-                          <a href={cls.meeting_link} className="btn-small btn-join" target="_blank" rel="noopener noreferrer">
-                            Join
+                        {cls.meeting_url && cls.status === 'scheduled' && (
+                          <a href={cls.meeting_url} className="btn-small btn-join" target="_blank" rel="noopener noreferrer">
+                            🎥 Join
                           </a>
                         )}
                         {cls.status === 'completed' && !cls.has_review && (
@@ -346,38 +418,91 @@ function StudentDashboard() {
           )}
 
           {activeSection === 'messages' && (
-            <section className="dashboard-section">
+            <section className="dashboard-section messages-section">
               <h2>Messages</h2>
               
-              {dashboardData?.conversations?.length > 0 ? (
-                <div className="conversations-list">
-                  {dashboardData.conversations.map((conv) => (
-                    <div key={conv.teacher_id} className="conversation-item">
-                      <img 
-                        src={conv.teacher_image || '/default-avatar.png'} 
-                        alt={conv.teacher_name}
-                        className="conv-avatar"
-                      />
-                      <div className="conv-content">
-                        <div className="conv-header">
-                          <span className="conv-name">{conv.teacher_name}</span>
-                          <span className="conv-time">{formatDate(conv.last_message_at)}</span>
+              <div className="messaging-container">
+                <div className="conversations-sidebar">
+                  <h3>Conversations</h3>
+                  {conversations.length > 0 ? (
+                    <div className="conversations-list">
+                      {conversations.map((conv) => (
+                        <div 
+                          key={conv.partner_id} 
+                          className={`conversation-item ${selectedConversation?.partner_id === conv.partner_id ? 'active' : ''}`}
+                          onClick={() => setSelectedConversation(conv)}
+                        >
+                          <img 
+                            src={conv.partner_image || '/default-avatar.png'} 
+                            alt={conv.partner_name}
+                            className="conv-avatar"
+                          />
+                          <div className="conv-content">
+                            <div className="conv-header">
+                              <span className="conv-name">{conv.partner_name}</span>
+                              <span className="conv-time">{formatMessageTime(conv.last_message_at)}</span>
+                            </div>
+                            <p className="conv-preview">{conv.last_message?.substring(0, 40)}{conv.last_message?.length > 40 ? '...' : ''}</p>
+                          </div>
+                          {parseInt(conv.unread_count) > 0 && (
+                            <span className="unread-badge">{conv.unread_count}</span>
+                          )}
                         </div>
-                        <p className="conv-preview">{conv.last_message}</p>
-                      </div>
-                      {conv.unread_count > 0 && (
-                        <span className="unread-badge">{conv.unread_count}</span>
-                      )}
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <div className="empty-conversations">
+                      <p>No conversations yet</p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="empty-state">
-                  <span className="empty-icon">💬</span>
-                  <h3>No Messages</h3>
-                  <p>Start a conversation with a teacher to ask questions.</p>
+
+                <div className="chat-area">
+                  {selectedConversation ? (
+                    <>
+                      <div className="chat-header">
+                        <img 
+                          src={selectedConversation.partner_image || '/default-avatar.png'} 
+                          alt={selectedConversation.partner_name}
+                          className="chat-avatar"
+                        />
+                        <span className="chat-name">{selectedConversation.partner_name}</span>
+                      </div>
+                      <div className="messages-list">
+                        {messages.map((msg) => (
+                          <div 
+                            key={msg.id} 
+                            className={`message ${msg.sender_id === user.id ? 'sent' : 'received'}`}
+                          >
+                            <div className="message-content">
+                              <p>{msg.content}</p>
+                              <span className="message-time">{formatMessageTime(msg.created_at)}</span>
+                            </div>
+                          </div>
+                        ))}
+                        <div ref={messagesEndRef} />
+                      </div>
+                      <form className="message-input-form" onSubmit={sendMessage}>
+                        <input
+                          type="text"
+                          placeholder="Type a message..."
+                          value={newMessage}
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          disabled={sendingMessage}
+                        />
+                        <button type="submit" disabled={sendingMessage || !newMessage.trim()}>
+                          {sendingMessage ? 'Sending...' : 'Send'}
+                        </button>
+                      </form>
+                    </>
+                  ) : (
+                    <div className="no-chat-selected">
+                      <span className="chat-icon">💬</span>
+                      <p>Select a conversation to start messaging</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </section>
           )}
         </main>
