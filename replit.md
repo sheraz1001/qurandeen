@@ -86,6 +86,7 @@ A marketplace connecting Quran teachers with students worldwide, similar to Prep
 - `messages` - Student-teacher communication
 
 **Routes:**
+- `/teach-with-us` - Comprehensive teacher landing page (10+ sections, 10 FAQs with JSON-LD schema)
 - `/teachers` - Teacher directory with search/filters
 - `/teachers/:id` - Individual teacher profile page
 - `/become-teacher` - Teacher registration form (4-step)

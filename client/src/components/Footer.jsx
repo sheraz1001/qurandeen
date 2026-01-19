@@ -9,6 +9,7 @@ function Footer() {
     { path: '/bookmarks', label: 'My Bookmarks' },
     { path: '/settings', label: 'Settings' },
     { path: '/contact', label: 'Contact Us' },
+    { path: '/teach-with-us', label: 'Become a Teacher' },
   ];
 
   const popularSurahs = [

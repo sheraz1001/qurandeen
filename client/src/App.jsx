@@ -32,6 +32,7 @@ import TermsOfUse from './pages/TermsOfUse';
 import TeacherDirectory from './pages/teaching/TeacherDirectory';
 import TeacherProfile from './pages/teaching/TeacherProfile';
 import BecomeTeacher from './pages/teaching/BecomeTeacher';
+import TeachWithUs from './pages/teaching/TeachWithUs';
 import TeacherDashboard from './pages/teaching/TeacherDashboard';
 import StudentDashboard from './pages/teaching/StudentDashboard';
 import BookClass from './pages/teaching/BookClass';
@@ -158,6 +159,7 @@ function App() {
             <Route path="/teachers" element={<TeacherDirectory />} />
             <Route path="/teachers/:id" element={<TeacherProfile />} />
             <Route path="/become-teacher" element={<BecomeTeacher />} />
+            <Route path="/teach-with-us" element={<TeachWithUs />} />
             <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/book-class/:id" element={<BookClass />} />
