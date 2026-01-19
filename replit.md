@@ -103,12 +103,12 @@ A marketplace connecting Quran teachers with students worldwide, similar to Prep
   - Pre-validation in payment intent creation (checks availability before Stripe is called)
   - Database unique constraint on `(teacher_id, scheduled_at)` for active bookings
   - Automatic Stripe refund if booking conflict occurs during confirmation
+- **Jitsi Meet Video Integration:** Automatic meeting room generation on booking confirmation, Join Class buttons in both student and teacher dashboards with direct links to meet.jit.si
+- **Real-time Messaging System:** Full chat interface with conversation list, message display, 5-second polling for updates, unread message badges, and seamless student-teacher communication
+- **Admin Teacher Verification Dashboard:** Dedicated section for managing teachers with stats (total, pending, verified, platform earnings), approve/reject functionality, and verification status management
 
 **Future Enhancements:**
 - Consider Stripe manual capture (hold payment, only capture after booking confirmed) for even tighter race-condition control
 - Reservation/hold system that locks a timeslot before payment is initiated
-
-**Pending Features:**
-- Jitsi Meet video integration for live classes
-- Real-time messaging between students and teachers
-- Admin dashboard for teacher verification and earnings report
+- WebSocket-based messaging for instant real-time updates (currently uses polling)
+- Push notifications for new messages and upcoming classes

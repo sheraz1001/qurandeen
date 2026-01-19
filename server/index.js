@@ -2276,7 +2276,7 @@ app.get('/api/admin/teachers', authenticateToken, isAdmin, async (req, res) => {
       pool.query(`SELECT COUNT(*) as count FROM teacher_profiles WHERE is_verified = false`),
       pool.query(`SELECT COUNT(*) as count FROM teacher_profiles WHERE is_verified = true`),
       pool.query(`SELECT COUNT(*) as count FROM teacher_profiles`),
-      pool.query(`SELECT COALESCE(SUM(platform_amount), 0) as total FROM platform_payments WHERE status = 'completed'`)
+      pool.query(`SELECT COALESCE(SUM(platform_fee), 0) as total FROM platform_payments WHERE status = 'completed'`)
     ]);
     
     res.json({
