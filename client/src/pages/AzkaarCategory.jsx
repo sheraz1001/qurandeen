@@ -17,15 +17,48 @@ function AzkaarCategory() {
   const category = azkaarCategories.find(c => c.id === categoryId);
   const duas = getAllAzkaar(categoryId);
 
+  // Load saved progress from localStorage
   useEffect(() => {
-    const initialCounters = {};
-    duas.forEach(dua => {
-      initialCounters[dua.id] = 0;
-    });
-    setCounters(initialCounters);
-    setCurrentDuaIndex(0);
-    setCompletedDuas([]);
+    const savedProgress = localStorage.getItem(`azkaar_progress_${categoryId}`);
+    if (savedProgress) {
+      try {
+        const { counters: savedCounters, completedDuas: savedCompleted, currentIndex } = JSON.parse(savedProgress);
+        setCounters(savedCounters || {});
+        setCompletedDuas(savedCompleted || []);
+        setCurrentDuaIndex(currentIndex || 0);
+      } catch {
+        // Initialize fresh if parsing fails
+        const initialCounters = {};
+        duas.forEach(dua => {
+          initialCounters[dua.id] = 0;
+        });
+        setCounters(initialCounters);
+        setCurrentDuaIndex(0);
+        setCompletedDuas([]);
+      }
+    } else {
+      // Initialize fresh counters
+      const initialCounters = {};
+      duas.forEach(dua => {
+        initialCounters[dua.id] = 0;
+      });
+      setCounters(initialCounters);
+      setCurrentDuaIndex(0);
+      setCompletedDuas([]);
+    }
   }, [categoryId]);
+
+  // Save progress to localStorage whenever it changes
+  useEffect(() => {
+    if (Object.keys(counters).length > 0) {
+      const progressData = {
+        counters,
+        completedDuas,
+        currentIndex: currentDuaIndex
+      };
+      localStorage.setItem(`azkaar_progress_${categoryId}`, JSON.stringify(progressData));
+    }
+  }, [counters, completedDuas, currentDuaIndex, categoryId]);
 
   if (!category) {
     return (
