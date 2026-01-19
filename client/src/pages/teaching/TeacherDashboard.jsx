@@ -126,7 +126,8 @@ function TeacherDashboard() {
   );
   if (!dashboardData) return null;
 
-  const { profile, upcomingBookings, recentReviews, monthlyEarnings, totalStudents } = dashboardData;
+  const { profile, upcomingBookings = [], recentReviews = [], totalStudents = 0 } = dashboardData;
+  const monthlyEarnings = Number(dashboardData.monthlyEarnings) || 0;
 
   return (
     <div className="teacher-dashboard-page">
