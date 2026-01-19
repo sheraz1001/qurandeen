@@ -259,9 +259,13 @@ function AzkaarCategory() {
               </div>
             )}
 
-            {showTranslation && currentDua.translation && (
+            {showTranslation && (
               <div className="dua-translation">
-                {currentDua.translation}
+                {currentDua.translation ? (
+                  currentDua.translation
+                ) : (
+                  <span className="no-translation">Translation not available for this dua. The Arabic text above contains the authentic supplication from Hisnul Muslim.</span>
+                )}
               </div>
             )}
 
