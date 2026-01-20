@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import '../styles/megamenu.css';
 
 function Header({ darkMode, toggleDarkMode }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownTimeoutRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
@@ -24,15 +27,78 @@ function Header({ darkMode, toggleDarkMode }) {
   };
 
   const isActive = (path) => location.pathname === path;
+  const isActiveGroup = (paths) => paths.some(p => location.pathname.startsWith(p));
 
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/quran-juz-browser', label: 'Juz Browser' },
-    { path: '/quran-mp3-audio', label: 'Audio Quran' },
-    { path: '/islamic-resources', label: 'Resources' },
-    { path: '/islamic-ai-scholar', label: 'AI Scholar' },
-    { path: '/teachers', label: 'Find Teachers' },
-    { path: '/blogs', label: 'Blogs' },
+  const handleMouseEnter = (dropdown) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setActiveDropdown(dropdown);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
+  };
+
+  useEffect(() => {
+    setActiveDropdown(null);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const quranLinks = [
+    { 
+      path: '/quran-juz-browser', 
+      label: 'Quran Juz Browser', 
+      icon: '📖',
+      description: 'Browse all 30 Juz of the Quran'
+    },
+    { 
+      path: '/quran-mp3-audio', 
+      label: 'Quran Audio', 
+      icon: '🎧',
+      description: '150+ reciters with full surah audio'
+    },
+  ];
+
+  const resourceLinks = [
+    { 
+      path: '/azkaar', 
+      label: 'Daily Azkaar & Duas', 
+      icon: '🤲',
+      description: '134 categories from Hisnul Muslim'
+    },
+    { 
+      path: '/islamic-resources/hadith-of-day', 
+      label: 'Hadith of the Day', 
+      icon: '📜',
+      description: 'Daily authentic hadith with translations'
+    },
+    { 
+      path: '/islamic-resources/verse-of-day', 
+      label: 'Quran Verse of the Day', 
+      icon: '✨',
+      description: 'Daily Quranic verse with reflection'
+    },
+    { 
+      path: '/islamic-resources/hijri-calendar', 
+      label: 'Hijri-Gregorian Calendar', 
+      icon: '📅',
+      description: 'Convert between Islamic and Gregorian dates'
+    },
+    { 
+      path: '/islamic-resources/share-card', 
+      label: 'Quran Share Card Generator', 
+      icon: '🎨',
+      description: 'Create beautiful shareable verse cards'
+    },
+    { 
+      path: '/blogs', 
+      label: 'Islamic Blogs', 
+      icon: '📝',
+      description: 'Articles on Islamic knowledge'
+    },
   ];
 
   return (
@@ -146,17 +212,133 @@ function Header({ darkMode, toggleDarkMode }) {
 
           <nav className={`nav-menu ${mobileMenuOpen ? 'open' : ''}`}>
             <ul className="nav-list">
-              {navLinks.map((link) => (
-                <li key={link.path} className="nav-item">
-                  <Link 
-                    to={link.path} 
-                    className={`nav-link ${isActive(link.path) ? 'active' : ''}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              <li className="nav-item">
+                <Link 
+                  to="/" 
+                  className={`nav-link ${isActive('/') ? 'active' : ''}`}
+                >
+                  Home
+                </Link>
+              </li>
+
+              <li 
+                className={`nav-item has-dropdown ${activeDropdown === 'quran' ? 'dropdown-open' : ''}`}
+                onMouseEnter={() => handleMouseEnter('quran')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button 
+                  className={`nav-link dropdown-trigger ${isActiveGroup(['/quran-juz-browser', '/quran-mp3-audio', '/surah']) ? 'active' : ''}`}
+                  aria-expanded={activeDropdown === 'quran'}
+                  aria-haspopup="true"
+                >
+                  Quran
+                  <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div className="mega-dropdown">
+                  <div className="mega-dropdown-content">
+                    <div className="mega-dropdown-section">
+                      <h3 className="mega-section-title">
+                        <span className="title-icon">📖</span>
+                        Explore the Quran
+                      </h3>
+                      <div className="mega-links">
+                        {quranLinks.map((link) => (
+                          <Link 
+                            key={link.path}
+                            to={link.path} 
+                            className={`mega-link ${isActive(link.path) ? 'active' : ''}`}
+                          >
+                            <span className="mega-link-icon">{link.icon}</span>
+                            <div className="mega-link-content">
+                              <span className="mega-link-title">{link.label}</span>
+                              <span className="mega-link-desc">{link.description}</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mega-dropdown-featured">
+                      <div className="featured-card">
+                        <div className="featured-icon">🕌</div>
+                        <h4>Start Reading</h4>
+                        <p>Begin your Quran journey with Surah Al-Fatihah</p>
+                        <Link to="/surah/1-al-fatihah" className="featured-btn">Read Now</Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li 
+                className={`nav-item has-dropdown ${activeDropdown === 'resources' ? 'dropdown-open' : ''}`}
+                onMouseEnter={() => handleMouseEnter('resources')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link 
+                  to="/islamic-resources"
+                  className={`nav-link dropdown-trigger ${isActiveGroup(['/islamic-resources', '/azkaar', '/blogs']) ? 'active' : ''}`}
+                  aria-expanded={activeDropdown === 'resources'}
+                  aria-haspopup="true"
+                >
+                  Resources
+                  <svg className="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </Link>
+                <div className="mega-dropdown mega-dropdown-wide">
+                  <div className="mega-dropdown-content">
+                    <div className="mega-dropdown-section">
+                      <h3 className="mega-section-title">
+                        <span className="title-icon">🌟</span>
+                        Islamic Resources
+                      </h3>
+                      <div className="mega-links mega-links-grid">
+                        {resourceLinks.map((link) => (
+                          <Link 
+                            key={link.path}
+                            to={link.path} 
+                            className={`mega-link ${isActive(link.path) ? 'active' : ''}`}
+                          >
+                            <span className="mega-link-icon">{link.icon}</span>
+                            <div className="mega-link-content">
+                              <span className="mega-link-title">{link.label}</span>
+                              <span className="mega-link-desc">{link.description}</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mega-dropdown-footer">
+                      <Link to="/islamic-resources" className="view-all-link">
+                        View All Resources
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+                          <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <li className="nav-item">
+                <Link 
+                  to="/islamic-ai-scholar" 
+                  className={`nav-link ${isActive('/islamic-ai-scholar') ? 'active' : ''}`}
+                >
+                  AI Scholar
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link 
+                  to="/teachers" 
+                  className={`nav-link nav-link-highlight ${isActiveGroup(['/teachers', '/teach-with-us', '/become-teacher']) ? 'active' : ''}`}
+                >
+                  Quran Classes
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -195,17 +377,61 @@ function Header({ darkMode, toggleDarkMode }) {
       {mobileMenuOpen && (
         <div className="mobile-nav">
           <ul className="mobile-nav-list">
-            {navLinks.map((link) => (
-              <li key={link.path}>
+            <li>
+              <Link 
+                to="/" 
+                className={`mobile-nav-link ${isActive('/') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+            </li>
+            <li className="mobile-nav-section">
+              <span className="mobile-nav-section-title">Quran</span>
+              {quranLinks.map((link) => (
                 <Link 
+                  key={link.path}
                   to={link.path} 
-                  className={`mobile-nav-link ${isActive(link.path) ? 'active' : ''}`}
+                  className={`mobile-nav-link mobile-nav-sublink ${isActive(link.path) ? 'active' : ''}`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
+                  <span className="mobile-nav-icon">{link.icon}</span>
                   {link.label}
                 </Link>
-              </li>
-            ))}
+              ))}
+            </li>
+            <li className="mobile-nav-section">
+              <span className="mobile-nav-section-title">Resources</span>
+              {resourceLinks.map((link) => (
+                <Link 
+                  key={link.path}
+                  to={link.path} 
+                  className={`mobile-nav-link mobile-nav-sublink ${isActive(link.path) ? 'active' : ''}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="mobile-nav-icon">{link.icon}</span>
+                  {link.label}
+                </Link>
+              ))}
+            </li>
+            <li>
+              <Link 
+                to="/islamic-ai-scholar" 
+                className={`mobile-nav-link ${isActive('/islamic-ai-scholar') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                AI Scholar
+              </Link>
+            </li>
+            <li>
+              <Link 
+                to="/teachers" 
+                className={`mobile-nav-link highlight ${isActive('/teachers') ? 'active' : ''}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Quran Classes
+              </Link>
+            </li>
             <li>
               <Link 
                 to="/bookmarks" 
