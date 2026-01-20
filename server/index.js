@@ -1029,6 +1029,9 @@ app.post('/api/admin/users/:id/reset-password', authenticateToken, isAdmin, asyn
 });
 
 app.use('/fonts', express.static(path.join(__dirname, '../client/public/fonts')));
+app.use('/icons', express.static(path.join(__dirname, '../client/public/icons')));
+app.use('/manifest.json', express.static(path.join(__dirname, '../client/public/manifest.json')));
+app.use('/sw.js', express.static(path.join(__dirname, '../client/public/sw.js')));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/dist')));
