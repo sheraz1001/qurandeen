@@ -3308,16 +3308,58 @@ const azkaarSlugs = [
   'category-25-duas', 'category-26-duas', 'category-27-duas'
 ];
 
-app.get('/sitemap.xml', async (req, res) => {
+const hadithCollectionData = [
+  { slug: 'sahih-bukhari', chapters: 97 },
+  { slug: 'sahih-muslim', chapters: 56 },
+  { slug: 'sunan-abu-dawud', chapters: 43 },
+  { slug: 'jami-tirmidhi', chapters: 49 },
+  { slug: 'sunan-nasai', chapters: 51 },
+  { slug: 'sunan-ibn-majah', chapters: 37 },
+  { slug: 'muwatta-malik', chapters: 61 },
+  { slug: 'musnad-ahmad', chapters: 100 },
+  { slug: 'sunan-darimi', chapters: 24 },
+  { slug: 'riyad-us-salihin', chapters: 19 },
+  { slug: 'shamail-muhammadiyah', chapters: 56 },
+  { slug: 'bulugh-al-maram', chapters: 16 },
+  { slug: 'mishkat-al-masabih', chapters: 29 },
+  { slug: 'adab-al-mufrad', chapters: 56 },
+  { slug: 'nawawi-40-hadith', chapters: 1 },
+  { slug: '40-hadith-qudsi', chapters: 1 },
+  { slug: '40-hadith-shah-waliullah', chapters: 1 }
+];
+
+app.get('/sitemap.xml', (req, res) => {
   const baseUrl = 'https://qurandeen.com';
   const currentDate = new Date().toISOString().split('T')[0];
   
-  const hadithCollectionSlugs = [
-    'sahih-bukhari', 'sahih-muslim', 'sunan-abu-dawud', 'jami-tirmidhi', 'sunan-nasai',
-    'sunan-ibn-majah', 'muwatta-malik', 'musnad-ahmad', 'sunan-darimi', 'riyad-us-salihin',
-    'shamail-muhammadiyah', 'bulugh-al-maram', 'mishkat-al-masabih', 'adab-al-mufrad',
-    'nawawi-40-hadith', '40-hadith-qudsi', '40-hadith-shah-waliullah'
-  ];
+  const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${baseUrl}/sitemap-main.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${baseUrl}/sitemap-quran.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${baseUrl}/sitemap-azkaar.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>${baseUrl}/sitemap-hadith.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
+</sitemapindex>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(sitemapIndex);
+});
+
+app.get('/sitemap-main.xml', async (req, res) => {
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
 
   const staticPages = [
     { loc: '', changefreq: 'daily', priority: '1.0' },
@@ -3355,36 +3397,6 @@ app.get('/sitemap.xml', async (req, res) => {
     <lastmod>${currentDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`;
-  });
-
-  surahSlugs.forEach(slug => {
-    sitemap += `
-  <url>
-    <loc>${baseUrl}/surah/${slug}</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>`;
-  });
-
-  azkaarSlugs.forEach(slug => {
-    sitemap += `
-  <url>
-    <loc>${baseUrl}/azkaar/${slug}</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>`;
-  });
-
-  hadithCollectionSlugs.forEach(slug => {
-    sitemap += `
-  <url>
-    <loc>${baseUrl}/hadith/${slug}</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
   </url>`;
   });
 
@@ -3431,11 +3443,100 @@ app.get('/sitemap.xml', async (req, res) => {
   res.send(sitemap);
 });
 
+app.get('/sitemap-quran.xml', (req, res) => {
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  surahSlugs.forEach(slug => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/surah/${slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>`;
+  });
+
+  sitemap += `
+</urlset>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(sitemap);
+});
+
+app.get('/sitemap-azkaar.xml', (req, res) => {
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  azkaarSlugs.forEach(slug => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/azkaar/${slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`;
+  });
+
+  sitemap += `
+</urlset>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(sitemap);
+});
+
+app.get('/sitemap-hadith.xml', (req, res) => {
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  hadithCollectionData.forEach(collection => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/hadith/${collection.slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+
+    for (let chapter = 1; chapter <= collection.chapters; chapter++) {
+      sitemap += `
+  <url>
+    <loc>${baseUrl}/hadith/${collection.slug}/${chapter}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`;
+    }
+  });
+
+  sitemap += `
+</urlset>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(sitemap);
+});
+
 app.get('/robots.txt', (req, res) => {
   const robots = `User-agent: *
 Allow: /
 
 Sitemap: https://qurandeen.com/sitemap.xml
+Sitemap: https://qurandeen.com/sitemap-main.xml
+Sitemap: https://qurandeen.com/sitemap-quran.xml
+Sitemap: https://qurandeen.com/sitemap-azkaar.xml
+Sitemap: https://qurandeen.com/sitemap-hadith.xml
 
 Disallow: /api/
 Disallow: /admin
