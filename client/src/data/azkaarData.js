@@ -1091,7 +1091,7 @@ const duasData = {
     {
       "id": "introduction-2",
       "arabic": "إن الحمد لله ، نحمده ونستعينهُ ، ونستغفرهُ ونعوذُ باللهِ من شرورِ أنفسنا ، وسيئاتِ أعمالنا ، من يهده الله فلا مضل لهُ، ومن يضلل فلا هادي له ، وأشهد أن لا إله إلا الله وحده لا شريك لهُ،وأشهدُ أن محمداً عبدهُ ورسولهُ صلى الله عليه وعلى أله وأصحابه ومن تبعهم بإحسان إلى يوم الدين وسلم تسليما كثيراً ،أما بعد .",
-      "translation": "",
+      "translation": "All praise is due to Allah. We praise Him, seek His help, and ask for His forgiveness. We seek refuge with Allah from the evil of our own souls and from our bad deeds.",
       "transliteration": "",
       "reference": "الؤلف: سعيد بن علي بن وهف القحطاني",
       "repeat": 1
@@ -1099,7 +1099,7 @@ const duasData = {
     {
       "id": "introduction-3",
       "arabic": "فهذا مختصر اختصرته من كتابي (( الذكرُ والدعاءُ والعلاج بالرقي من الكتاب والسنة )) اختصرت فيه قسم الأذكار ؛ ليكون خفيف الحمل في الأسفار .",
-      "translation": "",
+      "translation": "This is an abridgement of my book 'Remembrance and Supplication from the Quran and Sunnah', condensed for ease of carrying during travels.",
       "transliteration": "",
       "reference": "",
       "repeat": 1
@@ -1107,7 +1107,7 @@ const duasData = {
     {
       "id": "introduction-4",
       "arabic": "وقد اقتصرت على متن الذكر ، واكتفيت في تخريجه بذكر مصدر أو مصدرين مما وجد في الأصل ،ومن أراد معرفة الصحابي أو زيادة في التخريج فعليه بالرجوع إلى الأصل.",
-      "translation": "",
+      "translation": "I have limited it to the text of the dhikr, and for references I have mentioned one or two sources from the original. For more details, refer to the original work.",
       "transliteration": "",
       "reference": "",
       "repeat": 1
@@ -1115,7 +1115,7 @@ const duasData = {
     {
       "id": "introduction-5",
       "arabic": "وأسأل الله عز وجل بأسمائه الحسنى ، وصفاته العُلى أن يجعله خالصا لوجهه الكريم ، وأن ينفعني به في حياتي وبعد مماتي وأن ينفع به من قرأه ، أو طبعه ، أو كان سبباً في نشره إنه سبحانه ولي ذلك  والقادر عليه. وصلى الله على نبينا محمد وعلى آله وأصحابه ومن تبعهم بإحسان إلى يوم الدين.",
-      "translation": "",
+      "translation": "I ask Allah by His beautiful Names and lofty Attributes to make this work purely for His noble Face, and to benefit me during my life and after my death, and to benefit all who read, print, or help spread it.",
       "transliteration": "",
       "reference": "",
       "repeat": 1
@@ -1125,7 +1125,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-1",
       "arabic": "قال الله تعالى:{ فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُواْ لِي وَلاَ تَكْفُرُونِ }",
-      "translation": "",
+      "translation": "Allah says: Remember Me, I will remember you. And be grateful to Me and do not deny Me.",
       "transliteration": "",
       "reference": "سورة البقرة آية :152",
       "repeat": 1
@@ -1133,7 +1133,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-2",
       "arabic": "{ يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْراً كَثِيراً}",
-      "translation": "",
+      "translation": "O you who have believed, remember Allah with much remembrance.",
       "transliteration": "",
       "reference": "سورة الأحزاب آية : 41",
       "repeat": 1
@@ -1141,7 +1141,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-3",
       "arabic": "{ وَالذَّاكِرِينَ اللَّهَ كَثِيراً وَالذَّاكِرَاتِ أَعَدَّ اللَّهُ لَهُم مَّغْفِرَةً وَأَجْراً عَظِيماً}",
-      "translation": "",
+      "translation": "The men who remember Allah often and the women who do so - for them Allah has prepared forgiveness and a great reward.",
       "transliteration": "",
       "reference": "سورة الأحزاب آية :35",
       "repeat": 1
@@ -1149,7 +1149,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-4",
       "arabic": "{ وَاذْكُر رَّبَّكَ فِي نَفْسِكَ تَضَرُّعاً وَخِيفَةً وَدُونَ الْجَهْرِ مِنَ الْقَوْلِ بِالْغُدُوِّ وَالآصَالِ وَلاَ تَكُن مِّنَ الْغَافِلِينَ }",
-      "translation": "",
+      "translation": "And remember your Lord within yourself in humility and in fear without being apparent in speech - in the mornings and the evenings.",
       "transliteration": "",
       "reference": "سورة الأعراف ،آية :205",
       "repeat": 1
@@ -1157,7 +1157,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-5",
       "arabic": "وقال صلى الله عليه وسلم : مثل الذي يذكر ربه والذي لا يذكر ربه مثل الحي والميت",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: The example of the one who remembers his Lord and the one who does not is like the living and the dead.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 11/208 ومسلم بلفظ مثل البيت الذي يذكر الله فيه والبيت الذي لا يذكر الله فيه مثل الحي والميت  1/539",
       "repeat": 1
@@ -1165,7 +1165,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-6",
       "arabic": "وقال صلى الله عليه وسلم : ألا أنبئكم بخير أعمالكم ،وأزكاها عند مليككم، وأرفعها في درجاتكم ، وخير لكم من إنفاق الذهب والورق ، وخير لكم من أن تلقوا عدوكم فتضربوا أعناقهم ويضربوا أعناقكم ؟ قالوا بلى .قال : ذكر الله تعالى",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Shall I not inform you of the best of your deeds, the purest in the sight of your Master, which raises you most in rank? It is the remembrance of Allah.",
       "transliteration": "",
       "reference": "الترمذي 5/459 وابن ماجه 2/1245 وانظر صحيح ابن ماجه 2/316 وصحيح الترمذي 3/139",
       "repeat": 1
@@ -1173,7 +1173,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-7",
       "arabic": "وقال صلى الله عليه وسلم : يقول الله تعالى : أنا عند ظن عبدي بي ، وأنا معه إذا ذكرني ، فإن ذكرني في نفسه ذكرتهُ في نفسي ، وإن ذكرني في ملأ ذكرته في ملأ خير منهم ،وإن تقرب إلي شبراً تقربت إليه ذراعاً ،وإن تقرب إلي ذراعاً تقربت إليه باعاً ، وإن أتاني يمشي أتيتهُ هرولة",
-      "translation": "",
+      "translation": "Allah says: I am as My servant expects of Me. I am with him when he remembers Me. If he remembers Me within himself, I remember him within Myself.",
       "transliteration": "",
       "reference": "البخاري 8/171 ومسلم 4/ 2061 واللفظ للبخاري",
       "repeat": 1
@@ -1181,7 +1181,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-8",
       "arabic": "وعن عبد الله بن بسرٍ رضي الله عنهُ أن رجلاً قال : يا رسول الله إن شرائع الإسلام قد كثرت علي فأخبرني بشيءٍ أتشبث به. قال صلى الله عليه وسلم : لا يزال لسانك رطباً من ذكر الله",
-      "translation": "",
+      "translation": "A man said: O Messenger of Allah, the laws of Islam have become too many for me. Tell me something I can hold on to. He said: Keep your tongue moist with the remembrance of Allah.",
       "transliteration": "",
       "reference": "الترمذي 5/458 وابن ماجه 2/1246 وانظر صحيح الترمذي 3/ 139 وصحيح ابن ماجه 2/ 317",
       "repeat": 1
@@ -1189,7 +1189,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-9",
       "arabic": "وقال صلى الله عليه وسلم: من قرأ حرفاً من كتاب الله فله به حسنة ،والحسنة بعشر أمثالها ، لا أقول : {الم } حرف؛ ولكن : ألف حرف ،ولام حرف ،وميم حرف",
-      "translation": "",
+      "translation": "Whoever reads a letter from the Book of Allah, he will have a reward. And that reward will be multiplied by ten.",
       "transliteration": "",
       "reference": "الترمذي 5/175 وانظر صحيح الترمذي 3/9 وصحيح الجامع الصغير 5/340",
       "repeat": 1
@@ -1197,7 +1197,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-10",
       "arabic": "وعن عقبة بن عامر رضي الله عنه قال : خرج رسول الله صلى الله عليه وسلم ونحن في الصفة فقال : أيكم يحب أن يغدو كل يوم إلى بطحان أو إلى العقيق فيأتي منه بناقتين كوماوين في غير إثم ولا قطيعة رحم ؟ فقلنا : يا رسول الله نحب ذلك . قال : أفلا يغدو أحدكم إلى المسجد فيعلم ، أو يقرأ آيتين من كتاب الله عز وجل خير له من ناقتين ، وثلاث خير لهُ من ثلاث ٍ، وأربع خير لهُ من أربع ، ومن أعدادهن من الإبل",
-      "translation": "",
+      "translation": "Would any of you like to go to the valley every morning and come back with two large she-camels, without sin or severing ties? We said: Yes. He said: Going to the mosque and learning or reciting two verses from the Book of Allah is better than two she-camels.",
       "transliteration": "",
       "reference": "مسلم 1/553",
       "repeat": 1
@@ -1205,7 +1205,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-11",
       "arabic": "وقال صلى الله عليه وسلم: من قعد مقعداً لم يذكر الله فيه كانت عليه من الله ترة ومن اضطجع مضجعاً لم يذكر الله فيه كانت عليه من الله ترة",
-      "translation": "",
+      "translation": "Whoever sits in a place without remembering Allah, it will be a source of regret for him.",
       "transliteration": "",
       "reference": "أبو داود 4/264 وغيره وانظر صحيح الجامع 5/342",
       "repeat": 1
@@ -1213,7 +1213,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-12",
       "arabic": "وقال صلى الله عليه وسلم :  ما جلس قوم مجلساً لم يذكروا الله فيه ، ولم يصلوا على نبيهم إلا كان عليهم ترة ، فإن شاء عذبهم وإن شاء غفر لهم",
-      "translation": "",
+      "translation": "No people sit in a gathering in which they do not remember Allah or send blessings upon their Prophet, except that it will be a source of regret for them.",
       "transliteration": "",
       "reference": "الترمذي وانظر صحيح الترمذي 3/140",
       "repeat": 1
@@ -1221,7 +1221,7 @@ const duasData = {
     {
       "id": "virtues-of-dhikr-13",
       "arabic": "وقال صلى الله عليه وسلم : ما من قوم يقومون من مجلس لا يذكرون الله فيه إلا قاموا عن مثل جيفة حمار وكان لهم حسرة",
-      "translation": "",
+      "translation": "No people rise from a gathering in which they have not remembered Allah, except that they rise from it as if from a donkey's carcass, and it will be a source of regret for them.",
       "transliteration": "",
       "reference": "أبو داود 4/264 وانظر صحيح الجامع 5/176",
       "repeat": 1
@@ -1239,7 +1239,7 @@ const duasData = {
     {
       "id": "waking-up-2",
       "arabic": "الحَمْدُ لله الذِي عَافَانِي في جَسَدِي ورَدَّ عَلَيَّ رُوحِي، وأَذِنَ لي بِذِكْرهِ",
-      "translation": "",
+      "translation": "Praise is to Allah Who gave health to my body, returned my soul to me, and permitted me to remember Him.",
       "transliteration": "",
       "reference": "* الإحياء بعد الإماتة (البعثة)",
       "repeat": 1
@@ -1247,7 +1247,7 @@ const duasData = {
     {
       "id": "waking-up-3",
       "arabic": "قال رسول الله صلى الله عليه وسلم  مَنْ تَعَارَ مِنَ اللَّيْل*  فقال حين يستيقظ : لا إلَهَ إلاَّ الله وحْدَهُ لا شَرِيكَ لَهُ، لَهُ المُلْكُ ولَهُ الحَمْدُ وهُوَ على كلِّ شيءٍ قَدير،سُبْحانَ الله والحَمْدُ لله  ولا إله إلا الله والله أكبر ولا حَولَ ولا قُوةَ إلا بالله العلي العظيم  ثم دعا:  اللَّهُمَّ اغْفِرْ لي، غُفِرَ له ، قال الوليد: أو قال:  دعا استُجيبَ لهُ، فإن قام فتوضأَ ثم صَلّى قُبِلَتْ صَلاتُهُ .",
-      "translation": "",
+      "translation": "There is none worthy of worship but Allah alone, Who has no partner. His is the dominion and to Him belongs all praise, and He is Able to do all things. Glory be to Allah. Praise be to Allah. There is none worthy of worship but Allah. Allah is the Most Great. There is no might and no power except with Allah, the Most High, the Most Great. O Allah, forgive me.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 11/ 113 ومسلم 4/ 2083",
       "repeat": 1
@@ -1255,7 +1255,7 @@ const duasData = {
     {
       "id": "waking-up-4",
       "arabic": "{إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالأَرْضِ وَاخْتِلاَفِ اللَّيْلِ وَالنَّهَارِ لآيَاتٍ لِّأُوْلِي الألْبَابِ *الَّذِينَ يَذْكُرُونَ اللّهَ قِيَاماً وَقُعُوداً وَعَلَىَ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِي خَلْقِ السَّمَاوَاتِ وَالأَرْضِ رَبَّنَا مَا خَلَقْتَ هَذا بَاطِلاً سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ*رَبَّنَا إِنَّكَ مَن تُدْخِلِ النَّارَ فَقَدْ أَخْزَيْتَهُ وَمَا لِلظَّالِمِينَ مِنْ أَنصَارٍ *رَّبَّنَا إِنَّنَا سَمِعْنَا مُنَادِياً يُنَادِي لِلإِيمَانِ أَنْ آمِنُواْ بِرَبِّكُمْ فَآمَنَّا رَبَّنَا فَاغْفِرْ لَنَا ذُنُوبَنَا وَكَفِّرْ عَنَّا سَيِّئَاتِنَا وَتَوَفَّنَا مَعَ الأبْرَارِ * رَبَّنَا وَآتِنَا مَا وَعَدتَّنَا عَلَى رُسُلِكَ وَلاَ تُخْزِنَا يَوْمَ الْقِيَامَةِ إِنَّكَ لاَ تُخْلِفُ الْمِيعَادَ *فَاسْتَجَابَ لَهُمْ رَبُّهُمْ أَنِّي لاَ أُضِيعُ عَمَلَ عَامِلٍ مِّنكُم مِّن ذَكَرٍ أَوْ أُنثَى بَعْضُكُم مِّن بَعْضٍ فَالَّذِينَ هَاجَرُواْ وَأُخْرِجُواْ مِن دِيَارِهِمْ وَأُوذُواْ فِي سَبِيلِي وَقَاتَلُواْ وَقُتِلُواْ لأُكَفِّرَنَّ عَنْهُمْ سَيِّئَاتِهِمْ وَلأُدْخِلَنَّهُمْ جَنَّاتٍ تَجْرِي مِن تَحْتِهَا الأَنْهَارُ ثَوَاباً مِّن عِندِ اللّهِ وَاللّهُ عِندَهُ حُسْنُ الثَّوَابِ *لاَ يَغُرَّنَّكَ تَقَلُّبُ الَّذِينَ كَفَرُواْ فِي الْبِلاَدِ *مَتَاعٌ قَلِيلٌ ثُمَّ مَأْوَاهُمْ جَهَنَّمُ وَبِئْسَ الْمِهَادُ *لَكِنِ الَّذِينَ اتَّقَوْاْ رَبَّهُمْ لَهُمْ جَنَّاتٌ تَجْرِي مِن تَحْتِهَا الأَنْهَارُ خَالِدِينَ فِيهَا نُزُلاً مِّنْ عِندِ اللّهِ وَمَا عِندَ اللّهِ خَيْرٌ لِّلأَبْرَارِ * وَإِنَّ مِنْ أَهْلِ الْكِتَابِ لَمَن يُؤْمِنُ بِاللّهِ وَمَا أُنزِلَ إِلَيْكُمْ وَمَا أُنزِلَ إِلَيْهِمْ خَاشِعِينَ لِلّهِ لاَ يَشْتَرُونَ بِآيَاتِ اللّهِ ثَمَناً قَلِيلاً أُوْلَـئِكَ لَهُمْ أَجْرُهُمْ عِندَ رَبِّهِمْ إِنَّ اللّهَ سَرِيعُ الْحِسَابِ *يَا أَيُّهَا الَّذِينَ آمَنُواْ اصْبِرُواْ وَصَابِرُواْ وَرَابِطُواْ وَاتَّقُواْ اللّهَ لَعَلَّكُمْ تُفْلِحُونَ }",
-      "translation": "",
+      "translation": "Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding. Those who remember Allah while standing, sitting, or lying on their sides, and reflect on the creation of the heavens and the earth: 'Our Lord, You did not create this without purpose; exalted are You; then protect us from the punishment of the Fire.'",
       "transliteration": "",
       "reference": "الترمذي 5/ 473 وانظر صحيح الترمذي3/144",
       "repeat": 1
@@ -1265,7 +1265,7 @@ const duasData = {
     {
       "id": "wearing-clothes-1",
       "arabic": "مَنْ لَبِسَ ثَوْباًً فقال: الحَمْدُ لله الذِي كَساني هذا( الثوب ) ورَزَقَنِيه مِنْ غَيْرِ حَوْلٍ مِنّي ولا قُوةٍ",
-      "translation": "",
+      "translation": "Praise is to Allah Who has clothed me with this and provided it for me without any power or strength from me.",
       "transliteration": "",
       "reference": "أخرجه أهل السنن إلا النسائي انظر إرواء الغليل 7/ 47",
       "repeat": 1
@@ -1275,7 +1275,7 @@ const duasData = {
     {
       "id": "new-clothes-1",
       "arabic": "اللَّهُمَّ لَكَ الحَمْدُ أَنْتَ كَسَوتَنِيه،أسْألك مِنْ خَيرِهِ وخَيْرَ ما صُنع لَهُ،وأعُوذُ بِكَ مِنْ شرِّه وشَرَّ ما صُنِعَ لَهُ",
-      "translation": "",
+      "translation": "O Allah, to You belongs all praise. You have clothed me with this. I ask You for the good of it and the good for which it was made, and I seek refuge with You from its evil and the evil for which it was made.",
       "transliteration": "",
       "reference": "أبو داود والترمذي والبغوي وانظر مختصر شمائل الترمذي للألباني ص 47",
       "repeat": 1
@@ -1285,7 +1285,7 @@ const duasData = {
     {
       "id": "for-new-clothes-wearer-1",
       "arabic": "إلبِسْ جَدِيداً وعِشْ حميداً ومُتْ شهيداً",
-      "translation": "",
+      "translation": "May you wear it out, live a praiseworthy life, and die a martyr.",
       "transliteration": "",
       "reference": "ابن ماجه 2/ 1178 والبغوي 12/ 41 وانظر صحيح ابن ماجة 2/ 275",
       "repeat": 1
@@ -1303,7 +1303,7 @@ const duasData = {
     {
       "id": "before-undressing-1",
       "arabic": "سِتْرُ ما بَيْنَ أعْيُن الجِنِّ وَعَوْرَاتِ بَني آدَمَ إذا وَضَعَ أحدُهُمْ ثَوْبَهُ أنْ يقول:  بِسم الله",
-      "translation": "",
+      "translation": "In the name of Allah.",
       "transliteration": "",
       "reference": "الترمذي 2/505 وغيره وانظر الإرواء برقم 49 صحيح الجامع 3/ 203",
       "repeat": 1
@@ -1351,7 +1351,7 @@ const duasData = {
     {
       "id": "after-wudu-2",
       "arabic": "وزاد الترمذي بعد ذكر الشهادتين :اللهم اجعلني من التوابين واجعلني من المتطهرين",
-      "translation": "",
+      "translation": "O Allah, make me among those who repent and make me among those who purify themselves.",
       "transliteration": "",
       "reference": "الترمذي 1/ 78 وانظر صحيح الترمذي 1/ 18",
       "repeat": 1
@@ -1359,7 +1359,7 @@ const duasData = {
     {
       "id": "after-wudu-3",
       "arabic": "سبحانك اللهم وبحمدك أشهد أن لا إله إلا أنت أستغفرك وأتوب إليك",
-      "translation": "",
+      "translation": "Glory be to You, O Allah, and praise. I bear witness that there is none worthy of worship but You. I seek Your forgiveness and turn to You in repentance.",
       "transliteration": "",
       "reference": "النسائي في عمل اليوم والليلة ص173 وانظر  إرواء الغليل 1/ 135 و2/  94",
       "repeat": 1
@@ -1377,7 +1377,7 @@ const duasData = {
     {
       "id": "leaving-home-2",
       "arabic": "اللهُمَ إني أعُوذُ بِكَ أن أَضِلَّ أوْ أُضَلَّ أَوْ أزِلَّ، أو أُزَلَّ، أوْ أظلِم أوْ أُظْلَم، أوْ أَجْهَلَ أوْ يُجْهَلَ عَلَيَّ",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with You lest I go astray or be led astray, lest I slip or be made to slip, lest I cause injustice or am treated unjustly, lest I act ignorantly or am treated with ignorance.",
       "transliteration": "",
       "reference": "أهل السنن وانظر صحيح الترمذي 3/ 152 وصحيح ابن ماجه 2/ 336",
       "repeat": 1
@@ -1397,7 +1397,7 @@ const duasData = {
     {
       "id": "going-to-masjid-1",
       "arabic": "اللهم اجعل في قلبي نوراً ، وفي لساني نوراً ، وفي سمعي نوراً ، وفي بصري نوراً ، ومن فوقي نوراً ، ومن تحتي نوراً ، وعن يميني نوراً ، وعن شمالي نوراً ، ومن أمامي نوراً ، ومن خلفي نوراً  ، و اجعل في نفسي نوراً ، وأعظم لي نوراً ، وعظم لي نوراً ، واجعل لي نوراً ، واجعلني نوراً ، اللهم أعطني نوراً ، واجعل في عصبي نوراً ، وفي لحمي نوراً ، وفي دمي نوراً ، وفي شعري نوراً ، وفي بشري نوراً",
-      "translation": "",
+      "translation": "O Allah, place light in my heart, and light on my tongue, and light in my hearing, and light in my sight, and light above me, and light below me, and light on my right, and light on my left, and light in front of me, and light behind me, and place light in my soul, and magnify for me light.",
       "transliteration": "",
       "reference": "جميع هذه الخصال في البخاري 11/ 116 برقم 6316 ومسلم 1/ 526، 529 ، 530 برقم 763",
       "repeat": 1
@@ -1405,7 +1405,7 @@ const duasData = {
     {
       "id": "going-to-masjid-2",
       "arabic": "اللهم اجعل لي نوراً في قبري .. ونوراً في عظامي",
-      "translation": "",
+      "translation": "O Allah, place light in my grave and light in my bones.",
       "transliteration": "",
       "reference": "الترمذي برقم 3419، 5/483",
       "repeat": 1
@@ -1413,7 +1413,7 @@ const duasData = {
     {
       "id": "going-to-masjid-3",
       "arabic": "وزدني نوراً ، وزدني نوراً ، وزدني نوراً",
-      "translation": "",
+      "translation": "And increase me in light, and increase me in light, and increase me in light.",
       "transliteration": "",
       "reference": "أخرجه البخاري في الأدب المفرد برقم 695 ، ص 258 وصحح إسناده الألباني في صحيح الأدب المفرد برقم 536",
       "repeat": 1
@@ -1421,7 +1421,7 @@ const duasData = {
     {
       "id": "going-to-masjid-4",
       "arabic": "وهب لي نوراً على نوراً",
-      "translation": "",
+      "translation": "Grant me light upon light.",
       "transliteration": "",
       "reference": "ذكره ابن حجر في فتح الباري وعزاه إلى ابن أبي عاصم في كتاب الدعاء،انظر الفتح 11/118 وقال: فاجتمع من اختلاف الروايات خمس وعشرون خصلة",
       "repeat": 1
@@ -1431,7 +1431,7 @@ const duasData = {
     {
       "id": "entering-masjid-1",
       "arabic": "أعوذ بالله العظيم ،وبوجهه الكريم ،وسلطانه القديم ،من الشيطان الرجيم",
-      "translation": "",
+      "translation": "I seek refuge with Allah the Supreme, and with His Noble Face, and His eternal authority, from the accursed devil.",
       "transliteration": "",
       "reference": "أبو داود وانظر صحيح الجامع برقم 4591",
       "repeat": 1
@@ -1467,7 +1467,7 @@ const duasData = {
     {
       "id": "adhan-2",
       "arabic": "يقول  وأنا أشهد أن لا إله إلا الله ، وحده لا شريك له ، وأن محمد عبده ورسوله ، رضيت بالله رباً ، وبمحمداً رسولاً وبالإسلام ديناً (( يقول ذلك عقب تشهد المؤذن))",
-      "translation": "",
+      "translation": "I bear witness that there is none worthy of worship but Allah alone, Who has no partner, and I bear witness that Muhammad is His servant and Messenger. I am pleased with Allah as Lord, with Muhammad as Messenger, and with Islam as religion.",
       "transliteration": "",
       "reference": "مسلم 1/290",
       "repeat": 1
@@ -1483,7 +1483,7 @@ const duasData = {
     {
       "id": "adhan-4",
       "arabic": "اللهم رب هذه الدعوة التامة ،والصلاة القائمة، آت محمداً الوسيلة والفضيلة، وأبعثه مقاماً محموداً الذي وعدته، [ إنك لا تخلف الميعاد ]",
-      "translation": "",
+      "translation": "One should also send blessings on the Prophet (peace be upon him) after responding to the caller.",
       "transliteration": "",
       "reference": "مسلم 1/ 288",
       "repeat": 1
@@ -1509,7 +1509,7 @@ const duasData = {
     {
       "id": "opening-prayer-2",
       "arabic": "سبحانك اللهم وبحمد ك وتبارك اسمك وتعالى جدك، ولا أ له غيرك",
-      "translation": "",
+      "translation": "I have turned my face sincerely towards He Who created the heavens and earth, and I am not of the polytheists. Indeed, my prayer, my rites, my life, and my death are for Allah, Lord of the worlds.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن الأربعة وانظر صحيح الترمذي 1/77 وصحيح ابن ماجه 1/ 135",
       "repeat": 1
@@ -1525,7 +1525,7 @@ const duasData = {
     {
       "id": "opening-prayer-4",
       "arabic": "اللهم رب جبرائيل وميكائيل وإسرافيل ، فاطر السموات والأرض ، عالم الغيب والشهادة ، أنت تحكم بين عبادك فيما كانوا فيه يختلفون اهدني لما اختلف فيه من الحق بإذنك إنك تهدي من تشاء إلى صراط مستقيم",
-      "translation": "",
+      "translation": "O Allah, distance me from my sins as You have distanced the East from the West. O Allah, cleanse me of my sins as a white garment is cleansed of dirt. O Allah, wash away my sins with water, snow and hail.",
       "transliteration": "",
       "reference": "رواه مسلم1/ 534",
       "repeat": 1
@@ -1533,7 +1533,7 @@ const duasData = {
     {
       "id": "opening-prayer-5",
       "arabic": "الله اكبر كبيرا، الله اكبر كبيرا، الله اكبر كبيرا، والحمد لله كثيرا، والحمد لله كثيرا، والحمد لله كثيرا، وسبحان الله بكرةً وأصيلا ـ ثلاثا ـ  أعوذ بالله من الشيطان الرجيم : من نفخه، ونفثه ،و همزه",
-      "translation": "",
+      "translation": "I praise You with every praise; You deserve all praise. I thank You with every thanks; You deserve all thanks. I ask You for every good; all good is in Your Hand.",
       "transliteration": "",
       "reference": "أخرجه أبو داود 1/ 203 وابن ماجه 1/ 265 وأحمد 4/85 وأخرجه مسلم عن ابن عمر رضي الله عنهماا بنحوه وفيه قصة 1/ 420",
       "repeat": 1
@@ -1541,7 +1541,7 @@ const duasData = {
     {
       "id": "opening-prayer-6",
       "arabic": "كان النبي صلى الله عليه وسلم إذا قام من الليل يتهجد قال:  اللهم لك الحمد أنت نور السموات والأرض ومن فيهن ، ولك الحمد أنت قيمُ السموات والأرض ومن فيهن [ ولك الحمد أنت رب السموات والأرض ومن فيهن ]، [ ولك الحمد لك ملك السموات والأرض ومن فيهن ] [ ولك الحمد أنت ملك السموات والأرض] [ ولك الحمد] أنت الحق ، ووعدك الحق ، وقولك الحق ،ولقاؤك الحق ، والجنة حق ، والنار حق ، والنبيّون حق ومحمد صلى الله عليه وسلم حق والساعة حق ] [اللهم لك أسلمت ،  وعليك توكلت ، وبك آمنت ، وإليك أنبت ، وبك خاصمت ، وإليك حاكمت ، فاغفر لي ما قدمت وما أخرت ، وأسررت، وما أعلنت ] [ أنت المقدم ،وأنت المؤخر لا إله إلا أنت ] [أنت إلهي لا إله إلا أنت]",
-      "translation": "",
+      "translation": "Allah is the Greatest, the Greatest. All praise is due to Allah, much praise. Glory be to Allah in the morning and in the evening. I seek refuge with Allah from Satan.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 3/3 و11/116 و 13/ 371 423، 465 ومسلم مختصراً بنحوه 1/ 532",
       "repeat": 1
@@ -1551,7 +1551,7 @@ const duasData = {
     {
       "id": "ruku-1",
       "arabic": "سبحان ربي العظيم  ثلاث مرات",
-      "translation": "",
+      "translation": "Glory be to my Lord, the Supreme. (Three times)",
       "transliteration": "",
       "reference": "أخرجه أهل السنن وأحمد وانظر صحيح الترمذي 1/83",
       "repeat": 1
@@ -1559,7 +1559,7 @@ const duasData = {
     {
       "id": "ruku-2",
       "arabic": "سبحانك اللهم ربنا وبحمدك ، اللهم اغفر لي",
-      "translation": "",
+      "translation": "Glory be to You, O Allah, our Lord, and praise be to You. O Allah, forgive me.",
       "transliteration": "",
       "reference": "البخاري 1/199 ومسلم 1/ 350",
       "repeat": 1
@@ -1567,7 +1567,7 @@ const duasData = {
     {
       "id": "ruku-3",
       "arabic": "سبوح قدوس رب الملائكة والروح",
-      "translation": "",
+      "translation": "Perfect, Blessed, Lord of the angels and the Spirit.",
       "transliteration": "",
       "reference": "مسلم 1/ 353 وأبو داود 1/230",
       "repeat": 1
@@ -1575,7 +1575,7 @@ const duasData = {
     {
       "id": "ruku-4",
       "arabic": "اللهم لك ركعت وبك آمنت ،ولك أسلمت خشع لك سمعي وبصري ودمي ولحمي وعظمي وعصبي،وما استقل به قدمي",
-      "translation": "",
+      "translation": "Glory be to the Possessor of might, dominion, grandeur and majesty.",
       "transliteration": "",
       "reference": "مسلم 1/534 والأربعة إلا ابن ماجه",
       "repeat": 1
@@ -1583,7 +1583,7 @@ const duasData = {
     {
       "id": "ruku-5",
       "arabic": "سبحان ذي الجبروت والملكوت والكبرياء والعظمة",
-      "translation": "",
+      "translation": "O Allah, to You I have bowed, and in You I have believed, and to You I have submitted. My hearing, my sight, my brain, my bones, and my sinews humble themselves before You.",
       "transliteration": "",
       "reference": "أبو داود 1/ 230 والنسائي وأحمد وإسناده حسن",
       "repeat": 1
@@ -1601,7 +1601,7 @@ const duasData = {
     {
       "id": "rising-from-ruku-2",
       "arabic": "ربنا ولك الحمد ، حمداً كثيراً طيباً مباركاً فيه",
-      "translation": "",
+      "translation": "Our Lord, to You belongs all praise, filling the heavens and earth and whatever You wish beyond that.",
       "transliteration": "",
       "reference": " البخاري مع الفتح 2/ 282",
       "repeat": 1
@@ -1619,7 +1619,7 @@ const duasData = {
     {
       "id": "sujud-1",
       "arabic": "سبحان ربي الأعلى  ، ثلاث مرات .",
-      "translation": "",
+      "translation": "Glory be to my Lord, the Most High. (Three times)",
       "transliteration": "",
       "reference": "أخرجه أهل السنن وأحمد وانظر صحيح الترمذي 1/83",
       "repeat": 1
@@ -1627,7 +1627,7 @@ const duasData = {
     {
       "id": "sujud-2",
       "arabic": "سبحانك اللهم ربنا وبحمدك ، اللهم اغفر لي",
-      "translation": "",
+      "translation": "Glory be to You, O Allah, our Lord, and praise be to You. O Allah, forgive me.",
       "transliteration": "",
       "reference": "البخاري ومسلم وتقدم تخريجه برقم 34",
       "repeat": 1
@@ -1635,7 +1635,7 @@ const duasData = {
     {
       "id": "sujud-3",
       "arabic": "سبوح قدوس رب الملائكة والروح",
-      "translation": "",
+      "translation": "O Allah, to You I have prostrated, and in You I have believed, and to You I have submitted. My face has prostrated to the One Who created it and fashioned it. Blessed is Allah, the Best of Creators.",
       "transliteration": "",
       "reference": "مسلم 1/ 533وتقدم برقم 35",
       "repeat": 1
@@ -1643,7 +1643,7 @@ const duasData = {
     {
       "id": "sujud-4",
       "arabic": "اللهم لك سجدت وبك آمنت ولك أسلمت،سجد وجهي للذي خلقه وصوره وشق سمعه وبصره تبارك الله أحسن الخالقين",
-      "translation": "",
+      "translation": "Perfect and Holy, Lord of the angels and the Spirit.",
       "transliteration": "",
       "reference": "مسلم1/ 534 وغيره",
       "repeat": 1
@@ -1651,7 +1651,7 @@ const duasData = {
     {
       "id": "sujud-5",
       "arabic": "سبحان ذي الجبروت والملكوت ، والكبرياء والعظمة",
-      "translation": "",
+      "translation": "O Allah, forgive me all my sins, the minor and the major, the first and the last, the public and the private.",
       "transliteration": "",
       "reference": "أبو داود 1/ 230 والنسائي وأحمد وإسناده وصححه الألباني في صحيح أبي داود 166",
       "repeat": 1
@@ -1659,7 +1659,7 @@ const duasData = {
     {
       "id": "sujud-6",
       "arabic": "اللهم اغفر لي ذنبي كله ، دقه وجله ،وأوله وآخره ،وعلانيته وسره",
-      "translation": "",
+      "translation": "Glory be to You, O Allah our Lord, and praise be to You. O Allah, forgive me.",
       "transliteration": "",
       "reference": "مسلم 1/ 350",
       "repeat": 1
@@ -1667,7 +1667,7 @@ const duasData = {
     {
       "id": "sujud-7",
       "arabic": "اللهم إني أعوذ برضاك من سخطك وبمعافاتك من عقوبتك،وأعوذ بك منك لا أحصي ثناء عليك أنت كما أثنيت على نفسك",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with Your pleasure from Your anger, and with Your forgiveness from Your punishment, and I seek refuge with You from You. I cannot praise You enough; You are as You have praised Yourself.",
       "transliteration": "",
       "reference": "مسلم 1/ 352",
       "repeat": 1
@@ -1677,7 +1677,7 @@ const duasData = {
     {
       "id": "between-sujud-1",
       "arabic": "رب اغفر لي ، رب اغفر لي",
-      "translation": "",
+      "translation": "O Allah, forgive me, have mercy on me, guide me, heal me, and provide for me.",
       "transliteration": "",
       "reference": "أبو داود 1/ 231وانظر  صحيح ابن ماجة1/ 148",
       "repeat": 1
@@ -1685,7 +1685,7 @@ const duasData = {
     {
       "id": "between-sujud-2",
       "arabic": "اللهم اغفر لي ، وارحمني ،واهدني ، واجبرني،  وعافني،وارزقني ، وارفعني",
-      "translation": "",
+      "translation": "O Lord, forgive me, O Lord, forgive me.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن إلا النسائي وانظر صحيح الترمذي 1/90 وصحيح ابن ماجه 1/ 148",
       "repeat": 1
@@ -1695,7 +1695,7 @@ const duasData = {
     {
       "id": "sujud-tilawah-1",
       "arabic": "سجد وجهي للذي خلقه ، وشق سمعه وبصره بحوله وقوته { فتبارك الله أحسن الخالقين }",
-      "translation": "",
+      "translation": "My face has prostrated to the One Who created it, and brought forth its hearing and sight by His might and power. Glory be to Allah, the Best of Creators.",
       "transliteration": "",
       "reference": "الترمذي 2/474 وأحمد 6/30 والحاكم وصححه ووافقه الذهبي 1/ 220 والزيادة له",
       "repeat": 1
@@ -1703,7 +1703,7 @@ const duasData = {
     {
       "id": "sujud-tilawah-2",
       "arabic": "اللهم أكتب لي بها عندك أجراً ، وضع عني بها وزراً ، واجعلها لي عندك ذخراً ، وتقبلها مني كما تقبلتها من عبدك داود",
-      "translation": "",
+      "translation": "O Allah, record for me a reward with You for it, relieve me of a burden for it, store it for me with You, and accept it from me as You accepted it from Your servant Dawud.",
       "transliteration": "",
       "reference": "الترمذي 2/473 والحاكم وصححه ووافقه الذهبي 1/ 219",
       "repeat": 1
@@ -1713,7 +1713,7 @@ const duasData = {
     {
       "id": "tashahhud-1",
       "arabic": "التحيات لله ، والصلوات ، والطيبات ، السلام عليك أيها النبي ورحمة الله وبركاته ، السلام علينا وعلى عباد الله الصالحين ،أشهد أن لا إله إلا الله ، وأشهد أن محمداً عبده ورسوله",
-      "translation": "",
+      "translation": "All greetings, prayers, and pure words are for Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings. Peace be upon us and upon the righteous servants of Allah. I bear witness that there is none worthy of worship except Allah, and I bear witness that Muhammad is His servant and Messenger.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 1/13 ومسلم 1/ 301",
       "repeat": 1
@@ -1765,7 +1765,7 @@ const duasData = {
     {
       "id": "dua-before-salam-4",
       "arabic": "اللهم اغفر لي ما قدمت وما أخرت وما أسررت وما أعلنت وما أسرفت وما أنت أعلم به مني أنت المقدم وأنت المؤخر لا إله إلا أنت",
-      "translation": "",
+      "translation": "O Allah, I ask You, for Yours is all praise, there is no deity but You alone, with no partner. You are the Bestower. O Originator of the heavens and the earth, O Possessor of majesty and honor. O Ever-Living, O Self-Sustaining. I ask You for Paradise and I seek refuge with You from Hell.",
       "transliteration": "",
       "reference": "مسلم 1/ 534",
       "repeat": 1
@@ -1773,7 +1773,7 @@ const duasData = {
     {
       "id": "dua-before-salam-5",
       "arabic": "اللهم أعني على ذكرك ، وشكرك وحسن عبادتك",
-      "translation": "",
+      "translation": "O Allah, with Your knowledge of the unseen and Your power over creation, keep me alive as long as You know that life is good for me, and take me when You know that death is good for me.",
       "transliteration": "",
       "reference": "أبو داود 2/ 86والنسائي 3/ 53 وصححه الألباني في صحيح أبو داود 1/ 284",
       "repeat": 1
@@ -1781,7 +1781,7 @@ const duasData = {
     {
       "id": "dua-before-salam-6",
       "arabic": "اللهم إني أعوذ بك من البخل وأعوذ بك من الجبن ، وأعوذ بك من أن أرد إلى أرذل العمر ، وأعوذ بك من فتنة الدنيا وأعوذ بك من عذاب القبر",
-      "translation": "",
+      "translation": "O Allah, I ask You for guidance, piety, chastity, and self-sufficiency.",
       "transliteration": "",
       "reference": "البخاري 6/35",
       "repeat": 1
@@ -1789,7 +1789,7 @@ const duasData = {
     {
       "id": "dua-before-salam-7",
       "arabic": "اللهم إني أسألك الجنة وأعوذ بك من النار",
-      "translation": "",
+      "translation": "O Allah, I ask You for the resolve to do good, and to leave off evil, and to love the poor, and to forgive me and have mercy on me. And if You want to test a people, take me to You without being tested.",
       "transliteration": "",
       "reference": "أبو داود وانظر صحيح ابن ماجه 2/ 328",
       "repeat": 1
@@ -1813,7 +1813,7 @@ const duasData = {
     {
       "id": "dua-before-salam-10",
       "arabic": "اللهم إني أسألك بأن لك الحمد ، لا إله إلا أنت وحدك لا شريك لك ، المنان ، يا بديع السموات والأرض يا ذا الجلال والإكرام يا حي يا قيوم إني أسألك الجنة وأعوذ بك من النار",
-      "translation": "",
+      "translation": "O Allah, I ask You for every good that Your Prophet Muhammad (peace be upon him) asked You for, and I seek refuge with You from every evil that Your Prophet Muhammad sought refuge from.",
       "transliteration": "",
       "reference": "رواه أهل السنن وانظر صحيح ابن ماجه 2/ 329",
       "repeat": 1
@@ -1831,7 +1831,7 @@ const duasData = {
     {
       "id": "after-prayer-1",
       "arabic": "أستغفر الله  ثلاثاً .. اللهم أنت السلام ، ومنك السلام ، تباركت يا ذا الجلال والإكرام",
-      "translation": "",
+      "translation": "I seek Allah's forgiveness. (Three times) O Allah, You are Peace, and from You comes peace. Blessed are You, O Possessor of Majesty and Honor.",
       "transliteration": "",
       "reference": "مسلم1/ 414",
       "repeat": 1
@@ -1855,7 +1855,7 @@ const duasData = {
     {
       "id": "after-prayer-4",
       "arabic": "سبحان الله ، والحمد لله ، والله أكبر ( ثلاثاً وثلاثين ) لا إله إلا الله وحده لا شريك له ، له الملك وله الحمد وهو على كل شيء قدير",
-      "translation": "",
+      "translation": "There is no deity but Allah, alone without partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things Omnipotent. O Allah, none can withhold what You give, and none can give what You withhold, and the wealth of a wealthy person cannot avail him against You.",
       "transliteration": "",
       "reference": "مسلم 1/ 418من قال ذلك دبر كل صلاة غفرت خطاياه وإن كانت مثل زبد البحر مسلم 1/ 418",
       "repeat": 1
@@ -1871,7 +1871,7 @@ const duasData = {
     {
       "id": "after-prayer-6",
       "arabic": "{ اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ }عقب كل صلاة",
-      "translation": "",
+      "translation": "SubhanAllah (Glory be to Allah) - 33 times, Alhamdulillah (Praise be to Allah) - 33 times, Allahu Akbar (Allah is the Greatest) - 33 times, then to complete 100: There is no deity but Allah alone, without partner. To Him belongs the dominion and all praise, and He is over all things Omnipotent.",
       "transliteration": "",
       "reference": "من قرأها دبر كل صلاة لم يمنعه من دخول الجنة إلا أن يموت . والنسائي في عمل اليوم والليلة برقم 100 ، وابن السني برقم 121 وصححه الجامع 5/339 وسلسلة الأحاديث الصحيحة 2/697 برقم 972",
       "repeat": 1
@@ -1887,7 +1887,7 @@ const duasData = {
     {
       "id": "after-prayer-8",
       "arabic": "اللهم إني أسألك علماً نافعاً ، ورزقاً طيباً ، وعملاً متقبلاً بعد السلام من صلاة الفجر",
-      "translation": "",
+      "translation": "Recite Ayat al-Kursi after every prayer. It is reported that whoever recites it after every obligatory prayer, nothing prevents him from entering Paradise except death.",
       "transliteration": "",
       "reference": "ابن ماجه وغيره وانظر صحيح ابن ماجة1/ 152 ومجمع الزوائد 10/111",
       "repeat": 1
@@ -1897,7 +1897,7 @@ const duasData = {
     {
       "id": "istikhara-1",
       "arabic": "قال جابر بن عبد الله رضي الله عنهما : كان رسول الله صلى الله عليه وسلم ، يُعلمنا الاستخارة في الأمور كلها كما يعلمُنا السورة من القرآن ، يقول : إذا هم أحدكم بالأمر فليركع ركعتين من غير الفريضة ، ثم ليقل : اللهم إني أستخيرك بعلمك ، وأستقدرك بقدرتك ، وأسألك من فضلك العظيم فإنك تقدِرُ ولا أقدِرُ ، وتعلم ولا أعلم ، وأنت علام الغيوب ، اللهم إن كنت تعلم أن هذا الأمر -يسمي حاجته خير لي في ديني ومعاشي وعاقبة أمري أو قال : عاجلة وآجله فاقدره لي ويسره لي ، ثم بارك لي فيه ، وإن كنت تعلم أن هذا الأمر شر لي في ديني ومعاشي وعاقبة أمري أو قال : عاجله وآجله فاصرفه عني واصرفني عنه ، واقدر لي الخير حيث كان ، ثم ارضني به",
-      "translation": "",
+      "translation": "O Allah, I seek Your guidance by virtue of Your knowledge, and I seek ability by virtue of Your power, and I ask You of Your great bounty. You have power, I have none. You know, I do not know. You are the Knower of hidden things.",
       "transliteration": "",
       "reference": "البخاري7/ 162",
       "repeat": 1
@@ -1905,7 +1905,7 @@ const duasData = {
     {
       "id": "istikhara-2",
       "arabic": "وما ندم من استخار الخالق ، وشاور المخلوقين المؤمنين وتثبت في أمره ، فقد قال سبحانه{ وَشَاوِرْهُمْ فِي الأَمْرِ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى اللّهِ}",
-      "translation": "",
+      "translation": "O Allah, if You know that this matter - and name the specific matter - is good for me in my religion, my livelihood, and my affairs, then ordain it for me and make it easy for me and bless me in it. And if You know that this matter is bad for me in my religion, my livelihood, and my affairs, then turn it away from me and turn me away from it, and ordain for me the good wherever it may be and make me content with it.",
       "transliteration": "",
       "reference": "سورة آل عمران ، آية : 159",
       "repeat": 1
@@ -1915,7 +1915,7 @@ const duasData = {
     {
       "id": "morning-evening-1",
       "arabic": "الحمد لله وحده ، والصلاة والسلام على من لا نبي بعده",
-      "translation": "",
+      "translation": "We have reached the morning and at this very time the whole kingdom belongs to Allah, Lord of the worlds. O Allah, I ask You for the good of this day.",
       "transliteration": "",
       "reference": "عن أنس يرفعه  لأن أقعد مع قوم يذكرون الله تعالى من صلاة الغداة حتى تطلع الشمس أحب إلي من أن أعتق أربعة من ولد إسماعيل ، ولأن أقعد مع قوم يذكرون الله من صلاة العصر إلى أن تغرب الشمس أحب إلي من أن أعتق أربعة  أبو داود برقم 3667، وحسنه الألباني ، صحيح أبو داود 2/ 698",
       "repeat": 1
@@ -1923,7 +1923,7 @@ const duasData = {
     {
       "id": "morning-evening-2",
       "arabic": "أعوذ بالله من الشيطان الرجيم { اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ }",
-      "translation": "",
+      "translation": "O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening. By Your leave we live and die, and unto You is our resurrection.",
       "transliteration": "",
       "reference": "سورة البقرة ، آية 255 من قالها حين يمسي أجير منهم حتى يصبح أخرجه الحاكم 1/ 562وصححه الألباني في صحيح الترغيب والترهيب 1/ 273 وعزاه إلى النسائي والطبراني وقال : وإسناد الطبراني جيد",
       "repeat": 1
@@ -1939,7 +1939,7 @@ const duasData = {
     {
       "id": "morning-evening-4",
       "arabic": "أصبحنا وأصبح الملك لله ، والحمد لله، لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير، ربِّ أسألك خير ما في هذا اليوم وخير ما بعده  وأعوذ بك من شر ما في هذا اليوم وشر ما بعده ربِّ أعوذ بك من الكسل وسوء الكبر، ربَّ أعوذ بك من عذابٍ في النار وعذاب في القبر  وإذا أمسي قال ذلك أيضا :  أمسينا وأمسي الملك لله .",
-      "translation": "",
+      "translation": "O Allah, I have reached the morning with blessings, strength, and concealment of my faults, all of which are from You.",
       "transliteration": "",
       "reference": "وإذا أمسى قال : أمسينا وأمسى الملك لله",
       "repeat": 1
@@ -1947,7 +1947,7 @@ const duasData = {
     {
       "id": "morning-evening-5",
       "arabic": "اللهم بك أصبحنا وبك أمسينا  وبك نحيا وبك نموت وإليك النشور    وإذا أمسي فليقل :  اللهم بك أمسينا، وبك أصبحنا، وبك نحيا وبك نموت، وإليك المصير .",
-      "translation": "",
+      "translation": "O Allah, truly I have entered the morning calling upon You, and calling upon the bearers of Your Throne, and Your angels, and all of Your creation to witness that You are Allah, none has the right to be worshipped except You, alone, having no partner, and that Muhammad is Your servant and Messenger. (Four times)",
       "transliteration": "",
       "reference": "وإذا أمسى قال : ربِّ أسألك خير ما في هذه الليلة وخير ما بعدها وأعوذ بك من شر ما في هذه الليلة وشر ما بعدها",
       "repeat": 1
@@ -1955,7 +1955,7 @@ const duasData = {
     {
       "id": "morning-evening-6",
       "arabic": "اللهم أنت ربي لا إله إلا أنت خَلَقتني وأنا عَبْدُك وأنا على عهدك ووعدك ما استطعت أعوذ بك من شر ما صنعت أبوء  لك بنعمتك علي وأبوء بذنبي فاغفر لي فإنه لا يغفر الذنوب إلا أنت",
-      "translation": "",
+      "translation": "O Allah, whatever favor comes to me or to any of Your creation in this morning is from You alone, without partner, so all praise and thanks are due to You.",
       "transliteration": "",
       "reference": "مسلم 4/ 2088",
       "repeat": 1
@@ -1963,7 +1963,7 @@ const duasData = {
     {
       "id": "morning-evening-7",
       "arabic": "اللهم إني أصبحت  أشهدك وأشهد حملة عرشك ، وملائكتك وجميع خلقك ، أنك أنت الله لا إله إلا أنت وحدك لا شريك لك ، وأن محمداً عبدك ورسولك ( أربع مرات )",
-      "translation": "",
+      "translation": "O Allah, grant me health in my body. O Allah, grant me health in my hearing. O Allah, grant me health in my sight. There is no deity but You. (Three times)",
       "transliteration": "",
       "reference": "وإذا أمسى قال: اللهم بك أمسينا وبك أصبحنا وبك نحيا وبك نموت وإليك المصير",
       "repeat": 1
@@ -1971,7 +1971,7 @@ const duasData = {
     {
       "id": "morning-evening-8",
       "arabic": "اللهم ما أصبح بي من نعمة أو بأحد من خلقك فمنك وحدك لا شريك لك ، فلك الحمد ولك الشكر",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with You from disbelief and poverty, and I seek refuge with You from the punishment of the grave. There is no deity but You. (Three times)",
       "transliteration": "",
       "reference": "الترمذي 5/ 466 وانظر صحيح الترمذي 3/ 142",
       "repeat": 1
@@ -1979,7 +1979,7 @@ const duasData = {
     {
       "id": "morning-evening-9",
       "arabic": "اللهم عافني في بَدَني، اللهم عافني في سمعي، اللهم عافني في بصري، لا إله إلا أنت .اللهم إني أعوذ بك من الكفر، والفقر، اللهم إني أعوذ بك من عذاب القبر لا إله إلا أنت ( ثلاث مرات )",
-      "translation": "",
+      "translation": "You are enough for me, Allah. There is no deity but Him. On Him I put my trust, and He is the Lord of the Magnificent Throne. (Seven times)",
       "transliteration": "",
       "reference": "أقر وأعترف",
       "repeat": 1
@@ -1987,7 +1987,7 @@ const duasData = {
     {
       "id": "morning-evening-10",
       "arabic": "حسبي الله لا إله إلا هو عليه توكلت وهو رب العرش العظيم (سبع مرات )",
-      "translation": "",
+      "translation": "O Allah, I ask You for well-being in this world and the next. O Allah, I ask You for forgiveness and well-being in my religion, my worldly affairs, my family and my wealth. O Allah, cover my faults and calm my fears. O Allah, protect me from in front of me and from behind me, from my right and from my left, and from above me. I seek refuge in Your greatness from being taken unaware from beneath me.",
       "transliteration": "",
       "reference": "من قالها موقناً بها حين يمسي فمات من ليلته دخل الجنة ، وكذلك إذا أصبح أخرجه البخاري 7/150",
       "repeat": 1
@@ -1995,7 +1995,7 @@ const duasData = {
     {
       "id": "morning-evening-11",
       "arabic": "اللهم إني أسألك العفو والعافية في الدنيا والآخرة، اللهم إني أسألك العفو والعافية في ديني ودنياي وأهلي ومالي،اللهم استر عوراتي وآمن روعاتي، اللهم احفظني من بين يديَّ ومن خلفي وعن يميني وعن شمالي ومن فوقي وأعوذ بعظمتك أن أغتال من تحتي",
-      "translation": "",
+      "translation": "O Allah, Knower of the unseen and the seen, Creator of the heavens and the earth, Lord and Owner of everything, I bear witness that there is no deity but You. I seek refuge with You from the evil of my soul and from the evil of Satan and his polytheism.",
       "transliteration": "",
       "reference": "وإذا أمسى قال : اللهم إني أمسيت",
       "repeat": 1
@@ -2003,7 +2003,7 @@ const duasData = {
     {
       "id": "morning-evening-12",
       "arabic": "اللهم عَالِمَ الغيب والشَّهادة، فاطر السموات والأرض، رب كل شيء ومليكه، أشهد أن لا إله إلا أنت أعوذ بك من شر نفسي ومن شر الشيطان وشركه وأن اقترف على نفسي سوءًا أو أجُره إلى مسلم",
-      "translation": "",
+      "translation": "In the name of Allah, with Whose name nothing on earth or in heaven can cause harm. And He is the All-Hearing, the All-Knowing. (Three times)",
       "transliteration": "",
       "reference": "من قالها حين يصبح وحين يمسي أربع مرات أعتقه الله من النار . أخرجه أبو داود 4/ 317 والبخاري في الأدب المفرد برقم 1201 والنسائي في عمل اليوم والليلة برقم 9، وابن السني برقم 70 وحسن سماحة الشيخ ابن باز إسناد النسائي وأبي داود في تحفة الأخيار ص 23",
       "repeat": 1
@@ -2019,7 +2019,7 @@ const duasData = {
     {
       "id": "morning-evening-14",
       "arabic": "رضيت بالله رباً ، وبالإسلام ديناً وبمحمد صلى الله عليه وسلم نبياً  ( ثلاث مرات )",
-      "translation": "",
+      "translation": "We have entered the morning upon the natural way of Islam, the word of sincere devotion, the religion of our Prophet Muhammad (peace be upon him), and the way of our father Ibrahim, who was upright and Muslim, and he was not of the polytheists.",
       "transliteration": "",
       "reference": "من قالها حين يصبح فقد أدي شكر يومه ، ومن قالها حين يمسى فقد أدى شكر ليلته . أخرجه أبو داود 4/318 ، والنسائي في عمل اليوم والليلة برقم 7وابن السني برقم 41 وابن حبان (( موارد)) رقم 2361وحسن ابن باز إسناده في تحفة الأخيار ص24",
       "repeat": 1
@@ -2027,7 +2027,7 @@ const duasData = {
     {
       "id": "morning-evening-15",
       "arabic": "يا حي يا قيوم برحمتك أستغيث أصلح لي شأني كُله ولا تَكِلْني إلى نفسي طرفة عين",
-      "translation": "",
+      "translation": "Glory be to Allah and praise be to Him. (One hundred times)",
       "transliteration": "",
       "reference": "أبو داود 4/ 324، وأحمد 5/ 42 والنسائي في عمل اليوم والليلة برقم 22وابن السني برقم 69والبخاري في الأدب المفرد وحسن العلامة ابن باز في تحفة الأخيار ص26",
       "repeat": 1
@@ -2035,7 +2035,7 @@ const duasData = {
     {
       "id": "morning-evening-16",
       "arabic": "أصبحنا وأصبح الملك لله رب العالمين  ، اللهم إني أسألك خير هذا اليوم  : فتحه، ونصره ،ونوره ،وبركته، وهداه، وأعوذ بك من شر ما فيه وشر ما بعده",
-      "translation": "",
+      "translation": "There is no deity but Allah, alone, without partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things Omnipotent. (Ten times or once if lazy)",
       "transliteration": "",
       "reference": "من قالها حين يصبح ويمسي سبع مرات كفاه الله ما أهمه من أمر الدنيا والآخرة .أخرجه ابن السني برقم 71مرفوعاً وأبو موقوف 4/321،وصحح إسناده شعيب وعبد القادر الأرناؤوط . انظر زاد المعاد 2/ 376",
       "repeat": 1
@@ -2043,7 +2043,7 @@ const duasData = {
     {
       "id": "morning-evening-17",
       "arabic": "أصبحنا على فطرة الإسلام وعلى كلمة الإخلاص، وعلى دين نبيَّنا محمد صلى الله عليه وسلم وعلى ملَّة أبينا إبراهيم حنيفاً مسلماً وما كان من المشركين",
-      "translation": "",
+      "translation": "There is no deity but Allah, alone, without partner. To Him belongs the dominion and to Him belongs all praise. He gives life and causes death, and He is over all things Omnipotent. (Ten times after Maghrib and Fajr)",
       "transliteration": "",
       "reference": "أبو داود وابن ماجه وانظر صحيح ابن ماجه 2/332",
       "repeat": 1
@@ -2051,7 +2051,7 @@ const duasData = {
     {
       "id": "morning-evening-18",
       "arabic": "من قال :سبحان الله وبحمده( مائة مرة )",
-      "translation": "",
+      "translation": "O Allah, I ask You for the good of this day: its opening, its victory, its light, its blessing, and its guidance. I seek refuge with You from the evil of what is in it and the evil of what follows it.",
       "transliteration": "",
       "reference": "الترمذي وأبو داود .انظر :صحيح الترمذي3/ 142",
       "repeat": 1
@@ -2075,7 +2075,7 @@ const duasData = {
     {
       "id": "morning-evening-21",
       "arabic": "سبحان الله وبحمده عدد خلقهِ ورِضَا نفسِهِ وزِنُة عَرشِهِ ومِداد كلماته( ثلاث مرات إذا أصبح )",
-      "translation": "",
+      "translation": "Glory be to Allah and praise be to Him, as many times as the number of His creation, as much as pleases Him, as heavy as the weight of His Throne, and as endless as the ink of His words. (Three times in the morning)",
       "transliteration": "",
       "reference": " الحاكم وصححه ووافقه الذهبي 1/ 545 وانظر صحيح الترغيب والترهيب 1/273",
       "repeat": 1
@@ -2083,7 +2083,7 @@ const duasData = {
     {
       "id": "morning-evening-22",
       "arabic": "اللهم إني أسألك علماً نافعاً ، ورزقاً طيباً ، وعملاً متقبلاً  ( إذا أصبح )",
-      "translation": "",
+      "translation": "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds. (In the morning after Fajr prayer)",
       "transliteration": "",
       "reference": "وإذا أمسى قال: أمسينا وأمسى الملك لله رب العالمين",
       "repeat": 1
@@ -2091,7 +2091,7 @@ const duasData = {
     {
       "id": "morning-evening-23",
       "arabic": "أستغفر الله وأتوب إليه  (مائة مرة في اليوم )",
-      "translation": "",
+      "translation": "I seek the forgiveness of Allah and repent to Him. (One hundred times a day)",
       "transliteration": "",
       "reference": "وإذا أمسى قال: اللهم إني أسألك خير هذه الليلة فتحها ونصرها ونورها وبركتها وهداها وأعوذ بك من شر ما فيها وشر ما بعدها",
       "repeat": 1
@@ -2099,7 +2099,7 @@ const duasData = {
     {
       "id": "morning-evening-24",
       "arabic": "أعوذ بكلمات الله التامات من شر ما خلق ( ثلاث مرات إذا أمسى)",
-      "translation": "",
+      "translation": "Recite Surah Al-Ikhlas (Say: He is Allah, the One), Surah Al-Falaq (Say: I seek refuge with the Lord of the daybreak), and Surah An-Nas (Say: I seek refuge with the Lord of mankind) - three times each in the morning and evening.",
       "transliteration": "",
       "reference": "أبو داود 4/ 322 وحسن إسناده شعيب وعبد القادر الأرناؤوط في تحقيق زاد المعاد 2/ 273",
       "repeat": 1
@@ -2107,7 +2107,7 @@ const duasData = {
     {
       "id": "morning-evening-25",
       "arabic": "اللهم صل وسلم على نبينا محمد  (عشر مرات )",
-      "translation": "",
+      "translation": "Recite Ayat al-Kursi once in the morning and once in the evening for protection.",
       "transliteration": "",
       "reference": "وإذا أمسى قال: أمسينا على فطرة الإسلام",
       "repeat": 1
@@ -2125,7 +2125,7 @@ const duasData = {
     {
       "id": "before-sleep-2",
       "arabic": "{ اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ }",
-      "translation": "",
+      "translation": "I seek refuge in Allah's perfect words from His wrath, from the evil of His servants, from the evil suggestions of devils, and from their presence.",
       "transliteration": "",
       "reference": "من قرأها إذا أوى إلى فراشه فإنه لن يزال عليه من الله حافظ ولا يقربه شيطان حتى يصبح البخاري مع الفتح 4/487",
       "repeat": 1
@@ -2133,7 +2133,7 @@ const duasData = {
     {
       "id": "before-sleep-3",
       "arabic": "{ آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ كُلٌّ آمَنَ بِاللّهِ وَمَلآئِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ لاَ نُفَرِّقُ بَيْنَ أَحَدٍ مِّن رُّسُلِهِ وَقَالُواْ سَمِعْنَا وَأَطَعْنَا غُفْرَانَكَ رَبَّنَا وَإِلَيْكَ الْمَصِيرُ * لاَ يُكَلِّفُ اللّهُ نَفْساً إِلاَّ وُسْعَهَا لَهَا مَا كَسَبَتْ وَعَلَيْهَا مَا اكْتَسَبَتْ رَبَّنَا لاَ تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا رَبَّنَا وَلاَ تَحْمِلْ عَلَيْنَا إِصْراً كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا رَبَّنَا وَلاَ تُحَمِّلْنَا مَا لاَ طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنتَ مَوْلاَنَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ }",
-      "translation": "",
+      "translation": "O Allah, I submit my soul to You, I turn my face to You, I entrust my affairs to You, and I lay myself down relying upon You.",
       "transliteration": "",
       "reference": "من قرأها في ليلة كفتاه، البخاري مع الفتح 9/ 94 ومسلم 1/ 554 ، والآيتان من سورة البقرة ، 285 – 286",
       "repeat": 1
@@ -2141,7 +2141,7 @@ const duasData = {
     {
       "id": "before-sleep-4",
       "arabic": "باسمك  ربي وضعت جنبي وبك أرفعه إن أمسكت نفسي فارحمها، وإن أرسلتها فاحفظها بما تحفظ به عبادك الصالحين",
-      "translation": "",
+      "translation": "In the name of Allah, I lay my side down. O Allah, forgive my sins, drive away my devil, free me from my burden, and make me heavy on the balance.",
       "transliteration": "",
       "reference": "إذا قام أحدكم من فراشه ثم رجع إليه فلينفض بصنفة  إزاره ثلاث مرات وليسم الله  فإنه لا يدري ماذا خلفه عليه بعده وإذا اضطجع فليقل ...  الحديث",
       "repeat": 1
@@ -2149,7 +2149,7 @@ const duasData = {
     {
       "id": "before-sleep-5",
       "arabic": "اللهم خَلَقْتَ نفسي وأنت توفَّاها لك مماتها ومَحْياها، إن أحييتها فاحفظها وإن أمتها فاغفر لها، اللهم إني أسألك العافية",
-      "translation": "",
+      "translation": "O Allah, Lord of the seven heavens and Lord of the Magnificent Throne, our Lord and Lord of everything, Splitter of the grain and the date pit, Revealer of the Torah, the Gospel, and the Quran. I seek refuge with You from the evil of everything whose forelock is in Your grip. O Allah, You are the First - there is nothing before You. You are the Last - there is nothing after You. You are the Manifest - there is nothing above You. You are the Hidden - there is nothing closer than You. Settle our debts and enrich us from poverty.",
       "transliteration": "",
       "reference": "البخاري 11/ 126 .ومسلم 4/ 2084",
       "repeat": 1
@@ -2157,7 +2157,7 @@ const duasData = {
     {
       "id": "before-sleep-6",
       "arabic": "اللهم قني  عذابك يوم تبعث عبادك ( ثلاث مرات )",
-      "translation": "",
+      "translation": "All praise is due to Allah, Who has fed us and given us drink, and given us shelter and satisfied us, for how many have none to give them shelter or satisfy them.",
       "transliteration": "",
       "reference": "رواه مسلم4/ 2083وأحمد بلفظه 2/79",
       "repeat": 1
@@ -2165,7 +2165,7 @@ const duasData = {
     {
       "id": "before-sleep-7",
       "arabic": "باسمِكَ اللهم أموت وأحيا",
-      "translation": "",
+      "translation": "O Allah, Knower of the unseen and the seen, Creator of the heavens and the earth, Lord of everything and its Owner. I bear witness that there is no deity but You. I seek refuge with You from the evil of my soul and the evil of Satan and his polytheism.",
       "transliteration": "",
       "reference": "كان الرسول صلى الله عليه وسلم إذا أراد أن يرقد وضع يده اليمنى تحت خده ثم يقول .......... الحديث",
       "repeat": 1
@@ -2173,7 +2173,7 @@ const duasData = {
     {
       "id": "before-sleep-8",
       "arabic": "سبحان الله ( ثلاثاً وثلاثين ) والحمد لله ( ثلاثاً وثلاثين ) والله أكبر ( أربعاً وثلاثين )",
-      "translation": "",
+      "translation": "Read Surah As-Sajdah (32) and Surah Al-Mulk (67) before sleeping.",
       "transliteration": "",
       "reference": "أبو داود بلفظه 4/311 وانظر صحيح الترمذي3/ 143",
       "repeat": 1
@@ -2181,7 +2181,7 @@ const duasData = {
     {
       "id": "before-sleep-9",
       "arabic": "اللهم ربَّ السموات السبع،ورب العرش العظيم،ربنا ورب كل شيء، فالق الحب والنوى، ومُنزل التوراة والإنجيل والفرقان، أعوذ بك من شر كل شيء أنت آخذٌ بناصيته،اللهم أنت الأول فليس قبلك شيء،وأنت الآخر فليس بعدك شيء، وأنت الظاهر فليس فوقك شيء، وأنت الباطن فليس دونك شيء، اقض عنا الدَّيْنَ واغننا من الفقر",
-      "translation": "",
+      "translation": "O Allah, I have submitted myself to You, turned my face to You, entrusted my affairs to You, and taken refuge with You, out of hope and fear of You. There is no refuge or escape from You except to You. I believe in Your Book which You revealed, and in Your Prophet whom You sent.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 11/113 ومسلم 4/ 2083",
       "repeat": 1
@@ -2189,7 +2189,7 @@ const duasData = {
     {
       "id": "before-sleep-10",
       "arabic": "الحمد لله الذي أطعمنا وسقانا وكفانا وآوانا فكم ممن لا كافي له ولا مؤوي",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) used to gather his palms together, blow gently in them, recite Surah Al-Ikhlas, Al-Falaq, and An-Nas, then wipe over as much of his body as he could with his hands, starting with his head and face and the front of his body. He would do this three times.",
       "transliteration": "",
       "reference": "من قال ذلك عندما يأوي إلى فراشه كان خيراً له من خادم البخاري مع الفتح 7/71 ومسلم 4/ 2091",
       "repeat": 1
@@ -2197,7 +2197,7 @@ const duasData = {
     {
       "id": "before-sleep-11",
       "arabic": "اللهم عالم الغيب والشهادة، فاطر السموات والأرض، رب كل شيء ومليكه أشهد أن لا إله إلا أنت أعوذ بك من شر نفسي، ومن شر الشيطان وشركه وأن أقترف على نفسي سوءًا أو أجرَّه إلى مسلم",
-      "translation": "",
+      "translation": "Say: SubhanAllah 33 times, Alhamdulillah 33 times, and Allahu Akbar 34 times before sleeping.",
       "transliteration": "",
       "reference": "مسلم 4/ 2084",
       "repeat": 1
@@ -2205,7 +2205,7 @@ const duasData = {
     {
       "id": "before-sleep-12",
       "arabic": "يقرأ { ألم } تنزيل السجدة، و { تبارك الذي بيده الملك }",
-      "translation": "",
+      "translation": "Recite Ayat al-Kursi before sleeping. Whoever recites it will have a guardian from Allah over him, and no devil will approach him until morning.",
       "transliteration": "",
       "reference": "مسلم 4/ 2085",
       "repeat": 1
@@ -2213,7 +2213,7 @@ const duasData = {
     {
       "id": "before-sleep-13",
       "arabic": "اللهم   أسلمت نفسي إليك، وفوضت أمري إليك وألجأت ظهري إليك رهبةً ورغبةً إليك، لا ملجأ ولا منجا منك إلا إليك، آمنت بكتابك الذي أنزلت وبنبيك الذي أرسلت",
-      "translation": "",
+      "translation": "Read the last two verses of Surah Al-Baqarah at night and they will suffice you.",
       "transliteration": "",
       "reference": "أبو داود 4/ 317 وانظر صحيح سنن الترمذي3/ 142",
       "repeat": 1
@@ -2223,7 +2223,7 @@ const duasData = {
     {
       "id": "turning-at-night-1",
       "arabic": "لا إله إلا الله الواحد القهار، ربُّ السموات والأرض وما بينهما العزيز الغفار",
-      "translation": "",
+      "translation": "There is none worthy of worship but Allah, the One, the Irresistible, Lord of the heavens and the earth and whatever is between them, the Exalted in Might, the Forgiving.",
       "transliteration": "",
       "reference": "يقول ذلك إذا تقلب من جنب إلى جنب في الليل . أخرجه الحاكم وصححه ووفقه الذهبي 1/ 540 والنسائي في اليوم والليلة وابن السني وانظر صحيح الجامع 4/213",
       "repeat": 1
@@ -2233,7 +2233,7 @@ const duasData = {
     {
       "id": "category-1-1",
       "arabic": "أعوذ بكلمات الله التَّامَّة من غضبه وعقابه، وشر عباده، ومن همزات الشياطين وأنْ يحضرون",
-      "translation": "",
+      "translation": "I seek refuge with Allah from Satan the accursed. Allah, there is no deity but Him, the Ever-Living, the Self-Sustaining. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who can intercede with Him except by His permission? He knows what is before them and what is behind them, and they encompass nothing of His knowledge except what He wills. His Throne extends over the heavens and the earth, and He feels no fatigue in preserving them. And He is the Most High, the Most Great.",
       "transliteration": "",
       "reference": "أبو داود 4/12 نظر صحيح الترمذي3/ 171",
       "repeat": 1
@@ -2243,7 +2243,7 @@ const duasData = {
     {
       "id": "after-dream-1",
       "arabic": "ينفث عن يساره ( ثلاثاً )",
-      "translation": "",
+      "translation": "If one sees a good dream, he should praise Allah and tell others. If he sees what he dislikes, he should seek refuge with Allah from its evil.",
       "transliteration": "",
       "reference": "مسلم4/1772",
       "repeat": 1
@@ -2251,7 +2251,7 @@ const duasData = {
     {
       "id": "after-dream-2",
       "arabic": "يستعيذ بالله من الشيطان ومن شر ما رأى ( ثلاث مرات )",
-      "translation": "",
+      "translation": "If one sees a bad dream, let him blow (spit lightly) to his left three times and seek refuge with Allah from Satan and from the evil of what he saw, and not tell anyone about it. It will not harm him.",
       "transliteration": "",
       "reference": "مسلم4/1773",
       "repeat": 1
@@ -2259,7 +2259,7 @@ const duasData = {
     {
       "id": "after-dream-3",
       "arabic": "لا يحدث بها أحدا ً",
-      "translation": "",
+      "translation": "If one sees a bad dream, let him turn to his other side.",
       "transliteration": "",
       "reference": "مسلم4/1772",
       "repeat": 1
@@ -2267,7 +2267,7 @@ const duasData = {
     {
       "id": "after-dream-4",
       "arabic": "يتحول عن جنبه الذي كان عليه",
-      "translation": "",
+      "translation": "If one sees a bad dream, let him get up and pray if he wishes.",
       "transliteration": "",
       "reference": "مسلم4/1773",
       "repeat": 1
@@ -2275,7 +2275,7 @@ const duasData = {
     {
       "id": "after-dream-5",
       "arabic": "يقوم يصلي إن أراد ذلك",
-      "translation": "",
+      "translation": "Good dreams are from Allah and bad dreams are from Satan. If one sees what he dislikes, let him spit to his left three times and seek refuge with Allah from Satan. It will not harm him, and he should not tell anyone about it. If he sees a good dream, let him rejoice and not tell anyone except those whom he loves.",
       "transliteration": "",
       "reference": "مسلم4/1773",
       "repeat": 1
@@ -2285,7 +2285,7 @@ const duasData = {
     {
       "id": "qunut-witr-1",
       "arabic": "اللهم اهدني فيمن هديت ، وعافني فيمن عافيت ، وتولني فيمن توليت ، وبارك لي فيما أعطيت ، وقني شر ما قضيت ، فإنك تقضي ولا يقضى عليك ، إنه لا يذل من واليت ،[ ولا يعز من عاديت ] تباركت ربنا وتعاليت",
-      "translation": "",
+      "translation": "O Allah, guide me among those You have guided. Grant me well-being among those You have granted well-being. Take me into Your charge among those You have taken into Your charge.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن الأربعة وأحمد والدرامي والحاكم والبيهقي وما بين المعكوفين للبيهقي وانظر صحيح الترمذي 1/144وصحيح ابن ماجه 1/194 وإرواء الغليل للألباني 2/172",
       "repeat": 1
@@ -2293,7 +2293,7 @@ const duasData = {
     {
       "id": "qunut-witr-2",
       "arabic": "اللهم إني أعوذ برضاك من سخطك وأعوذ بمعافاتك من عقوبتك ، وأعوذ بك منك لا أحصي ثناء عليك ، أنت كما أثنيت على نفسك",
-      "translation": "",
+      "translation": "O Allah, guide me among those You have guided. Grant me well-being among those You have granted well-being. Take me into Your charge among those You have taken into Your charge. Bless me in what You have given me. Protect me from the evil of what You have decreed. You decree and none can decree against You. He whom You support can never be humiliated and he whom You oppose can never be honored. Blessed are You, our Lord, and Exalted.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن الأربعة وأحمد. انظر صحيح الترمذي 3/180وصحيح ابن ماجه 1/194 والإرواء 2/175",
       "repeat": 1
@@ -2301,7 +2301,7 @@ const duasData = {
     {
       "id": "qunut-witr-3",
       "arabic": "اللهم إياك نعبد ، ولك نُصلي ونسجد ، وإليك نسعى ونحفدُ ، نرجُو رحمتك ، ونخشى عذابك ، إن عذابك بالكافرين ملحق ، اللهم إنا نستعينك ، ونستغفرك ، ونثني عليك الخير ، ولا نكفرك ، ونؤمن بك ونخضع لك ، ونخلع من يكفرك",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with Your pleasure from Your anger, and with Your forgiveness from Your punishment, and I seek refuge with You from You. I cannot praise You enough; You are as You have praised Yourself.",
       "transliteration": "",
       "reference": "أخرجه البيهقي في السنن الكبرى وصحح إسناده 2/211 وقال الشيخ الألباني في إرواء الغليل وهذا إسناد صحيح 2/170 .وهو موقوف على عمر",
       "repeat": 1
@@ -2311,7 +2311,7 @@ const duasData = {
     {
       "id": "after-witr-1",
       "arabic": "كان رسول الله صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ يقرأ في الوتر :( سَبِّحِ اسْمَ رَبِّكَ الْأَعْلَى ) و ( وَقُلْ يَا أَيُّهَا الْكَافِرُونَ ) و ( وَقُلْ هُوَ اللَّهُ أَحَدٌ ). فإذا سلم قال  سبحان الملك القدوس [ رب الملائكة والروح ] ثلاث مرات والثالثة يجهر بها ويمد بها صوته",
-      "translation": "",
+      "translation": "Glory be to the Holy King. (Three times)",
       "transliteration": "",
       "reference": "رواه النسائي 3/244 والدار قطني وغيرهما وما بين المعكوفين زيادة للدار قطني 2/31 وإسناده صحيح .انظر زاد المعاد بتحقيق شعيب الأرناؤوط وعبد القادر الأرناؤوط 1/337",
       "repeat": 1
@@ -2321,7 +2321,7 @@ const duasData = {
     {
       "id": "anxiety-sorrow-1",
       "arabic": "اللهم إني عبدك ابن عبدك ابن أمتك ناصيتي بيدك،ماضِ في حكمك ، عدل في قضاؤك ،أسألك بكل اسم هو لك سميت به نفسك أو أنزلته في كتابك ، أو علمته أحداً من خلقك أو استأثرت به في علم الغيب عندك أن تجعل القرآن ربيع قلبي ، ونور صدري ،وجلاء حزني وذهاب همي",
-      "translation": "",
+      "translation": "O Allah, I am Your servant, son of Your servant. My forelock is in Your hand. Your command over me is forever executed, and Your decree over me is just.",
       "transliteration": "",
       "reference": "أحمد 1/391وصححه الألباني",
       "repeat": 1
@@ -2329,7 +2329,7 @@ const duasData = {
     {
       "id": "anxiety-sorrow-2",
       "arabic": "اللهم إني أعوذ بك من الهم والحزن ، والعجز والكسل والبخل والجبن ، وضلع الدين وغلبة الرجال",
-      "translation": "",
+      "translation": "O Allah, I seek refuge in You from worry and grief, from weakness and laziness, from cowardice and miserliness, from being overwhelmed by debt and overpowered by men.",
       "transliteration": "",
       "reference": "البخاري 7/158 كان رسول الله صلى الله عليه وسلم يكثر من هذا الدعاء.",
       "repeat": 1
@@ -2339,7 +2339,7 @@ const duasData = {
     {
       "id": "distress-1",
       "arabic": "لا إله إلا الله العظيم الحليم ، لا إله إلا الله رب العرش العظيم ، لا إله إلا الله رب السموات ورب العرش الكريم",
-      "translation": "",
+      "translation": "There is none worthy of worship but Allah, the Most Great, the Forbearing. There is none worthy of worship but Allah, Lord of the Magnificent Throne.",
       "transliteration": "",
       "reference": "البخاري 7/154ومسلم 4/ 2092",
       "repeat": 1
@@ -2347,7 +2347,7 @@ const duasData = {
     {
       "id": "distress-2",
       "arabic": "اللهم رحمتك أرجو فلا تكلني إلى نفسي طرفة عين ِ وأصلح لي شأني كله لا إله إلا أنت",
-      "translation": "",
+      "translation": "O Allah, I hope for Your mercy. Do not leave me to myself even for the blinking of an eye. Correct all of my affairs for me.",
       "transliteration": "",
       "reference": "أبو داود 4/324 وأحمد 5/42 وحسنه الألباني في صحيح أبو داود 3/ 959",
       "repeat": 1
@@ -2355,7 +2355,7 @@ const duasData = {
     {
       "id": "distress-3",
       "arabic": "لا إله إلا أنت سبحانك إني كنت من الظالمين",
-      "translation": "",
+      "translation": "There is none worthy of worship but You. Glory be to You. Indeed, I have been of the wrongdoers.",
       "transliteration": "",
       "reference": "الترمذي 5/529 والحاكم وصححه ووفقه الذهبي 1/505 وانظر صحيح الترمذي3/ 168",
       "repeat": 1
@@ -2363,7 +2363,7 @@ const duasData = {
     {
       "id": "distress-4",
       "arabic": "الله الله ربي لا أشرك به شيئاً",
-      "translation": "",
+      "translation": "O Allah, O Allah, my Lord, I do not associate anything with Him.",
       "transliteration": "",
       "reference": "أخرجه أبو داود 2/87 وانظر صحيح ابن ماجه 2/335",
       "repeat": 1
@@ -2373,7 +2373,7 @@ const duasData = {
     {
       "id": "meeting-enemy-1",
       "arabic": "اللهم إنا نجعلك في نحورهم ونعوذ بك من شرورهم",
-      "translation": "",
+      "translation": "O Allah, we place You before them and we seek refuge with You from their evil.",
       "transliteration": "",
       "reference": "أبو داود 2/89 وصححه الحاكم ووافقه الذهبي 2/142",
       "repeat": 1
@@ -2381,7 +2381,7 @@ const duasData = {
     {
       "id": "meeting-enemy-2",
       "arabic": "اللهم أنت عضُدي وأنت نصيري ، بك أحولُ ،وبك أصولُ ، وبك أُقاتلُ",
-      "translation": "",
+      "translation": "O Allah, You are my supporter and my helper. By You I move, by You I attack, and by You I fight.",
       "transliteration": "",
       "reference": "أبو داود 3/42 والترمذي 5/572 ،وانظر صحيح الترمذي3/183",
       "repeat": 1
@@ -2389,7 +2389,7 @@ const duasData = {
     {
       "id": "meeting-enemy-3",
       "arabic": "حسبنا الله ونعم الوكيل",
-      "translation": "",
+      "translation": "O Allah, we ask You to strike at their necks, and we seek refuge with You from their evil.",
       "transliteration": "",
       "reference": "البخاري 5/172",
       "repeat": 1
@@ -2399,7 +2399,7 @@ const duasData = {
     {
       "id": "fear-of-oppression-1",
       "arabic": "اللهم رب السموات السبع ،ورب العرش العظيم ،كن لي جاراً من فلان بن فلان ، وأحزابه من خلائقك ؛ أن يفرط على أحد منهم أو يطغى ، عز جارك ،وجل ثناؤك ،ولا إله إلا أنت",
-      "translation": "",
+      "translation": "O Allah, Lord of the seven heavens, Lord of the Magnificent Throne, be for me a support against so-and-so and his allies.",
       "transliteration": "",
       "reference": "البخاري في الأدب المفرد برقم 707 وصححه الألباني وفي صحيح الأدب المفرد برقم 545",
       "repeat": 1
@@ -2407,7 +2407,7 @@ const duasData = {
     {
       "id": "fear-of-oppression-2",
       "arabic": "الله أكبر، الله أعز من خلقه جميعاً ، الله أعز مما أخاف وأحذر ،أعوذ بالله الذي لا إله إلا هو ، الممسك السموات السبع أن يقعن على الأرض إلا بإذنه ،من شر عبدك فلان ،وجنوده وأتباعه وأشياعه ، من الجن والأنس ، اللهم كن لي جاراً من شرهم ، جل ثناؤك وعز جارك ، وتبارك اسمك ، ولا إله غيرك  ( ثلاث مرات )",
-      "translation": "",
+      "translation": "Allah is sufficient for us, and He is the best Disposer of affairs.",
       "transliteration": "",
       "reference": "البخاري في الأدب المفرد برقم 708 وصححه الألباني وفي صحيح الأدب المفرد برقم",
       "repeat": 1
@@ -2417,7 +2417,7 @@ const duasData = {
     {
       "id": "against-enemy-1",
       "arabic": "اللهم منزل الكتاب ، سريع الحساب ،اهزم الأحزاب ،اللهم اهزمهم وزلزلهم",
-      "translation": "",
+      "translation": "O Allah, Revealer of the Book, Swift in reckoning, defeat the confederates. O Allah, defeat them and shake them.",
       "transliteration": "",
       "reference": "مسلم 3/1362",
       "repeat": 1
@@ -2427,7 +2427,7 @@ const duasData = {
     {
       "id": "fear-of-people-1",
       "arabic": "اللهم اكفنيهم بما شئت",
-      "translation": "",
+      "translation": "O Allah, protect me from them as You will.",
       "transliteration": "",
       "reference": "مسلم 4/2300",
       "repeat": 1
@@ -2437,7 +2437,7 @@ const duasData = {
     {
       "id": "category-2-1",
       "arabic": "يستعيذ بالله",
-      "translation": "",
+      "translation": "Whoever says 'La hawla wa la quwwata illa billah' (There is no might and no power except with Allah), it is a remedy for ninety-nine ailments, the least of which is worry.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 6/336 ومسلم 1/120",
       "repeat": 1
@@ -2445,7 +2445,7 @@ const duasData = {
     {
       "id": "category-2-2",
       "arabic": "ينتهي عما شك فيه",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Should I not tell you of a treasure from the treasures of Paradise? It is: There is no might and no power except with Allah.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 6/336 ومسلم 1/120",
       "repeat": 1
@@ -2453,7 +2453,7 @@ const duasData = {
     {
       "id": "category-2-3",
       "arabic": "يقول آمنت بالله ورسله",
-      "translation": "",
+      "translation": "There is no might and no power except with Allah, the Most High, the Most Great.",
       "transliteration": "",
       "reference": " مسلم 1/  120",
       "repeat": 1
@@ -2461,7 +2461,7 @@ const duasData = {
     {
       "id": "category-2-4",
       "arabic": "يقرأ قوله تعالى { هُوَ الْأَوَّلُ وَالْآخِرُ وَالظَّاهِرُ وَالْبَاطِنُ وَهُوَ بِكُلِّ شَيْءٍ عَلِيمٌ }",
-      "translation": "",
+      "translation": "I seek refuge with Allah, the All-Hearing, All-Knowing, from the accursed Satan.",
       "transliteration": "",
       "reference": "سورة الحديد ، الآية :3 .أبو داود 4/329 وحسنه الألباني في صحيح أبو داود 3/962",
       "repeat": 1
@@ -2471,7 +2471,7 @@ const duasData = {
     {
       "id": "category-3-1",
       "arabic": "اللهم اكفني بحلالك عن حرامك ، وأغنني بفضلك عمن سواك",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with You from associating partners with You while I know, and I seek Your forgiveness for what I do not know.",
       "transliteration": "",
       "reference": "الترمذي 5/560 وانظر صحيح الترمذي3/ 180",
       "repeat": 1
@@ -2479,7 +2479,7 @@ const duasData = {
     {
       "id": "category-3-2",
       "arabic": "اللهم إني أعوذ بك من الهم والحزن ، والعجز والكسل ،والبخل والجبن وضلع الدين وغلبة الرجال",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with You from associating partners with You while I know, and I seek Your forgiveness for what I do not know.",
       "transliteration": "",
       "reference": " البخاري7/ 158",
       "repeat": 1
@@ -2489,7 +2489,7 @@ const duasData = {
     {
       "id": "whispers-in-prayer-1",
       "arabic": "أعوذ بالله من الشيطان الرجيم واتفل على يسارك ( ثلاثاً )",
-      "translation": "",
+      "translation": "When one experiences whispers in prayer, let him seek refuge with Allah from Satan and blow to his left three times.",
       "transliteration": "",
       "reference": "مسلم 4/1729 من حديث عثمان بن العاص رضي الله عنه وفيه ففعلت ذلك فأذهبه الله عني",
       "repeat": 1
@@ -2499,7 +2499,7 @@ const duasData = {
     {
       "id": "difficulty-1",
       "arabic": "اللهم لا سهل إلا ما جعلته سهلاً وأنت تجعل الحزن إذا شئت سهلاً",
-      "translation": "",
+      "translation": "O Allah, there is nothing easy except what You make easy, and You make difficulty easy if You wish.",
       "transliteration": "",
       "reference": "رواة ابن حبان في صحيحه برقم 2427 (موارد) وابن السني برقم 351 وقال الحافظ هذا حديث صحيح وصححه عبد القادر الأرناؤوط في تخريج الأذكار للنووي ص106",
       "repeat": 1
@@ -2509,7 +2509,7 @@ const duasData = {
     {
       "id": "after-sin-1",
       "arabic": "ما من عبدٍ يذنب ذنباً فيحسن الطهور ، ثم يقوم فيصلي ركعتين ، ثم يستغفر الله إلا غفر الله لهُ",
-      "translation": "",
+      "translation": "Any servant who commits a sin, then performs ablution well, then stands and prays two units of prayer, then asks Allah's forgiveness - Allah will forgive him.",
       "transliteration": "",
       "reference": "أبو داود 2/86 والترمذي 2/257 وصححه الألباني في صحيح أبي داود 1/ 283",
       "repeat": 1
@@ -2519,7 +2519,7 @@ const duasData = {
     {
       "id": "against-shaytan-1",
       "arabic": "الاستعاذة بالله منه",
-      "translation": "",
+      "translation": "I seek refuge with Allah from Satan the accursed.",
       "transliteration": "",
       "reference": "أبو داود 1/206 والترمذي وانظر صحيح الترمذي 1/77 وانظر سورة المؤمنون آية 98-99",
       "repeat": 1
@@ -2535,7 +2535,7 @@ const duasData = {
     {
       "id": "against-shaytan-3",
       "arabic": "الأذكار وقراءة القرآن",
-      "translation": "",
+      "translation": "Recite the verses of Ayat al-Kursi for protection from Satan.",
       "transliteration": "",
       "reference": " لاتجعلوا بيوتكم مقابر إن الشيطان ينفر من البيت الذي تقرأ فيه سورة البقرة  رواه مسلم 1/539 ومما يطرد الشيطان أذكار الصباح والمساء ، والنوم والاستيقاظ ، وأذكار دخول المنزل والخروج منه وأذكار دخول المسجد والخروج منه وغير ذلك من الأذكار المشروعة مثل قراءة آية الكرسي عند النوم ، والآيتين الأخيرتين من سورة  البقرة ، ومن قال لا إله إلا الله وحده لا شريك له ،له الملك وله الحمد وهو على كل شيء قدير مائة مرة كانت له حرزاً من الشيطان يومه كله ،وكذا الأذان يطرد الشيطان",
       "repeat": 1
@@ -2545,7 +2545,7 @@ const duasData = {
     {
       "id": "category-4-1",
       "arabic": "قدر الله وما شاء فعل",
-      "translation": "",
+      "translation": "Say: He is Allah, the One. Allah, the Eternal Refuge. He neither begets nor is born. And there is none equivalent to Him.",
       "transliteration": "",
       "reference": "المؤمن القوي خير وأحب إلى الله من المؤمن الضعف وفي كل خير ،احرص على ما ينفعك واستعن بالله ولا تعجز وإن أصابك شيء فلا تقل لو أني فعلت كذا وكذا ولكن قل قدر الله وما شاء فعل فإن لو تفتح عمل الشيطان  .مسلم 4/2052",
       "repeat": 1
@@ -2553,7 +2553,7 @@ const duasData = {
     {
       "id": "category-4-2",
       "arabic": "إذا غلبك أمر فقل :  حسبي الله ونعم الوكيل",
-      "translation": "",
+      "translation": "Whoever recites Surah Al-Ikhlas ten times, Allah will build for him a house in Paradise.",
       "transliteration": "",
       "reference": "انظر تخريج الأذكار للأرناؤوط ص 106",
       "repeat": 1
@@ -2563,7 +2563,7 @@ const duasData = {
     {
       "id": "newborn-1",
       "arabic": "بارك الله لك في الموهوب لك ،وشكرت الواهب، وبلغ أشدهُ، ورزقت برهُ  .ويردُ عليه المهنأ فيقول :  بارك الله لك وبارك عليك ، وجزاك الله خيراً ، ورزقك الله مثله، وأجزل ثوابك",
-      "translation": "",
+      "translation": "I seek refuge for you both in the perfect words of Allah from every devil and every poisonous creature and from every evil eye.",
       "transliteration": "",
       "reference": "انظر الأذكار للنووي ص349 وصحيح الأذكار للنووي ، لسليم الهلالي 2/713",
       "repeat": 1
@@ -2573,7 +2573,7 @@ const duasData = {
     {
       "id": "category-5-1",
       "arabic": "كان رسول الله صلى الله عليه وسلم يعوذ الحسن والحسين أعيذكما بكلمات الله التامة ، من كل شيطان وهامة ، ومن كل عينِ لامة",
-      "translation": "",
+      "translation": "Read Surah Al-Baqarah in your houses, for Satan does not enter a house in which Surah Al-Baqarah is recited.",
       "transliteration": "",
       "reference": "البخاري 4/119 من حديث ابن عباس رضي الله عنهما",
       "repeat": 1
@@ -2583,7 +2583,7 @@ const duasData = {
     {
       "id": "visiting-sick-1",
       "arabic": "لا بأس طهور إن شاء الله",
-      "translation": "",
+      "translation": "No need for worry, a purification if Allah wills.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 10/ 118",
       "repeat": 1
@@ -2591,7 +2591,7 @@ const duasData = {
     {
       "id": "visiting-sick-2",
       "arabic": "أسأل الله العظيم رب العرش العظيم أن يشفيك ( سبع مرات )",
-      "translation": "",
+      "translation": "I ask Allah the Great, Lord of the Magnificent Throne, to cure you. (Seven times)",
       "transliteration": "",
       "reference": "ما من عبد مسلم يعود مريضاً لم يحضر أجله فيقول: سبع مرات.....الحديث إلا عوفي . أخرجه الترمذي وأبو داود وانظر صحيح الترمذي2/ 210 وصحيح الجامع 5/180",
       "repeat": 1
@@ -2601,7 +2601,7 @@ const duasData = {
     {
       "id": "virtues-visiting-sick-1",
       "arabic": "قال صلى الله عليه وسلم : إذا عاد الرجل أخاه المسلم مشى في خرافة الجنة حتى يجلس فإذا جلس غمرته الرحمة ، فإن كان غدوة صلى عليه سبعون ألف ملك حتى يمسي ، وإن كان مساء صلى عليه سبعون ألف ملك حتى يصبح",
-      "translation": "",
+      "translation": "Whoever visits a sick person, he remains in the harvest of Paradise until he returns.",
       "transliteration": "",
       "reference": "رواه الترمذي وابن ماجه وأحمد وانظر صحيح ابن ماجه 1/244 وصحيح الترمذي 1/286 وصححه أيضاً أحمد شاكر",
       "repeat": 1
@@ -2611,7 +2611,7 @@ const duasData = {
     {
       "id": "dying-patient-1",
       "arabic": "اللهم اغفر لي وارحمني والحقني بالرفيق الأعلى",
-      "translation": "",
+      "translation": "There is none worthy of worship but Allah.",
       "transliteration": "",
       "reference": "البخاري 7/10 ومسلم 4/1893",
       "repeat": 1
@@ -2619,7 +2619,7 @@ const duasData = {
     {
       "id": "dying-patient-2",
       "arabic": "جعل النبي صلى الله عليه وسلم يدخل يديه في الماء فيمسح بهما وجههُ ويقول : لا إله إلا الله إن للموت لسكرات",
-      "translation": "",
+      "translation": "The Messenger of Allah (peace be upon him) entered upon Abu Salamah after his death and his eyes were open. He closed them and said: When the soul is taken, the sight follows it.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 8/144وفي الحديث السواك",
       "repeat": 1
@@ -2627,7 +2627,7 @@ const duasData = {
     {
       "id": "dying-patient-3",
       "arabic": "لا إله إلا الله والله أكبر ، لا إله إلا الله وحده ، لا إله إلا الله وحده لا شريك لهُ ، لا إله إلا الله لهُ الملك ولهُ الحمد ، لا إله إلا الله ولا حول ولا قوة إلا بالله",
-      "translation": "",
+      "translation": "Do not supplicate for yourselves anything but good, for indeed the angels say Ameen to what you say.",
       "transliteration": "",
       "reference": "أخرجه الترمذي وابن ماجه وصححه الألباني ، وانظر صحيح الترمذي 3/152وصحيح ابن ماجه 2/317",
       "repeat": 1
@@ -2637,7 +2637,7 @@ const duasData = {
     {
       "id": "talqeen-1",
       "arabic": "من كان آخر كلامه لا إله إلا الله دخل الجنة",
-      "translation": "",
+      "translation": "Prompt (encourage) those who are dying to say: There is none worthy of worship but Allah.",
       "transliteration": "",
       "reference": "أبو داود 3/190 وانظر صحيح الجامع 5/432",
       "repeat": 1
@@ -2647,7 +2647,7 @@ const duasData = {
     {
       "id": "calamity-1",
       "arabic": "إنا لله وإنا إليه راجعون اللهم أجرني في مصيبتي وأخلف لي خيراً منها",
-      "translation": "",
+      "translation": "Surely, to Allah we belong and to Him we shall return. O Allah, reward me in my affliction and replace it for me with something better.",
       "transliteration": "",
       "reference": "مسلم 2/632",
       "repeat": 1
@@ -2657,7 +2657,7 @@ const duasData = {
     {
       "id": "closing-eyes-deceased-1",
       "arabic": "اللهم اغفر  لفلان ( باسمه ) ورفع درجته في المهديين، واخلفه في عقبه في الغابرين، واغفر لنا وله يا رب العالمين ،وافسح له في قبره ونور له فيه",
-      "translation": "",
+      "translation": "When you close the eyes of the deceased, say: O Allah, forgive so-and-so, and raise his rank among the guided, and be a successor for his offspring among those who remain. Forgive us and him, O Lord of the worlds, and make his grave spacious and illuminate it for him.",
       "transliteration": "",
       "reference": "مسلم 2/634",
       "repeat": 1
@@ -2667,7 +2667,7 @@ const duasData = {
     {
       "id": "funeral-prayer-1",
       "arabic": "اللهم اغفر له وارحمه، وعافه ،واعف عنه ،وأكرم نُزُله ، ووسع مُدخلهُ ، واغسله بالماء والثلج والبرد ، ونقه من الخطايا كما ينقى الثوب الأبيض من الدنس ، وأبدله داراً خيراً من داره ، وأهلاً خيراً من أهله وزوجاً خيراً من زوجه، وأدخله الجنة ،وأعذه من عذاب القبر ( ومن عذاب النار )",
-      "translation": "",
+      "translation": "O Allah, forgive him and have mercy on him and give him strength and pardon him. Be generous to him and cause his entrance to be wide.",
       "transliteration": "",
       "reference": "مسلم 2/663",
       "repeat": 1
@@ -2675,7 +2675,7 @@ const duasData = {
     {
       "id": "funeral-prayer-2",
       "arabic": "اللهم اغفر لحينا وميتنا ، وشاهدنا وغائبنا ، وصغيرنا وكبيرنا ، وذكرنا وأُنثانا ، اللهم من أحييته منا فأحيه على الإسلام ، ومن توفيته منا فتوفه على الإيمان ، اللهم لا تحرمنا أجره ولا تضلنا بعده",
-      "translation": "",
+      "translation": "O Allah, forgive our living and our dead, those present and those absent, our young and our old, our males and our females. O Allah, whomever of us You keep alive, keep him alive in Islam, and whomever of us You cause to die, let him die in faith. O Allah, do not deprive us of his reward and do not lead us astray after him.",
       "transliteration": "",
       "reference": "ابن ماجه 1/480 وأحمد 2/368 وانظر صحيح ابن ماجة1/ 251",
       "repeat": 1
@@ -2683,7 +2683,7 @@ const duasData = {
     {
       "id": "funeral-prayer-3",
       "arabic": "اللهم إن فلان بن فلان في ذمتك،وحبل جوارك،فقه من فتنة القبر وعذاب النار،وأنت أهل الوفاء والحق .فاغفر له وارحمهُ إنك أنت الغفور الرحيم",
-      "translation": "",
+      "translation": "O Allah, so-and-so son of so-and-so is under Your protection and in the rope of Your security. Protect him from the trial of the grave and the punishment of the Fire. You are the faithful and the truthful. Forgive him and have mercy on him; You are the Forgiving, the Merciful.",
       "transliteration": "",
       "reference": "أخرجه ابن ماجه ، وانظر صحيح ابن ماجة1/ 251ورواه أبو داود 3/211",
       "repeat": 1
@@ -2691,7 +2691,7 @@ const duasData = {
     {
       "id": "funeral-prayer-4",
       "arabic": "اللهم عبدك وابن عبدك وابن أمتك احتاج إلى رحمتك ،وأنت غني عن عذابه،إن كان مُحسناً فزده في حسناته، وإن كان مُسيئاً فتجاوز عنه",
-      "translation": "",
+      "translation": "O Allah, Your servant and son of Your maidservant was in need of Your mercy, and You are free from need of punishing him. If he was righteous, add to his rewards; if he was a sinner, overlook his sins.",
       "transliteration": "",
       "reference": "أخرجه الحاكم وصححه ووافقه الذهبي 1/359 وانظر أحكام الجنائز للألباني ص125",
       "repeat": 1
@@ -2701,7 +2701,7 @@ const duasData = {
     {
       "id": "funeral-child-1",
       "arabic": "اللهم أعذه من عذاب القبر",
-      "translation": "",
+      "translation": "O Allah, make him a preceding reward and a stored treasure for his parents, and an answered intercessor. O Allah, make him heavy on their scales and magnify their reward. Place him with the righteous believers, under the care of Ibrahim. Protect him from the punishment of Hellfire.",
       "transliteration": "",
       "reference": "قال سعيد بن المسيب صليت وراء أبي هريرة على صبي لم يعمل خطيئة قط فسمعته يقول ... الحديث .أخرجه مالك في الموطأ 1/288 وابن أبي شيبه في المصنف 3/ 217 والبيهقي 4/9، وصحح إسناده شعيب الأرناؤوط في تحقيقه لشرح السنة للبغوي 5/357",
       "repeat": 1
@@ -2709,7 +2709,7 @@ const duasData = {
     {
       "id": "funeral-child-2",
       "arabic": "أن قال : اللهم اجعله فرطاً وذخراً لوالديه ،وشفيعاً مجاباً .اللهم ثقل به موازينها وأعظم به أجورهما ، وألحقهُ بصالح المؤمنين ، واجعلهُ في كفالة إبراهيم ، وقه برحمتك عذاب الجحيم ، وأبدله داراً خيراً من داره ، وأهلاً خيراً من أهله ، اللهم اغفر لاسلافنا ، وأفراطنا ، ومن سبقنا بالإيمان  فحسن",
-      "translation": "",
+      "translation": "O Allah, protect him from the punishment of the grave.",
       "transliteration": "",
       "reference": "انظر : المغني لابن قدامة 3/416 والدروس المهمة لعامة الأمة للشيخ عبد العزيز بن عبد الله بن باز حفظه الله ص15",
       "repeat": 1
@@ -2717,7 +2717,7 @@ const duasData = {
     {
       "id": "funeral-child-3",
       "arabic": "اللهم اجعله لنا فرطاً ،وسلفاً وأجراً",
-      "translation": "",
+      "translation": "O Allah, make him a preceding reward and a treasure stored for his parents.",
       "transliteration": "",
       "reference": "كان الحسن يقرأ على الطفل بفاتحة الكتاب ويقول ..  الحديث أخرجه البغوي في شرح السنة 5/357وعبد الرزاق برقم 6588، وعلقه البخاري في كتاب الجنائز ، 65باب قراءة فاتحة الكتاب على الجنازة 2/113",
       "repeat": 1
@@ -2727,7 +2727,7 @@ const duasData = {
     {
       "id": "condolence-1",
       "arabic": "إن لله ما أخذ وله ما أعطى . وكل شيء عنده بأجل مُسمى ...فلتصبر ولتحتسب",
-      "translation": "",
+      "translation": "To Allah belongs what He has taken, and to Him belongs what He has given. Everything has an appointed time with Him. So be patient and hope for reward.",
       "transliteration": "",
       "reference": "البخاري 2/80 ومسلم 2/636",
       "repeat": 1
@@ -2735,7 +2735,7 @@ const duasData = {
     {
       "id": "condolence-2",
       "arabic": "وإن قال :  أعظم الله أجرك ،وأحسن عزاءك وغفر لميتك  فحسن",
-      "translation": "",
+      "translation": "May Allah magnify your reward, give you good condolence, and forgive your deceased.",
       "transliteration": "",
       "reference": "الأذكار للنووي ص126",
       "repeat": 1
@@ -2755,7 +2755,7 @@ const duasData = {
     {
       "id": "after-burial-1",
       "arabic": "اللهم اغفر له اللهم ثبته",
-      "translation": "",
+      "translation": "Ask forgiveness for your brother and pray for him to be made steadfast, for he is now being questioned.",
       "transliteration": "",
       "reference": "كان النبي صلى الله عليه وسلم إذا فرغ من دفن الميت وقف عليه فقال : استغفروا لأخيكم وسلوا له التثبيت فإنه الآن يُسأل .أبو داود 3/315 والحاكم وصححه ووافقه الذهبي 1/370",
       "repeat": 1
@@ -2765,7 +2765,7 @@ const duasData = {
     {
       "id": "visiting-graves-1",
       "arabic": "السلام عليكم أهل الديار ، من المؤمنين والمسلمين، وإنا إن شاء الله بكم لاحقون [ ويرحم الله المُستقدمين منا والمستأخرين ] أسأل الله لنا ولكم العافية",
-      "translation": "",
+      "translation": "Peace be upon you, O inhabitants of the graves, believers and Muslims. If Allah wills, we shall join you. We ask Allah for well-being for ourselves and for you.",
       "transliteration": "",
       "reference": "سلمم2/671 ،وابن ماجه واللفظ له 1/494 عن بريدة رضي الله عنه ، وما بين المعكوفين من حديث عائشة رضي الله عنها عند مسلم 2/671",
       "repeat": 1
@@ -2775,7 +2775,7 @@ const duasData = {
     {
       "id": "wind-1",
       "arabic": "اللهم إني أسألك خيرها ، وأعوذ بك من شرها",
-      "translation": "",
+      "translation": "O Allah, I ask You for its good and the good of what it has been sent with, and I seek refuge with You from its evil and the evil of what it has been sent with.",
       "transliteration": "",
       "reference": "أخرجه أبو داود 4/326وابن ماجه 2/1228 وانظر  صحيح ابن ماجة2/ 305",
       "repeat": 1
@@ -2783,7 +2783,7 @@ const duasData = {
     {
       "id": "wind-2",
       "arabic": "اللهم إني أسألك خيرها ، وخير ما فيها ، وخير ما أُرسلت به ، وأعوذ بك من شرها وشر ما فيها وشر ما أرسلت به",
-      "translation": "",
+      "translation": "When the Prophet (peace be upon him) saw clouds or wind, anxiety showed on his face. He was asked about it and said: I fear that punishment may be in it.",
       "transliteration": "",
       "reference": "مسلم 2/616 والبخاري 4/76",
       "repeat": 1
@@ -2793,7 +2793,7 @@ const duasData = {
     {
       "id": "thunder-1",
       "arabic": "سبحان الذي يُسبح الرعد بحمده والملائكة من خيفته",
-      "translation": "",
+      "translation": "Glory be to Him Whom the thunder glorifies with His praise, and the angels are in awe of Him.",
       "transliteration": "",
       "reference": "كان عبد الله بن الزبير رضي الله عنهما إذا سمع الرعد ترك الحديث وقال :.... الموطأ 2/992 وقال الألباني صحيح الإسناد موقوفاً",
       "repeat": 1
@@ -2803,7 +2803,7 @@ const duasData = {
     {
       "id": "rain-seeking-1",
       "arabic": "اللهم اسقنا غيثاً مغيثاً مريئاً مَريعاً نافعاً غير ضار ، عاجلاً غير آجل",
-      "translation": "",
+      "translation": "O Allah, give us rain, O Allah, give us rain, O Allah, give us rain.",
       "transliteration": "",
       "reference": "أبو داود 1/303 وصححه الألباني في صحيح أبي داود1/ 216",
       "repeat": 1
@@ -2811,7 +2811,7 @@ const duasData = {
     {
       "id": "rain-seeking-2",
       "arabic": "اللهم أغثنا ، اللهم أغثنا ، اللهم أغثنا",
-      "translation": "",
+      "translation": "O Allah, give us rain that will help us, is wholesome, productive, beneficial, not harmful, now and not later.",
       "transliteration": "",
       "reference": "والبخاري 1/224 ،مسلم 2/613",
       "repeat": 1
@@ -2819,7 +2819,7 @@ const duasData = {
     {
       "id": "rain-seeking-3",
       "arabic": "اللهم اسق عبادك وبهائمك ، وانشر رحمتك وأحيي بلدك الميت",
-      "translation": "",
+      "translation": "O Allah, quench the thirst of Your servants and Your animals, spread Your mercy, and bring Your dead land back to life.",
       "transliteration": "",
       "reference": "أبو داود 1/305 وحسنه الألباني في صحيح أبي داود1/ 218",
       "repeat": 1
@@ -2829,7 +2829,7 @@ const duasData = {
     {
       "id": "when-rain-falls-1",
       "arabic": "اللهم صيباً نافعاً",
-      "translation": "",
+      "translation": "O Allah, let it be a beneficial rain.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 2/518",
       "repeat": 1
@@ -2839,7 +2839,7 @@ const duasData = {
     {
       "id": "after-rain-1",
       "arabic": "مُطرنا بفضل الله ورحمته",
-      "translation": "",
+      "translation": "We have been given rain by Allah's mercy.",
       "transliteration": "",
       "reference": "والبخاري 1/205 ،مسلم 1/83",
       "repeat": 1
@@ -2849,7 +2849,7 @@ const duasData = {
     {
       "id": "excessive-rain-1",
       "arabic": "اللهم حوالينا ولا علينا ، اللهم على الآكامِ والظرابِ وبُطون الأودية ، ومنابت الشجر",
-      "translation": "",
+      "translation": "O Allah, around us and not upon us. O Allah, upon the hills, the small mountains, the valleys, and where trees grow.",
       "transliteration": "",
       "reference": "والبخاري 1/224 ،مسلم 2/614",
       "repeat": 1
@@ -2859,7 +2859,7 @@ const duasData = {
     {
       "id": "new-moon-1",
       "arabic": "الله أكبر ،اللهم أهلِه علينا بالأمن والإيمان ، والسلامة والإسلام ،والتوفيق لما تحب ربنا وترضى ، ربنا وربك الله",
-      "translation": "",
+      "translation": "Allah is the Greatest. O Allah, bring us the new moon with security and faith, with safety and Islam.",
       "transliteration": "",
       "reference": "الترمذي 5/504 والدارمي بلفظه 1/336 وانظر صحيح الترمذي3/ 157",
       "repeat": 1
@@ -2869,7 +2869,7 @@ const duasData = {
     {
       "id": "breaking-fast-1",
       "arabic": "ذَهبَ الظَّمأُ، وابتلَّت العروقُ وثَبَتَ الأجرُ إنْ شاء الله",
-      "translation": "",
+      "translation": "The thirst has gone, the veins are moistened, and the reward is assured, if Allah wills.",
       "transliteration": "",
       "reference": "أخرجه أبي داود 2/306 وغيره وانظر صحيح الجامع 4/209",
       "repeat": 1
@@ -2877,7 +2877,7 @@ const duasData = {
     {
       "id": "breaking-fast-2",
       "arabic": "اللهم إني أسألك برحمتك التي وسعت كل شيءٍ أن تغفر لي",
-      "translation": "",
+      "translation": "O Allah, for You I have fasted and upon Your provision I have broken my fast.",
       "transliteration": "",
       "reference": "أخرجه ابن ماجه 1/557 من دعاء عبد الله بن عمرو رضي الله عنهما ،وحسنه الحافظ في تخريج الأذكار انظر شرح الأذكار 4/342",
       "repeat": 1
@@ -2895,7 +2895,7 @@ const duasData = {
     {
       "id": "before-eating-2",
       "arabic": "من أطعمه الله الطعام فليقل: اللهم بارك لنا فيه وأطعمنا خيراً منه. ومن سقاه الله لبناً فليقل: اللهم بارك لنا فيه وزدنا منه",
-      "translation": "",
+      "translation": "O Allah, bless for us what You have provided and protect us from the punishment of the Fire. In the name of Allah.",
       "transliteration": "",
       "reference": "الترمذي 5/506 وانظر صحيح الترمذي3/ 158",
       "repeat": 1
@@ -2905,7 +2905,7 @@ const duasData = {
     {
       "id": "after-eating-1",
       "arabic": "الحمد لله الذي أطعمني هذا ،وزرقنيه ،من غير حول مني ولا قوة",
-      "translation": "",
+      "translation": "Praise be to Allah Who has fed us and given us drink and made us Muslims.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن إلا النسائي وانظر صحيح الترمذي 3/159",
       "repeat": 1
@@ -2913,7 +2913,7 @@ const duasData = {
     {
       "id": "after-eating-2",
       "arabic": "الحمدُ لله حمداً كثيراً طيباً مباركاً فيهِ، غيْرَ [مَكْفيٍّ ولا] مُوَدَّع، ولا مُستَغنَى عَنْهُ ربّنا",
-      "translation": "",
+      "translation": "Praise be to Allah Who has fed us this food and provided it for us without any power or strength from ourselves.",
       "transliteration": "",
       "reference": "البخاري 6/‌214 والترمذي بلفظه 5/ 507",
       "repeat": 1
@@ -2923,7 +2923,7 @@ const duasData = {
     {
       "id": "guest-dua-1",
       "arabic": "اللهُمَّ بَارِكْ لَهُم فيما رَزَقتهْمْ، واغْفِر لهم وارحَمْهُم",
-      "translation": "",
+      "translation": "O Allah, bless them in what You have provided for them, forgive them, and have mercy on them.",
       "transliteration": "",
       "reference": "مسلم3/ 1626",
       "repeat": 1
@@ -2933,7 +2933,7 @@ const duasData = {
     {
       "id": "category-6-1",
       "arabic": "اللهُمَّ أَطْعِمْ مَنْ أطْعَمَني وأَسْقِ مَنْ سْقَاني",
-      "translation": "",
+      "translation": "If someone feeds a fasting person, they will have the same reward without diminishing the reward of the fasting person.",
       "transliteration": "",
       "reference": "مسلم3/ 26",
       "repeat": 1
@@ -2943,7 +2943,7 @@ const duasData = {
     {
       "id": "iftar-at-host-1",
       "arabic": "أَفطَر عِنْدَكُم الصائِمونَ ، وأكل طعامَكُمُ الأبْرارُ ، وصلت عليكُمُ الملائِكَةُ",
-      "translation": "",
+      "translation": "May the fasting people break their fast with you, may the righteous eat your food, and may the angels send prayers upon you.",
       "transliteration": "",
       "reference": "سنن أبي داود 3/367، وابن ماجه 1/556 ،والنسائي في عمل اليوم والليلة برقم 298 ،ونص على أنه صلى الله عليه وسلم يقوله إذا أفطر عند أهل بيت ،وصححه الألباني في صحيح أبي داود 2/730",
       "repeat": 1
@@ -2953,7 +2953,7 @@ const duasData = {
     {
       "id": "fasting-at-food-1",
       "arabic": "إذا دُعي أحدكم فليجب ، فإن كان صائماً فليصل وإن كان مفطراً فليطعم  ومعنى فليصل أي فليدع",
-      "translation": "",
+      "translation": "When one of you is invited to food and he is fasting, let him say: I am fasting.",
       "transliteration": "",
       "reference": "مسلم 2/1054",
       "repeat": 1
@@ -2963,7 +2963,7 @@ const duasData = {
     {
       "id": "category-7-1",
       "arabic": "إني صائم ، إني صائم",
-      "translation": "",
+      "translation": "When you are invited to a meal, respond. If you are fasting, invoke blessings upon the host, and if you are not fasting, eat.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 4/103 ،ومسلم 2/ 806",
       "repeat": 1
@@ -2973,7 +2973,7 @@ const duasData = {
     {
       "id": "first-fruit-1",
       "arabic": "اللهم بارك لنا في ثمرنا ، وبارك لنا في مدينتنا وبارك لنا في صاعنا ، وبارك لنا في مدنا",
-      "translation": "",
+      "translation": "O Allah, bless us in our fruit, bless us in our city, bless us in our sa' (measure) and our mudd (measure).",
       "transliteration": "",
       "reference": "مسلم 2/1000",
       "repeat": 1
@@ -2983,7 +2983,7 @@ const duasData = {
     {
       "id": "sneezing-1",
       "arabic": "إذا عطس أحدكم فليقل الحمد لله ،وليقل له أخوهُ أو صاحبهُ : يرحمك الله ،فإذا قال لهُ :يرحمك الله ،فليقل :يهديكم الله ويصلح بالكم",
-      "translation": "",
+      "translation": "Praise be to Allah. (Response: May Allah have mercy on you. Reply: May Allah guide you and rectify your affairs.)",
       "transliteration": "",
       "reference": "البخاري 7/125",
       "repeat": 1
@@ -2993,7 +2993,7 @@ const duasData = {
     {
       "id": "category-8-1",
       "arabic": "يهديكم الله ويصلح بالكم",
-      "translation": "",
+      "translation": "When a Muslim sneezes and says 'Alhamdulillah' (Praise be to Allah), it is the right of every Muslim who hears him to say 'Yarhamukallah' (May Allah have mercy on you).",
       "transliteration": "",
       "reference": "الترمذي 5/82 وأحمد 4/400 وأبو داود 4/308، وانظر صحيح الترمذي 2/354",
       "repeat": 1
@@ -3003,7 +3003,7 @@ const duasData = {
     {
       "id": "for-married-1",
       "arabic": "بارك الله لك ، وبارك عليك ، وجمع بينكما في خير",
-      "translation": "",
+      "translation": "May Allah bless you, and may He bless upon you, and may He bring you together in goodness.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن إلا النسائي وانظر صحيح الترمذي 1/316",
       "repeat": 1
@@ -3013,7 +3013,7 @@ const duasData = {
     {
       "id": "category-9-1",
       "arabic": "إذا تزوج أحدكم امرأة ،أو إذا اشترى خادماً فليقل : اللهم إني أسألك خيرها وخير ما جبلتها عليه وأعوذ بك من شرها وشر ما جبلتها عليه ، وإذا اشترى بعيراً فليأخذ بذروة سنامه وليقل مثل ذلك",
-      "translation": "",
+      "translation": "May Allah bless you, and shower blessings upon you, and bring you together in goodness.",
       "transliteration": "",
       "reference": "أبو داود 2/248 وابن ماجه 1/617 وانظر صحيح ابن ماجه 1/324",
       "repeat": 1
@@ -3033,7 +3033,7 @@ const duasData = {
     {
       "id": "anger-1",
       "arabic": "أعوذ بالله من الشيطان الرجيم",
-      "translation": "",
+      "translation": "I seek refuge with Allah from Satan the accursed.",
       "transliteration": "",
       "reference": "البخاري 6/99 ومسلم4/2015",
       "repeat": 1
@@ -3043,7 +3043,7 @@ const duasData = {
     {
       "id": "seeing-afflicted-1",
       "arabic": "الحمد لله الذي عافاني مما ابتلاك به ، وفضلني على كثير ممن خلق تفضيلاً",
-      "translation": "",
+      "translation": "Praise be to Allah Who has saved me from what He has afflicted you with, and has greatly preferred me above many of those whom He has created.",
       "transliteration": "",
       "reference": "الترمذي 5/494 و5/493 وانظر  صحيح الترمذي3/ 153",
       "repeat": 1
@@ -3053,7 +3053,7 @@ const duasData = {
     {
       "id": "sitting-gathering-1",
       "arabic": "عن ابن عمر قال : كان يعد لرسول الله صلى الله عليه وسلم في المجلس الواحد مائة مرة من قبل أن يقوم رب اغفر لي وتب علي إنك أنت التواب الغفور",
-      "translation": "",
+      "translation": "Glory be to You, O Allah, and praise be to You. I bear witness that there is none worthy of worship but You. I seek Your forgiveness and repent to You.",
       "transliteration": "",
       "reference": "الترمذي وغيره وانظر صحيح الترمذي 3/153 وصحيح ابن ماجه 2/321 ولفظه للترمذي",
       "repeat": 1
@@ -3063,7 +3063,7 @@ const duasData = {
     {
       "id": "category-11-1",
       "arabic": "سبحانك اللهم وبحمدك ، أشهد أن لا إله إلا أنت أستغفرك وأتوب إليك",
-      "translation": "",
+      "translation": "Glory be to You, O Allah, and praise be to You. I bear witness that there is no deity but You. I seek Your forgiveness and repent to You.",
       "transliteration": "",
       "reference": "أخرجه أصحاب السنن وانظر صحيح الترمذي 3/153، وقد ثبت عن عائشة رضي الله عنها قالت :ما جلس رسول الله صلى الله عليه وسلم مجلساً ، ولاتلى قرآناً ، ولا صلاة إلا ختم ذلك بكلمات.... الحديث أخرجه النسائي في عمل اليوم والليلة برقم 308 ، وأحمد 6/77 وصححه الدكتور فاروق حمادة في تحقيقه لعمل اليوم والليلة للنسائي ص273",
       "repeat": 1
@@ -3083,7 +3083,7 @@ const duasData = {
     {
       "id": "thanking-favor-1",
       "arabic": "جَزَاكَ الله خيراً",
-      "translation": "",
+      "translation": "May Allah reward you with good.",
       "transliteration": "",
       "reference": "أخرجه الترمذي رقم 2035 وانظر صحيح الجامع 6244 وصحيح الترمذي2/ 200",
       "repeat": 1
@@ -3093,7 +3093,7 @@ const duasData = {
     {
       "id": "category-12-1",
       "arabic": "من حفظ عشر آيات من أول سورة الكهف عصم من الدجال  والاستعاذة بالله من فتنتة عقب التشهد الأخير من كل صلاة",
-      "translation": "",
+      "translation": "Whoever memorizes the first ten verses of Surah Al-Kahf will be protected from the Dajjal.",
       "transliteration": "",
       "reference": "مسلم 1/555 وفي رواية من آخر الكهف 1/556",
       "repeat": 1
@@ -3103,7 +3103,7 @@ const duasData = {
     {
       "id": "love-for-allah-1",
       "arabic": "أحبك الذي أحببتني له ُ",
-      "translation": "",
+      "translation": "May He for Whose sake you love me, love you.",
       "transliteration": "",
       "reference": "أخرجه أبو داود 4/333، وحسنه الألباني في صحيح سنن أبي داود 3/965",
       "repeat": 1
@@ -3113,7 +3113,7 @@ const duasData = {
     {
       "id": "offered-wealth-1",
       "arabic": "بارك الله لك في أهلك ومالك",
-      "translation": "",
+      "translation": "May Allah bless you in your family and your wealth.",
       "transliteration": "",
       "reference": "البخاري الفتح4/ 88",
       "repeat": 1
@@ -3123,7 +3123,7 @@ const duasData = {
     {
       "id": "repaying-loan-1",
       "arabic": "بارك الله لك في أهلك ومالك إنما جزاء السلف الحمد والأداء",
-      "translation": "",
+      "translation": "May Allah bless you in your family and your wealth. The reward of a loan is praise and repayment.",
       "transliteration": "",
       "reference": "أخرجه النسائي في عمل اليوم والليلة ص 300 وابن ماجه 2/ 809 وانظر صحيح ابن ماجه 2/809 وانظر صحيح ابن ماجه 2/55",
       "repeat": 1
@@ -3133,7 +3133,7 @@ const duasData = {
     {
       "id": "fear-of-shirk-1",
       "arabic": "اللهم إني أعوذ بك أن أشرك بك وأنا أعلم ، وأستغفرك لما لا أعلم",
-      "translation": "",
+      "translation": "O Allah, I seek refuge with You from knowingly associating partners with You, and I seek Your forgiveness for what I do not know.",
       "transliteration": "",
       "reference": "أحمد 4/403 وغيره وانظر صحيح الجامع 3/333 وصحيح الترغيب والترهيب للألباني",
       "repeat": 1
@@ -3143,7 +3143,7 @@ const duasData = {
     {
       "id": "barakallah-response-1",
       "arabic": "وفيك بارك الله",
-      "translation": "",
+      "translation": "And may Allah bless you.",
       "transliteration": "",
       "reference": "أخرجه ابن السني ص138 برقم 278 وانظر الوابل الصيب لابن القيم 304 تحقيق بشير محمد عيون",
       "repeat": 1
@@ -3153,7 +3153,7 @@ const duasData = {
     {
       "id": "category-13-1",
       "arabic": "اللهم لا طير إلا طيرك ، ولا خير إلا خيرك ،ولا إله غيرك",
-      "translation": "",
+      "translation": "When one feels pessimism about omens, say: O Allah, no one brings good except You, and no one wards off evil except You, and there is no might and no power except with You.",
       "transliteration": "",
       "reference": "أحمد 2/220 وابن السني برقم 292 وصححه الألباني في الأحاديث الصحيحة 3/54 رقم 1065 ، أما الفأل فكان يعجب النبي صلى الله عليه وسلم ؛ ولهذا سمع من رجل كلمة طيبة فأعجبته فقال : أخذنا فألك من فيك  أبو داود وأحمد ،وصححه الألباني في الصحيحة2/363 عند أبي الشيخ في أخلاق النبي",
       "repeat": 1
@@ -3173,7 +3173,7 @@ const duasData = {
     {
       "id": "travel-1",
       "arabic": "الله أكبر، الله أكبر، الله أكبر،{سُبْحانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ * وَإِنَّا إِلَى رَبِّنَا لَمُنقَلِبُونَ}  اللهم إنا نسألُكَ في سفرنا هذا البرَّ والتقوى، ومن العمل ما ترضى، اللهم هون علينا سفرنا هذا واطو عنا بعده، اللهم أنت الصاحب في السفر، والخليفة في الأهل، اللهم إني أعوذ بك من وعْثاءِ السفر، وكآبة المنظر وسوء المنقلب في المال والأهل وإذا رجع قالهن وزاد فيهن آيبون، تائبون، عابدون، لربنا حامدون",
-      "translation": "",
+      "translation": "Allah is the Greatest. Glory be to Him Who has subjected this to us. O Allah, we ask You in our journey for righteousness and piety.",
       "transliteration": "",
       "reference": "رواه مسلم2/ 978",
       "repeat": 1
@@ -3183,7 +3183,7 @@ const duasData = {
     {
       "id": "entering-town-1",
       "arabic": "اللهم رب السموات السبع وما أظللن ، ورب الأرضين السبع وما أقللن ،ورب الشياطين وما أضللن ، ورب الرياح وما ذرين.أسألك خير هذه القرية وخير أهلها ، وخير ما فيها،وأعوذ بك من شرها،وشر أهلها ، وشر ما فيها",
-      "translation": "",
+      "translation": "O Allah, Lord of the seven heavens, Lord of the seven earths, I ask You for the goodness of this town and its people.",
       "transliteration": "",
       "reference": "الحاكم وصححه ووافقه الذهبي 2/100 وابن السني برقم 524وحسنه الحافظ في تخريج الأذكار 5/154 قال ابن باز:ورواه النسائي بإسناد حسن . انظر تحفة الأخيار ص 37",
       "repeat": 1
@@ -3213,7 +3213,7 @@ const duasData = {
     {
       "id": "traveler-for-resident-1",
       "arabic": "أستودعُكَ الله الذي لا تضيع ودائعه",
-      "translation": "",
+      "translation": "I entrust to Allah your religion, your trustworthiness, and the ends of your deeds.",
       "transliteration": "",
       "reference": "أحمد 2/403 وابن ماجه 2/943 وانظر صحيح ابن ماجة2/ 133",
       "repeat": 1
@@ -3223,7 +3223,7 @@ const duasData = {
     {
       "id": "resident-for-traveler-1",
       "arabic": "أستودع الله دينك وأمانتك ،وخواتيم عملك",
-      "translation": "",
+      "translation": "May Allah provision you with piety, forgive your sins, and facilitate goodness for you wherever you may be.",
       "transliteration": "",
       "reference": "أحمد 2/7 الترمذي5/499  وانظر صحيح الترمذي3/ 155",
       "repeat": 1
@@ -3231,7 +3231,7 @@ const duasData = {
     {
       "id": "resident-for-traveler-2",
       "arabic": "زوَّدك الله التقوى، وغفر ذْنبك ويسَّر لك الخير حيث ما كنت",
-      "translation": "",
+      "translation": "I entrust to Allah your religion, your faithfulness, and the ends of your deeds.",
       "transliteration": "",
       "reference": "الترمذي وانظر صحيح الترمذي3/ 155",
       "repeat": 1
@@ -3241,7 +3241,7 @@ const duasData = {
     {
       "id": "dhikr-during-travel-1",
       "arabic": "قال جابر رضي الله عنه :  كنا إذا صعدنا كبرنا ، وإذا نزلنا سبحنا",
-      "translation": "",
+      "translation": "Allah is the Greatest, Allah is the Greatest, Allah is the Greatest. Glory be to Him Who has subjected this to us, and we could not have otherwise done it. And truly, to our Lord we shall return.",
       "transliteration": "",
       "reference": "البخاري الفتح6/ 135",
       "repeat": 1
@@ -3251,7 +3251,7 @@ const duasData = {
     {
       "id": "traveler-at-dawn-1",
       "arabic": "سَمعَ سَامعً بحمد الله وحُسنِ بلائه علينا، ربنا صاحبنا ، وأفضِل علينا عائذا بالله من النار",
-      "translation": "",
+      "translation": "Let a caller announce: I bear witness that there is none worthy of worship except Allah alone with no partner, and I bear witness that Muhammad is His servant and Messenger. O Allah, I ask You for the best of this day: its victory, its help, its light, its blessings, and its guidance.",
       "transliteration": "",
       "reference": "مسلم4/ 2086 ومعني سمع سامع : أي شهد شاهد على حمدنا لله تعالى على نعمه وحسن بلائه . ومعني سمع سامع : بلغ سامع قولي هذا لغيره وقال مثله تنبيهاً على الذكر في السحر والدعاء . وقوله : ربنا صاحبنا وأفضل علينا : أي احفظنا وحطنا واكلأنا وأفضل علينا بجزيل نعمك واصرف عنا كل مكروه ، شرح النووي 17/39",
       "repeat": 1
@@ -3261,7 +3261,7 @@ const duasData = {
     {
       "id": "category-15-1",
       "arabic": "أعوذ بكلمات الله التامات من شر ما خلق",
-      "translation": "",
+      "translation": "O Allah, You are the Companion on the journey and the Caretaker of the family. O Allah, I seek refuge with You from the hardships of travel, from returning in grief, and from finding a bad situation awaiting my family and property.",
       "transliteration": "",
       "reference": "رواه مسلم4/2080",
       "repeat": 1
@@ -3271,7 +3271,7 @@ const duasData = {
     {
       "id": "returning-from-travel-1",
       "arabic": "يكبر على كل شرف ثلاث تكبيرات ثم يقول : لا إله إلا الله وحده لا شريك لهُ ،لهُ الملك ، ولهُ الحمدُ وهو على كل شيءٍ قدير ، آيبون ،تائبون ، عابدون ، لربنا حامدون ،صدق الله وعده،ونصر عبده،وهزم الأحزاب وحده",
-      "translation": "",
+      "translation": "We return repentant, worshipping, and praising our Lord.",
       "transliteration": "",
       "reference": "كان النبي صلى الله عليه وسلم يقوله إذا قفل من غزو أو حج ، البخاري 7/163 ومسلم 2/ 980",
       "repeat": 1
@@ -3281,7 +3281,7 @@ const duasData = {
     {
       "id": "category-16-1",
       "arabic": "كان صلى الله عليه وسلم إذا أتاه الأمر يسره قال : الحمد لله الذي بنعمته تتم الصالحات  و إذا أتاه أمر يكرهه قال :  الحمد لله على كل حال",
-      "translation": "",
+      "translation": "O Allah, send prayers upon Muhammad and upon the family of Muhammad, as You sent prayers upon Ibrahim and the family of Ibrahim. You are indeed Praiseworthy and Glorious.",
       "transliteration": "",
       "reference": "أخرجه ابن السني في عمل اليوم والليلة والحاكم وصححه 1/499 وصححه الألباني في صحيح الجامع 4/ 201",
       "repeat": 1
@@ -3291,7 +3291,7 @@ const duasData = {
     {
       "id": "virtues-salawat-1",
       "arabic": "قال صلى الله عليه وسلم  من صلى علي صلاة صلى الله عليه بها عشراً",
-      "translation": "",
+      "translation": "O Allah, send prayers upon Muhammad and upon the family of Muhammad.",
       "transliteration": "",
       "reference": "أخرجه مسلم 1/288",
       "repeat": 1
@@ -3299,7 +3299,7 @@ const duasData = {
     {
       "id": "virtues-salawat-2",
       "arabic": "وقال صلى الله عليه وسلم :  لا تجعلوا قبري عيداً وصلوا علي ؛ فإن صلاتكم تبلغني حيث كنتم",
-      "translation": "",
+      "translation": "O Allah, send prayers upon Muhammad and upon the family of Muhammad as You sent prayers upon Ibrahim and the family of Ibrahim; You are indeed Praiseworthy, Glorious. And bless Muhammad and the family of Muhammad as You blessed Ibrahim and the family of Ibrahim; You are indeed Praiseworthy, Glorious.",
       "transliteration": "",
       "reference": "أبو داود 2/218 وأحمد 2/367 وصححه الألباني في صحيح أبي داود 2/ 383",
       "repeat": 1
@@ -3307,7 +3307,7 @@ const duasData = {
     {
       "id": "virtues-salawat-3",
       "arabic": "وقال صلى الله عليه وسلم :  البخيل من ذكرت عندهُ فلم يصل علي",
-      "translation": "",
+      "translation": "Whoever sends one blessing upon me, Allah will send ten blessings upon him.",
       "transliteration": "",
       "reference": "الترمذي 5/551 وغيره وانظر صحيح الجامع 3/ 25 وصحيح الترمذي 3/ 177",
       "repeat": 1
@@ -3315,7 +3315,7 @@ const duasData = {
     {
       "id": "virtues-salawat-4",
       "arabic": "وقال صلى الله عليه وسلم  إن لله ملائكة سياحين في الأرض يبلغوني من أمتي السلام",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Do not make my grave a place of celebration. Send blessings upon me, for your blessings reach me wherever you are.",
       "transliteration": "",
       "reference": "النسائي ،والحاكم 2/421 وصححه الألباني في صحيح النسائي 1/274",
       "repeat": 1
@@ -3323,7 +3323,7 @@ const duasData = {
     {
       "id": "virtues-salawat-5",
       "arabic": "وقال صلى الله عليه وسلم  ما من أحدٍ يسلِّمُ عليَّ إلَّا ردَّ اللَّهُ عليَّ روحي حتَّى أردَّ عليْهِ السَّلامَ",
-      "translation": "",
+      "translation": "The stingy person is the one in whose presence I am mentioned and he does not send blessings upon me.",
       "transliteration": "",
       "reference": "أبو داود برقم 2041وحسنه الألباني في صحيح أبي داود 1/ 383",
       "repeat": 1
@@ -3333,7 +3333,7 @@ const duasData = {
     {
       "id": "spreading-salam-1",
       "arabic": "قال رسول الله صلى الله عليه وسلم : لا تدخلوا الجنة حتى تؤمنوا ، ولا تؤمنوا حتى تحابوا ، أو لا أدلكم على شيءٍ إذا فعلتموه تحاببتم ، أفشوا السلام بينكم",
-      "translation": "",
+      "translation": "Spread the greeting of peace among yourselves.",
       "transliteration": "",
       "reference": "مسلم 1/74 وغيره",
       "repeat": 1
@@ -3341,7 +3341,7 @@ const duasData = {
     {
       "id": "spreading-salam-2",
       "arabic": "ثلاث من جمعهن فقد جمع الإيمان : الإنصاف من نفسك ، وبذل السلام للعالم ،والإنفاق من الإقتار",
-      "translation": "",
+      "translation": "A man asked the Prophet (peace be upon him): Which Islam is best? He said: You feed people, and give the greeting of peace to those you know and those you do not know.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 1/ 82 عن عمار رضي الله عنه موقوفاً معلقاً",
       "repeat": 1
@@ -3349,7 +3349,7 @@ const duasData = {
     {
       "id": "spreading-salam-3",
       "arabic": "وعن عبد الله بن عمر رضي الله عنهما : أن رجلاً سأل النبي صلى الله عليه وسلم أي الإسلام خير قال : تطعم الطعام وتقرأ السلام على من عرفت ومن لم تعرف",
-      "translation": "",
+      "translation": "By the One in Whose Hand is my soul, you will not enter Paradise until you believe, and you will not believe until you love one another. Shall I not tell you of something which, if you do it, you will love one another? Spread the greeting of peace among yourselves.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 1/55 ومسلم 1/65",
       "repeat": 1
@@ -3359,7 +3359,7 @@ const duasData = {
     {
       "id": "category-17-1",
       "arabic": "إذا سلم عليكم أهل الكتاب فقولوا :  وعليكم",
-      "translation": "",
+      "translation": "If a disbeliever greets you, respond with: 'Wa alaykum' (And upon you).",
       "transliteration": "",
       "reference": "البخاري مع الفتح11/42 ،ومسلم 4/1705",
       "repeat": 1
@@ -3369,7 +3369,7 @@ const duasData = {
     {
       "id": "category-18-1",
       "arabic": "إذا سمعتم صياح الديكة ، فاسألوا الله من فضله فإنها رأت ملكاً وإذا سمعتم نهيق الحمار ، فتعوذوا بالله من الشيطان فإنه رأى شيطاناً",
-      "translation": "",
+      "translation": "When you hear a rooster crow, ask Allah for His bounty, for it has seen an angel. When you hear a donkey bray, seek refuge with Allah from Satan, for it has seen a devil.",
       "transliteration": "",
       "reference": "البخاري مع الفتح6/350 ،ومسلم 4/2092",
       "repeat": 1
@@ -3379,7 +3379,7 @@ const duasData = {
     {
       "id": "category-19-1",
       "arabic": "إذا سمعتم نُباح الكلاب ونهيق الحمير بالليل فتعوذوا بالله منهن فإنهن يرين ما لا ترون",
-      "translation": "",
+      "translation": "When you hear a dog barking or a donkey braying at night, seek refuge with Allah from them, for they see what you do not see.",
       "transliteration": "",
       "reference": "أبو داود 4/ 327 وأحمد 3/ 306 وصححه الألباني في صحيح أبي داود3/ 961",
       "repeat": 1
@@ -3389,7 +3389,7 @@ const duasData = {
     {
       "id": "after-insulting-1",
       "arabic": "قال صلى الله عليه وسلم:  اللَّهُم فأيما مؤمن سببته فاجعل ذلك له قربة إليك يوم القيامة",
-      "translation": "",
+      "translation": "When the Quraysh insulted the Prophet (peace be upon him), he said: O Allah, forgive my people, for they do not know.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 11/ 171 و مسلم4/ 2007 ولفظه فاجعلها له زكاة ورحمة",
       "repeat": 1
@@ -3399,7 +3399,7 @@ const duasData = {
     {
       "id": "category-20-1",
       "arabic": "قال صلى الله عليه وسلم :  إذا كان أحدكم مادحاً صاحبه لا محالة فليقل : أحسبُ فلاناً والله حسيبهُ ولا أزكي على الله أحداً ، أحسبهُ – إن كان يعلم ذاك – كذا وكذا",
-      "translation": "",
+      "translation": "When you hear someone being praised, say: May Allah not hold you accountable for what you say, O Allah, do not hold me accountable for what they say, and forgive me for what they do not know.",
       "transliteration": "",
       "reference": "رواه مسلم 4/2296",
       "repeat": 1
@@ -3409,7 +3409,7 @@ const duasData = {
     {
       "id": "category-21-1",
       "arabic": "اللهم لا تؤاخذني بما يقولون ، واغفر لي مالا يعلمون [واجعلني خيراً مما يظنون]",
-      "translation": "",
+      "translation": "When you are praised, say: O Allah, do not hold me accountable for what they say, and forgive me for what they do not know, and make me better than what they think.",
       "transliteration": "",
       "reference": "البخاري في الأدب المفرد برقم 761 ، وصحح إسناده الألباني في صحيح الأدب المفرد برقم 585 ، وما بين المعكوفين زيادة للبيهقي في شعب الإيمان 4/ 228 من طريق آخر",
       "repeat": 1
@@ -3419,7 +3419,7 @@ const duasData = {
     {
       "id": "talbiyah-1",
       "arabic": "لبيك اللهم لبيك ، لبيك لا شريك لك لبيك ، إن الحمد والنعمة لك والملك ، لا شريك لك",
-      "translation": "",
+      "translation": "Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Surely, all praise and blessing are Yours, and the dominion.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 3/ 408 ، ومسلم 2/841",
       "repeat": 1
@@ -3429,7 +3429,7 @@ const duasData = {
     {
       "id": "category-22-1",
       "arabic": "طاف النبي صلى الله عليه وسلم بالبيت على بعير كلما أتي الركن أشار إليه بشيء عنده وكبر",
-      "translation": "",
+      "translation": "Say 'Allahu Akbar' when reaching the Black Stone during Tawaf.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 3/476 ،والمراد بالشيء المحجن انظر : البخاري مع الفتح 3/472",
       "repeat": 1
@@ -3439,7 +3439,7 @@ const duasData = {
     {
       "id": "yemeni-corner-1",
       "arabic": "{ رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ}",
-      "translation": "",
+      "translation": "Our Lord, give us in this world that which is good and in the Hereafter that which is good, and protect us from the punishment of the Fire.",
       "transliteration": "",
       "reference": "أبو داود 2/ 179 وأحمد 3/411 والبغوي في شرح السنة 7/128 ،وحسنه الألباني في صحيح أبي داود 1/ 354 ، والآية من سورة البقرة ، 201",
       "repeat": 1
@@ -3449,7 +3449,7 @@ const duasData = {
     {
       "id": "safa-marwa-1",
       "arabic": "فلما دنا صلى الله عليه وسلم من الصفا قرأ: { إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَآئِرِ اللّهِ }  أبدأ بما بدأ الله به  فبدأ بالصفا فرقي عليه حتى رأى البيت فاستقبل القبلة ، فوحد الله وكبره وقال :  لا إله إلا الله وحده لا شريك لهُ ، لهُ الملك ولهُ الحمد وهو على كل شيءٍ قدير ، لا إله إلا الله وحده ، أنجز وعده ، ونصر عبده ، وهزم الأحزاب وحده  ثم دعا بين ذلك . قال مثل هذا ثلاث مرات  الحديث وفيه  ففعل على المروة كما فعل على الصفا",
-      "translation": "",
+      "translation": "Indeed, Safa and Marwa are among the symbols of Allah.",
       "transliteration": "",
       "reference": "مسلم 2/888",
       "repeat": 1
@@ -3459,7 +3459,7 @@ const duasData = {
     {
       "id": "day-of-arafah-1",
       "arabic": "خير الدعاء دعاء يوم عرفة ، وخيرُ ما قلت أنا والنبيُّون من قبلي : لا إله إلا الله وحدهُ لا شريك لهُ ، لهُ الملكُ ولهُ الحمدُ وهو على كل شيء قدير",
-      "translation": "",
+      "translation": "The best supplication is the supplication on the Day of Arafah: There is none worthy of worship but Allah alone, Who has no partner.",
       "transliteration": "",
       "reference": "الترمذي وحسنه الألباني في صحيح الترمذي 3/184، وفي الحديث الصحيحة 4/6",
       "repeat": 1
@@ -3469,7 +3469,7 @@ const duasData = {
     {
       "id": "muzdalifah-1",
       "arabic": "ركب صلى الله عليه وسلم القصواء حتى أتى المشعر الحرام فاستقبل القبلة ( فدعاه ُ، وكبرهُ ،وهللهُ ، ووحدهُ) فلم يزل واقفاً حتى أسفر جداً فدفع قبل أن تطلع الشمس",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) rode to Muzdalifah and prayed Maghrib and Isha there, combining them with one adhan and two iqamahs.",
       "transliteration": "",
       "reference": "مسلم 2/891",
       "repeat": 1
@@ -3479,7 +3479,7 @@ const duasData = {
     {
       "id": "category-23-1",
       "arabic": "يكبر كلما رمى بحصاة عند الجمار الثلاث ثم يتقدم، ويقف يدعو مستقبل القبلة، رافعاً يديه بعد الجمرة الأولى والثانية، أما جمرة العقبة فيرميها ويكبر عند كل حصاة وينصرف ولا يقف عندها",
-      "translation": "",
+      "translation": "Say 'Allahu Akbar' with each pebble when stoning the Jamarat.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 3/583 و3/584 وانظر لفظه هناك . والبخاري مع الفتح 3/581 ورواه مسلم أيضاً",
       "repeat": 1
@@ -3489,7 +3489,7 @@ const duasData = {
     {
       "id": "category-24-1",
       "arabic": "سبحان الله",
-      "translation": "",
+      "translation": "When amazed by something, say 'SubhanAllah' (Glory be to Allah) or 'Allahu Akbar' (Allah is the Greatest).",
       "transliteration": "",
       "reference": "البخاري مع الفتح 1/210 و390 و414 ومسلم 4/ 1857",
       "repeat": 1
@@ -3507,7 +3507,7 @@ const duasData = {
     {
       "id": "joyful-news-1",
       "arabic": "كان النبي صلى الله عليه وسلم إذا أتاه أمر يسرهُ أو يسرُّ به خر ساجداً شكراً لله تبارك وتعالى",
-      "translation": "",
+      "translation": "When good news came to the Prophet (peace be upon him), he would prostrate in gratitude to Allah.",
       "transliteration": "",
       "reference": "رواه أهل السنن إلا النسائي . انظر صحيح ابن ماجه 1/ 233 وإرواء الغليل 2/226",
       "repeat": 1
@@ -3527,7 +3527,7 @@ const duasData = {
     {
       "id": "evil-eye-1",
       "arabic": "إذا رأى أحدكم من أخيه ، أو من نفسه ، أومن ماله ما يعجبهُ [فليدع لهُ بالبركة ] فإن العين حقٌّ",
-      "translation": "",
+      "translation": "When one sees something that pleases him, let him say: May Allah bless it (Barakallah).",
       "transliteration": "",
       "reference": "مسند أحمد 4/447 وابن ماجه ومالك ، وصححه الألباني في صحيح الجامع 1/212 وانظر تحقيق زاد المعاد للأرناؤوط 4/170",
       "repeat": 1
@@ -3557,7 +3557,7 @@ const duasData = {
     {
       "id": "against-jinn-1",
       "arabic": "أعوذ بكلمات الله التامات التي لا يجاوزهن بر ولا فاجر من شر ما خلق ، وبرأ وذرأ ومن شر ما ينزل من السماء ، ومن شر ما يعرج فيها ، ومن شر ما ذرأ في الأرض ، ومن شر ما يخرج منها ، ومن شر فتن الليل والنهار ، ومن شر كل طارق إلا طارقاً يطرق بخير يا رحمن",
-      "translation": "",
+      "translation": "I seek refuge in Allah's perfect words from the evil of what He created.",
       "transliteration": "",
       "reference": "أحمد 3/419 بإسناد صحيح وابن السني برقم 637 وصحح إسناده الأرناؤوط في تخريجه للطحاوية ص 133 وانظر مجمع الزوائد 10/ 127",
       "repeat": 1
@@ -3567,7 +3567,7 @@ const duasData = {
     {
       "id": "istighfar-1",
       "arabic": "قال رسول الله صلى الله عيه وسلم : والله إني لاستغفر الله وأتوب إليه في اليوم أكثر من سبعين مرة",
-      "translation": "",
+      "translation": "I seek Allah's forgiveness, besides Whom there is no deity, the Ever-Living, the Sustainer of existence, and I repent to Him.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 11/101",
       "repeat": 1
@@ -3575,7 +3575,7 @@ const duasData = {
     {
       "id": "istighfar-2",
       "arabic": "وقال صلى الله عيه وسلم : يا أيها الناس توبوا إلى الله فإني أتوب في اليوم إليه مائة مرةً",
-      "translation": "",
+      "translation": "O Allah, You are my Lord. There is none worthy of worship but You. You created me and I am Your servant.",
       "transliteration": "",
       "reference": "مسلم 4/2076",
       "repeat": 1
@@ -3583,7 +3583,7 @@ const duasData = {
     {
       "id": "istighfar-3",
       "arabic": "وقال صلى الله عيه وسلم : من قال أستغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه ، غفر الله لهُ وإن كان فر من الزحف",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: By Allah, I seek Allah's forgiveness and turn to Him in repentance more than seventy times a day.",
       "transliteration": "",
       "reference": "أخرجه أبو داود 2/85 والترمذي 5/569 والحاكم وصححه ووافقه الذهبي 1/511 وصححه الألباني . انظر صحيح الترمذي 3/182 وجامع الأصول لأحاديث الرسول صلى الله عيه وسلم 4/389 – 390 بتحقيق الأرناؤوط",
       "repeat": 1
@@ -3591,7 +3591,7 @@ const duasData = {
     {
       "id": "istighfar-4",
       "arabic": "وقال صلى الله عيه وسلم : أقرب ما يكون الربُّ من العبد في جوف الليل الآخر فإن استطعت أن تكون ممن يذكر الله في تلك الساعة فكن",
-      "translation": "",
+      "translation": "O Allah, I seek Your forgiveness for my sins and I ask You for Your mercy. O Allah, increase me in knowledge, and do not let my heart deviate after You have guided me, and grant me mercy from Yourself. Indeed, You are the Bestower.",
       "transliteration": "",
       "reference": "أخرجه الترمذي والنسائي 1/279 والحاكم وانظر صحيح الترمذي 3/183 وجامع الأصول بتحقيق الأرناؤوط 4/144",
       "repeat": 1
@@ -3599,7 +3599,7 @@ const duasData = {
     {
       "id": "istighfar-5",
       "arabic": "وقال صلى الله عيه وسلم : أقرب ما يكون العبد من ربه وهو ساجد فأكثروا الدعاء",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Glad tidings to the one who finds in his record much seeking of forgiveness.",
       "transliteration": "",
       "reference": "مسلم 1/350",
       "repeat": 1
@@ -3607,7 +3607,7 @@ const duasData = {
     {
       "id": "istighfar-6",
       "arabic": "وقال صلى الله عيه وسلم : إنه ليغان على قلبي وإني لاستغفرُ الله في اليوم مائة مرة",
-      "translation": "",
+      "translation": "I seek Allah's forgiveness and repent to Him. (Repeat 100 times a day)",
       "transliteration": "",
       "reference": "أخرجه مسلم 4/2075 قال ابن الأثير : ( ليُغان على قلبي ) أي ليغطى ويغشى والمراد : السهو ؛ لأنه كان صلى الله عيه وسلم لا يزال في مزيد من الذكر والقربة ودوام المراقبة فإذا سها عن شيء منها في بعض الأوقات ،أو نسي ،عدهُ ذنباً على نفسه ففزع إلى الاستغفار . انظر جامع الأصول 4/386",
       "repeat": 1
@@ -3617,7 +3617,7 @@ const duasData = {
     {
       "id": "category-25-1",
       "arabic": "قال صلى الله عيه وسلم من قال سبحان الله وبحمده في يوم مائة مرة حطت خطاياه ولو كانت مثل زبد البحر",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: There are two words light on the tongue, heavy on the scales, and beloved to the Most Merciful: SubhanAllahi wa bihamdihi, SubhanAllahil-Adhim.",
       "transliteration": "",
       "reference": "البخاري 7/168 ومسلم 4/ 2071 ، وانظر :فضل من قالها مائة مرة إذا أصبح وإذا أمسى",
       "repeat": 1
@@ -3625,7 +3625,7 @@ const duasData = {
     {
       "id": "category-25-2",
       "arabic": "وقال صلى الله عيه وسلم : من قال لا إله إلا وحده لا شريك لهُ ، لهُ الملك ، ولهُ الحمدُ ، وهو على كل شيء قدير عشر مرات . كان كمن أعتق أربعة أنفس من ولد إسماعيل",
-      "translation": "",
+      "translation": "Whoever says 'SubhanAllahi wa bihamdihi' one hundred times in a day, his sins will be forgiven even if they are like the foam of the sea.",
       "transliteration": "",
       "reference": "البخاري 7/67 ومسلم بلفظه 4/2071 وانظر فضل من قالها في اليوم مائة مرة",
       "repeat": 1
@@ -3633,7 +3633,7 @@ const duasData = {
     {
       "id": "category-25-3",
       "arabic": "وقال صلى الله عيه وسلم : كلمتان خفيفتان على اللسان ، ثقيلتان في الميزان حبيبتان إلى الرحمن : سبحان الله وبحمده سبحان الله العظيم",
-      "translation": "",
+      "translation": "Whoever says 'La ilaha illAllahu wahdahu la sharika lahu, lahul-mulku wa lahul-hamdu, wa Huwa ala kulli shayin Qadir' one hundred times in a day, it will be as if he freed ten slaves, one hundred good deeds will be written for him, one hundred bad deeds will be erased from him, and it will be protection for him from Satan throughout that day until evening.",
       "transliteration": "",
       "reference": "البخاري 7/167ومسلم 4/2072",
       "repeat": 1
@@ -3641,7 +3641,7 @@ const duasData = {
     {
       "id": "category-25-4",
       "arabic": "وقال صلى الله عيه وسلم  : لأن أقول سبحان الله ، والحمد لله ،ولا إله إلا الله ، والله أكبر ،أحب إلى مما طلعت عليه الشمس",
-      "translation": "",
+      "translation": "Is one of you incapable of earning one thousand good deeds each day? Say 'SubhanAllah' one hundred times and a thousand good deeds will be recorded for you, or a thousand sins will be erased from you.",
       "transliteration": "",
       "reference": "مسلم 4/2072",
       "repeat": 1
@@ -3649,7 +3649,7 @@ const duasData = {
     {
       "id": "category-25-5",
       "arabic": "وقال صلى الله عيه وسلم: أيعجز أحدكم أن يكسب كل يوم ألف حسنةفسأله سائل من جلسائه كيف يكسب أحدنا ألف حسنة ؟ قال : يسبح مائة تسبيحة ، فيكتب له ألف حسنة أو يحط عنه ُ ألف خطيئة",
-      "translation": "",
+      "translation": "Whoever says 'SubhanAllahi wa bihamdihi' when he wakes up in the morning and when he goes to sleep, one hundred times, no one will come on the Day of Resurrection with anything better than what he has brought, except someone who said the same or more.",
       "transliteration": "",
       "reference": "مسلم 4/2073",
       "repeat": 1
@@ -3657,7 +3657,7 @@ const duasData = {
     {
       "id": "category-25-6",
       "arabic": "من قال سبحان الله العظيم وبحمده غرست له نخلة في الجنة",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: The phrase 'SubhanAllah wal-hamdulillah wa la ilaha illallah wallahu Akbar' is more beloved to me than everything upon which the sun rises.",
       "transliteration": "",
       "reference": "أخرجه الترمذي 5/511 والحاكم 1/501 وصححه ووافقه الذهبي ، وانظر صحيح الجامع 5/531 وصحيح الترمذي 3/160",
       "repeat": 1
@@ -3665,7 +3665,7 @@ const duasData = {
     {
       "id": "category-25-7",
       "arabic": "وقال صلى الله عيه وسلم: يا عبد الله بن قيس ألا أدلك على كنز من كنوز الجنة ؟ فقلت:بلى يا رسول الله ، قال : قل لا حول ولا قوة إلا بالله",
-      "translation": "",
+      "translation": "There are two blessings about which many people are negligent: good health and free time.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 11/ 213 ومسلم 4/2076",
       "repeat": 1
@@ -3673,7 +3673,7 @@ const duasData = {
     {
       "id": "category-25-8",
       "arabic": "وقال صلى الله عيه وسلم: أحب الكلام إلى الله أربعٌ : سبحان الله ، والحمد لله ، ولا إله إلا الله ، والله أكبر ، لا يضرك بأيهنَّ بدأت",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Take advantage of five before five: your youth before your old age, your health before your sickness, your wealth before your poverty, your free time before your occupation, and your life before your death.",
       "transliteration": "",
       "reference": "مسلم 3/1685",
       "repeat": 1
@@ -3681,7 +3681,7 @@ const duasData = {
     {
       "id": "category-25-9",
       "arabic": "جاء أعرابي إلى رسول الله صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ فقال: علمني كلاماً أقوله : قال  قل لا إله إلا الله وحده لا شريك لهً ،الله أكبرُ كبيراً ، والحمد لله كثيراً ، سبحان الله رب العالمين ،لا حول ولا قوة إلا بالله العزيز الحكيم  قال فهؤلاء لربي فما لي ؟ قال :  قل: اللهم اغفر لي ،وارحمني ،واهدني وارزقني",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) was asked: Which words are the best? He said: Those which Allah chose for His angels: SubhanAllahi wa bihamdihi (Glory be to Allah and praise be to Him).",
       "transliteration": "",
       "reference": "مسلم 4/ 2072 وزاد أبو داود : فلما ولى الأعرابي قال النبي صلى الله عليه وسلم : لقد ملأ يديه من الخير 1/ 220",
       "repeat": 1
@@ -3689,7 +3689,7 @@ const duasData = {
     {
       "id": "category-25-10",
       "arabic": "كان الرجل إذا أسلم علمه النبي صلى الله عليه وسلم الصلاة ثم أمره أن يدعو بهؤلاء الكلمات : اللهم اغفر لي، وارحمني ،واهدني ، وعافني وارزقني",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: The one who recites SubhanAllah one hundred times in the morning and one hundred times in the evening is like one who performed Hajj one hundred times.",
       "transliteration": "",
       "reference": "مسلم 4/2073 وفي رواية لمسلم  فإن هؤلاء تجمع لك ديناك وآخرتك",
       "repeat": 1
@@ -3697,7 +3697,7 @@ const duasData = {
     {
       "id": "category-25-11",
       "arabic": "إن أفضل الذكر لا إله إلا الله",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Whoever says 'La ilaha illallah' sincerely from his heart will enter Paradise.",
       "transliteration": "",
       "reference": "الترمذي 5/462 وابن ماجه 2/1249 والحاكم 1/503 وصححه ووافقه الذهبي وانظر صحيح الجامع 1/ 362",
       "repeat": 1
@@ -3705,7 +3705,7 @@ const duasData = {
     {
       "id": "category-25-12",
       "arabic": "الباقيات الصالحات : سبحان الله والحمد لله ، ولا إله إلا الله ،والله أكبر ،و لا حول ولا قوة إلا بالله",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) said: Renew your faith. It was said: O Messenger of Allah, how do we renew our faith? He said: Say often 'La ilaha illallah' (There is no deity but Allah).",
       "transliteration": "",
       "reference": "أحمد برقم 513 بترتيب أحمد شاكر وإسناده صحيح وانظر مجمع الزوائد 1/297، وعزاه ابن حجر في بلوغ المرام من رواية أبي سعيد إلىالنسائي وقال :صححه ابن حبان والحاكم",
       "repeat": 1
@@ -3715,7 +3715,7 @@ const duasData = {
     {
       "id": "category-26-1",
       "arabic": "عن عبد الله بن عمرو رضي الله عنهما قال :  رأيت النبي صلى الله عليه وسلم يعقد التسبيح بيمينه",
-      "translation": "",
+      "translation": "The Prophet (peace be upon him) used to count his dhikr with his right hand.",
       "transliteration": "",
       "reference": "أخرجه أبو داود بلفظه 2/81 والترمذي 5/521 وانظر صحيح الجامع 4/271 برقم 4865",
       "repeat": 1
@@ -3725,7 +3725,7 @@ const duasData = {
     {
       "id": "category-27-1",
       "arabic": "إذا كان جنح الليل – أو أمسيتم – فكفوا صبيانكم ؛ فإن الشياطين تنتشر حينئذ ، فإذا ذهب ساعة من الليل فخلوهم ،وأغلقوا الأبواب واذكروا اسم الله ؛ فإن الشيطان لا يفتح باباً مغلقاً ، وأوكوا قربكم واذكروا اسم الله ، وخمروا آنيتكم واذكروا اسم الله ، ولو أن تعرضوا عليها شيئاً ، وأطفئوا مصابيحكم",
-      "translation": "",
+      "translation": "When night falls, keep your children inside, for the devils spread at that time. After an hour has passed, you may let them out. Close your doors and mention the name of Allah, for Satan cannot open a closed door. Cover your containers and mention the name of Allah, and extinguish your lamps.",
       "transliteration": "",
       "reference": "البخاري مع الفتح 10/ 88 ومسلم 3/1595",
       "repeat": 1
@@ -3735,12 +3735,15 @@ const duasData = {
 
 // Get all duas for a specific category
 export function getAllAzkaar(categoryId) {
-  return duasData[categoryId] || [];
+  // Strip -duas suffix if present to match duasData keys
+  const dataKey = categoryId.replace(/-duas$/, '');
+  return duasData[dataKey] || [];
 }
 
 // Get a specific dua by ID
 export function getDuaById(categoryId, duaId) {
-  const duas = duasData[categoryId] || [];
+  const dataKey = categoryId.replace(/-duas$/, '');
+  const duas = duasData[dataKey] || [];
   return duas.find(d => d.id === duaId);
 }
 
