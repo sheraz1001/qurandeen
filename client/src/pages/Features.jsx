@@ -1,239 +1,441 @@
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import '../styles/features.css';
 
 function Features() {
-  const mainFeatures = [
+  const quranFeatures = [
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-        </svg>
-      ),
-      title: 'Complete Quran',
-      description: 'Access all 114 Surahs with Arabic text, transliteration, and translations in 40+ languages. Navigate easily through Juz, Page, and Ruku markers.'
+      icon: '📖',
+      title: 'Complete Quran Text',
+      description: 'Access all 114 Surahs with accurate Arabic text in multiple scripts including Uthmani, IndoPak, Nastaliq, Naskh Nastaleeq, and Me Quran styles.',
+      highlights: ['114 Surahs', '6,236 Ayahs', '30 Juz']
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-        </svg>
-      ),
-      title: 'Audio Recitations',
-      description: 'Listen to beautiful recitations from 150+ world-renowned reciters. Verse-by-verse audio for learning and full surah MP3 playback.'
+      icon: '🎧',
+      title: '150+ World-Class Reciters',
+      description: 'Listen to beautiful Quran recitations from over 150 world-renowned reciters including Mishary Rashid, Abdul Rahman Al-Sudais, and many more.',
+      highlights: ['Full Surah Audio', 'Verse-by-Verse', 'MP3 Downloads']
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-        </svg>
-      ),
-      title: 'AI Islamic Scholar',
-      description: 'Get guidance on Quran, Hadith, and Tafsir from our AI assistant. Answers with authentic sources and citations from Islamic scholars.'
+      icon: '🌍',
+      title: '100+ Translations',
+      description: 'Read the Quran in your preferred language with translations available in over 100 editions across 40+ languages worldwide.',
+      highlights: ['40+ Languages', 'English', 'Urdu', 'Bengali', 'Turkish']
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-        </svg>
-      ),
-      title: 'Multi-Language Translations',
-      description: 'Read translations in over 100 editions across 40+ languages including English, Urdu, Arabic Tafsir, French, German, Turkish, and more.'
+      icon: '📚',
+      title: 'Comprehensive Tafsir',
+      description: 'Understand verses deeply with scholarly Tafsir commentary including Al-Muyassar, Ibn Kathir, and more in multiple languages.',
+      highlights: ['Arabic Tafsir', 'English Commentary', 'Urdu & Bengali']
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-        </svg>
-      ),
-      title: 'Tafsir Commentary',
-      description: 'Understand verses deeply with multilingual Tafsir including Ibn Kathir, Al-Muyassar, and more in Arabic, English, Urdu, and Bengali.'
+      icon: '🔤',
+      title: 'Word-by-Word Quran',
+      description: 'Learn Arabic with our interactive word-by-word mode. Hover or tap any word to see its individual translation and transliteration.',
+      highlights: ['Word Translation', 'Word Audio', 'Transliteration']
     },
     {
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-        </svg>
-      ),
-      title: 'Bookmarks & Progress',
-      description: 'Save your favorite ayahs, track your reading progress, and sync across all your devices when logged in. Never lose your place.'
+      icon: '✏️',
+      title: 'Multiple Arabic Scripts',
+      description: 'Choose from 5 different Arabic font styles to match your reading preference and regional familiarity.',
+      highlights: ['Uthmani', 'IndoPak Nastaliq', 'Naskh Nastaleeq', 'Me Quran', 'Simple']
+    }
+  ];
+
+  const hadithFeatures = [
+    {
+      icon: '📕',
+      title: '17 Authentic Collections',
+      description: 'Access the most comprehensive Hadith library with 17 major collections from trusted scholars.',
+      collections: ['Sahih al-Bukhari', 'Sahih Muslim', 'Sunan Abu Dawud', 'Jami at-Tirmidhi', 'Sunan an-Nasai', 'Sunan Ibn Majah', 'Muwatta Malik', 'Musnad Ahmad']
+    },
+    {
+      icon: '📊',
+      title: '50,000+ Hadiths',
+      description: 'Browse through over 50,000 authenticated hadiths organized by book and chapter for easy navigation and study.',
+      highlights: ['Organized by Books', 'Chapter Navigation', 'Search Functionality']
+    },
+    {
+      icon: '🌐',
+      title: '4 Language Support',
+      description: 'Read hadiths in English, Arabic, Urdu (via hadithapi.com), and Bengali translations for global accessibility.',
+      highlights: ['English', 'Arabic', 'Urdu', 'Bengali']
+    },
+    {
+      icon: '📋',
+      title: 'Interactive Features',
+      description: 'Copy, share, and bookmark your favorite hadiths. Adjustable font sizes and clean reading interface.',
+      highlights: ['Copy to Clipboard', 'Share Hadiths', 'Font Controls']
+    }
+  ];
+
+  const azkaarFeatures = [
+    {
+      icon: '🤲',
+      title: '134 Dua Categories',
+      description: 'Complete collection of authentic duas from Hisnul Muslim (Fortress of the Muslim) covering every aspect of daily life.',
+      highlights: ['Morning Adhkar', 'Evening Adhkar', 'Prayer Duas', 'Travel Duas']
+    },
+    {
+      icon: '📿',
+      title: '298+ Authentic Duas',
+      description: 'Access over 298 verified supplications with Arabic text, transliteration, and translations from authentic Islamic sources.',
+      highlights: ['Arabic Text', 'Transliteration', 'English Translation']
+    },
+    {
+      icon: '🔢',
+      title: 'Interactive Counter',
+      description: 'Built-in recitation counter to help you track your dhikr and duas. Progress is saved automatically.',
+      highlights: ['Tap to Count', 'Progress Tracking', 'Auto-Save']
+    },
+    {
+      icon: '🔍',
+      title: 'Easy Search',
+      description: 'Quickly find any dua with our powerful search. Filter by category, situation, or keyword.',
+      highlights: ['Category Filter', 'Keyword Search', 'Quick Access']
+    }
+  ];
+
+  const islamicTools = [
+    {
+      icon: '🕌',
+      title: 'Prayer Times',
+      description: 'Accurate prayer times based on your location using the Aladhan API. Supports multiple calculation methods.',
+      link: '/islamic-resources/prayer-times'
+    },
+    {
+      icon: '🧭',
+      title: 'Qibla Direction',
+      description: 'Find the exact Qibla direction from anywhere in the world using GPS-based compass technology.',
+      link: '/islamic-resources/qibla-direction'
+    },
+    {
+      icon: '📅',
+      title: 'Hijri Calendar',
+      description: 'View the Islamic Hijri calendar with accurate date conversions. Track important Islamic dates and events.',
+      link: '/islamic-resources/hijri-calendar'
+    },
+    {
+      icon: '🔄',
+      title: 'Hijri Converter',
+      description: 'Convert dates between Hijri and Gregorian calendars instantly for any date in history.',
+      link: '/islamic-resources/hijri-converter'
+    },
+    {
+      icon: '🌙',
+      title: 'Ramadan Calendar',
+      description: 'Complete Ramadan schedule with Suhoor and Iftar times for your location throughout the blessed month.',
+      link: '/islamic-resources/ramadan-calendar'
+    },
+    {
+      icon: '✨',
+      title: '99 Names of Allah',
+      description: 'Explore the beautiful names of Allah (Asma ul Husna) with Arabic, transliteration, and meanings.',
+      link: '/islamic-resources/names-of-allah'
+    },
+    {
+      icon: '🌅',
+      title: 'Verse of the Day',
+      description: 'Start your day with inspiration. A new Quranic verse is featured daily with translation and tafsir.',
+      link: '/islamic-resources/verse-of-day'
+    },
+    {
+      icon: '📜',
+      title: 'Hadith of the Day',
+      description: 'Daily authentic hadith selections from major collections to guide and inspire your day.',
+      link: '/islamic-resources/hadith-of-day'
+    }
+  ];
+
+  const teachingPlatform = [
+    {
+      icon: '👨‍🏫',
+      title: 'Verified Teachers',
+      description: 'Connect with qualified, verified Quran teachers from around the world. Each teacher undergoes thorough verification.'
+    },
+    {
+      icon: '📦',
+      title: 'Flexible Packages',
+      description: 'Choose from various class packages - single sessions, weekly plans, or monthly subscriptions to fit your schedule.'
+    },
+    {
+      icon: '🎥',
+      title: 'Video Classes',
+      description: 'Attend live Quran classes via integrated Jitsi Meet video conferencing. No additional software required.'
+    },
+    {
+      icon: '💳',
+      title: 'Secure Payments',
+      description: 'Safe and secure payment processing via Stripe. Automated commission handling and instant payouts.'
+    },
+    {
+      icon: '💬',
+      title: 'Real-Time Messaging',
+      description: 'Direct messaging system between students and teachers for scheduling, questions, and class coordination.'
+    },
+    {
+      icon: '⭐',
+      title: 'Reviews & Ratings',
+      description: 'Make informed decisions with student reviews and ratings. Teachers build reputation through quality teaching.'
     }
   ];
 
   const additionalFeatures = [
-    { icon: '📖', title: 'Juz Navigation', description: 'Browse all 30 Juz with organized surah groupings' },
-    { icon: '🔍', title: 'Powerful Search', description: 'Search any word across all 6,236 verses instantly' },
-    { icon: '🌙', title: 'Dark Mode', description: 'Comfortable reading in low-light environments' },
-    { icon: '📱', title: 'Fully Responsive', description: 'Perfect experience on desktop, tablet, and mobile' },
-    { icon: '🕌', title: 'Sajda Markers', description: 'Visual indicators for obligatory prostration verses' },
-    { icon: '📝', title: 'Islamic Blog', description: 'Educational articles on Islamic knowledge' },
-    { icon: '🔤', title: 'Multiple Arabic Fonts', description: 'Uthmani, IndoPak Nastaleeq, and Simple scripts' },
-    { icon: '📊', title: 'Reading Statistics', description: 'Track your Quran completion journey' },
-    { icon: '🔗', title: 'Share Ayahs', description: 'Share verses on social media or copy to clipboard' },
-    { icon: '✨', title: 'Daily Ayah', description: 'Fresh inspiration with a new verse each day' },
-    { icon: '👤', title: 'User Accounts', description: 'Personal dashboard with synced data' },
-    { icon: '🎯', title: 'Adjustable Font Size', description: 'Customize Arabic text size for comfort' }
-  ];
-
-  const quranStats = [
-    { value: '114', label: 'Surahs', sublabel: 'Chapters' },
-    { value: '6,236', label: 'Ayahs', sublabel: 'Verses' },
-    { value: '30', label: 'Juz', sublabel: 'Parts' },
-    { value: '604', label: 'Pages', sublabel: 'Standard Mushaf' },
-    { value: '558', label: 'Ruku', sublabel: 'Sections' },
-    { value: '77,430', label: 'Words', sublabel: 'Total Count' }
+    { icon: '🖼️', title: 'Quran Share Card Generator', description: 'Create beautiful, customizable images of Quranic verses to share on social media' },
+    { icon: '🤖', title: 'AI Islamic Scholar', description: 'Get answers to Islamic questions with citations from authentic sources' },
+    { icon: '📝', title: 'Islamic Blog', description: 'Educational articles on Quran, Hadith, and Islamic knowledge' },
+    { icon: '🔖', title: 'Bookmarks & History', description: 'Save your favorite ayahs and track your reading progress' },
+    { icon: '🌙', title: 'Dark Mode', description: 'Comfortable reading experience in low-light environments' },
+    { icon: '📱', title: 'Fully Responsive', description: 'Perfect experience on desktop, tablet, and mobile devices' },
+    { icon: '⚡', title: 'PWA Support', description: 'Install as an app on your device for offline access and push notifications' },
+    { icon: '🔍', title: 'Advanced Search', description: 'Search any word or phrase across all 6,236 verses instantly' },
+    { icon: '📊', title: 'Reading Statistics', description: 'Track your Quran completion journey with detailed statistics' },
+    { icon: '🔗', title: 'Social Sharing', description: 'Share verses and hadiths directly to social media platforms' },
+    { icon: '🕌', title: 'Sajda Markers', description: 'Visual indicators for the 15 obligatory prostration verses' },
+    { icon: '🔤', title: 'Adjustable Font Size', description: 'Customize Arabic and translation text size for comfortable reading' }
   ];
 
   const platformStats = [
-    { value: '150+', label: 'Reciters', description: 'World-renowned Qaris' },
-    { value: '100+', label: 'Translations', description: 'In 40+ languages' },
-    { value: '6', label: 'Tafsir Options', description: 'Multilingual commentary' },
-    { value: '3', label: 'Arabic Scripts', description: 'Font styles available' }
+    { value: '114', label: 'Surahs', description: 'Complete Quran' },
+    { value: '150+', label: 'Reciters', description: 'World-class Qaris' },
+    { value: '100+', label: 'Translations', description: '40+ Languages' },
+    { value: '17', label: 'Hadith Books', description: '50,000+ Hadiths' },
+    { value: '134', label: 'Dua Categories', description: '298+ Duas' },
+    { value: '985', label: 'SEO Pages', description: 'Indexed URLs' }
   ];
 
-  const quranFacts = [
-    {
-      title: 'Revelation Period',
-      content: 'The Quran was revealed over approximately 23 years, from 610 CE to 632 CE.',
-      icon: '📅'
-    },
-    {
-      title: 'Longest Surah',
-      content: 'Surah Al-Baqarah (The Cow) is the longest with 286 verses.',
-      icon: '📏'
-    },
-    {
-      title: 'Shortest Surah',
-      content: 'Surah Al-Kawthar has only 3 verses, making it the shortest.',
-      icon: '✂️'
-    },
-    {
-      title: 'Most Repeated Word',
-      content: 'Allah (الله) appears 2,699 times throughout the Quran.',
-      icon: '🔢'
-    },
-    {
-      title: 'Meccan & Medinan',
-      content: '86 Surahs were revealed in Mecca, 28 in Medina.',
-      icon: '🕋'
-    },
-    {
-      title: 'Prostration Verses',
-      content: 'There are 15 Sajda (prostration) verses in the Quran.',
-      icon: '🤲'
-    }
+  const technicalFeatures = [
+    { icon: '🚀', title: 'SEO Optimized', description: '985 indexed pages with structured sitemaps for Quran, Hadith, and Azkaar sections' },
+    { icon: '🔒', title: 'Secure Authentication', description: 'JWT-based auth with Google OAuth integration for secure user accounts' },
+    { icon: '📡', title: 'Real-Time APIs', description: 'Integration with Al-Quran Cloud, MP3Quran.net, Quran.com, and Aladhan APIs' },
+    { icon: '💾', title: 'Local Storage', description: 'Preferences, bookmarks, and reading history saved locally for fast access' },
+    { icon: '📱', title: 'Progressive Web App', description: 'Installable PWA with offline caching, push notifications, and app shortcuts' },
+    { icon: '🎨', title: 'Modern UI/UX', description: 'Clean, accessible design optimized for readability across all devices' }
   ];
 
   return (
     <div className="features-page">
+      <Helmet>
+        <title>Features - QuranDeen | Complete Quran, Hadith & Islamic Resources Platform</title>
+        <meta name="description" content="Explore QuranDeen features: 114 Surahs, 150+ reciters, 100+ translations, 17 Hadith collections, 298+ duas, prayer times, AI Scholar, and Quran teaching platform." />
+      </Helmet>
+
       <section className="features-hero">
         <div className="hero-content">
-          <span className="hero-badge">Comprehensive Platform</span>
-          <h1>Everything You Need to<br/><span className="highlight">Read, Listen & Learn</span></h1>
+          <span className="hero-badge">Complete Islamic Platform</span>
+          <h1>Your All-in-One Destination for<br/><span className="highlight">Quran, Hadith & Islamic Knowledge</span></h1>
           <p className="hero-description">
-            Discover the complete feature set of QuranDeen - your comprehensive companion 
-            for exploring the Holy Quran with modern technology and authentic sources.
+            QuranDeen brings together the world's most comprehensive Quranic resources, authentic Hadith collections, 
+            daily duas, Islamic utilities, and a Quran teaching marketplace - all in one beautiful, accessible platform.
           </p>
           <div className="hero-actions">
-            <Link to="/" className="hero-btn primary">Start Reading</Link>
-            <Link to="/quran-mp3-audio" className="hero-btn secondary">Listen Now</Link>
+            <Link to="/" className="hero-btn primary">Start Reading Quran</Link>
+            <Link to="/hadith" className="hero-btn secondary">Explore Hadith</Link>
           </div>
         </div>
       </section>
 
-      <section className="quran-stats-section">
+      <section className="stats-banner">
         <div className="section-container">
-          <div className="section-header centered">
-            <span className="section-badge">The Holy Quran</span>
-            <h2>Quran at a Glance</h2>
-            <p>Key statistics about the final revelation</p>
-          </div>
-          <div className="quran-stats-grid">
-            {quranStats.map((stat, index) => (
-              <div key={index} className="quran-stat-card">
+          <div className="stats-grid">
+            {platformStats.map((stat, index) => (
+              <div key={index} className="stat-item">
                 <div className="stat-value">{stat.value}</div>
                 <div className="stat-label">{stat.label}</div>
-                <div className="stat-sublabel">{stat.sublabel}</div>
+                <div className="stat-desc">{stat.description}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="main-features-section">
+      <section className="feature-section quran-section">
         <div className="section-container">
-          <div className="section-header centered">
-            <span className="section-badge">Core Features</span>
-            <h2>Powerful Tools for Your Journey</h2>
-            <p>Everything you need for meaningful Quran engagement</p>
+          <div className="section-header">
+            <span className="section-badge">Quran Features</span>
+            <h2>Complete Quran Experience</h2>
+            <p>Everything you need to read, listen, understand, and memorize the Holy Quran</p>
           </div>
-          <div className="main-features-grid">
-            {mainFeatures.map((feature, index) => (
-              <div key={index} className="main-feature-card">
-                <div className="feature-icon">{feature.icon}</div>
+          <div className="feature-cards-grid">
+            {quranFeatures.map((feature, index) => (
+              <div key={index} className="feature-card">
+                <span className="feature-card-icon">{feature.icon}</span>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+                <div className="feature-highlights">
+                  {feature.highlights.map((h, i) => (
+                    <span key={i} className="highlight-tag">{h}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="section-cta">
+            <Link to="/" className="section-link">Browse All 114 Surahs →</Link>
+            <Link to="/quran-mp3-audio" className="section-link">Listen to Reciters →</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="feature-section hadith-section alt-bg">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-badge">Hadith Library</span>
+            <h2>17 Authentic Hadith Collections</h2>
+            <p>Access over 50,000 authenticated hadiths from the most trusted Islamic scholars</p>
+          </div>
+          <div className="hadith-showcase">
+            <div className="hadith-main">
+              {hadithFeatures.map((feature, index) => (
+                <div key={index} className="hadith-feature-card">
+                  <span className="feature-card-icon">{feature.icon}</span>
+                  <div className="hadith-feature-content">
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                    {feature.highlights && (
+                      <div className="feature-highlights">
+                        {feature.highlights.map((h, i) => (
+                          <span key={i} className="highlight-tag">{h}</span>
+                        ))}
+                      </div>
+                    )}
+                    {feature.collections && (
+                      <div className="collection-tags">
+                        {feature.collections.map((c, i) => (
+                          <span key={i} className="collection-tag">{c}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="section-cta">
+            <Link to="/hadith" className="section-link">Explore All 17 Collections →</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="feature-section azkaar-section">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-badge">Daily Azkaar & Duas</span>
+            <h2>Hisnul Muslim Collection</h2>
+            <p>Complete fortress of the Muslim with 134 categories and 298+ authentic duas</p>
+          </div>
+          <div className="feature-cards-grid cols-4">
+            {azkaarFeatures.map((feature, index) => (
+              <div key={index} className="feature-card compact">
+                <span className="feature-card-icon">{feature.icon}</span>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+                <div className="feature-highlights">
+                  {feature.highlights.map((h, i) => (
+                    <span key={i} className="highlight-tag small">{h}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="section-cta">
+            <Link to="/azkaar" className="section-link">Browse All Duas →</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="feature-section tools-section alt-bg">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-badge">Islamic Utilities</span>
+            <h2>Essential Islamic Tools</h2>
+            <p>Prayer times, Qibla direction, calendars, and more - powered by Aladhan API</p>
+          </div>
+          <div className="tools-grid">
+            {islamicTools.map((tool, index) => (
+              <Link key={index} to={tool.link} className="tool-card">
+                <span className="tool-icon">{tool.icon}</span>
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+                <span className="tool-arrow">→</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="feature-section teaching-section highlight-bg">
+        <div className="section-container">
+          <div className="section-header light">
+            <span className="section-badge light">Quran Teaching Platform</span>
+            <h2>Learn Quran with Verified Teachers</h2>
+            <p>Connect with qualified Quran teachers worldwide for personalized one-on-one classes</p>
+          </div>
+          <div className="teaching-grid">
+            {teachingPlatform.map((feature, index) => (
+              <div key={index} className="teaching-card">
+                <span className="teaching-icon">{feature.icon}</span>
                 <h3>{feature.title}</h3>
                 <p>{feature.description}</p>
               </div>
             ))}
           </div>
+          <div className="section-cta light">
+            <Link to="/teachers" className="hero-btn primary">Find a Teacher</Link>
+            <Link to="/teach-with-us" className="hero-btn secondary">Become a Teacher</Link>
+          </div>
         </div>
       </section>
 
-      <section className="platform-stats-section">
+      <section className="feature-section ai-section">
         <div className="section-container">
-          <div className="platform-stats-content">
-            <div className="platform-stats-text">
-              <span className="section-badge light">Platform Highlights</span>
-              <h2>Built for the Global<br/>Muslim Community</h2>
+          <div className="ai-showcase">
+            <div className="ai-content">
+              <span className="section-badge">AI-Powered</span>
+              <h2>Islamic Scholar AI Chatbot</h2>
               <p>
-                QuranDeen brings together the best resources from around the world, 
-                making the Quran accessible to everyone regardless of language or location.
+                Get instant answers to your Islamic questions with our AI-powered scholar. 
+                Trained on authentic Islamic sources including Quran, Hadith, and scholarly works.
               </p>
-              <Link to="/islamic-ai-scholar" className="platform-cta">Ask AI Scholar</Link>
+              <ul className="ai-features-list">
+                <li>✓ Authentic source citations</li>
+                <li>✓ Quran verse references</li>
+                <li>✓ Hadith quotations</li>
+                <li>✓ Multilingual support</li>
+                <li>✓ Scholarly consensus when available</li>
+              </ul>
+              <Link to="/islamic-ai-scholar" className="section-btn">Ask the AI Scholar →</Link>
             </div>
-            <div className="platform-stats-grid">
-              {platformStats.map((stat, index) => (
-                <div key={index} className="platform-stat-card">
-                  <div className="platform-stat-value">{stat.value}</div>
-                  <div className="platform-stat-label">{stat.label}</div>
-                  <div className="platform-stat-desc">{stat.description}</div>
+            <div className="ai-visual">
+              <div className="ai-chat-preview">
+                <div className="chat-bubble user">What are the pillars of Islam?</div>
+                <div className="chat-bubble ai">
+                  <strong>The Five Pillars of Islam are:</strong><br/>
+                  1. Shahada (Declaration of Faith)<br/>
+                  2. Salah (Prayer - 5 times daily)<br/>
+                  3. Zakat (Charitable Giving)<br/>
+                  4. Sawm (Fasting in Ramadan)<br/>
+                  5. Hajj (Pilgrimage to Mecca)<br/>
+                  <span className="source">📖 Sahih Muslim, Book 1, Hadith 21</span>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="facts-section">
+      <section className="feature-section additional-section alt-bg">
         <div className="section-container">
-          <div className="section-header centered">
-            <span className="section-badge">Did You Know?</span>
-            <h2>Fascinating Quran Facts</h2>
-            <p>Discover interesting facts about the Holy Quran</p>
-          </div>
-          <div className="facts-grid">
-            {quranFacts.map((fact, index) => (
-              <div key={index} className="fact-card">
-                <span className="fact-icon">{fact.icon}</span>
-                <h3>{fact.title}</h3>
-                <p>{fact.content}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="additional-features-section">
-        <div className="section-container">
-          <div className="section-header centered">
+          <div className="section-header">
             <span className="section-badge">More Features</span>
-            <h2>And Much More</h2>
-            <p>Additional features to enhance your experience</p>
+            <h2>Everything Else You Need</h2>
+            <p>Additional features to enhance your Islamic learning experience</p>
           </div>
-          <div className="additional-features-grid">
+          <div className="additional-grid">
             {additionalFeatures.map((feature, index) => (
-              <div key={index} className="additional-feature-card">
-                <span className="additional-feature-icon">{feature.icon}</span>
-                <div className="additional-feature-content">
+              <div key={index} className="additional-card">
+                <span className="additional-icon">{feature.icon}</span>
+                <div className="additional-content">
                   <h4>{feature.title}</h4>
                   <p>{feature.description}</p>
                 </div>
@@ -243,17 +445,36 @@ function Features() {
         </div>
       </section>
 
+      <section className="feature-section technical-section">
+        <div className="section-container">
+          <div className="section-header">
+            <span className="section-badge">Technical Excellence</span>
+            <h2>Built with Modern Technology</h2>
+            <p>Professional-grade infrastructure for reliability and performance</p>
+          </div>
+          <div className="technical-grid">
+            {technicalFeatures.map((feature, index) => (
+              <div key={index} className="technical-card">
+                <span className="technical-icon">{feature.icon}</span>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="cta-section">
         <div className="section-container">
           <div className="cta-content">
-            <h2>Begin Your Journey Today</h2>
+            <h2>Begin Your Journey with QuranDeen</h2>
             <p>
-              Join thousands of Muslims worldwide who use QuranDeen to read, listen, 
-              and understand the Holy Quran. Start your spiritual journey now.
+              Join Muslims worldwide who use QuranDeen daily for Quran reading, Hadith study, 
+              daily duas, and Islamic learning. Start your spiritual journey today.
             </p>
             <div className="cta-actions">
               <Link to="/signup" className="cta-btn primary">Create Free Account</Link>
-              <Link to="/" className="cta-btn secondary">Browse Surahs</Link>
+              <Link to="/" className="cta-btn secondary">Start Reading Now</Link>
             </div>
           </div>
         </div>
