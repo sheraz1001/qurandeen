@@ -41,6 +41,9 @@ import StudentDashboard from './pages/teaching/StudentDashboard';
 import BookClass from './pages/teaching/BookClass';
 import Azkaar from './pages/Azkaar';
 import AzkaarCategory from './pages/AzkaarCategory';
+import HadithCollections from './pages/HadithCollections';
+import HadithBook from './pages/HadithBook';
+import HadithChapter from './pages/HadithChapter';
 import { AuthProvider } from './context/AuthContext';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 
@@ -174,6 +177,9 @@ function App() {
             <Route path="/book-class/:id" element={<BookClass />} />
             <Route path="/azkaar" element={<Azkaar />} />
             <Route path="/azkaar/:categoryId" element={<AzkaarCategory />} />
+            <Route path="/hadith" element={<HadithCollections />} />
+            <Route path="/hadith/:collectionId" element={<HadithBook />} />
+            <Route path="/hadith/:collectionId/:chapterId" element={<HadithChapter />} />
             <Route path="/settings" element={
               <Settings 
                 darkMode={darkMode}

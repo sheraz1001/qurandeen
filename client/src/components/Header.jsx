@@ -64,6 +64,12 @@ function Header({ darkMode, toggleDarkMode }) {
 
   const resourceLinks = [
     { 
+      path: '/hadith', 
+      label: 'Hadith Collections', 
+      icon: '📚',
+      description: '17 books with 50,000+ authentic hadiths'
+    },
+    { 
       path: '/azkaar', 
       label: 'Daily Azkaar & Duas', 
       icon: '🤲',
@@ -278,7 +284,7 @@ function Header({ darkMode, toggleDarkMode }) {
               >
                 <Link 
                   to="/islamic-resources"
-                  className={`nav-link dropdown-trigger ${isActiveGroup(['/islamic-resources', '/azkaar', '/blogs']) ? 'active' : ''}`}
+                  className={`nav-link dropdown-trigger ${isActiveGroup(['/islamic-resources', '/azkaar', '/blogs', '/hadith']) ? 'active' : ''}`}
                   aria-expanded={activeDropdown === 'resources'}
                   aria-haspopup="true"
                 >
