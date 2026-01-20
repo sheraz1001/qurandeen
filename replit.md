@@ -1,7 +1,7 @@
 # Quran Deen (QuranDeen.com)
 
 ## Overview
-Quran Deen is a comprehensive web application designed for reading and listening to the Holy Quran. It aims to provide a rich, interactive, and educational platform for Muslims worldwide. The project integrates advanced features for Quranic study, spiritual reflection, and practical Islamic tools, making QuranDeen.com a central hub for engaging with the Quran and Islamic knowledge. Key capabilities include a powerful Quranic text and audio browser, an AI-powered Islamic scholar, and a suite of Islamic utilities.
+Quran Deen is a comprehensive web application for reading and listening to the Holy Quran, aiming to be an interactive and educational platform for Muslims globally. It provides a central hub for engaging with the Quran and Islamic knowledge, featuring a powerful Quranic text and audio browser, an AI-powered Islamic scholar, and a suite of Islamic utilities. The project also includes a Quran teaching platform marketplace, a vast collection of authentic daily supplications (Azkaar & Duas), and an extensive Hadith library, all designed to be accessible via web and native mobile applications.
 
 ## User Preferences
 I prefer detailed explanations and iterative development. Ask before making major architectural changes or introducing new external dependencies. I value clean code and clear documentation.
@@ -10,176 +10,38 @@ I prefer detailed explanations and iterative development. Ask before making majo
 The application follows a client-server architecture with a Node.js/Express backend and a React frontend.
 
 **UI/UX Decisions:**
-- Professional, clean design with a focus on readability and ease of navigation.
-- Responsive design ensuring full functionality across desktop and mobile devices.
-- Consistent branding with a distinct red accent theme for admin interfaces.
-- Customizable settings for user preferences (dark mode, font styles, reciters, translations).
-- Sidebar-based dashboards for both users and administrators for organized navigation.
+- Clean, professional, and responsive design optimized for readability across all devices.
+- Consistent branding with a red accent theme for admin interfaces.
+- Customizable user settings (dark mode, font styles, reciters, translations).
+- Sidebar-based navigation for both users and administrators.
 
 **Technical Implementations & Feature Specifications:**
-- **Quranic Display & Audio:** Displays all 114 surahs, individual ayahs with Arabic text, multiple script styles (Uthmani, IndoPak, Nastaliq, Naskh Nastaleeq, Me Quran), and font size controls. Integrates over 150 full surah audio reciters and 23+ verse-by-verse reciters. Supports word-by-word Quran mode with clickable words for audio and translation tooltips.
-- **Translations & Tafsir:** Offers 100+ translations in 40+ languages and includes Tafsir al-Muyassar for ayah commentary.
+- **Quranic Display & Audio:** Displays all 114 surahs with multiple script styles (Uthmani, IndoPak, Nastaliq, Naskh Nastaleeq, Me Quran), font size controls, 150+ full surah reciters, and 23+ verse-by-verse reciters. Includes word-by-word Quran mode with audio and translation tooltips.
+- **Translations & Tafsir:** Offers 100+ translations in 40+ languages and Tafsir al-Muyassar for ayah commentary.
 - **Interactive Tools:**
-    - **Quran Share Card Generator:** Customizable tool for creating shareable Quranic verse images for social media with various presets, fonts, backgrounds, and download options (PNG/PDF).
-    - **Daily Content:** Features "Quran Verse of the Day" with translation and reflection, and "Hadith of the Day" from authentic sources.
-    - **Islamic Utilities:** Includes a Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, an interactive "99 Names of Allah Explorer", Prayer Times with next-prayer countdown, Qibla Direction finder with compass, and Ramadan Calendar with Suhoor/Iftar times.
-- **Search & Navigation:** Advanced search functionality for ayahs by keyword, Juz browser for navigating the 30 Juz, and displays ayah metadata (Juz, Page, Ruku, Sajda markers).
-- **AI Chatbot:** An "Islamic Scholar AI Chatbot" provides answers based on Quran and authentic Hadith, offers source citations, multilingual support, and streaming responses.
-- **User Management:**
-    - **Authentication:** Secure signup/login with email/password (JWT-based sessions, bcrypt hashing) and Google OAuth integration.
-    - **User Dashboard:** Personalized dashboard for tracking Quran reading progress, managing cloud-synced bookmarks, editing profiles, and accessing internal tools.
-- **Admin Management:**
-    - **Admin Dashboard:** Dedicated panel for managing blog posts (create, edit, publish, delete) and user accounts.
-- **Content Management:**
-    - **Islamic Blog:** A public blog for Islamic knowledge articles.
-    - **Contact Us Page:** Professional contact form with FAQs, social links, and mission statement.
-    - **Legal Pages:** Comprehensive Privacy Policy and Terms of Use.
-- **Data Storage:** Utilizes local storage for user preferences (dark mode, font size, selected reciter/translation/script/font), bookmarks, reading history, and cached daily ayah.
-- **SEO Optimization:**
-    - **SEO-Friendly URLs:** All 114 Surah pages use numbered slug-based URLs (e.g., `/surah/1-al-fatihah`, `/surah/2-al-baqarah`). Old numeric URLs (`/surah/1`) and old slug URLs (`/surah/al-fatihah`) automatically redirect to the canonical numbered slugs.
-    - **Keyword-Rich Route Names:** Main navigation routes use descriptive SEO-friendly slugs:
-        - `/quran-juz-browser` - Browse Quran by Juz (Para)
-        - `/quran-mp3-audio` - Full Surah audio recitations
-        - `/islamic-resources` - Islamic tools hub (replaces `/tools`)
-        - `/islamic-ai-scholar` - AI Islamic Scholar chatbot
-        - `/blogs` - Islamic blog articles
-        - Tool subpages: `/islamic-resources/share-card`, `/islamic-resources/verse-of-day`, etc.
-    - **Automatic Redirects:** Intelligent redirect system handles legacy URLs:
-        - Numeric: `/surah/1` → `/surah/1-al-fatihah`
-        - Old slugs: `/surah/al-fatihah` → `/surah/1-al-fatihah`
-    - **Dynamic Meta Tags:** Uses react-helmet-async for unique title, description, canonical, Open Graph, and Twitter Card meta tags on each page.
-    - **JSON-LD Schema Markup:** Implements Article, Book, and BreadcrumbList schema following schema.org best practices.
-    - **Animated Hero Headers:** All major pages feature animated hero sections with breadcrumb navigation.
-    - **Sitemap.xml:** Server-generated sitemap includes all 114 Surah numbered slugs and key pages with proper priority and changefreq settings.
-    - **Robots.txt:** Configured to allow all crawlers while blocking private routes (admin, dashboard, login).
-    - **Surah Data Module:** Central `client/src/data/surahData.js` contains all 114 Surah numbered slugs, names, meanings, metadata, and redirect mappings.
+    - **Quran Share Card Generator:** Customizable tool for creating shareable Quranic verse images.
+    - **Daily Content:** Features "Quran Verse of the Day" and "Hadith of the Day."
+    - **Islamic Utilities:** Includes Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Prayer Times, Qibla Direction, and Ramadan Calendar.
+- **Search & Navigation:** Advanced search, Juz browser, and ayah metadata display.
+- **AI Chatbot:** An "Islamic Scholar AI Chatbot" provides answers with source citations and multilingual support.
+- **User & Admin Management:** Secure authentication (email/password with JWT, Google OAuth), user dashboards for progress tracking and bookmarks, and admin dashboards for content and user management.
+- **Content Management:** Public Islamic blog, contact page, and legal pages (Privacy Policy, Terms of Use).
+- **Data Storage:** Local storage for user preferences, bookmarks, and reading history.
+- **SEO Optimization:** SEO-friendly URLs, keyword-rich route names, automatic redirects for legacy URLs, dynamic meta tags using react-helmet-async, JSON-LD schema markup, animated hero headers, server-generated sitemap.xml, and a robust robots.txt configuration.
+- **Quran Teaching Platform:** A marketplace connecting Quran teachers and students with features like teacher profiles, class packages, booking system, commission model, payment processing (Stripe with commission split and race-condition protection), Jitsi Meet integration for video conferencing, and a real-time messaging system. An Admin Teacher Verification Dashboard is included.
+- **Daily Azkaar & Duas Section:** Comprehensive collection from Hisnul Muslim with 134 categories and 298+ duas, including interactive recitation counter, progress tracking, font size controls, and search functionality. Data is stored locally for fast access.
+- **Hadith Collections Section:** Library of 17 authentic Hadith books (50,000+ hadiths), supporting multiple languages (English, Arabic, Urdu, Bengali), font size controls, copy/share functionality, and chapter navigation. Data sourced from hadith-json CDN.
+- **Progressive Web App (PWA) & Mobile App Support:** Configured as a PWA with features like installability, offline caching, push notifications, and app shortcuts. Utilizes Capacitor for native iOS and Android app distribution, with custom manifest and service worker implementations.
 
 ## External Dependencies
-- **Al Quran Cloud API:** Used for fetching Quranic text, translations, surah information, and reciter data.
-- **MP3Quran.net API:** Provides access to over 150 full surah audio recitations.
-- **Quran.com API:** Utilized for word-by-word Quran data.
-- **Google OAuth:** For user authentication via Google accounts.
-- **html2canvas:** For client-side rendering of HTML elements to canvas, used in the Share Card Generator for PNG downloads.
-- **jsPDF:** For generating client-side PDF documents, used in the Share Card Generator for crisp PDF exports.
-- **Aladhan API:** Free Islamic prayer times API providing prayer times, Hijri calendar, and Ramadan fasting schedule for any location worldwide.
-
-## Quran Teaching Platform (NEW - In Development)
-A marketplace connecting Quran teachers with students worldwide, similar to Preply/Italki but focused on Quran education.
-
-**Core Features:**
-- **User Roles:** Students, Teachers, and Admin
-- **Teacher Profiles:** Bio, headline, languages, specialties (Tajweed, Hifz, Tafsir, etc.), hourly rates, certificates, availability
-- **Teacher Directory:** Browse/search teachers with filters (specialty, language, price, country, rating)
-- **Class Packages:** Teachers create packages (single sessions, weekly/monthly plans)
-- **Booking System:** Students book classes based on teacher availability
-- **Commission Model:** Platform takes 20% commission, teacher receives 80%
-
-**Database Tables:**
-- `teacher_profiles` - Teacher information linked to users
-- `teacher_certificates` - Uploaded credentials/Ijazah
-- `teaching_specialties` - Lookup table for teaching categories
-- `teacher_availability` - Weekly schedule slots
-- `class_packages` - Pricing packages created by teachers
-- `bookings` - Scheduled class sessions
-- `student_subscriptions` - Student package purchases
-- `platform_payments` - Payment records with commission split
-- `teacher_reviews` - Student ratings and reviews
-- `messages` - Student-teacher communication
-
-**Routes:**
-- `/teach-with-us` - Comprehensive teacher landing page (10+ sections, 10 FAQs with JSON-LD schema)
-- `/teachers` - Teacher directory with search/filters
-- `/teachers/:id` - Individual teacher profile page
-- `/become-teacher` - Teacher registration form (4-step)
-- `/teacher-dashboard` - Teacher's management dashboard
-- `/student-dashboard` - Student's learning dashboard
-- `/book-class/:id` - Book a class with a teacher (4-step with payment)
-
-**Implemented Features:**
-- Student Dashboard with upcoming classes, subscriptions, payment history, and messages interface
-- Booking System with 4-step flow: package selection → date/time picker → review → Stripe payment
-- Payment Processing with 20% platform / 80% teacher commission split
-- Review System allowing students to rate teachers after completed classes (updates teacher rating)
-- Teacher Booking Management (view, confirm, complete bookings)
-- Race Condition Protection:
-  - Pre-validation in payment intent creation (checks availability before Stripe is called)
-  - Database unique constraint on `(teacher_id, scheduled_at)` for active bookings
-  - Automatic Stripe refund if booking conflict occurs during confirmation
-- **Jitsi Meet Video Integration:** Automatic meeting room generation on booking confirmation, Join Class buttons in both student and teacher dashboards with direct links to meet.jit.si
-- **Real-time Messaging System:** Full chat interface with conversation list, message display, 5-second polling for updates, unread message badges, and seamless student-teacher communication
-- **Admin Teacher Verification Dashboard:** Dedicated section for managing teachers with stats (total, pending, verified, platform earnings), approve/reject functionality, and verification status management
-
-**Future Enhancements:**
-- Consider Stripe manual capture (hold payment, only capture after booking confirmed) for even tighter race-condition control
-- Reservation/hold system that locks a timeslot before payment is initiated
-- WebSocket-based messaging for instant real-time updates (currently uses polling)
-- Push notifications for new messages and upcoming classes
-
-## Daily Azkaar & Duas Section (Complete Hisnul Muslim)
-A comprehensive collection of authentic Islamic supplications from Hisnul Muslim (Fortress of the Muslim).
-
-**Data Source:**
-- Complete Hisnul Muslim book with **134 categories** and **298+ authentic duas**
-- Arabic text from rn0x/hisn_almuslim_json GitHub repository
-- English translations from khalid-hussain/hisnulMuslimDB XML database
-- Stored locally in `client/src/data/azkaarData.js` for fast loading and offline capability
-
-**Categories Include:**
-- Morning & Evening Adhkar (25 duas)
-- Prayer-related: Before/After Wudu, Entering/Leaving Masjid, Opening Prayer, Ruku, Sujud, Tashahhud, After Prayer, Istikhara
-- Daily Life: Waking Up, Sleeping, Wearing Clothes, Eating, Drinking, Traveling, Entering Home/Market
-- Protection: Against Shaytan, Evil Eye, Anxiety, Distress, Fear, Sickness
-- Special Occasions: Hajj/Umrah (Talbiyah, Safa/Marwa, Day of Arafah), Rain, New Moon, Ramadan/Fasting
-- Social: Marriage, Newborn, Visiting Sick, Funeral, Condolences, Gatherings
-- Worship: Istighfar, Virtues of Dhikr, Salawat on Prophet
-
-**Features:**
-- Interactive recitation counter with tap-to-count functionality
-- Progress tracking persisted to localStorage across sessions
-- Font size controls (small, medium, large)
-- Toggle transliteration and translation display
-- Reset current dua or reset all progress
-- Search functionality across all categories
-- Featured categories section highlighting essential daily adhkar
-- Responsive grid layout for browsing all 134 categories
-
-**Routes:**
-- `/azkaar` - Main listing page with all 134 categories
-- `/azkaar/:categoryId` - Individual category page with all duas
-
-**Technical Implementation:**
-- Local data module exports `azkaarCategories`, `getAllAzkaar()`, `getDuaById()`, `searchDuas()`, `getFeaturedCategories()`
-- Progress stored in localStorage with key pattern: `azkaar_progress_{categoryId}`
-- SEO optimized with JSON-LD CollectionPage schema and dynamic meta tags
-
-## Progressive Web App (PWA) & Mobile App Support
-QuranDeen is configured as a Progressive Web App with Capacitor for native app distribution.
-
-**PWA Features:**
-- Installable on any device via "Add to Home Screen"
-- Offline caching of Quran text and audio via Service Worker
-- Smart caching strategies: cache-first for fonts/images, network-first for API data
-- Push notification support
-- App shortcuts for quick access to Al-Fatihah, Duas, and AI Scholar
-- Automatic update prompts when new version is available
-
-**Technical Implementation:**
-- `client/public/manifest.json` - PWA manifest with icons, shortcuts, and theme colors
-- `client/public/sw.js` - Service Worker with intelligent caching strategies
-- `client/src/utils/pwaUtils.js` - PWA utilities (install prompt, offline detection, storage estimates)
-- `client/src/components/PWAInstallPrompt.jsx` - Smart install prompt component
-- Icons generated in all required sizes: 72x72, 96x96, 128x128, 144x144, 152x152, 192x192, 384x384, 512x512
-
-**Capacitor (Native App Builds):**
-- `capacitor.config.ts` - Configuration for iOS and Android builds
-- App ID: `com.qurandeen.app`
-- Supports splash screen, status bar customization, and keyboard handling
-- See `MOBILE_APP_BUILD.md` for complete build instructions
-
-**Build Commands:**
-```bash
-npm run build          # Build web app
-npx cap sync           # Sync to native projects
-npx cap open ios       # Open in Xcode
-npx cap open android   # Open in Android Studio
-```
+- **Al Quran Cloud API:** For Quranic text, translations, surah info, and reciter data.
+- **MP3Quran.net API:** Provides full surah audio recitations.
+- **Quran.com API:** Used for word-by-word Quran data.
+- **Google OAuth:** For user authentication.
+- **html2canvas:** For client-side rendering of HTML to images in the Share Card Generator.
+- **jsPDF:** For client-side PDF generation in the Share Card Generator.
+- **Aladhan API:** For Islamic prayer times, Hijri calendar, and Ramadan schedules.
+- **Stripe:** Payment processing for the Quran Teaching Platform.
+- **Jitsi Meet:** Video conferencing integration for classes.
+- **jsDelivr (AhmedBaset/hadith-json):** CDN for Hadith data.
+- **alQuranBD API:** Optional for Bengali Hadith translations.

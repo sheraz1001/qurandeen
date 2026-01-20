@@ -66,6 +66,26 @@ export const fetchCollection = async (collectionId) => {
   }
 };
 
+export const getChaptersFromCollection = (collectionData) => {
+  if (!collectionData || !collectionData.chapters) {
+    return [];
+  }
+  
+  const hadithCounts = {};
+  if (collectionData.hadiths) {
+    collectionData.hadiths.forEach(h => {
+      hadithCounts[h.chapterId] = (hadithCounts[h.chapterId] || 0) + 1;
+    });
+  }
+  
+  return collectionData.chapters.map(ch => ({
+    id: ch.id,
+    arabic: ch.arabic,
+    english: ch.english,
+    hadithCount: hadithCounts[ch.id] || 0
+  }));
+};
+
 export const fetchChapter = async (collectionId, chapterId) => {
   const cacheKey = `${collectionId}_${chapterId}`;
   if (chaptersCache[cacheKey]) {
@@ -92,34 +112,14 @@ export const fetchChapter = async (collectionId, chapterId) => {
 };
 
 export const extractChaptersFromCollection = (collectionData) => {
-  if (!collectionData || !Array.isArray(collectionData)) {
-    return [];
-  }
-
-  const chaptersMap = new Map();
-  
-  collectionData.forEach(hadith => {
-    if (hadith.chapter && !chaptersMap.has(hadith.chapterId)) {
-      chaptersMap.set(hadith.chapterId, {
-        id: hadith.chapterId,
-        arabic: hadith.chapter?.arabic || '',
-        english: hadith.chapter?.english || '',
-        hadithCount: 0
-      });
-    }
-    if (chaptersMap.has(hadith.chapterId)) {
-      chaptersMap.get(hadith.chapterId).hadithCount++;
-    }
-  });
-
-  return Array.from(chaptersMap.values()).sort((a, b) => a.id - b.id);
+  return getChaptersFromCollection(collectionData);
 };
 
 export const getHadithsByChapter = (collectionData, chapterId) => {
-  if (!collectionData || !Array.isArray(collectionData)) {
+  if (!collectionData || !collectionData.hadiths) {
     return [];
   }
-  return collectionData.filter(h => h.chapterId === chapterId);
+  return collectionData.hadiths.filter(h => h.chapterId === chapterId);
 };
 
 export const fetchBanglaHadiths = async (collectionId, chapterId, page = 1) => {
