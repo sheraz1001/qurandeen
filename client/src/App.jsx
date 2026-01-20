@@ -46,6 +46,7 @@ import HadithBook from './pages/HadithBook';
 import HadithChapter from './pages/HadithChapter';
 import { AuthProvider } from './context/AuthContext';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -122,6 +123,7 @@ function App() {
   return (
     <AuthProvider>
       <div className="app">
+        <ScrollToTop />
         <Header 
           darkMode={darkMode} 
           toggleDarkMode={toggleDarkMode}
