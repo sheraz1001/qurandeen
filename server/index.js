@@ -3197,110 +3197,77 @@ const surahSlugs = [
   '111-al-masad', '112-al-ikhlas', '113-al-falaq', '114-an-nas'
 ];
 
-app.get('/sitemap.xml', (req, res) => {
+const azkaarSlugs = [
+  'introduction-duas', 'virtues-of-dhikr-duas', 'waking-up-duas', 'wearing-clothes-duas', 'new-clothes-duas',
+  'for-new-clothes-wearer-duas', 'before-undressing-duas', 'entering-toilet-duas', 'leaving-toilet-duas',
+  'before-wudu-duas', 'after-wudu-duas', 'leaving-home-duas', 'entering-home-duas', 'going-to-masjid-duas',
+  'entering-masjid-duas', 'leaving-masjid-duas', 'adhan-duas', 'opening-prayer-duas', 'ruku-duas',
+  'rising-from-ruku-duas', 'sujud-duas', 'between-sujud-duas', 'sujud-tilawah-duas', 'tashahhud-duas',
+  'salawat-after-tashahhud-duas', 'dua-before-salam-duas', 'after-prayer-duas', 'istikhara-duas',
+  'morning-evening-duas', 'before-sleep-duas', 'turning-at-night-duas', 'category-1-duas', 'after-dream-duas',
+  'qunut-witr-duas', 'after-witr-duas', 'anxiety-sorrow-duas', 'distress-duas', 'meeting-enemy-duas',
+  'fear-of-oppression-duas', 'against-enemy-duas', 'fear-of-people-duas', 'category-2-duas', 'category-3-duas',
+  'whispers-in-prayer-duas', 'difficulty-duas', 'after-sin-duas', 'against-shaytan-duas', 'category-4-duas',
+  'newborn-duas', 'category-5-duas', 'visiting-sick-duas', 'virtues-visiting-sick-duas', 'dying-patient-duas',
+  'talqeen-duas', 'calamity-duas', 'closing-eyes-deceased-duas', 'funeral-prayer-duas', 'funeral-child-duas',
+  'condolence-duas', 'burial-duas', 'after-burial-duas', 'visiting-graves-duas', 'wind-duas', 'thunder-duas',
+  'rain-seeking-duas', 'when-rain-falls-duas', 'after-rain-duas', 'excessive-rain-duas', 'new-moon-duas',
+  'breaking-fast-duas', 'before-eating-duas', 'after-eating-duas', 'guest-dua-duas', 'category-6-duas',
+  'iftar-at-host-duas', 'fasting-at-food-duas', 'category-7-duas', 'first-fruit-duas', 'sneezing-duas',
+  'category-8-duas', 'for-married-duas', 'category-9-duas', 'category-10-duas', 'anger-duas',
+  'seeing-afflicted-duas', 'sitting-gathering-duas', 'category-11-duas', 'forgiveness-response-duas',
+  'thanking-favor-duas', 'category-12-duas', 'love-for-allah-duas', 'offered-wealth-duas', 'repaying-loan-duas',
+  'fear-of-shirk-duas', 'barakallah-response-duas', 'category-13-duas', 'category-14-duas', 'travel-duas',
+  'entering-town-duas', 'entering-market-duas', 'vehicle-trouble-duas', 'traveler-for-resident-duas',
+  'resident-for-traveler-duas', 'dhikr-during-travel-duas', 'traveler-at-dawn-duas', 'category-15-duas',
+  'returning-from-travel-duas', 'category-16-duas', 'virtues-salawat-duas', 'spreading-salam-duas',
+  'category-17-duas', 'category-18-duas', 'category-19-duas', 'after-insulting-duas', 'category-20-duas',
+  'category-21-duas', 'talbiyah-duas', 'category-22-duas', 'yemeni-corner-duas', 'safa-marwa-duas',
+  'day-of-arafah-duas', 'muzdalifah-duas', 'category-23-duas', 'category-24-duas', 'joyful-news-duas',
+  'body-pain-duas', 'evil-eye-duas', 'fright-duas', 'slaughtering-duas', 'against-jinn-duas', 'istighfar-duas',
+  'category-25-duas', 'category-26-duas', 'category-27-duas'
+];
+
+app.get('/sitemap.xml', async (req, res) => {
   const baseUrl = 'https://qurandeen.com';
   const currentDate = new Date().toISOString().split('T')[0];
   
-  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${baseUrl}</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/quran-juz-browser</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/quran-mp3-audio</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-ai-scholar</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources/share-card</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources/verse-of-day</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources/hijri-converter</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources/adhkar</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources/names-of-allah</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/islamic-resources/hadith-of-day</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/blogs</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/contact</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/donate</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/privacy</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/terms</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>`;
+  const staticPages = [
+    { loc: '', changefreq: 'daily', priority: '1.0' },
+    { loc: '/quran-juz-browser', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/quran-mp3-audio', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/islamic-ai-scholar', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/islamic-resources', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/islamic-resources/share-card', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/islamic-resources/verse-of-day', changefreq: 'daily', priority: '0.7' },
+    { loc: '/islamic-resources/hijri-calendar', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/islamic-resources/hijri-converter', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/islamic-resources/names-of-allah', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/islamic-resources/hadith-of-day', changefreq: 'daily', priority: '0.7' },
+    { loc: '/azkaar', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/blogs', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/teachers', changefreq: 'daily', priority: '0.8' },
+    { loc: '/teach-with-us', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/contact', changefreq: 'monthly', priority: '0.5' },
+    { loc: '/donate', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/terms', changefreq: 'yearly', priority: '0.3' },
+  ];
 
-  surahSlugs.forEach((slug, index) => {
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  staticPages.forEach(page => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}${page.loc}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`;
+  });
+
+  surahSlugs.forEach(slug => {
     sitemap += `
   <url>
     <loc>${baseUrl}/surah/${slug}</loc>
@@ -3310,10 +3277,56 @@ app.get('/sitemap.xml', (req, res) => {
   </url>`;
   });
 
+  azkaarSlugs.forEach(slug => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/azkaar/${slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`;
+  });
+
+  try {
+    const blogsResult = await pool.query(
+      'SELECT slug, updated_at FROM blog_posts WHERE published = true ORDER BY created_at DESC'
+    );
+    blogsResult.rows.forEach(blog => {
+      const lastmod = blog.updated_at ? new Date(blog.updated_at).toISOString().split('T')[0] : currentDate;
+      sitemap += `
+  <url>
+    <loc>${baseUrl}/blogs/${blog.slug}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>`;
+    });
+  } catch (error) {
+    console.error('Error fetching blogs for sitemap:', error.message);
+  }
+
+  try {
+    const teachersResult = await pool.query(
+      'SELECT tp.id FROM teacher_profiles tp JOIN users u ON tp.user_id = u.id WHERE tp.verified = true'
+    );
+    teachersResult.rows.forEach(teacher => {
+      sitemap += `
+  <url>
+    <loc>${baseUrl}/teachers/${teacher.id}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>`;
+    });
+  } catch (error) {
+    console.error('Error fetching teachers for sitemap:', error.message);
+  }
+
   sitemap += `
 </urlset>`;
 
   res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
   res.send(sitemap);
 });
 
