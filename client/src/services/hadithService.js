@@ -2,6 +2,7 @@ import { getCollectionById } from '../data/hadithData';
 
 const HADITH_JSON_CDN = 'https://cdn.jsdelivr.net/gh/AhmedBaset/hadith-json@main/db';
 const ALQURANBD_API = 'https://alquranbd.com/api/hadith';
+const URDU_HADITH_CDN = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions';
 
 const collectionFileMap = {
   bukhari: 'the_9_books/bukhari',
@@ -30,6 +31,17 @@ const alQuranBDBookMap = {
   tirmidhi: 4,
   nasai: 5,
   ibnmajah: 6
+};
+
+const urduEditionMap = {
+  bukhari: 'urd-bukhari',
+  muslim: 'urd-muslim',
+  abudawud: 'urd-abudawud',
+  tirmidhi: 'urd-tirmidhi',
+  nasai: 'urd-nasai',
+  ibnmajah: 'urd-ibnmajah',
+  malik: 'urd-malik',
+  nawawi40: 'urd-nawawi'
 };
 
 let collectionsCache = {};
@@ -171,6 +183,40 @@ export const fetchBanglaChapters = async (collectionSlug) => {
     console.error('Error fetching Bangla chapters:', error);
     return null;
   }
+};
+
+let urduCache = {};
+
+export const fetchUrduHadiths = async (collectionSlug) => {
+  const collection = getCollectionById(collectionSlug);
+  if (!collection) return null;
+  
+  const editionId = urduEditionMap[collection.apiId];
+  if (!editionId) {
+    return null;
+  }
+
+  if (urduCache[editionId]) {
+    return urduCache[editionId];
+  }
+
+  try {
+    const response = await fetch(`${URDU_HADITH_CDN}/${editionId}.json`);
+    if (!response.ok) {
+      return null;
+    }
+    const data = await response.json();
+    urduCache[editionId] = data;
+    return data;
+  } catch (error) {
+    console.error('Error fetching Urdu hadiths:', error);
+    return null;
+  }
+};
+
+export const getUrduHadithByNumber = (urduData, hadithNumber) => {
+  if (!urduData || !urduData.hadiths) return null;
+  return urduData.hadiths.find(h => h.hadithnumber === hadithNumber);
 };
 
 export const searchHadiths = async (collectionData, query) => {

@@ -260,7 +260,7 @@ export const hadithCategories = {
 export const supportedLanguages = [
   { code: 'en', name: 'English', nameNative: 'English', available: true },
   { code: 'ar', name: 'Arabic', nameNative: 'العربية', available: true },
-  { code: 'ur', name: 'Urdu', nameNative: 'اردو', available: false },
+  { code: 'ur', name: 'Urdu', nameNative: 'اردو', available: true },
   { code: 'bn', name: 'Bengali', nameNative: 'বাংলা', available: true }
 ];
 

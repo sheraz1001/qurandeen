@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { getCollectionById, supportedLanguages, legacyCollectionRedirects, parseChapterSlug, generateChapterSlug } from '../data/hadithData';
-import { fetchCollection, getHadithsByChapter, extractChaptersFromCollection, fetchBanglaHadiths } from '../services/hadithService';
+import { fetchCollection, getHadithsByChapter, extractChaptersFromCollection, fetchBanglaHadiths, fetchUrduHadiths, getUrduHadithByNumber } from '../services/hadithService';
 import '../styles/hadith.css';
 
 const HadithChapter = () => {
@@ -16,6 +16,7 @@ const HadithChapter = () => {
   const [selectedLang, setSelectedLang] = useState('en');
   const [copiedId, setCopiedId] = useState(null);
   const [banglaData, setBanglaData] = useState(null);
+  const [urduData, setUrduData] = useState(null);
   const [fontSize, setFontSize] = useState(() => localStorage.getItem('hadith_font_size') || 'medium');
 
   const chapterNum = parseChapterSlug(chapterSlug);
@@ -67,6 +68,11 @@ const HadithChapter = () => {
         if (selectedLang === 'bn') {
           const bangla = await fetchBanglaHadiths(collectionId, chapterNum);
           setBanglaData(bangla);
+        }
+        
+        if (selectedLang === 'ur') {
+          const urdu = await fetchUrduHadiths(collectionId);
+          setUrduData(urdu);
         }
       } catch (err) {
         setError('Failed to load hadiths. Please try again.');
@@ -246,18 +252,24 @@ const HadithChapter = () => {
                     </p>
                   )}
 
-                  {selectedLang === 'ur' && (
-                    <div style={{ textAlign: 'right', direction: 'rtl' }}>
-                      <p style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>اردو ترجمہ</p>
-                      <p className="hadith-english-text">
-                        {hadith.english?.text ? (
-                          <span style={{ color: 'var(--text-muted)' }}>Urdu translation coming soon. English: {hadith.english.text}</span>
+                  {selectedLang === 'ur' && (() => {
+                    const urduHadith = urduData ? getUrduHadithByNumber(urduData, hadith.idInBook || hadith.id) : null;
+                    return (
+                      <div style={{ textAlign: 'right', direction: 'rtl' }}>
+                        <p style={{ color: 'var(--primary-color)', marginBottom: '0.5rem', fontWeight: '600' }}>اردو ترجمہ</p>
+                        {urduHadith?.text ? (
+                          <p className="hadith-english-text" style={{ fontFamily: "'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif", fontSize: '1.2rem', lineHeight: '2.2' }}>
+                            {urduHadith.text}
+                          </p>
                         ) : (
-                          <span style={{ color: 'var(--text-muted)' }}>Translation not available</span>
+                          <p className="hadith-english-text" style={{ color: 'var(--text-muted)' }}>
+                            {urduData === null ? 'Urdu translation not available for this collection.' : 'Loading...'}<br/>
+                            {hadith.english?.text && <span style={{ fontSize: '0.9rem', opacity: 0.7 }}>English: {hadith.english.text}</span>}
+                          </p>
                         )}
-                      </p>
-                    </div>
-                  )}
+                      </div>
+                    );
+                  })()}
 
                   {selectedLang === 'bn' && (
                     <>
