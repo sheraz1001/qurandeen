@@ -3235,6 +3235,13 @@ app.get('/sitemap.xml', async (req, res) => {
   const baseUrl = 'https://qurandeen.com';
   const currentDate = new Date().toISOString().split('T')[0];
   
+  const hadithCollectionSlugs = [
+    'sahih-bukhari', 'sahih-muslim', 'sunan-abu-dawud', 'jami-tirmidhi', 'sunan-nasai',
+    'sunan-ibn-majah', 'muwatta-malik', 'musnad-ahmad', 'sunan-darimi', 'riyad-us-salihin',
+    'shamail-muhammadiyah', 'bulugh-al-maram', 'mishkat-al-masabih', 'adab-al-mufrad',
+    'nawawi-40-hadith', '40-hadith-qudsi', '40-hadith-shah-waliullah'
+  ];
+
   const staticPages = [
     { loc: '', changefreq: 'daily', priority: '1.0' },
     { loc: '/quran-juz-browser', changefreq: 'weekly', priority: '0.8' },
@@ -3250,6 +3257,7 @@ app.get('/sitemap.xml', async (req, res) => {
     { loc: '/islamic-resources/prayer-times', changefreq: 'daily', priority: '0.8' },
     { loc: '/islamic-resources/qibla-direction', changefreq: 'monthly', priority: '0.7' },
     { loc: '/islamic-resources/ramadan-calendar', changefreq: 'daily', priority: '0.8' },
+    { loc: '/hadith', changefreq: 'weekly', priority: '0.8' },
     { loc: '/azkaar', changefreq: 'weekly', priority: '0.8' },
     { loc: '/blogs', changefreq: 'weekly', priority: '0.7' },
     { loc: '/teachers', changefreq: 'daily', priority: '0.8' },
@@ -3290,6 +3298,16 @@ app.get('/sitemap.xml', async (req, res) => {
     <lastmod>${currentDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>`;
+  });
+
+  hadithCollectionSlugs.forEach(slug => {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/hadith/${slug}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>`;
   });
 
