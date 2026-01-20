@@ -22,7 +22,7 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Interactive Tools:**
     - **Quran Share Card Generator:** Customizable tool for creating shareable Quranic verse images for social media with various presets, fonts, backgrounds, and download options (PNG/PDF).
     - **Daily Content:** Features "Quran Verse of the Day" with translation and reflection, and "Hadith of the Day" from authentic sources.
-    - **Islamic Utilities:** Includes a Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, and an interactive "99 Names of Allah Explorer."
+    - **Islamic Utilities:** Includes a Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, an interactive "99 Names of Allah Explorer", Prayer Times with next-prayer countdown, Qibla Direction finder with compass, and Ramadan Calendar with Suhoor/Iftar times.
 - **Search & Navigation:** Advanced search functionality for ayahs by keyword, Juz browser for navigating the 30 Juz, and displays ayah metadata (Juz, Page, Ruku, Sajda markers).
 - **AI Chatbot:** An "Islamic Scholar AI Chatbot" provides answers based on Quran and authentic Hadith, offers source citations, multilingual support, and streaming responses.
 - **User Management:**
@@ -61,6 +61,7 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Google OAuth:** For user authentication via Google accounts.
 - **html2canvas:** For client-side rendering of HTML elements to canvas, used in the Share Card Generator for PNG downloads.
 - **jsPDF:** For generating client-side PDF documents, used in the Share Card Generator for crisp PDF exports.
+- **Aladhan API:** Free Islamic prayer times API providing prayer times, Hijri calendar, and Ramadan fasting schedule for any location worldwide.
 
 ## Quran Teaching Platform (NEW - In Development)
 A marketplace connecting Quran teachers with students worldwide, similar to Preply/Italki but focused on Quran education.
