@@ -1,0 +1,449 @@
+.ramadan-calendar-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.ramadan-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.location-form-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.location-form-card h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.location-form-card p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--accent-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.location-header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.location-icon {
+  font-size: 1.25rem;
+}
+
+.location-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.ramadan-info-banner {
+  background: linear-gradient(135deg, #1a365d, #2d3748);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.ramadan-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.moon-icon {
+  font-size: 2rem;
+}
+
+.ramadan-dates {
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+
+.ramadan-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.stat.highlight {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.today-times-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 2px solid var(--accent-color);
+}
+
+.today-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.today-header h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.today-date {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.today-times {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.time-block {
+  text-align: center;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  min-width: 140px;
+}
+
+.time-block.suhoor {
+  border: 2px solid #f59e0b;
+}
+
+.time-block.iftar {
+  border: 2px solid #ef4444;
+}
+
+.time-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.time-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.time-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.fasting-duration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.duration-icon {
+  font-size: 1.5rem;
+}
+
+.settings-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.setting-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.setting-item label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.setting-item select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.calendar-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+.ramadan-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ramadan-table th,
+.ramadan-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.ramadan-table th {
+  background: linear-gradient(135deg, #1a365d, #2d3748);
+  color: white;
+  font-weight: 600;
+}
+
+.ramadan-table td {
+  color: var(--text-primary);
+}
+
+.ramadan-table tr.today {
+  background: rgba(22, 101, 52, 0.15);
+}
+
+.ramadan-table tr.today td {
+  font-weight: 600;
+}
+
+.day-cell .ramadan-day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+.date-cell .gregorian {
+  font-weight: 500;
+}
+
+.date-cell .weekday {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.time-cell.suhoor {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.time-cell.iftar {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.duration-cell {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.ramadan-tips {
+  margin-bottom: 2rem;
+}
+
+.ramadan-tips h3 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.tip-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.tip-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.tip-card h4 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.tip-card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.quick-link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.quick-link-card:hover {
+  transform: translateY(-3px);
+  background: var(--accent-color);
+  color: white;
+}
+
+.quick-link-card .icon {
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .ramadan-stats {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .today-times {
+    flex-direction: column;
+  }
+  
+  .ramadan-table th,
+  .ramadan-table td {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .day-cell .ramadan-day {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+}

@@ -1,0 +1,412 @@
+.qibla-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.qibla-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.location-form-card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.location-form-card h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.location-form-card p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-row input {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.form-row input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--accent-color);
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: var(--accent-color);
+  color: white;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.location-header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.location-icon {
+  font-size: 1.25rem;
+}
+
+.location-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.refresh-btn:hover {
+  opacity: 1;
+}
+
+.compass-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.compass-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.compass-ring {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  transition: transform 0.3s ease-out;
+}
+
+.compass-marks {
+  position: absolute;
+  inset: 0;
+}
+
+.compass-mark {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  background: var(--text-secondary);
+  transform-origin: 0 145px;
+}
+
+.compass-mark.major {
+  height: 15px;
+  width: 3px;
+  background: var(--text-primary);
+}
+
+.cardinal-points {
+  position: absolute;
+  inset: 0;
+}
+
+.cardinal {
+  position: absolute;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.cardinal.n {
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #dc2626;
+}
+
+.cardinal.s {
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cardinal.e {
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cardinal.w {
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.qibla-needle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease-out;
+  pointer-events: none;
+}
+
+.needle-arrow {
+  position: relative;
+  width: 60px;
+  height: 150px;
+}
+
+.needle-arrow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 40px solid var(--accent-color);
+}
+
+.needle-arrow::after {
+  content: '';
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 80px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+.kaaba-icon {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  z-index: 10;
+}
+
+.compass-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--accent-color);
+  z-index: 5;
+}
+
+.degree-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-color);
+}
+
+.cardinal-display {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.enable-compass-btn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.qibla-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
+
+.info-icon {
+  font-size: 2rem;
+}
+
+.info-content {
+  flex: 1;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.qibla-instructions {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.qibla-instructions h3 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.qibla-instructions ol {
+  padding-left: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.qibla-instructions li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.quick-link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.quick-link-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--accent-color);
+  color: white;
+}
+
+.quick-link-card .icon {
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .compass-container {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .compass-mark {
+    transform-origin: 0 135px;
+  }
+  
+  .qibla-info-cards {
+    grid-template-columns: 1fr;
+  }
+}

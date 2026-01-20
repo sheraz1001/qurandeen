@@ -83,6 +83,48 @@ function Tools() {
       ),
       path: '/islamic-resources/hadith-of-day',
       color: '#1f6feb'
+    },
+    {
+      id: 'prayer-times',
+      title: 'Prayer Times',
+      description: 'Accurate salah times for your location with next prayer countdown',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+          <path d="M12 6v6l4 2"/>
+          <path d="M12 2v2"/>
+          <path d="M12 20v2"/>
+        </svg>
+      ),
+      path: '/islamic-resources/prayer-times',
+      color: '#16a34a'
+    },
+    {
+      id: 'qibla-direction',
+      title: 'Qibla Direction Finder',
+      description: 'Find the direction to the Kaaba with compass and distance calculation',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="12,2 14,10 12,8 10,10" fill="currentColor"/>
+          <polygon points="12,22 10,14 12,16 14,14" fill="currentColor"/>
+        </svg>
+      ),
+      path: '/islamic-resources/qibla-direction',
+      color: '#0891b2'
+    },
+    {
+      id: 'ramadan-calendar',
+      title: 'Ramadan Calendar',
+      description: 'Complete Ramadan timetable with Suhoor and Iftar times',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          <path d="M12 8v4l2 2"/>
+        </svg>
+      ),
+      path: '/islamic-resources/ramadan-calendar',
+      color: '#7c3aed'
     }
   ];
 
@@ -121,7 +163,7 @@ function Tools() {
         icon="🛠️"
         title="Islamic Resources"
         subtitle="Free tools to help you in your daily Islamic practice and learning"
-        stats={['6 Tools', 'Free Forever', 'No Ads']}
+        stats={['9 Tools', 'Free Forever', 'No Ads']}
         breadcrumbs={breadcrumbs}
       />
 
