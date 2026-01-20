@@ -157,6 +157,40 @@ function AzkaarCategory() {
         <title>{category.nameEn} - {category.nameAr} | Azkaar - QuranDeen</title>
         <meta name="description" content={`${category.description}. Complete collection with Arabic text, transliteration, and English translation from Hisnul Muslim.`} />
         <link rel="canonical" href={`https://qurandeen.com/azkaar/${categoryId}`} />
+        <meta property="og:title" content={`${category.nameEn} - Daily Azkaar & Duas`} />
+        <meta property="og:description" content={`${category.description}. ${duas.length} authentic duas from Hisnul Muslim.`} />
+        <meta property="og:url" content={`https://qurandeen.com/azkaar/${categoryId}`} />
+        <meta property="og:type" content="article" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": category.nameEn,
+            "description": category.description,
+            "totalTime": `PT${duas.length * 2}M`,
+            "step": duas.map((dua, index) => ({
+              "@type": "HowToStep",
+              "position": index + 1,
+              "name": `Dua ${index + 1}`,
+              "text": dua.translation || dua.arabic,
+              "itemListElement": [{
+                "@type": "HowToDirection",
+                "text": `Recite ${dua.repeat || 1} time(s)`
+              }]
+            }))
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://qurandeen.com" },
+              { "@type": "ListItem", "position": 2, "name": "Azkaar", "item": "https://qurandeen.com/azkaar" },
+              { "@type": "ListItem", "position": 3, "name": category.nameEn }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <HeroAnimated

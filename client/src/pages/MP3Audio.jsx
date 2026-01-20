@@ -10,6 +10,21 @@ function MP3Audio() {
     { name: 'Home', href: '/' },
     { name: 'Audio Quran' }
   ];
+
+  const audioSchema = {
+    "@context": "https://schema.org",
+    "@type": "MusicPlaylist",
+    "name": "Quran Audio Recitations",
+    "description": "Listen to the Holy Quran recited by over 150 renowned reciters worldwide. Full surah audio in MP3 format.",
+    "url": "https://qurandeen.com/quran-mp3-audio",
+    "numTracks": 114,
+    "publisher": {
+      "@type": "Organization",
+      "name": "QuranDeen",
+      "url": "https://qurandeen.com"
+    }
+  };
+
   const [surahs, setSurahs] = useState([]);
   const [reciters, setReciters] = useState([]);
   const [selectedReciter, setSelectedReciter] = useState(null);
@@ -204,9 +219,10 @@ function MP3Audio() {
       <SEO 
         title="MP3 Quran Audio - Listen to 150+ Reciters Online Free"
         description="Listen to full Quran recitations from 150+ world-renowned reciters. Stream high-quality MP3 audio for all 114 Surahs including Mishary Rashid, Abdul Basit, and more."
-        canonical="https://qurandeen.com/audio"
+        canonical="https://qurandeen.com/quran-mp3-audio"
         keywords="Quran MP3, Quran audio, Quran recitation, listen Quran online, Quran reciters, Mishary Rashid, Abdul Basit, full Quran audio"
         breadcrumbs={breadcrumbs}
+        schema={audioSchema}
       />
       <HeroAnimated
         icon="🎧"

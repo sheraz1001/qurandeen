@@ -30,14 +30,39 @@ function BlogList() {
 
   if (loading) return <Loading />;
 
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "QuranDeen Islamic Blog",
+    "description": "Read inspiring Islamic articles covering Quran, Hadith, Islamic history, spirituality, and practical guidance for Muslims.",
+    "url": "https://qurandeen.com/blogs",
+    "publisher": {
+      "@type": "Organization",
+      "name": "QuranDeen",
+      "url": "https://qurandeen.com"
+    },
+    "blogPost": blogs.map(blog => ({
+      "@type": "BlogPosting",
+      "headline": blog.title,
+      "description": blog.excerpt,
+      "url": `https://qurandeen.com/blog/${blog.slug}`,
+      "datePublished": blog.created_at,
+      "author": {
+        "@type": "Person",
+        "name": blog.author_name || "Admin"
+      }
+    }))
+  };
+
   return (
     <div className="blog-page">
       <SEO 
         title="Islamic Knowledge Blog - Articles to Strengthen Your Faith"
         description="Read inspiring Islamic articles covering Quran, Hadith, Islamic history, spirituality, and practical guidance for Muslims. Expert insights to strengthen your faith."
-        canonical="https://qurandeen.com/blog"
+        canonical="https://qurandeen.com/blogs"
         keywords="Islamic blog, Islamic articles, Quran blog, Muslim knowledge, Islamic spirituality, faith articles"
         breadcrumbs={breadcrumbs}
+        schema={blogSchema}
       />
       <HeroAnimated
         icon="📝"

@@ -169,6 +169,34 @@ function Contact() {
     }
   ];
 
+  const contactSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact QuranDeen",
+      "description": "Contact QuranDeen for questions, feedback, feature requests, or partnerships.",
+      "url": "https://qurandeen.com/contact",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "QuranDeen",
+        "email": "info@qurandeen.com",
+        "url": "https://qurandeen.com"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ];
+
   return (
     <div className="contact-page">
       <SEO 
@@ -177,6 +205,7 @@ function Contact() {
         canonical="https://qurandeen.com/contact"
         keywords="Contact QuranDeen, QuranDeen support, Islamic website contact, Quran app feedback"
         breadcrumbs={breadcrumbs}
+        schema={contactSchema}
       />
       <HeroAnimated
         icon="✉️"

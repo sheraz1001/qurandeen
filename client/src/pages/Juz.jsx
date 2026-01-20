@@ -50,14 +50,33 @@ function Juz() {
     return Object.values(grouped);
   };
 
+  const juzSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Quran Juz Browser",
+    "description": "Navigate the Holy Quran by Juz (Para). Browse all 30 parts of the Quran.",
+    "url": "https://qurandeen.com/quran-juz-browser",
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": "30 Juz of the Holy Quran",
+      "numberOfItems": 30,
+      "itemListElement": Array.from({ length: 30 }, (_, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "name": `Juz ${i + 1}`
+      }))
+    }
+  };
+
   return (
     <div className="juz-page">
       <SEO 
         title="Browse Quran by Juz (Para) - All 30 Parts"
         description="Navigate the Holy Quran by Juz (Para). Browse all 30 parts of the Quran with surah breakdown and ayah count for each Juz."
-        canonical="https://qurandeen.com/juz"
+        canonical="https://qurandeen.com/quran-juz-browser"
         keywords="Quran Juz, Quran Para, 30 Juz, Quran parts, browse Quran, Juz browser"
         breadcrumbs={breadcrumbs}
+        schema={juzSchema}
       />
       <HeroAnimated
         icon="📖"

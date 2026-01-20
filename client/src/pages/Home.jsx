@@ -89,18 +89,54 @@ function Home() {
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={fetchSurahs} />;
 
-  const homeSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "QuranDeen",
-    "url": "https://qurandeen.com",
-    "description": "Read, listen, and study the Holy Quran online with translations, tafsir, and audio recitations.",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://qurandeen.com/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
+  const homeSchemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "QuranDeen",
+      "alternateName": "Quran Deen",
+      "url": "https://qurandeen.com",
+      "description": "Read, listen, and study the Holy Quran online with translations, tafsir, and audio recitations.",
+      "inLanguage": ["en", "ar"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://qurandeen.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "QuranDeen",
+      "url": "https://qurandeen.com",
+      "logo": "https://qurandeen.com/logo.png",
+      "description": "A comprehensive platform for reading, listening, and studying the Holy Quran with translations, tafsir, and Islamic resources.",
+      "sameAs": [
+        "https://www.facebook.com/qurandeencom",
+        "https://x.com/qurandeencom",
+        "https://www.instagram.com/qurandeencom/",
+        "https://www.youtube.com/@qurandeencom"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "info@qurandeen.com",
+        "availableLanguage": ["English", "Arabic"]
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Book",
+      "name": "The Holy Quran",
+      "alternateName": "Al-Quran",
+      "inLanguage": "ar",
+      "numberOfPages": 604,
+      "bookFormat": "https://schema.org/EBook",
+      "url": "https://qurandeen.com",
+      "about": "The central religious text of Islam, believed by Muslims to be a revelation from Allah.",
+      "genre": "Religious Text"
     }
-  };
+  ];
 
   return (
     <div className="home">
@@ -109,7 +145,7 @@ function Home() {
         description="Read the Holy Quran online with 100+ translations, 150+ audio reciters, Tafsir, word-by-word meaning, and Islamic tools. Access all 114 Surahs with Arabic text and translations."
         canonical="https://qurandeen.com"
         keywords="Quran online, Holy Quran, Quran reading, Quran audio, Quran translation, Quran tafsir, Islamic website, Read Quran, Listen Quran, Surah, Ayah"
-        schema={homeSchema}
+        schema={homeSchemas}
       />
       <div className="hero-animated">
         <div className="hero-bg-pattern"></div>

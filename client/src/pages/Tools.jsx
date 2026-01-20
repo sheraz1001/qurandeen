@@ -91,6 +91,22 @@ function Tools() {
     { name: 'Islamic Resources' }
   ];
 
+  const toolsSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Islamic Resources & Tools",
+    "description": "Free Islamic tools and resources for Muslims worldwide",
+    "url": "https://qurandeen.com/islamic-resources",
+    "numberOfItems": tools.length,
+    "itemListElement": tools.map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.title,
+      "description": tool.description,
+      "url": `https://qurandeen.com${tool.path}`
+    }))
+  };
+
   return (
     <div className="tools-page">
       <SEO 
@@ -99,6 +115,7 @@ function Tools() {
         canonical="https://qurandeen.com/islamic-resources"
         keywords="Islamic resources, Quran tools, Hijri calendar, Adhkar, 99 Names of Allah, Hadith, Islamic tools, Quran share card"
         breadcrumbs={breadcrumbs}
+        schema={toolsSchema}
       />
       <HeroAnimated
         icon="🛠️"

@@ -27,7 +27,13 @@ function SEO({
   } : null;
 
   const schemas = [];
-  if (schema) schemas.push(schema);
+  if (schema) {
+    if (Array.isArray(schema)) {
+      schemas.push(...schema);
+    } else {
+      schemas.push(schema);
+    }
+  }
   if (breadcrumbSchema) schemas.push(breadcrumbSchema);
 
   return (

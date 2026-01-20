@@ -11,6 +11,49 @@ function Chat() {
   const inputRef = useRef(null);
   const latestMessageRef = useRef(null);
 
+  const chatSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Islamic AI Scholar",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web Browser",
+      "description": "AI-powered Islamic scholar that answers questions about Islam, Quran, and Hadith with authentic sources.",
+      "url": "https://qurandeen.com/islamic-ai-scholar",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QuranDeen"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Islamic AI Scholar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Islamic AI Scholar is an AI-powered assistant that answers questions about Islam, Quran, Hadith, and Islamic jurisprudence using authentic sources."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I ask questions about Quran and Hadith?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, you can ask any question about Quran interpretation, Hadith explanations, Islamic history, prayer guidance, and more."
+          }
+        }
+      ]
+    }
+  ];
+
   useEffect(() => {
     if (latestMessageRef.current && !isStreaming) {
       latestMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -139,6 +182,7 @@ function Chat() {
         canonical="https://qurandeen.com/islamic-ai-scholar"
         keywords="Islamic AI, Ask about Quran, Hadith questions, Islamic guidance, AI scholar, Islamic chat, Quran AI, Muslim AI assistant"
         breadcrumbs={breadcrumbs}
+        schema={chatSchema}
       />
       <HeroAnimated
         icon="🤖"
