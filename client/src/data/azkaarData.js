@@ -4,7 +4,7 @@
 
 export const azkaarCategories = [
   {
-    "id": "introduction",
+    "id": "introduction-duas",
     "nameAr": "المقدمة",
     "nameEn": "Introduction",
     "icon": "📖",
@@ -12,7 +12,7 @@ export const azkaarCategories = [
     "count": 5
   },
   {
-    "id": "virtues-of-dhikr",
+    "id": "virtues-of-dhikr-duas",
     "nameAr": "فضل الذكر",
     "nameEn": "Virtues of Dhikr",
     "icon": "✨",
@@ -20,7 +20,7 @@ export const azkaarCategories = [
     "count": 13
   },
   {
-    "id": "waking-up",
+    "id": "waking-up-duas",
     "nameAr": "أذكار الاستيقاظ من النوم",
     "nameEn": "Upon Waking Up",
     "icon": "🌅",
@@ -28,7 +28,7 @@ export const azkaarCategories = [
     "count": 4
   },
   {
-    "id": "wearing-clothes",
+    "id": "wearing-clothes-duas",
     "nameAr": "دعاء لبس الثوب",
     "nameEn": "When Wearing Clothes",
     "icon": "👕",
@@ -36,7 +36,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "new-clothes",
+    "id": "new-clothes-duas",
     "nameAr": "دعاء لبس الثوب الجديد",
     "nameEn": "When Wearing New Clothes",
     "icon": "✨",
@@ -44,7 +44,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "for-new-clothes-wearer",
+    "id": "for-new-clothes-wearer-duas",
     "nameAr": "الدعاء لمن لبس ثوباً جديداً",
     "nameEn": "For Someone Wearing New Clothes",
     "icon": "🎉",
@@ -52,7 +52,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "before-undressing",
+    "id": "before-undressing-duas",
     "nameAr": "ما يقول إذا وضع الثوب",
     "nameEn": "Before Undressing",
     "icon": "🌙",
@@ -60,7 +60,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "entering-toilet",
+    "id": "entering-toilet-duas",
     "nameAr": "دعاء دخول الخلاء",
     "nameEn": "Entering the Toilet",
     "icon": "🚿",
@@ -68,7 +68,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "leaving-toilet",
+    "id": "leaving-toilet-duas",
     "nameAr": "دعاء الخروج من الخلاء",
     "nameEn": "Leaving the Toilet",
     "icon": "🚿",
@@ -76,7 +76,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "before-wudu",
+    "id": "before-wudu-duas",
     "nameAr": "الذكر قبل الوضوء",
     "nameEn": "Before Wudu",
     "icon": "💧",
@@ -84,7 +84,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "after-wudu",
+    "id": "after-wudu-duas",
     "nameAr": "الذكر بعد الفراغ من الوضوء",
     "nameEn": "After Wudu",
     "icon": "💧",
@@ -92,7 +92,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "leaving-home",
+    "id": "leaving-home-duas",
     "nameAr": "الذكر عند الخروج من المنزل",
     "nameEn": "Leaving Home",
     "icon": "🚪",
@@ -100,7 +100,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "entering-home",
+    "id": "entering-home-duas",
     "nameAr": "الذكر عند الدخول المنزل",
     "nameEn": "Entering Home",
     "icon": "🏠",
@@ -108,7 +108,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "going-to-masjid",
+    "id": "going-to-masjid-duas",
     "nameAr": "دعاء الذهاب إلى المسجد",
     "nameEn": "Going to the Masjid",
     "icon": "🕌",
@@ -116,7 +116,7 @@ export const azkaarCategories = [
     "count": 4
   },
   {
-    "id": "entering-masjid",
+    "id": "entering-masjid-duas",
     "nameAr": "دعاء دخول المسجد",
     "nameEn": "Entering the Masjid",
     "icon": "🕌",
@@ -124,7 +124,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "leaving-masjid",
+    "id": "leaving-masjid-duas",
     "nameAr": "دعاء الخروج من المسجد",
     "nameEn": "Leaving the Masjid",
     "icon": "🕌",
@@ -132,7 +132,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "adhan",
+    "id": "adhan-duas",
     "nameAr": "أذكار الأذان",
     "nameEn": "Supplications Related to Adhan",
     "icon": "📢",
@@ -140,7 +140,7 @@ export const azkaarCategories = [
     "count": 5
   },
   {
-    "id": "opening-prayer",
+    "id": "opening-prayer-duas",
     "nameAr": "دعاء الاستفتاح",
     "nameEn": "Opening Supplication of Prayer",
     "icon": "🙏",
@@ -148,7 +148,7 @@ export const azkaarCategories = [
     "count": 6
   },
   {
-    "id": "ruku",
+    "id": "ruku-duas",
     "nameAr": "دعاء الركوع",
     "nameEn": "While Bowing (Ruku)",
     "icon": "🙏",
@@ -156,7 +156,7 @@ export const azkaarCategories = [
     "count": 5
   },
   {
-    "id": "rising-from-ruku",
+    "id": "rising-from-ruku-duas",
     "nameAr": "دعاء الرفع من الركوع",
     "nameEn": "Rising from Ruku",
     "icon": "🙏",
@@ -164,7 +164,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "sujud",
+    "id": "sujud-duas",
     "nameAr": "دعاء السجود",
     "nameEn": "While in Sujud (Prostration)",
     "icon": "🙏",
@@ -172,7 +172,7 @@ export const azkaarCategories = [
     "count": 7
   },
   {
-    "id": "between-sujud",
+    "id": "between-sujud-duas",
     "nameAr": "دعاء الجلسة بين السجدتين",
     "nameEn": "Between Two Prostrations",
     "icon": "🙏",
@@ -180,7 +180,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "sujud-tilawah",
+    "id": "sujud-tilawah-duas",
     "nameAr": "دعاء سجود التلاوة",
     "nameEn": "Sujud of Quran Recitation",
     "icon": "📖",
@@ -188,7 +188,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "tashahhud",
+    "id": "tashahhud-duas",
     "nameAr": "التشهد",
     "nameEn": "Tashahhud",
     "icon": "🙏",
@@ -196,7 +196,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "salawat-after-tashahhud",
+    "id": "salawat-after-tashahhud-duas",
     "nameAr": "الصلاة على النبي صلى الله عليه وسلم بعد التشهد",
     "nameEn": "Salawat After Tashahhud",
     "icon": "☪️",
@@ -204,7 +204,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "dua-before-salam",
+    "id": "dua-before-salam-duas",
     "nameAr": "الدعاء بعد التشهد الأخير وقبل السلام",
     "nameEn": "Dua Before Salam",
     "icon": "🙏",
@@ -212,7 +212,7 @@ export const azkaarCategories = [
     "count": 11
   },
   {
-    "id": "after-prayer",
+    "id": "after-prayer-duas",
     "nameAr": "الأذكار بعد السلام من الصلاة",
     "nameEn": "After Prayer",
     "icon": "🙏",
@@ -220,7 +220,7 @@ export const azkaarCategories = [
     "count": 8
   },
   {
-    "id": "istikhara",
+    "id": "istikhara-duas",
     "nameAr": "دعاء صلاة الاستخارة",
     "nameEn": "Istikhara Prayer",
     "icon": "🤲",
@@ -228,7 +228,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "morning-evening",
+    "id": "morning-evening-duas",
     "nameAr": "أذكار الصباح والمساء",
     "nameEn": "Morning & Evening Adhkar",
     "icon": "🌅",
@@ -236,7 +236,7 @@ export const azkaarCategories = [
     "count": 25
   },
   {
-    "id": "before-sleep",
+    "id": "before-sleep-duas",
     "nameAr": "أذكار النوم",
     "nameEn": "Before Sleeping",
     "icon": "🌙",
@@ -244,7 +244,7 @@ export const azkaarCategories = [
     "count": 13
   },
   {
-    "id": "turning-at-night",
+    "id": "turning-at-night-duas",
     "nameAr": "الدعاء إذا تقلب ليلاً",
     "nameEn": "When Turning at Night",
     "icon": "🌙",
@@ -252,7 +252,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-1",
+    "id": "category-1-duas",
     "nameAr": "دعاء القلق والفزع في النوم ومن بلي بالوحشة",
     "nameEn": "دعاء القلق والفزع في النوم ومن بلي بالوحشة",
     "icon": "🤲",
@@ -260,7 +260,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "after-dream",
+    "id": "after-dream-duas",
     "nameAr": "ما يفعل من رأى الرؤيا أو الحلم",
     "nameEn": "After a Dream",
     "icon": "💭",
@@ -268,7 +268,7 @@ export const azkaarCategories = [
     "count": 5
   },
   {
-    "id": "qunut-witr",
+    "id": "qunut-witr-duas",
     "nameAr": "دعاء قنوت الوتر",
     "nameEn": "Qunut of Witr",
     "icon": "🙏",
@@ -276,7 +276,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "after-witr",
+    "id": "after-witr-duas",
     "nameAr": "الذكر عقب السلام من الوتر",
     "nameEn": "After Witr Prayer",
     "icon": "🌙",
@@ -284,7 +284,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "anxiety-sorrow",
+    "id": "anxiety-sorrow-duas",
     "nameAr": "دعاء الهم والحزن",
     "nameEn": "For Anxiety & Sorrow",
     "icon": "😢",
@@ -292,7 +292,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "distress",
+    "id": "distress-duas",
     "nameAr": "دعاء الكرب",
     "nameEn": "In Times of Distress",
     "icon": "😓",
@@ -300,7 +300,7 @@ export const azkaarCategories = [
     "count": 4
   },
   {
-    "id": "meeting-enemy",
+    "id": "meeting-enemy-duas",
     "nameAr": "دعاء لقاء العدو وذي السلطان",
     "nameEn": "Meeting an Enemy",
     "icon": "⚔️",
@@ -308,7 +308,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "fear-of-oppression",
+    "id": "fear-of-oppression-duas",
     "nameAr": "دعاء من خاف ظلم السلطان",
     "nameEn": "Fear of Oppression",
     "icon": "🛡️",
@@ -316,7 +316,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "against-enemy",
+    "id": "against-enemy-duas",
     "nameAr": "الدعاء على العدو",
     "nameEn": "Against the Enemy",
     "icon": "⚔️",
@@ -324,7 +324,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "fear-of-people",
+    "id": "fear-of-people-duas",
     "nameAr": "ما يقول من خاف قوماً",
     "nameEn": "Fear of People",
     "icon": "👥",
@@ -332,7 +332,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-2",
+    "id": "category-2-duas",
     "nameAr": "دعاء من أصابه شك في الإيمان",
     "nameEn": "دعاء من أصابه شك في الإيمان",
     "icon": "🤲",
@@ -340,7 +340,7 @@ export const azkaarCategories = [
     "count": 4
   },
   {
-    "id": "category-3",
+    "id": "category-3-duas",
     "nameAr": "الدعاء قضاء الدين",
     "nameEn": "الدعاء قضاء الدين",
     "icon": "🤲",
@@ -348,7 +348,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "whispers-in-prayer",
+    "id": "whispers-in-prayer-duas",
     "nameAr": "دعاء الوسوسة في الصلاة والقراءة",
     "nameEn": "Whispers in Prayer",
     "icon": "🙏",
@@ -356,7 +356,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "difficulty",
+    "id": "difficulty-duas",
     "nameAr": "دعاء من استصعب عليه أمر",
     "nameEn": "When Facing Difficulty",
     "icon": "🏔️",
@@ -364,7 +364,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "after-sin",
+    "id": "after-sin-duas",
     "nameAr": "ما يقول ويفعل من أذنب ذنباً",
     "nameEn": "After Committing a Sin",
     "icon": "🙏",
@@ -372,7 +372,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "against-shaytan",
+    "id": "against-shaytan-duas",
     "nameAr": "دعاء طرد الشيطان ووساوسه",
     "nameEn": "Against Shaytan",
     "icon": "🛡️",
@@ -380,7 +380,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "category-4",
+    "id": "category-4-duas",
     "nameAr": "الدعاء حينما يقع مالا يرضاه أو غلب على أمره",
     "nameEn": "الدعاء حينما يقع مالا يرضاه أو غلب على أمره",
     "icon": "🤲",
@@ -388,7 +388,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "newborn",
+    "id": "newborn-duas",
     "nameAr": "تهنئة المولود له وجوابه",
     "nameEn": "Congratulating on Newborn",
     "icon": "👶",
@@ -396,7 +396,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-5",
+    "id": "category-5-duas",
     "nameAr": "ما يعوذ به الأولاد",
     "nameEn": "ما يعوذ به الأولاد",
     "icon": "🤲",
@@ -404,7 +404,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "visiting-sick",
+    "id": "visiting-sick-duas",
     "nameAr": "الدعاء للمريض في عيادته",
     "nameEn": "Visiting the Sick",
     "icon": "🏥",
@@ -412,7 +412,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "virtues-visiting-sick",
+    "id": "virtues-visiting-sick-duas",
     "nameAr": "فضل عيادة المريض",
     "nameEn": "Virtues of Visiting Sick",
     "icon": "💚",
@@ -420,7 +420,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "dying-patient",
+    "id": "dying-patient-duas",
     "nameAr": "دعاء المريض الذي يئس من حياته",
     "nameEn": "For the Dying",
     "icon": "🙏",
@@ -428,7 +428,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "talqeen",
+    "id": "talqeen-duas",
     "nameAr": "تلقين المحتضر",
     "nameEn": "Talqeen (Reminding the Dying)",
     "icon": "📿",
@@ -436,7 +436,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "calamity",
+    "id": "calamity-duas",
     "nameAr": "دعاء من أصيب بمصيبة",
     "nameEn": "Upon Calamity",
     "icon": "💔",
@@ -444,7 +444,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "closing-eyes-deceased",
+    "id": "closing-eyes-deceased-duas",
     "nameAr": "الدعاء عند إغماض الميت",
     "nameEn": "Closing Eyes of Deceased",
     "icon": "🕊️",
@@ -452,7 +452,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "funeral-prayer",
+    "id": "funeral-prayer-duas",
     "nameAr": "الدعاء للميت في الصلاة عليه",
     "nameEn": "Funeral Prayer",
     "icon": "🕊️",
@@ -460,7 +460,7 @@ export const azkaarCategories = [
     "count": 4
   },
   {
-    "id": "funeral-child",
+    "id": "funeral-child-duas",
     "nameAr": "الدعاء للفرط في الصلاة عليه",
     "nameEn": "Funeral Prayer for Child",
     "icon": "👼",
@@ -468,7 +468,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "condolence",
+    "id": "condolence-duas",
     "nameAr": "دعاء التعزية",
     "nameEn": "Offering Condolences",
     "icon": "💐",
@@ -476,7 +476,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "burial",
+    "id": "burial-duas",
     "nameAr": "الدعاء عند إدخال الميت القبر",
     "nameEn": "At Burial",
     "icon": "🕊️",
@@ -484,7 +484,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "after-burial",
+    "id": "after-burial-duas",
     "nameAr": "الدعاء بعد دفن الميت",
     "nameEn": "After Burial",
     "icon": "🤲",
@@ -492,7 +492,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "visiting-graves",
+    "id": "visiting-graves-duas",
     "nameAr": "دعاء زيارة القبور",
     "nameEn": "Visiting Graves",
     "icon": "🪦",
@@ -500,7 +500,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "wind",
+    "id": "wind-duas",
     "nameAr": "دعاء الريح",
     "nameEn": "During Wind",
     "icon": "💨",
@@ -508,7 +508,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "thunder",
+    "id": "thunder-duas",
     "nameAr": "دعاء الرعد",
     "nameEn": "During Thunder",
     "icon": "⛈️",
@@ -516,7 +516,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "rain-seeking",
+    "id": "rain-seeking-duas",
     "nameAr": "من أدعية الاستسقاء",
     "nameEn": "Seeking Rain",
     "icon": "🌧️",
@@ -524,7 +524,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "when-rain-falls",
+    "id": "when-rain-falls-duas",
     "nameAr": "الدعاء إذا نزل المطر",
     "nameEn": "When Rain Falls",
     "icon": "🌧️",
@@ -532,7 +532,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "after-rain",
+    "id": "after-rain-duas",
     "nameAr": "الذكر بعد نزول المطر",
     "nameEn": "After Rain",
     "icon": "🌈",
@@ -540,7 +540,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "excessive-rain",
+    "id": "excessive-rain-duas",
     "nameAr": "من أدعية الاستصحاء",
     "nameEn": "For Excessive Rain",
     "icon": "🌊",
@@ -548,7 +548,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "new-moon",
+    "id": "new-moon-duas",
     "nameAr": "دعاء رؤية الهلال",
     "nameEn": "Seeing the New Moon",
     "icon": "🌙",
@@ -556,7 +556,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "breaking-fast",
+    "id": "breaking-fast-duas",
     "nameAr": "الدعاء عند إفطار الصائم",
     "nameEn": "Breaking Fast",
     "icon": "🍽️",
@@ -564,7 +564,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "before-eating",
+    "id": "before-eating-duas",
     "nameAr": "الدعاء قبل الطعام",
     "nameEn": "Before Eating",
     "icon": "🍽️",
@@ -572,7 +572,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "after-eating",
+    "id": "after-eating-duas",
     "nameAr": "الدعاء عند الفراغ من الطعام",
     "nameEn": "After Eating",
     "icon": "🍽️",
@@ -580,7 +580,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "guest-dua",
+    "id": "guest-dua-duas",
     "nameAr": "دعاء الضيف لصاحب الطعام",
     "nameEn": "Guest Dua for Host",
     "icon": "🏡",
@@ -588,7 +588,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-6",
+    "id": "category-6-duas",
     "nameAr": "الدعاء لمن سقاه أو إذا أراد ذلك",
     "nameEn": "الدعاء لمن سقاه أو إذا أراد ذلك",
     "icon": "🤲",
@@ -596,7 +596,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "iftar-at-host",
+    "id": "iftar-at-host-duas",
     "nameAr": "الدعاء إذا أفطر عند أهل بيت",
     "nameEn": "Iftar at Someone's House",
     "icon": "🍽️",
@@ -604,7 +604,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "fasting-at-food",
+    "id": "fasting-at-food-duas",
     "nameAr": "دعاء الصائم إذا حضر الطعام ولم يفطر",
     "nameEn": "Fasting When Food is Present",
     "icon": "🍽️",
@@ -612,7 +612,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-7",
+    "id": "category-7-duas",
     "nameAr": "ما يقول الصائم إذا سابه أحد",
     "nameEn": "ما يقول الصائم إذا سابه أحد",
     "icon": "🤲",
@@ -620,7 +620,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "first-fruit",
+    "id": "first-fruit-duas",
     "nameAr": "الدعاء عند رؤية باكورة الثمر",
     "nameEn": "Seeing First Fruit",
     "icon": "🍎",
@@ -628,7 +628,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "sneezing",
+    "id": "sneezing-duas",
     "nameAr": "دعاء العطاس",
     "nameEn": "Upon Sneezing",
     "icon": "🤧",
@@ -636,7 +636,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-8",
+    "id": "category-8-duas",
     "nameAr": "ما يقالُ للكافر إذا عطس فحمد الله",
     "nameEn": "ما يقالُ للكافر إذا عطس فحمد الله",
     "icon": "🤲",
@@ -644,7 +644,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "for-married",
+    "id": "for-married-duas",
     "nameAr": "الدعاء للمتزوج",
     "nameEn": "For the Married",
     "icon": "💍",
@@ -652,7 +652,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-9",
+    "id": "category-9-duas",
     "nameAr": "دعاء المتزوج لنفسه ودعاء شراء الدابة",
     "nameEn": "دعاء المتزوج لنفسه ودعاء شراء الدابة",
     "icon": "🤲",
@@ -660,7 +660,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-10",
+    "id": "category-10-duas",
     "nameAr": "الدعاء قبل إتيان الزوجة",
     "nameEn": "الدعاء قبل إتيان الزوجة",
     "icon": "🤲",
@@ -668,7 +668,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "anger",
+    "id": "anger-duas",
     "nameAr": "دعاء الغضب",
     "nameEn": "When Angry",
     "icon": "😤",
@@ -676,7 +676,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "seeing-afflicted",
+    "id": "seeing-afflicted-duas",
     "nameAr": "دعاء من رأى مبتلى",
     "nameEn": "Seeing Someone Afflicted",
     "icon": "🙏",
@@ -684,7 +684,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "sitting-gathering",
+    "id": "sitting-gathering-duas",
     "nameAr": "ما يقال في المجلس",
     "nameEn": "In a Gathering",
     "icon": "👥",
@@ -692,7 +692,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-11",
+    "id": "category-11-duas",
     "nameAr": "كفارة المجلس ومايختم به المجالس",
     "nameEn": "كفارة المجلس ومايختم به المجالس",
     "icon": "🤲",
@@ -700,7 +700,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "forgiveness-response",
+    "id": "forgiveness-response-duas",
     "nameAr": "الدعاء لمن قال غفر الله لك",
     "nameEn": "Response to Forgiveness",
     "icon": "🤝",
@@ -708,7 +708,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "thanking-favor",
+    "id": "thanking-favor-duas",
     "nameAr": "الدعاء لمن صنع إليك معروفاً",
     "nameEn": "Thanking for a Favor",
     "icon": "🙏",
@@ -716,7 +716,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-12",
+    "id": "category-12-duas",
     "nameAr": "ما يعصم به من الدجال",
     "nameEn": "ما يعصم به من الدجال",
     "icon": "🤲",
@@ -724,7 +724,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "love-for-allah",
+    "id": "love-for-allah-duas",
     "nameAr": "الدعاء لمن قال إني أحبك في الله",
     "nameEn": "Love for Allah's Sake",
     "icon": "❤️",
@@ -732,7 +732,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "offered-wealth",
+    "id": "offered-wealth-duas",
     "nameAr": "الدعاء لمن عرض عليك ماله",
     "nameEn": "When Offered Wealth",
     "icon": "💰",
@@ -740,7 +740,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "repaying-loan",
+    "id": "repaying-loan-duas",
     "nameAr": "الدعاء لمن أقرض عند القضاء",
     "nameEn": "Repaying a Loan",
     "icon": "💵",
@@ -748,7 +748,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "fear-of-shirk",
+    "id": "fear-of-shirk-duas",
     "nameAr": "دعاء الخوف من الشرك",
     "nameEn": "Fear of Shirk",
     "icon": "🙏",
@@ -756,7 +756,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "barakallah-response",
+    "id": "barakallah-response-duas",
     "nameAr": "الدعاء لمن قال بارك الله فيك",
     "nameEn": "Response to Barakallah",
     "icon": "🤝",
@@ -764,7 +764,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-13",
+    "id": "category-13-duas",
     "nameAr": "دعاء كراهية الطيرة",
     "nameEn": "دعاء كراهية الطيرة",
     "icon": "🤲",
@@ -772,7 +772,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-14",
+    "id": "category-14-duas",
     "nameAr": "دعاء ركوب الدابة",
     "nameEn": "دعاء ركوب الدابة",
     "icon": "🤲",
@@ -780,7 +780,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "travel",
+    "id": "travel-duas",
     "nameAr": "دعاء السفر",
     "nameEn": "For Travel",
     "icon": "✈️",
@@ -788,7 +788,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "entering-town",
+    "id": "entering-town-duas",
     "nameAr": "دعاء دخول القرية أو البلدة",
     "nameEn": "Entering a Town",
     "icon": "🏘️",
@@ -796,7 +796,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "entering-market",
+    "id": "entering-market-duas",
     "nameAr": "دعاء دخول السوق",
     "nameEn": "Entering the Market",
     "icon": "🛒",
@@ -804,7 +804,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "vehicle-trouble",
+    "id": "vehicle-trouble-duas",
     "nameAr": "الدعاء إذا تعس المركوب",
     "nameEn": "Vehicle Trouble",
     "icon": "🚗",
@@ -812,7 +812,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "traveler-for-resident",
+    "id": "traveler-for-resident-duas",
     "nameAr": "دعاء المسافر للمقيم",
     "nameEn": "Traveler for Resident",
     "icon": "👋",
@@ -820,7 +820,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "resident-for-traveler",
+    "id": "resident-for-traveler-duas",
     "nameAr": "دعاء المقيم للمسافر",
     "nameEn": "Resident for Traveler",
     "icon": "🤲",
@@ -828,7 +828,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "dhikr-during-travel",
+    "id": "dhikr-during-travel-duas",
     "nameAr": "التكبير والتسبيح في سير السفر",
     "nameEn": "Dhikr During Travel",
     "icon": "🚶",
@@ -836,7 +836,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "traveler-at-dawn",
+    "id": "traveler-at-dawn-duas",
     "nameAr": "دعاء المسافر إذا أسحر",
     "nameEn": "Traveler at Dawn",
     "icon": "🌅",
@@ -844,7 +844,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-15",
+    "id": "category-15-duas",
     "nameAr": "الدعاء إذا نزل منزلا في سفر أو غيره",
     "nameEn": "الدعاء إذا نزل منزلا في سفر أو غيره",
     "icon": "🤲",
@@ -852,7 +852,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "returning-from-travel",
+    "id": "returning-from-travel-duas",
     "nameAr": "ذكر الرجوع من السفر",
     "nameEn": "Returning from Travel",
     "icon": "🏠",
@@ -860,7 +860,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-16",
+    "id": "category-16-duas",
     "nameAr": "ما يقول ويفعل من أتاه أمر يسره أو يكرهه",
     "nameEn": "ما يقول ويفعل من أتاه أمر يسره أو يكرهه",
     "icon": "🤲",
@@ -868,7 +868,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "virtues-salawat",
+    "id": "virtues-salawat-duas",
     "nameAr": "فضل الصلاة على النبي صلى الله عليه وسلم",
     "nameEn": "Virtues of Salawat",
     "icon": "☪️",
@@ -876,7 +876,7 @@ export const azkaarCategories = [
     "count": 5
   },
   {
-    "id": "spreading-salam",
+    "id": "spreading-salam-duas",
     "nameAr": "إفشاء السلام",
     "nameEn": "Spreading Salam",
     "icon": "👋",
@@ -884,7 +884,7 @@ export const azkaarCategories = [
     "count": 3
   },
   {
-    "id": "category-17",
+    "id": "category-17-duas",
     "nameAr": "كيف يرد السلام على الكافر إذا سلم",
     "nameEn": "كيف يرد السلام على الكافر إذا سلم",
     "icon": "🤲",
@@ -892,7 +892,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-18",
+    "id": "category-18-duas",
     "nameAr": "دعاء صياح الديك ونهيق الحمار",
     "nameEn": "دعاء صياح الديك ونهيق الحمار",
     "icon": "🤲",
@@ -900,7 +900,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-19",
+    "id": "category-19-duas",
     "nameAr": "دعاء نباح الكلاب بالليل",
     "nameEn": "دعاء نباح الكلاب بالليل",
     "icon": "🤲",
@@ -908,7 +908,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "after-insulting",
+    "id": "after-insulting-duas",
     "nameAr": "الدعاء لمن سببته",
     "nameEn": "After Insulting Someone",
     "icon": "😔",
@@ -916,7 +916,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-20",
+    "id": "category-20-duas",
     "nameAr": "ما يقول المسلم إذا مدح المسلم",
     "nameEn": "ما يقول المسلم إذا مدح المسلم",
     "icon": "🤲",
@@ -924,7 +924,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-21",
+    "id": "category-21-duas",
     "nameAr": "ما يقول المسلم إذا زكي",
     "nameEn": "ما يقول المسلم إذا زكي",
     "icon": "🤲",
@@ -932,7 +932,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "talbiyah",
+    "id": "talbiyah-duas",
     "nameAr": "كيف يلبي المحرم في الحج أو العمرة",
     "nameEn": "Talbiyah (Hajj/Umrah)",
     "icon": "🕋",
@@ -940,7 +940,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-22",
+    "id": "category-22-duas",
     "nameAr": "التكبيرة إذا أتي الركن الأسود",
     "nameEn": "التكبيرة إذا أتي الركن الأسود",
     "icon": "🤲",
@@ -948,7 +948,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "yemeni-corner",
+    "id": "yemeni-corner-duas",
     "nameAr": "الدعاء بين الركن اليماني والحجر الأسود",
     "nameEn": "Yemeni Corner to Black Stone",
     "icon": "🕋",
@@ -956,7 +956,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "safa-marwa",
+    "id": "safa-marwa-duas",
     "nameAr": "دعاء الوقوف على الصفا والمروة",
     "nameEn": "At Safa and Marwa",
     "icon": "🏔️",
@@ -964,7 +964,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "day-of-arafah",
+    "id": "day-of-arafah-duas",
     "nameAr": "الدعاء يوم عرفة",
     "nameEn": "Day of Arafah",
     "icon": "☀️",
@@ -972,7 +972,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "muzdalifah",
+    "id": "muzdalifah-duas",
     "nameAr": "الذكر عند المشعر الحرام",
     "nameEn": "At Muzdalifah",
     "icon": "🌙",
@@ -980,7 +980,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-23",
+    "id": "category-23-duas",
     "nameAr": "التكبيرة عند رمي الجمار مع كل حصاة",
     "nameEn": "التكبيرة عند رمي الجمار مع كل حصاة",
     "icon": "🤲",
@@ -988,7 +988,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-24",
+    "id": "category-24-duas",
     "nameAr": "ما يقول عند التعجب والأمر السار",
     "nameEn": "ما يقول عند التعجب والأمر السار",
     "icon": "🤲",
@@ -996,7 +996,7 @@ export const azkaarCategories = [
     "count": 2
   },
   {
-    "id": "joyful-news",
+    "id": "joyful-news-duas",
     "nameAr": "ما يفعل من أتاه أمر يسره",
     "nameEn": "Joyful News",
     "icon": "🎉",
@@ -1004,7 +1004,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "body-pain",
+    "id": "body-pain-duas",
     "nameAr": "ما يقول من أحس وجعاً في جسده",
     "nameEn": "Body Pain",
     "icon": "🤕",
@@ -1012,7 +1012,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "evil-eye",
+    "id": "evil-eye-duas",
     "nameAr": "دعاء من خشي أن يصيب شيئاً بعينه",
     "nameEn": "Against Evil Eye",
     "icon": "👁️",
@@ -1020,7 +1020,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "fright",
+    "id": "fright-duas",
     "nameAr": "ما يقال عند الفزع",
     "nameEn": "When Frightened",
     "icon": "😨",
@@ -1028,7 +1028,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "slaughtering",
+    "id": "slaughtering-duas",
     "nameAr": "ما يقول عند الذبح أو النحر",
     "nameEn": "When Slaughtering",
     "icon": "🐑",
@@ -1036,7 +1036,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "against-jinn",
+    "id": "against-jinn-duas",
     "nameAr": "ما يقول لرد كيد مردة الشياطين",
     "nameEn": "Against Evil Jinn",
     "icon": "🛡️",
@@ -1044,7 +1044,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "istighfar",
+    "id": "istighfar-duas",
     "nameAr": "الاستغفار والتوبة",
     "nameEn": "Istighfar & Repentance",
     "icon": "🙏",
@@ -1052,7 +1052,7 @@ export const azkaarCategories = [
     "count": 6
   },
   {
-    "id": "category-25",
+    "id": "category-25-duas",
     "nameAr": "فضل التسبيح والتحميد ، والتهليل ، والتكبير",
     "nameEn": "فضل التسبيح والتحميد ، والتهليل ، والتكبير",
     "icon": "🤲",
@@ -1060,7 +1060,7 @@ export const azkaarCategories = [
     "count": 12
   },
   {
-    "id": "category-26",
+    "id": "category-26-duas",
     "nameAr": "كيف كان النبي صلى الله عليه وسلم يسبح ؟",
     "nameEn": "كيف كان النبي صلى الله عليه وسلم يسبح ؟",
     "icon": "🤲",
@@ -1068,7 +1068,7 @@ export const azkaarCategories = [
     "count": 1
   },
   {
-    "id": "category-27",
+    "id": "category-27-duas",
     "nameAr": "من أنواع الخير والآداب الجامعة",
     "nameEn": "من أنواع الخير والآداب الجامعة",
     "icon": "🤲",
