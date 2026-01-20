@@ -1,6 +1,8 @@
 export const hadithCollections = [
   {
-    id: 'bukhari',
+    id: 'sahih-bukhari',
+    legacyId: 'bukhari',
+    apiId: 'bukhari',
     name: 'Sahih al-Bukhari',
     nameArabic: 'صحيح البخاري',
     author: 'Imam Bukhari',
@@ -12,7 +14,9 @@ export const hadithCollections = [
     icon: '📚'
   },
   {
-    id: 'muslim',
+    id: 'sahih-muslim',
+    legacyId: 'muslim',
+    apiId: 'muslim',
     name: 'Sahih Muslim',
     nameArabic: 'صحيح مسلم',
     author: 'Imam Muslim',
@@ -24,7 +28,9 @@ export const hadithCollections = [
     icon: '📖'
   },
   {
-    id: 'abudawud',
+    id: 'sunan-abu-dawud',
+    legacyId: 'abudawud',
+    apiId: 'abudawud',
     name: 'Sunan Abu Dawud',
     nameArabic: 'سنن أبي داود',
     author: 'Imam Abu Dawud',
@@ -36,7 +42,9 @@ export const hadithCollections = [
     icon: '📜'
   },
   {
-    id: 'tirmidhi',
+    id: 'jami-tirmidhi',
+    legacyId: 'tirmidhi',
+    apiId: 'tirmidhi',
     name: "Jami' at-Tirmidhi",
     nameArabic: 'جامع الترمذي',
     author: 'Imam Tirmidhi',
@@ -48,7 +56,9 @@ export const hadithCollections = [
     icon: '📗'
   },
   {
-    id: 'nasai',
+    id: 'sunan-nasai',
+    legacyId: 'nasai',
+    apiId: 'nasai',
     name: "Sunan an-Nasa'i",
     nameArabic: 'سنن النسائي',
     author: "Imam an-Nasa'i",
@@ -60,7 +70,9 @@ export const hadithCollections = [
     icon: '📘'
   },
   {
-    id: 'ibnmajah',
+    id: 'sunan-ibn-majah',
+    legacyId: 'ibnmajah',
+    apiId: 'ibnmajah',
     name: 'Sunan Ibn Majah',
     nameArabic: 'سنن ابن ماجه',
     author: 'Imam Ibn Majah',
@@ -72,7 +84,9 @@ export const hadithCollections = [
     icon: '📕'
   },
   {
-    id: 'malik',
+    id: 'muwatta-malik',
+    legacyId: 'malik',
+    apiId: 'malik',
     name: 'Muwatta Malik',
     nameArabic: 'موطأ مالك',
     author: 'Imam Malik',
@@ -84,7 +98,9 @@ export const hadithCollections = [
     icon: '📙'
   },
   {
-    id: 'ahmad',
+    id: 'musnad-ahmad',
+    legacyId: 'ahmad',
+    apiId: 'ahmad',
     name: 'Musnad Ahmad',
     nameArabic: 'مسند أحمد',
     author: 'Imam Ahmad ibn Hanbal',
@@ -96,7 +112,9 @@ export const hadithCollections = [
     icon: '📚'
   },
   {
-    id: 'darimi',
+    id: 'sunan-darimi',
+    legacyId: 'darimi',
+    apiId: 'darimi',
     name: 'Sunan ad-Darimi',
     nameArabic: 'سنن الدارمي',
     author: 'Imam ad-Darimi',
@@ -108,7 +126,9 @@ export const hadithCollections = [
     icon: '📖'
   },
   {
-    id: 'riyadussalihin',
+    id: 'riyad-us-salihin',
+    legacyId: 'riyadussalihin',
+    apiId: 'riyadussalihin',
     name: 'Riyad as-Salihin',
     nameArabic: 'رياض الصالحين',
     author: 'Imam an-Nawawi',
@@ -120,120 +140,178 @@ export const hadithCollections = [
     icon: '🌿'
   },
   {
-    id: 'shamail',
+    id: 'shamail-muhammadiyah',
+    legacyId: 'shamail',
+    apiId: 'shamail',
     name: 'Shamail al-Muhammadiyah',
     nameArabic: 'الشمائل المحمدية',
     author: 'Imam Tirmidhi',
     authorArabic: 'الإمام الترمذي',
     totalHadith: 415,
-    description: 'A collection describing the appearance and character of Prophet Muhammad ﷺ.',
-    descriptionArabic: 'وصف شكل وأخلاق النبي محمد ﷺ',
+    description: 'A collection describing the characteristics and lifestyle of Prophet Muhammad.',
+    descriptionArabic: 'مجموعة تصف صفات النبي محمد وأسلوب حياته',
     category: 'other_books',
-    icon: '✨'
+    icon: '🌙'
   },
   {
-    id: 'bulugh',
+    id: 'bulugh-al-maram',
+    legacyId: 'bulugh',
+    apiId: 'bulugh',
     name: 'Bulugh al-Maram',
     nameArabic: 'بلوغ المرام',
     author: 'Ibn Hajar al-Asqalani',
     authorArabic: 'ابن حجر العسقلاني',
-    totalHadith: 1596,
-    description: 'A collection of Hadith focusing on Islamic jurisprudence.',
-    descriptionArabic: 'مجموعة أحاديث تركز على الفقه الإسلامي',
+    totalHadith: 1582,
+    description: 'A collection of Hadith pertaining to Islamic jurisprudence.',
+    descriptionArabic: 'مجموعة أحاديث تتعلق بالفقه الإسلامي',
     category: 'other_books',
     icon: '⚖️'
   },
   {
-    id: 'adab',
+    id: 'mishkat-al-masabih',
+    legacyId: 'mishkat',
+    apiId: 'mishkat',
+    name: 'Mishkat al-Masabih',
+    nameArabic: 'مشكاة المصابيح',
+    author: 'Al-Tabrizi',
+    authorArabic: 'التبريزي',
+    totalHadith: 6285,
+    description: 'An expanded version of Masabih as-Sunnah with additional commentary.',
+    descriptionArabic: 'نسخة موسعة من مصابيح السنة مع تعليقات إضافية',
+    category: 'other_books',
+    icon: '💡'
+  },
+  {
+    id: 'adab-al-mufrad',
+    legacyId: 'adab',
+    apiId: 'adab',
     name: 'Al-Adab Al-Mufrad',
     nameArabic: 'الأدب المفرد',
     author: 'Imam Bukhari',
     authorArabic: 'الإمام البخاري',
     totalHadith: 1322,
-    description: 'A collection dedicated to Islamic manners and etiquette.',
-    descriptionArabic: 'مجموعة مخصصة للآداب والأخلاق الإسلامية',
+    description: 'A collection focused on Islamic manners and etiquette by Imam Bukhari.',
+    descriptionArabic: 'مجموعة تركز على الآداب والأخلاق الإسلامية للإمام البخاري',
     category: 'other_books',
-    icon: '🎓'
+    icon: '🤝'
   },
   {
-    id: 'mishkat',
-    name: 'Mishkat al-Masabih',
-    nameArabic: 'مشكاة المصابيح',
-    author: 'Al-Khatib at-Tabrizi',
-    authorArabic: 'الخطيب التبريزي',
-    totalHadith: 6294,
-    description: 'A comprehensive collection based on Masabih as-Sunnah.',
-    descriptionArabic: 'مجموعة شاملة مبنية على مصابيح السنة',
-    category: 'other_books',
-    icon: '💡'
-  },
-  {
-    id: 'nawawi40',
-    name: 'Forty Hadith of Imam Nawawi',
-    nameArabic: 'الأربعون النووية',
+    id: 'nawawi-40-hadith',
+    legacyId: 'nawawi40',
+    apiId: 'nawawi40',
+    name: "Nawawi's 40 Hadith",
+    nameArabic: 'الأربعين النووية',
     author: 'Imam an-Nawawi',
     authorArabic: 'الإمام النووي',
     totalHadith: 42,
-    description: 'A collection of 42 fundamental Hadith covering core Islamic principles.',
-    descriptionArabic: 'مجموعة من 42 حديثاً أساسياً تغطي أصول الإسلام',
+    description: 'A collection of 42 fundamental Hadith covering the foundations of Islam.',
+    descriptionArabic: 'مجموعة من 42 حديثاً أساسياً تغطي أسس الإسلام',
     category: 'forties',
-    icon: '🔢'
+    icon: '4️⃣'
   },
   {
-    id: 'qudsi40',
-    name: 'Forty Hadith Qudsi',
-    nameArabic: 'الأربعون القدسية',
+    id: '40-hadith-qudsi',
+    legacyId: 'qudsi40',
+    apiId: 'qudsi40',
+    name: '40 Hadith Qudsi',
+    nameArabic: 'الأربعين القدسية',
     author: 'Various Scholars',
     authorArabic: 'علماء متعددون',
     totalHadith: 40,
-    description: 'Sacred Hadith where Prophet Muhammad ﷺ reports words from Allah.',
-    descriptionArabic: 'أحاديث قدسية يروي فيها النبي ﷺ كلام الله',
+    description: 'A collection of 40 sacred Hadith where Allah speaks in the first person.',
+    descriptionArabic: 'مجموعة من 40 حديثاً قدسياً يتحدث فيها الله بصيغة المتكلم',
     category: 'forties',
-    icon: '🌟'
+    icon: '✨'
   },
   {
-    id: 'shahwaliullah40',
-    name: 'Forty Hadith of Shah Waliullah',
-    nameArabic: 'أربعون الشاه ولي الله',
-    author: 'Shah Waliullah Dehlawi',
-    authorArabic: 'الشاه ولي الله الدهلوي',
+    id: '40-hadith-shah-waliullah',
+    legacyId: 'waliullah40',
+    apiId: 'waliullah40',
+    name: '40 Hadith Shah Waliullah',
+    nameArabic: 'أربعين شاه ولي الله',
+    author: 'Shah Waliullah',
+    authorArabic: 'شاه ولي الله',
     totalHadith: 40,
-    description: 'A collection of forty Hadith selected by Shah Waliullah.',
-    descriptionArabic: 'مجموعة من أربعين حديثاً اختارها الشاه ولي الله',
+    description: 'A collection of 40 Hadith compiled by the renowned scholar Shah Waliullah.',
+    descriptionArabic: 'مجموعة من 40 حديثاً جمعها العالم الشهير شاه ولي الله',
     category: 'forties',
-    icon: '📿'
+    icon: '🕌'
   }
 ];
 
 export const hadithCategories = {
   the_9_books: {
-    name: 'The Six Books & More',
-    nameArabic: 'الكتب الستة وغيرها',
+    name: 'The Nine Books',
+    nameArabic: 'الكتب التسعة',
     description: 'The most authentic and widely referenced Hadith collections'
   },
   other_books: {
-    name: 'Other Major Collections',
-    nameArabic: 'مجموعات رئيسية أخرى',
-    description: 'Important compilations covering ethics, jurisprudence, and character'
+    name: 'Other Collections',
+    nameArabic: 'مجموعات أخرى',
+    description: 'Important supplementary Hadith compilations'
   },
   forties: {
-    name: 'Forty Hadith Collections',
-    nameArabic: 'كتب الأربعين',
-    description: 'Concise collections of fundamental teachings'
+    name: 'Forties Collections',
+    nameArabic: 'الأربعينيات',
+    description: 'Concise collections of 40 important Hadith'
   }
 };
 
+export const supportedLanguages = [
+  { code: 'en', name: 'English', nameNative: 'English', available: true },
+  { code: 'ar', name: 'Arabic', nameNative: 'العربية', available: true },
+  { code: 'ur', name: 'Urdu', nameNative: 'اردو', available: false },
+  { code: 'bn', name: 'Bengali', nameNative: 'বাংলা', available: true }
+];
+
 export const getCollectionById = (id) => {
-  return hadithCollections.find(c => c.id === id);
+  return hadithCollections.find(c => c.id === id || c.legacyId === id);
+};
+
+export const getCollectionByApiId = (apiId) => {
+  return hadithCollections.find(c => c.apiId === apiId);
 };
 
 export const getCollectionsByCategory = (category) => {
   return hadithCollections.filter(c => c.category === category);
 };
 
-export const supportedLanguages = [
-  { code: 'en', name: 'English', nameNative: 'English', dir: 'ltr' },
-  { code: 'ar', name: 'Arabic', nameNative: 'العربية', dir: 'rtl' },
-  { code: 'ur', name: 'Urdu', nameNative: 'اردو', dir: 'rtl' },
-  { code: 'bn', name: 'Bengali', nameNative: 'বাংলা', dir: 'ltr' }
-];
+export const generateChapterSlug = (chapterId, chapterName) => {
+  if (!chapterName) return String(chapterId);
+  const slug = chapterName
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .substring(0, 50)
+    .replace(/-$/, '');
+  return `${chapterId}-${slug}`;
+};
+
+export const parseChapterSlug = (slug) => {
+  if (!slug) return null;
+  const match = slug.match(/^(\d+)/);
+  return match ? parseInt(match[1], 10) : null;
+};
+
+export const legacyCollectionRedirects = {
+  'bukhari': 'sahih-bukhari',
+  'muslim': 'sahih-muslim',
+  'abudawud': 'sunan-abu-dawud',
+  'tirmidhi': 'jami-tirmidhi',
+  'nasai': 'sunan-nasai',
+  'ibnmajah': 'sunan-ibn-majah',
+  'malik': 'muwatta-malik',
+  'ahmad': 'musnad-ahmad',
+  'darimi': 'sunan-darimi',
+  'riyadussalihin': 'riyad-us-salihin',
+  'shamail': 'shamail-muhammadiyah',
+  'bulugh': 'bulugh-al-maram',
+  'mishkat': 'mishkat-al-masabih',
+  'adab': 'adab-al-mufrad',
+  'nawawi40': 'nawawi-40-hadith',
+  'qudsi40': '40-hadith-qudsi',
+  'waliullah40': '40-hadith-shah-waliullah'
+};
+
+export default hadithCollections;

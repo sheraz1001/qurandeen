@@ -179,7 +179,7 @@ function App() {
             <Route path="/azkaar/:categoryId" element={<AzkaarCategory />} />
             <Route path="/hadith" element={<HadithCollections />} />
             <Route path="/hadith/:collectionId" element={<HadithBook />} />
-            <Route path="/hadith/:collectionId/:chapterId" element={<HadithChapter />} />
+            <Route path="/hadith/:collectionId/:chapterSlug" element={<HadithChapter />} />
             <Route path="/settings" element={
               <Settings 
                 darkMode={darkMode}

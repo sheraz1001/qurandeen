@@ -1,3 +1,5 @@
+import { getCollectionById } from '../data/hadithData';
+
 const HADITH_JSON_CDN = 'https://cdn.jsdelivr.net/gh/AhmedBaset/hadith-json@main/db';
 const ALQURANBD_API = 'https://alquranbd.com/api/hadith';
 
@@ -18,7 +20,7 @@ const collectionFileMap = {
   mishkat: 'other_books/mishkat',
   nawawi40: 'forties/nawawi40',
   qudsi40: 'forties/qudsi40',
-  shahwaliullah40: 'forties/shahwaliullah40'
+  waliullah40: 'forties/shahwaliullah40'
 };
 
 const alQuranBDBookMap = {
@@ -30,26 +32,24 @@ const alQuranBDBookMap = {
   ibnmajah: 6
 };
 
-const hadithApiComBookMap = {
-  bukhari: 'sahih-bukhari',
-  muslim: 'sahih-muslim',
-  abudawud: 'sunan-abu-dawud',
-  tirmidhi: 'al-tirmidhi',
-  nasai: 'sunan-nasai',
-  ibnmajah: 'sunan-ibn-e-majah'
-};
-
 let collectionsCache = {};
 let chaptersCache = {};
 
-export const fetchCollection = async (collectionId) => {
-  if (collectionsCache[collectionId]) {
-    return collectionsCache[collectionId];
+export const fetchCollection = async (collectionSlug) => {
+  const collection = getCollectionById(collectionSlug);
+  if (!collection) {
+    throw new Error(`Unknown collection: ${collectionSlug}`);
+  }
+  
+  const apiId = collection.apiId;
+  
+  if (collectionsCache[apiId]) {
+    return collectionsCache[apiId];
   }
 
-  const filePath = collectionFileMap[collectionId];
+  const filePath = collectionFileMap[apiId];
   if (!filePath) {
-    throw new Error(`Unknown collection: ${collectionId}`);
+    throw new Error(`Unknown collection API ID: ${apiId}`);
   }
 
   try {
@@ -58,10 +58,10 @@ export const fetchCollection = async (collectionId) => {
       throw new Error(`Failed to fetch collection: ${response.status}`);
     }
     const data = await response.json();
-    collectionsCache[collectionId] = data;
+    collectionsCache[apiId] = data;
     return data;
   } catch (error) {
-    console.error(`Error fetching collection ${collectionId}:`, error);
+    console.error(`Error fetching collection ${collectionSlug}:`, error);
     throw error;
   }
 };
@@ -86,15 +86,22 @@ export const getChaptersFromCollection = (collectionData) => {
   }));
 };
 
-export const fetchChapter = async (collectionId, chapterId) => {
-  const cacheKey = `${collectionId}_${chapterId}`;
+export const fetchChapter = async (collectionSlug, chapterId) => {
+  const collection = getCollectionById(collectionSlug);
+  if (!collection) {
+    throw new Error(`Unknown collection: ${collectionSlug}`);
+  }
+  
+  const apiId = collection.apiId;
+  const cacheKey = `${apiId}_${chapterId}`;
+  
   if (chaptersCache[cacheKey]) {
     return chaptersCache[cacheKey];
   }
 
-  const filePath = collectionFileMap[collectionId];
+  const filePath = collectionFileMap[apiId];
   if (!filePath) {
-    throw new Error(`Unknown collection: ${collectionId}`);
+    throw new Error(`Unknown collection: ${apiId}`);
   }
 
   try {
@@ -106,7 +113,7 @@ export const fetchChapter = async (collectionId, chapterId) => {
     chaptersCache[cacheKey] = data;
     return data;
   } catch (error) {
-    console.error(`Error fetching chapter ${chapterId} from ${collectionId}:`, error);
+    console.error(`Error fetching chapter ${chapterId} from ${collectionSlug}:`, error);
     throw error;
   }
 };
@@ -122,8 +129,11 @@ export const getHadithsByChapter = (collectionData, chapterId) => {
   return collectionData.hadiths.filter(h => h.chapterId === chapterId);
 };
 
-export const fetchBanglaHadiths = async (collectionId, chapterId, page = 1) => {
-  const bookId = alQuranBDBookMap[collectionId];
+export const fetchBanglaHadiths = async (collectionSlug, chapterId, page = 1) => {
+  const collection = getCollectionById(collectionSlug);
+  if (!collection) return null;
+  
+  const bookId = alQuranBDBookMap[collection.apiId];
   if (!bookId) {
     return null;
   }
@@ -141,8 +151,11 @@ export const fetchBanglaHadiths = async (collectionId, chapterId, page = 1) => {
   }
 };
 
-export const fetchBanglaChapters = async (collectionId) => {
-  const bookId = alQuranBDBookMap[collectionId];
+export const fetchBanglaChapters = async (collectionSlug) => {
+  const collection = getCollectionById(collectionSlug);
+  if (!collection) return null;
+  
+  const bookId = alQuranBDBookMap[collection.apiId];
   if (!bookId) {
     return null;
   }
@@ -175,14 +188,14 @@ export const searchHadiths = async (collectionData, query) => {
   });
 };
 
-export const getRandomHadith = async (collectionId = 'bukhari') => {
+export const getRandomHadith = async (collectionSlug = 'sahih-bukhari') => {
   try {
-    const collection = await fetchCollection(collectionId);
-    if (collection && collection.length > 0) {
-      const randomIndex = Math.floor(Math.random() * collection.length);
+    const collection = await fetchCollection(collectionSlug);
+    if (collection && collection.hadiths && collection.hadiths.length > 0) {
+      const randomIndex = Math.floor(Math.random() * collection.hadiths.length);
       return {
-        ...collection[randomIndex],
-        collectionId
+        ...collection.hadiths[randomIndex],
+        collectionSlug
       };
     }
     return null;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { getCollectionById, hadithCollections } from '../data/hadithData';
+import { getCollectionById, hadithCollections, legacyCollectionRedirects, generateChapterSlug } from '../data/hadithData';
 import { fetchCollection, extractChaptersFromCollection } from '../services/hadithService';
 import '../styles/hadith.css';
 
@@ -13,11 +13,20 @@ const HadithBook = () => {
   const [chapters, setChapters] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
+  useEffect(() => {
+    if (legacyCollectionRedirects[collectionId]) {
+      navigate(`/hadith/${legacyCollectionRedirects[collectionId]}`, { replace: true });
+      return;
+    }
+  }, [collectionId, navigate]);
+
   const collection = getCollectionById(collectionId);
 
   useEffect(() => {
-    if (!collection) {
-      navigate('/hadith');
+    if (!collection || legacyCollectionRedirects[collectionId]) {
+      if (!legacyCollectionRedirects[collectionId]) {
+        navigate('/hadith');
+      }
       return;
     }
 
@@ -65,7 +74,7 @@ const HadithBook = () => {
     }
   ] : [];
 
-  if (!collection) {
+  if (!collection || legacyCollectionRedirects[collectionId]) {
     return null;
   }
 
@@ -145,7 +154,7 @@ const HadithBook = () => {
               {filteredChapters.map((chapter) => (
                 <Link
                   key={chapter.id}
-                  to={`/hadith/${collectionId}/${chapter.id}`}
+                  to={`/hadith/${collectionId}/${generateChapterSlug(chapter.id, chapter.english)}`}
                   className="hadith-chapter-item"
                 >
                   <div className="hadith-chapter-left">

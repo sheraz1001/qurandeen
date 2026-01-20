@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { getCollectionById, supportedLanguages } from '../data/hadithData';
+import { getCollectionById, supportedLanguages, legacyCollectionRedirects, parseChapterSlug, generateChapterSlug } from '../data/hadithData';
 import { fetchCollection, getHadithsByChapter, extractChaptersFromCollection, fetchBanglaHadiths } from '../services/hadithService';
 import '../styles/hadith.css';
 
 const HadithChapter = () => {
-  const { collectionId, chapterId } = useParams();
+  const { collectionId, chapterSlug } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,12 +18,23 @@ const HadithChapter = () => {
   const [banglaData, setBanglaData] = useState(null);
   const [fontSize, setFontSize] = useState(() => localStorage.getItem('hadith_font_size') || 'medium');
 
-  const collection = getCollectionById(collectionId);
-  const chapterNum = parseInt(chapterId);
+  const chapterNum = parseChapterSlug(chapterSlug);
 
   useEffect(() => {
-    if (!collection) {
-      navigate('/hadith');
+    if (legacyCollectionRedirects[collectionId]) {
+      const newCollectionId = legacyCollectionRedirects[collectionId];
+      navigate(`/hadith/${newCollectionId}/${chapterSlug}`, { replace: true });
+      return;
+    }
+  }, [collectionId, chapterSlug, navigate]);
+
+  const collection = getCollectionById(collectionId);
+
+  useEffect(() => {
+    if (!collection || !chapterNum || legacyCollectionRedirects[collectionId]) {
+      if (!legacyCollectionRedirects[collectionId] && !chapterNum) {
+        navigate(`/hadith/${collectionId}`);
+      }
       return;
     }
 
@@ -41,6 +52,18 @@ const HadithChapter = () => {
         const currentChapter = allChapters.find(c => c.id === chapterNum);
         setChapterInfo(currentChapter);
 
+        if (currentChapter) {
+          const expectedSlug = generateChapterSlug(currentChapter.id, currentChapter.english);
+          if (chapterSlug !== expectedSlug && chapterSlug !== String(chapterNum)) {
+            navigate(`/hadith/${collectionId}/${expectedSlug}`, { replace: true });
+            return;
+          }
+          if (chapterSlug === String(chapterNum) && currentChapter.english) {
+            navigate(`/hadith/${collectionId}/${expectedSlug}`, { replace: true });
+            return;
+          }
+        }
+
         if (selectedLang === 'bn') {
           const bangla = await fetchBanglaHadiths(collectionId, chapterNum);
           setBanglaData(bangla);
@@ -53,7 +76,7 @@ const HadithChapter = () => {
     };
 
     loadChapter();
-  }, [collectionId, chapterNum, collection, navigate, selectedLang]);
+  }, [collectionId, chapterNum, chapterSlug, collection, navigate, selectedLang]);
 
   useEffect(() => {
     localStorage.setItem('hadith_font_size', fontSize);
@@ -83,30 +106,32 @@ const HadithChapter = () => {
   const prevChapter = chapters.find(c => c.id === chapterNum - 1);
   const nextChapter = chapters.find(c => c.id === chapterNum + 1);
 
+  const canonicalSlug = chapterInfo ? generateChapterSlug(chapterInfo.id, chapterInfo.english) : chapterSlug;
+
   const schema = collection && chapterInfo ? [
     {
       "@context": "https://schema.org",
       "@type": "Chapter",
-      "name": chapterInfo.english || `Chapter ${chapterId}`,
+      "name": chapterInfo.english || `Chapter ${chapterNum}`,
       "isPartOf": {
         "@type": "Book",
         "name": collection.name
       },
-      "url": `https://qurandeen.com/hadith/${collectionId}/${chapterId}`
+      "url": `https://qurandeen.com/hadith/${collectionId}/${canonicalSlug}`
     }
   ] : [];
 
-  if (!collection) {
+  if (!collection || legacyCollectionRedirects[collectionId]) {
     return null;
   }
 
   return (
     <div className={`hadith-page font-${fontSize}`}>
       <Helmet>
-        <title>{chapterInfo?.english || `Chapter ${chapterId}`} - {collection.name} | QuranDeen</title>
-        <meta name="description" content={`Read ${hadiths.length} hadiths from ${chapterInfo?.english || `Chapter ${chapterId}`} of ${collection.name}. Arabic text with English translation.`} />
-        <link rel="canonical" href={`https://qurandeen.com/hadith/${collectionId}/${chapterId}`} />
-        <meta property="og:title" content={`${chapterInfo?.english || `Chapter ${chapterId}`} - ${collection.name}`} />
+        <title>{chapterInfo?.english || `Chapter ${chapterNum}`} - {collection.name} | QuranDeen</title>
+        <meta name="description" content={`Read ${hadiths.length} hadiths from ${chapterInfo?.english || `Chapter ${chapterNum}`} of ${collection.name}. Arabic text with English translation.`} />
+        <link rel="canonical" href={`https://qurandeen.com/hadith/${collectionId}/${canonicalSlug}`} />
+        <meta property="og:title" content={`${chapterInfo?.english || `Chapter ${chapterNum}`} - ${collection.name}`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
       </Helmet>
 
@@ -119,13 +144,13 @@ const HadithChapter = () => {
             <span>/</span>
             <Link to={`/hadith/${collectionId}`}>{collection.name}</Link>
             <span>/</span>
-            <span className="current">{chapterInfo?.english || `Chapter ${chapterId}`}</span>
+            <span className="current">{chapterInfo?.english || `Chapter ${chapterNum}`}</span>
           </div>
 
           <div className="hadith-book-header">
             <div className="hadith-book-info">
               <p className="author">{collection.name}</p>
-              <h1>{chapterInfo?.english || `Chapter ${chapterId}`}</h1>
+              <h1>{chapterInfo?.english || `Chapter ${chapterNum}`}</h1>
               {chapterInfo?.arabic && <p className="arabic">{chapterInfo.arabic}</p>}
             </div>
             <div className="hadith-controls">
@@ -259,7 +284,7 @@ const HadithChapter = () => {
 
             <div className="hadith-chapter-nav">
               {prevChapter ? (
-                <Link to={`/hadith/${collectionId}/${prevChapter.id}`} className="hadith-chapter-nav-btn">
+                <Link to={`/hadith/${collectionId}/${generateChapterSlug(prevChapter.id, prevChapter.english)}`} className="hadith-chapter-nav-btn">
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
@@ -272,7 +297,7 @@ const HadithChapter = () => {
               </Link>
 
               {nextChapter ? (
-                <Link to={`/hadith/${collectionId}/${nextChapter.id}`} className="hadith-chapter-nav-btn">
+                <Link to={`/hadith/${collectionId}/${generateChapterSlug(nextChapter.id, nextChapter.english)}`} className="hadith-chapter-nav-btn">
                   <span>Next</span>
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
