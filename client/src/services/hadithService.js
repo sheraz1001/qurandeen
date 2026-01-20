@@ -186,6 +186,7 @@ export const fetchBanglaChapters = async (collectionSlug) => {
 };
 
 let urduCache = {};
+let hadithApiCache = {};
 
 export const fetchUrduHadiths = async (collectionSlug) => {
   const collection = getCollectionById(collectionSlug);
@@ -217,6 +218,38 @@ export const fetchUrduHadiths = async (collectionSlug) => {
 export const getUrduHadithByNumber = (urduData, hadithNumber) => {
   if (!urduData || !urduData.hadiths) return null;
   return urduData.hadiths.find(h => h.hadithnumber === hadithNumber);
+};
+
+export const fetchHadithApiData = async (collectionSlug, chapterNum) => {
+  const collection = getCollectionById(collectionSlug);
+  if (!collection) return null;
+  
+  const cacheKey = `${collectionSlug}_${chapterNum}`;
+  if (hadithApiCache[cacheKey]) {
+    return hadithApiCache[cacheKey];
+  }
+
+  try {
+    const response = await fetch(`/api/hadith/${collectionSlug}/hadiths?chapter=${chapterNum}&paginate=100`);
+    if (!response.ok) {
+      return null;
+    }
+    const data = await response.json();
+    hadithApiCache[cacheKey] = data;
+    return data;
+  } catch (error) {
+    console.error('Error fetching from Hadith API:', error);
+    return null;
+  }
+};
+
+export const getHadithApiUrduText = (hadithApiData, hadithNumber) => {
+  if (!hadithApiData?.hadiths?.data) return null;
+  const hadith = hadithApiData.hadiths.data.find(h => 
+    h.hadithNumber === hadithNumber || 
+    h.hadithNumber === String(hadithNumber)
+  );
+  return hadith?.hadithUrdu || null;
 };
 
 export const searchHadiths = async (collectionData, query) => {

@@ -3185,6 +3185,83 @@ app.post('/api/messages/start-conversation', authenticateToken, async (req, res)
 // END QURAN TEACHING PLATFORM API ROUTES
 // ==========================================
 
+// ==========================================
+// HADITH API ROUTES (hadithapi.com integration)
+// ==========================================
+
+const HADITH_API_KEY = process.env.HADITH_API_KEY;
+const HADITH_API_BASE = 'https://hadithapi.com/api';
+
+const hadithApiBookMap = {
+  'sahih-bukhari': 'sahih-bukhari',
+  'sahih-muslim': 'sahih-muslim',
+  'sunan-abu-dawud': 'abu-dawud',
+  'jami-tirmidhi': 'al-tirmidhi',
+  'sunan-nasai': 'sunan-nasai',
+  'sunan-ibn-majah': 'ibn-e-majah',
+  'muwatta-malik': 'muwatta-malik'
+};
+
+app.get('/api/hadith/books', async (req, res) => {
+  if (!HADITH_API_KEY) {
+    return res.status(503).json({ error: 'Hadith API not configured' });
+  }
+  try {
+    const response = await axios.get(`${HADITH_API_BASE}/books?apiKey=${HADITH_API_KEY}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching hadith books:', error.message);
+    res.status(500).json({ error: 'Failed to fetch hadith books' });
+  }
+});
+
+app.get('/api/hadith/:bookSlug/chapters', async (req, res) => {
+  if (!HADITH_API_KEY) {
+    return res.status(503).json({ error: 'Hadith API not configured' });
+  }
+  try {
+    const { bookSlug } = req.params;
+    const apiBookSlug = hadithApiBookMap[bookSlug] || bookSlug;
+    const response = await axios.get(`${HADITH_API_BASE}/${apiBookSlug}/chapters?apiKey=${HADITH_API_KEY}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching hadith chapters:', error.message);
+    res.status(500).json({ error: 'Failed to fetch hadith chapters' });
+  }
+});
+
+app.get('/api/hadith/:bookSlug/hadiths', async (req, res) => {
+  if (!HADITH_API_KEY) {
+    return res.status(503).json({ error: 'Hadith API not configured' });
+  }
+  try {
+    const { bookSlug } = req.params;
+    const { chapter, page = 1, paginate = 50 } = req.query;
+    const apiBookSlug = hadithApiBookMap[bookSlug] || bookSlug;
+    
+    let url = `${HADITH_API_BASE}/hadiths?apiKey=${HADITH_API_KEY}&book=${apiBookSlug}&paginate=${paginate}&page=${page}`;
+    if (chapter) {
+      url += `&chapter=${chapter}`;
+    }
+    
+    const response = await axios.get(url);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching hadiths:', error.message);
+    res.status(500).json({ error: 'Failed to fetch hadiths' });
+  }
+});
+
+if (HADITH_API_KEY) {
+  console.log('Hadith API (hadithapi.com) configured.');
+} else {
+  console.log('Hadith API not configured. Set HADITH_API_KEY for enhanced Urdu translations.');
+}
+
+// ==========================================
+// END HADITH API ROUTES
+// ==========================================
+
 const surahSlugs = [
   '1-al-fatihah', '2-al-baqarah', '3-aali-imran', '4-an-nisa', '5-al-maidah', '6-al-anam', '7-al-araf', '8-al-anfal', '9-at-tawbah', '10-yunus',
   '11-hud', '12-yusuf', '13-ar-rad', '14-ibrahim', '15-al-hijr', '16-an-nahl', '17-al-isra', '18-al-kahf', '19-maryam', '20-ta-ha',
