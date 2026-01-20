@@ -699,6 +699,34 @@
   color: var(--text-primary);
 }
 
+.hadith-lang-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.hadith-lang-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  min-width: 42px;
+}
+
+.hadith-lang-btn.active {
+  background: white;
+  color: var(--primary-color);
+}
+
+.hadith-lang-btn:hover:not(.active) {
+  background: rgba(255,255,255,0.15);
+}
+
 .hadith-font-controls {
   display: flex;
   background: rgba(255,255,255,0.1);

@@ -165,17 +165,17 @@ const HadithChapter = () => {
               {chapterInfo?.arabic && <p className="arabic">{chapterInfo.arabic}</p>}
             </div>
             <div className="hadith-controls">
-              <select
-                value={selectedLang}
-                onChange={(e) => setSelectedLang(e.target.value)}
-                className="hadith-lang-select"
-              >
+              <div className="hadith-lang-toggle">
                 {supportedLanguages.map(lang => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.nameNative}
-                  </option>
+                  <button
+                    key={lang.code}
+                    onClick={() => setSelectedLang(lang.code)}
+                    className={`hadith-lang-btn ${selectedLang === lang.code ? 'active' : ''}`}
+                  >
+                    {lang.code.toUpperCase()}
+                  </button>
                 ))}
-              </select>
+              </div>
 
               <div className="hadith-font-controls">
                 {['small', 'medium', 'large'].map(size => (
