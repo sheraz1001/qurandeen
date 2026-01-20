@@ -5,6 +5,7 @@ function Footer() {
 
   const quickLinks = [
     { path: '/', label: 'Home' },
+    { path: '/features', label: 'Features' },
     { path: '/quran-juz-browser', label: 'Browse Juz' },
     { path: '/bookmarks', label: 'My Bookmarks' },
     { path: '/settings', label: 'Settings' },
