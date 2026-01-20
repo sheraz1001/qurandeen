@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import './styles/index.css';
 import './styles/auth.css';
+import { registerServiceWorker } from './utils/pwaUtils';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -15,3 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </HelmetProvider>
   </React.StrictMode>
 );
+
+if (import.meta.env.PROD) {
+  registerServiceWorker();
+}
