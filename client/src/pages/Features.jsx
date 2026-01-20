@@ -389,37 +389,90 @@ function Features() {
 
       <section className="feature-section ai-section">
         <div className="section-container">
-          <div className="ai-showcase">
-            <div className="ai-content">
-              <span className="section-badge">AI-Powered</span>
-              <h2>Islamic Scholar AI Chatbot</h2>
-              <p>
-                Get instant answers to your Islamic questions with our AI-powered scholar. 
-                Trained on authentic Islamic sources including Quran, Hadith, and scholarly works.
-              </p>
-              <ul className="ai-features-list">
-                <li>✓ Authentic source citations</li>
-                <li>✓ Quran verse references</li>
-                <li>✓ Hadith quotations</li>
-                <li>✓ Multilingual support</li>
-                <li>✓ Scholarly consensus when available</li>
-              </ul>
-              <Link to="/islamic-ai-scholar" className="section-btn">Ask the AI Scholar →</Link>
+          <div className="section-header">
+            <span className="section-badge">AI-Powered Islamic Guidance</span>
+            <h2>Islamic Scholar AI Chatbot</h2>
+            <p>Your intelligent companion for Islamic knowledge, powered by advanced AI trained on authentic sources</p>
+          </div>
+          <div className="ai-features-grid">
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">📖</span>
+              <h3>Quran Verse Citations</h3>
+              <p>Get precise Quran verse references with Arabic text, transliteration, and translation for every answer.</p>
             </div>
-            <div className="ai-visual">
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">📜</span>
+              <h3>Hadith References</h3>
+              <p>Answers backed by authentic hadith from Bukhari, Muslim, and other major collections with proper citations.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">🌍</span>
+              <h3>Multilingual Support</h3>
+              <p>Ask questions and receive answers in English, Arabic, Urdu, and other major languages.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">📚</span>
+              <h3>Tafsir Explanations</h3>
+              <p>Detailed explanations from classical Tafsir including Ibn Kathir, Al-Muyassar, and other scholars.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">⚖️</span>
+              <h3>Fiqh Guidance</h3>
+              <p>Islamic jurisprudence answers covering all four major madhabs with scholarly consensus when available.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">🤲</span>
+              <h3>Dua Recommendations</h3>
+              <p>Suggests relevant duas and adhkar for your specific situations with proper Arabic and translations.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">📝</span>
+              <h3>Islamic History</h3>
+              <p>Learn about the lives of Prophets, Companions, and significant events in Islamic history.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">🕌</span>
+              <h3>Prayer & Worship</h3>
+              <p>Guidance on Salah, Wudu, Fasting, Zakat, Hajj and all aspects of Islamic worship.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">💬</span>
+              <h3>Conversational Interface</h3>
+              <p>Natural conversation flow - ask follow-up questions and get contextual responses.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">✅</span>
+              <h3>Authentic Sources Only</h3>
+              <p>All answers are grounded in authentic Islamic sources - no fabricated or weak narrations.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">🔒</span>
+              <h3>Private & Secure</h3>
+              <p>Your conversations are private and not stored. Ask anything without hesitation.</p>
+            </div>
+            <div className="ai-feature-card">
+              <span className="ai-feature-icon">⚡</span>
+              <h3>Instant Responses</h3>
+              <p>Get immediate answers to your Islamic questions 24/7, anytime you need guidance.</p>
+            </div>
+          </div>
+          <div className="ai-demo-section">
+            <div className="ai-demo-content">
+              <h3>See It In Action</h3>
               <div className="ai-chat-preview">
-                <div className="chat-bubble user">What are the pillars of Islam?</div>
+                <div className="chat-bubble user">What is the importance of Salah in Islam?</div>
                 <div className="chat-bubble ai">
-                  <strong>The Five Pillars of Islam are:</strong><br/>
-                  1. Shahada (Declaration of Faith)<br/>
-                  2. Salah (Prayer - 5 times daily)<br/>
-                  3. Zakat (Charitable Giving)<br/>
-                  4. Sawm (Fasting in Ramadan)<br/>
-                  5. Hajj (Pilgrimage to Mecca)<br/>
-                  <span className="source">📖 Sahih Muslim, Book 1, Hadith 21</span>
+                  <strong>Salah is the second pillar of Islam</strong> and holds immense importance:<br/><br/>
+                  The Prophet ﷺ said: <em>"The first matter that the slave will be brought to account for on the Day of Judgment is the prayer."</em><br/><br/>
+                  Salah is mentioned over 700 times in the Quran. Allah says:<br/>
+                  <em>"Indeed, prayer prohibits immorality and wrongdoing"</em> (29:45)<br/>
+                  <span className="source">📖 Surah Al-Ankabut 29:45 | Sunan an-Nasa'i 465</span>
                 </div>
               </div>
             </div>
+          </div>
+          <div className="section-cta">
+            <Link to="/islamic-ai-scholar" className="section-btn">Ask the AI Scholar Now →</Link>
           </div>
         </div>
       </section>
