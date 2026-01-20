@@ -150,3 +150,35 @@ A comprehensive collection of authentic Islamic supplications from Hisnul Muslim
 - Local data module exports `azkaarCategories`, `getAllAzkaar()`, `getDuaById()`, `searchDuas()`, `getFeaturedCategories()`
 - Progress stored in localStorage with key pattern: `azkaar_progress_{categoryId}`
 - SEO optimized with JSON-LD CollectionPage schema and dynamic meta tags
+
+## Progressive Web App (PWA) & Mobile App Support
+QuranDeen is configured as a Progressive Web App with Capacitor for native app distribution.
+
+**PWA Features:**
+- Installable on any device via "Add to Home Screen"
+- Offline caching of Quran text and audio via Service Worker
+- Smart caching strategies: cache-first for fonts/images, network-first for API data
+- Push notification support
+- App shortcuts for quick access to Al-Fatihah, Duas, and AI Scholar
+- Automatic update prompts when new version is available
+
+**Technical Implementation:**
+- `client/public/manifest.json` - PWA manifest with icons, shortcuts, and theme colors
+- `client/public/sw.js` - Service Worker with intelligent caching strategies
+- `client/src/utils/pwaUtils.js` - PWA utilities (install prompt, offline detection, storage estimates)
+- `client/src/components/PWAInstallPrompt.jsx` - Smart install prompt component
+- Icons generated in all required sizes: 72x72, 96x96, 128x128, 144x144, 152x152, 192x192, 384x384, 512x512
+
+**Capacitor (Native App Builds):**
+- `capacitor.config.ts` - Configuration for iOS and Android builds
+- App ID: `com.qurandeen.app`
+- Supports splash screen, status bar customization, and keyboard handling
+- See `MOBILE_APP_BUILD.md` for complete build instructions
+
+**Build Commands:**
+```bash
+npm run build          # Build web app
+npx cap sync           # Sync to native projects
+npx cap open ios       # Open in Xcode
+npx cap open android   # Open in Android Studio
+```

@@ -39,6 +39,7 @@ import BookClass from './pages/teaching/BookClass';
 import Azkaar from './pages/Azkaar';
 import AzkaarCategory from './pages/AzkaarCategory';
 import { AuthProvider } from './context/AuthContext';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -188,6 +189,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <PWAInstallPrompt />
       </div>
     </AuthProvider>
   );
