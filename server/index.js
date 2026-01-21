@@ -1028,6 +1028,183 @@ app.post('/api/admin/users/:id/reset-password', authenticateToken, isAdmin, asyn
   }
 });
 
+// Admin - Set user password (custom password)
+app.post('/api/admin/users/:id/set-password', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { password } = req.body;
+    
+    if (!password || password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    await pool.query(
+      'UPDATE users SET password_hash = $1, force_password_change = false, updated_at = CURRENT_TIMESTAMP WHERE id = $2',
+      [passwordHash, userId]
+    );
+
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Admin set password error:', error);
+    res.status(500).json({ error: 'Failed to set password' });
+  }
+});
+
+// Admin - Create new user
+app.post('/api/admin/users', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    // Check if email exists
+    const existing = await pool.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    const userId = crypto.randomUUID();
+    const passwordHash = await bcrypt.hash(password, 10);
+    const validRoles = ['user', 'admin', 'teacher'];
+    const userRole = validRoles.includes(role) ? role : 'user';
+
+    const result = await pool.query(
+      `INSERT INTO users (id, name, email, password_hash, role, created_at, updated_at) 
+       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
+       RETURNING id, name, email, role, created_at`,
+      [userId, name || email.split('@')[0], email, passwordHash, userRole]
+    );
+
+    res.json({ data: result.rows[0], message: 'User created successfully' });
+  } catch (error) {
+    console.error('Admin create user error:', error);
+    res.status(500).json({ error: 'Failed to create user' });
+  }
+});
+
+// Admin - Bulk update user roles
+app.post('/api/admin/users/bulk-role', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { userIds, role } = req.body;
+    
+    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+      return res.status(400).json({ error: 'User IDs are required' });
+    }
+
+    const validRoles = ['user', 'admin', 'teacher'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ error: 'Invalid role' });
+    }
+
+    // Prevent changing own role
+    if (userIds.includes(req.user.id)) {
+      return res.status(400).json({ error: 'Cannot change your own role in bulk action' });
+    }
+
+    await pool.query(
+      'UPDATE users SET role = $1, updated_at = CURRENT_TIMESTAMP WHERE id = ANY($2)',
+      [role, userIds]
+    );
+
+    res.json({ message: `Updated ${userIds.length} users to ${role} role` });
+  } catch (error) {
+    console.error('Bulk role update error:', error);
+    res.status(500).json({ error: 'Failed to update roles' });
+  }
+});
+
+// Admin - Bulk delete users
+app.post('/api/admin/users/bulk-delete', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { userIds } = req.body;
+    
+    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+      return res.status(400).json({ error: 'User IDs are required' });
+    }
+
+    // Prevent deleting self
+    if (userIds.includes(req.user.id)) {
+      return res.status(400).json({ error: 'Cannot delete your own account' });
+    }
+
+    await pool.query('DELETE FROM users WHERE id = ANY($1)', [userIds]);
+
+    res.json({ message: `Deleted ${userIds.length} users` });
+  } catch (error) {
+    console.error('Bulk delete error:', error);
+    res.status(500).json({ error: 'Failed to delete users' });
+  }
+});
+
+// Admin - Get user stats
+app.get('/api/admin/users/stats', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        COUNT(*) as total,
+        COUNT(CASE WHEN role = 'admin' THEN 1 END) as admins,
+        COUNT(CASE WHEN role = 'teacher' THEN 1 END) as teachers,
+        COUNT(CASE WHEN role = 'user' THEN 1 END) as users,
+        COUNT(CASE WHEN created_at > CURRENT_DATE - INTERVAL '7 days' THEN 1 END) as new_this_week,
+        COUNT(CASE WHEN created_at > CURRENT_DATE - INTERVAL '30 days' THEN 1 END) as new_this_month
+      FROM users
+    `);
+    res.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('User stats error:', error);
+    res.status(500).json({ error: 'Failed to get user stats' });
+  }
+});
+
+// Admin - AI Blog Generation
+app.post('/api/admin/blogs/generate', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { topic, tone, length } = req.body;
+    
+    if (!topic) {
+      return res.status(400).json({ error: 'Topic is required' });
+    }
+
+    const lengthGuide = length === 'short' ? '300-500 words' : length === 'long' ? '1000-1500 words' : '600-800 words';
+    const toneGuide = tone || 'informative and engaging';
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: `You are an expert Islamic content writer for QuranDeen.com. Write high-quality, authentic Islamic blog posts based on Quran and Hadith. Always cite sources when referencing Quranic verses or Hadith. Write in a ${toneGuide} tone. Target length: ${lengthGuide}.`
+        },
+        {
+          role: 'user',
+          content: `Write a blog post about: "${topic}"
+          
+Please format the response as JSON with these fields:
+{
+  "title": "SEO-friendly blog title",
+  "excerpt": "A compelling 1-2 sentence summary for preview",
+  "content": "Full blog post content in HTML format with proper <h2>, <h3>, <p>, <ul>, <blockquote> tags for Quranic verses"
+}`
+        }
+      ],
+      response_format: { type: 'json_object' }
+    });
+
+    const blogData = JSON.parse(completion.choices[0].message.content);
+    res.json({ data: blogData });
+  } catch (error) {
+    console.error('AI blog generation error:', error);
+    res.status(500).json({ error: 'Failed to generate blog content' });
+  }
+});
+
 app.use('/fonts', express.static(path.join(__dirname, '../client/public/fonts')));
 app.use('/icons', express.static(path.join(__dirname, '../client/public/icons')));
 app.use('/manifest.json', express.static(path.join(__dirname, '../client/public/manifest.json')));

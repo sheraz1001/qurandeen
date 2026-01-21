@@ -24,6 +24,23 @@ function AdminDashboard() {
   const [userAction, setUserAction] = useState(null);
   const [teachers, setTeachers] = useState([]);
   const [teacherStats, setTeacherStats] = useState({ pending: 0, verified: 0, total: 0, platformEarnings: 0 });
+  
+  // Advanced user management state
+  const [showAddUserForm, setShowAddUserForm] = useState(false);
+  const [newUserForm, setNewUserForm] = useState({ name: '', email: '', password: '', role: 'user' });
+  const [userSearch, setUserSearch] = useState('');
+  const [userRoleFilter, setUserRoleFilter] = useState('all');
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [passwordModal, setPasswordModal] = useState(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [userStats, setUserStats] = useState({});
+  
+  // AI Blog generation state
+  const [showAIGenerator, setShowAIGenerator] = useState(false);
+  const [aiGenerating, setAIGenerating] = useState(false);
+  const [aiTopic, setAITopic] = useState('');
+  const [aiTone, setAITone] = useState('informative');
+  const [aiLength, setAILength] = useState('medium');
 
   useEffect(() => {
     if (authLoading) return; // Wait for auth check to complete
@@ -56,6 +73,163 @@ function AdminDashboard() {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Fetch user stats
+  const fetchUserStats = async () => {
+    try {
+      const res = await axios.get('/api/admin/users/stats');
+      setUserStats(res.data.data || {});
+    } catch (error) {
+      console.error('Error fetching user stats:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.role === 'admin') {
+      fetchUserStats();
+    }
+  }, [user]);
+
+  // Filter users based on search and role filter
+  const filteredUsers = users.filter(u => {
+    const matchesSearch = userSearch === '' || 
+      (u.name && u.name.toLowerCase().includes(userSearch.toLowerCase())) ||
+      u.email.toLowerCase().includes(userSearch.toLowerCase());
+    const matchesRole = userRoleFilter === 'all' || u.role === userRoleFilter;
+    return matchesSearch && matchesRole;
+  });
+
+  // Create new user
+  const handleCreateUser = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      await axios.post('/api/admin/users', newUserForm);
+      setShowAddUserForm(false);
+      setNewUserForm({ name: '', email: '', password: '', role: 'user' });
+      fetchData();
+      fetchUserStats();
+      alert('User created successfully');
+    } catch (error) {
+      console.error('Error creating user:', error);
+      alert(error.response?.data?.error || 'Failed to create user');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Set user password
+  const handleSetPassword = async (e) => {
+    e.preventDefault();
+    if (!newPassword || newPassword.length < 6) {
+      alert('Password must be at least 6 characters');
+      return;
+    }
+    setSaving(true);
+    try {
+      await axios.post(`/api/admin/users/${passwordModal.id}/set-password`, { password: newPassword });
+      setPasswordModal(null);
+      setNewPassword('');
+      alert('Password updated successfully');
+    } catch (error) {
+      console.error('Error setting password:', error);
+      alert(error.response?.data?.error || 'Failed to set password');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Toggle user selection
+  const toggleUserSelection = (userId) => {
+    setSelectedUsers(prev => 
+      prev.includes(userId) 
+        ? prev.filter(id => id !== userId)
+        : [...prev, userId]
+    );
+  };
+
+  // Select all users
+  const selectableUsers = filteredUsers.filter(u => u.id !== user?.id);
+  
+  const toggleSelectAll = () => {
+    if (selectedUsers.length === selectableUsers.length && selectableUsers.length > 0) {
+      setSelectedUsers([]);
+    } else {
+      setSelectedUsers(selectableUsers.map(u => u.id));
+    }
+  };
+
+  // Bulk role change
+  const handleBulkRoleChange = async (role) => {
+    if (selectedUsers.length === 0) {
+      alert('No users selected');
+      return;
+    }
+    if (!confirm(`Change role of ${selectedUsers.length} users to "${role}"?`)) return;
+    
+    try {
+      await axios.post('/api/admin/users/bulk-role', { userIds: selectedUsers, role });
+      setSelectedUsers([]);
+      fetchData();
+      fetchUserStats();
+      alert(`Updated ${selectedUsers.length} users to ${role} role`);
+    } catch (error) {
+      console.error('Error bulk updating roles:', error);
+      alert(error.response?.data?.error || 'Failed to update roles');
+    }
+  };
+
+  // Bulk delete
+  const handleBulkDelete = async () => {
+    if (selectedUsers.length === 0) {
+      alert('No users selected');
+      return;
+    }
+    if (!confirm(`DELETE ${selectedUsers.length} users? This cannot be undone!`)) return;
+    
+    try {
+      await axios.post('/api/admin/users/bulk-delete', { userIds: selectedUsers });
+      setSelectedUsers([]);
+      fetchData();
+      fetchUserStats();
+      alert(`Deleted ${selectedUsers.length} users`);
+    } catch (error) {
+      console.error('Error bulk deleting:', error);
+      alert(error.response?.data?.error || 'Failed to delete users');
+    }
+  };
+
+  // AI Blog Generation
+  const handleGenerateBlog = async () => {
+    if (!aiTopic.trim()) {
+      alert('Please enter a topic');
+      return;
+    }
+    setAIGenerating(true);
+    try {
+      const res = await axios.post('/api/admin/blogs/generate', {
+        topic: aiTopic,
+        tone: aiTone,
+        length: aiLength
+      });
+      const generated = res.data.data;
+      setBlogForm({
+        title: generated.title || '',
+        content: generated.content || '',
+        excerpt: generated.excerpt || '',
+        published: false
+      });
+      setShowAIGenerator(false);
+      setShowForm(true);
+      setAITopic('');
+      alert('Blog generated! Review and edit before publishing.');
+    } catch (error) {
+      console.error('Error generating blog:', error);
+      alert(error.response?.data?.error || 'Failed to generate blog');
+    } finally {
+      setAIGenerating(false);
     }
   };
 
@@ -509,17 +683,92 @@ function AdminDashboard() {
 
           {activeSection === 'blogs' && (
             <div className="blogs-section">
+              {/* AI Blog Generator Modal */}
+              {showAIGenerator && (
+                <div className="modal-overlay">
+                  <div className="modal-content ai-modal">
+                    <h3>
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
+                        <path d="M7.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                        <path d="M16.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                      </svg>
+                      Generate Blog with AI
+                    </h3>
+                    <div className="form-group">
+                      <label>Topic / Title *</label>
+                      <input
+                        type="text"
+                        value={aiTopic}
+                        onChange={(e) => setAITopic(e.target.value)}
+                        placeholder="e.g., The Virtues of Surah Al-Kahf, Benefits of Daily Dhikr..."
+                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Tone</label>
+                        <select value={aiTone} onChange={(e) => setAITone(e.target.value)}>
+                          <option value="informative">Informative</option>
+                          <option value="inspirational">Inspirational</option>
+                          <option value="educational">Educational</option>
+                          <option value="reflective">Reflective</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Length</label>
+                        <select value={aiLength} onChange={(e) => setAILength(e.target.value)}>
+                          <option value="short">Short (300-500 words)</option>
+                          <option value="medium">Medium (600-800 words)</option>
+                          <option value="long">Long (1000-1500 words)</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="form-actions">
+                      <button type="button" className="cancel-btn" onClick={() => setShowAIGenerator(false)}>Cancel</button>
+                      <button 
+                        type="button" 
+                        className="save-btn ai-generate-btn" 
+                        onClick={handleGenerateBlog}
+                        disabled={aiGenerating || !aiTopic.trim()}
+                      >
+                        {aiGenerating ? (
+                          <>
+                            <span className="spinner"></span>
+                            Generating...
+                          </>
+                        ) : (
+                          <>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                            Generate Blog
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {!showForm ? (
                 <>
                   <div className="section-header">
                     <h2>All Blog Posts ({blogs.length})</h2>
-                    <button className="add-btn" onClick={() => setShowForm(true)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <line x1="12" y1="5" x2="12" y2="19"/>
-                        <line x1="5" y1="12" x2="19" y2="12"/>
-                      </svg>
-                      New Blog Post
-                    </button>
+                    <div className="header-actions">
+                      <button className="ai-btn" onClick={() => setShowAIGenerator(true)}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        AI Generate
+                      </button>
+                      <button className="add-btn" onClick={() => setShowForm(true)}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="12" y1="5" x2="12" y2="19"/>
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        New Blog Post
+                      </button>
+                    </div>
                   </div>
                   
                   {blogs.length === 0 ? (
@@ -656,78 +905,262 @@ function AdminDashboard() {
 
           {activeSection === 'users' && (
             <div className="users-section">
-              <div className="section-header">
-                <h2>Registered Users ({users.length})</h2>
+              {/* User Stats */}
+              <div className="user-stats-grid">
+                <div className="stat-card">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #1a5f3c 0%, #0d3d28 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Total Users</h3>
+                    <p className="stat-value">{userStats.total || users.length}</p>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #dc3545 0%, #a71d2a 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Admins</h3>
+                    <p className="stat-value">{userStats.admins || 0}</p>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                      <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>Teachers</h3>
+                    <p className="stat-value">{userStats.teachers || 0}</p>
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #198754 0%, #146c43 100%)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <line x1="19" y1="8" x2="19" y2="14"/>
+                      <line x1="22" y1="11" x2="16" y2="11"/>
+                    </svg>
+                  </div>
+                  <div className="stat-info">
+                    <h3>New This Week</h3>
+                    <p className="stat-value">{userStats.new_this_week || 0}</p>
+                  </div>
+                </div>
               </div>
-              
-              {editingUser && (
-                <div className="edit-user-form">
-                  <h3>Edit User: {editingUser.name || editingUser.email}</h3>
-                  <form onSubmit={handleUserSubmit}>
-                    <div className="form-row">
+
+              {/* Header with Add User Button */}
+              <div className="section-header">
+                <h2>User Management ({filteredUsers.length} of {users.length})</h2>
+                <button className="add-btn" onClick={() => setShowAddUserForm(true)}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  Add User
+                </button>
+              </div>
+
+              {/* Search and Filters */}
+              <div className="user-filters">
+                <div className="search-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search by name or email..."
+                    value={userSearch}
+                    onChange={(e) => setUserSearch(e.target.value)}
+                  />
+                </div>
+                <select 
+                  className="role-filter"
+                  value={userRoleFilter}
+                  onChange={(e) => setUserRoleFilter(e.target.value)}
+                >
+                  <option value="all">All Roles</option>
+                  <option value="user">Users</option>
+                  <option value="admin">Admins</option>
+                  <option value="teacher">Teachers</option>
+                </select>
+              </div>
+
+              {/* Bulk Actions */}
+              {selectedUsers.length > 0 && (
+                <div className="bulk-actions">
+                  <span>{selectedUsers.length} selected</span>
+                  <button className="bulk-btn" onClick={() => handleBulkRoleChange('user')}>Make User</button>
+                  <button className="bulk-btn" onClick={() => handleBulkRoleChange('teacher')}>Make Teacher</button>
+                  <button className="bulk-btn" onClick={() => handleBulkRoleChange('admin')}>Make Admin</button>
+                  <button className="bulk-btn delete" onClick={handleBulkDelete}>Delete Selected</button>
+                  <button className="bulk-btn cancel" onClick={() => setSelectedUsers([])}>Clear</button>
+                </div>
+              )}
+
+              {/* Add User Form Modal */}
+              {showAddUserForm && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <h3>Add New User</h3>
+                    <form onSubmit={handleCreateUser}>
                       <div className="form-group">
-                        <label htmlFor="userName">Name</label>
+                        <label>Name</label>
                         <input
                           type="text"
-                          id="userName"
-                          value={userForm.name}
-                          onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
-                          required
+                          value={newUserForm.name}
+                          onChange={(e) => setNewUserForm({ ...newUserForm, name: e.target.value })}
+                          placeholder="Enter name"
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="userEmail">Email</label>
+                        <label>Email *</label>
                         <input
                           type="email"
-                          id="userEmail"
-                          value={userForm.email}
-                          onChange={(e) => setUserForm({ ...userForm, email: e.target.value })}
+                          value={newUserForm.email}
+                          onChange={(e) => setNewUserForm({ ...newUserForm, email: e.target.value })}
+                          placeholder="Enter email"
                           required
                         />
                       </div>
-                    </div>
-                    <div className="form-row">
                       <div className="form-group">
-                        <label htmlFor="userCity">City</label>
+                        <label>Password *</label>
                         <input
-                          type="text"
-                          id="userCity"
-                          value={userForm.city}
-                          onChange={(e) => setUserForm({ ...userForm, city: e.target.value })}
+                          type="password"
+                          value={newUserForm.password}
+                          onChange={(e) => setNewUserForm({ ...newUserForm, password: e.target.value })}
+                          placeholder="Minimum 6 characters"
+                          required
+                          minLength={6}
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="userCountry">Country</label>
+                        <label>Role</label>
+                        <select
+                          value={newUserForm.role}
+                          onChange={(e) => setNewUserForm({ ...newUserForm, role: e.target.value })}
+                        >
+                          <option value="user">User</option>
+                          <option value="teacher">Teacher</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      </div>
+                      <div className="form-actions">
+                        <button type="button" className="cancel-btn" onClick={() => setShowAddUserForm(false)}>Cancel</button>
+                        <button type="submit" className="save-btn" disabled={saving}>
+                          {saving ? 'Creating...' : 'Create User'}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* Password Modal */}
+              {passwordModal && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <h3>Set Password for {passwordModal.name || passwordModal.email}</h3>
+                    <form onSubmit={handleSetPassword}>
+                      <div className="form-group">
+                        <label>New Password *</label>
                         <input
-                          type="text"
-                          id="userCountry"
-                          value={userForm.country}
-                          onChange={(e) => setUserForm({ ...userForm, country: e.target.value })}
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="Minimum 6 characters"
+                          required
+                          minLength={6}
                         />
                       </div>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="userRole">Role</label>
-                      <select
-                        id="userRole"
-                        value={userForm.role}
-                        onChange={(e) => setUserForm({ ...userForm, role: e.target.value })}
-                      >
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                      </select>
-                    </div>
-                    <div className="form-actions">
-                      <button type="button" className="cancel-btn" onClick={cancelEditUser}>Cancel</button>
-                      <button type="submit" className="save-btn" disabled={saving}>
-                        {saving ? 'Saving...' : 'Save Changes'}
-                      </button>
-                    </div>
-                  </form>
+                      <div className="form-actions">
+                        <button type="button" className="cancel-btn" onClick={() => { setPasswordModal(null); setNewPassword(''); }}>Cancel</button>
+                        <button type="submit" className="save-btn" disabled={saving}>
+                          {saving ? 'Updating...' : 'Set Password'}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* Edit User Form */}
+              {editingUser && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <h3>Edit User: {editingUser.name || editingUser.email}</h3>
+                    <form onSubmit={handleUserSubmit}>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Name</label>
+                          <input
+                            type="text"
+                            value={userForm.name}
+                            onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Email</label>
+                          <input
+                            type="email"
+                            value={userForm.email}
+                            onChange={(e) => setUserForm({ ...userForm, email: e.target.value })}
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>City</label>
+                          <input
+                            type="text"
+                            value={userForm.city}
+                            onChange={(e) => setUserForm({ ...userForm, city: e.target.value })}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Country</label>
+                          <input
+                            type="text"
+                            value={userForm.country}
+                            onChange={(e) => setUserForm({ ...userForm, country: e.target.value })}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Role</label>
+                        <select
+                          value={userForm.role}
+                          onChange={(e) => setUserForm({ ...userForm, role: e.target.value })}
+                        >
+                          <option value="user">User</option>
+                          <option value="teacher">Teacher</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      </div>
+                      <div className="form-actions">
+                        <button type="button" className="cancel-btn" onClick={cancelEditUser}>Cancel</button>
+                        <button type="submit" className="save-btn" disabled={saving}>
+                          {saving ? 'Saving...' : 'Save Changes'}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               )}
               
-              {users.length === 0 ? (
+              {filteredUsers.length === 0 ? (
                 <div className="empty-state">
                   <div className="empty-icon">
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -735,14 +1168,21 @@ function AdminDashboard() {
                       <circle cx="9" cy="7" r="4"/>
                     </svg>
                   </div>
-                  <h3>No Users Yet</h3>
-                  <p>Users will appear here once they register</p>
+                  <h3>{users.length === 0 ? 'No Users Yet' : 'No Matching Users'}</h3>
+                  <p>{users.length === 0 ? 'Users will appear here once they register' : 'Try adjusting your search or filters'}</p>
                 </div>
               ) : (
                 <div className="users-table">
                   <table>
                     <thead>
                       <tr>
+                        <th className="checkbox-col">
+                          <input 
+                            type="checkbox" 
+                            checked={selectedUsers.length > 0 && selectedUsers.length === selectableUsers.length}
+                            onChange={toggleSelectAll}
+                          />
+                        </th>
                         <th>User</th>
                         <th>Email</th>
                         <th>Location</th>
@@ -752,11 +1192,21 @@ function AdminDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {users.map((u) => (
-                        <tr key={u.id}>
+                      {filteredUsers.map((u) => (
+                        <tr key={u.id} className={selectedUsers.includes(u.id) ? 'selected' : ''}>
+                          <td className="checkbox-col">
+                            {u.id !== user?.id && (
+                              <input 
+                                type="checkbox" 
+                                checked={selectedUsers.includes(u.id)}
+                                onChange={() => toggleUserSelection(u.id)}
+                              />
+                            )}
+                          </td>
                           <td className="user-cell">
                             <div className="user-avatar-small">{(u.name || u.email)[0].toUpperCase()}</div>
                             <span>{u.name || 'Anonymous'}</span>
+                            {u.id === user?.id && <span className="you-badge">You</span>}
                           </td>
                           <td>{u.email}</td>
                           <td>{u.city && u.country ? `${u.city}, ${u.country}` : '-'}</td>
@@ -776,10 +1226,19 @@ function AdminDashboard() {
                               </svg>
                             </button>
                             <button 
+                              className="action-btn password" 
+                              onClick={() => setPasswordModal(u)}
+                              title="Set password"
+                            >
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                              </svg>
+                            </button>
+                            <button 
                               className="action-btn reset" 
                               onClick={() => handleResetPassword(u.id, u.name, u.email)}
                               disabled={userAction === u.id}
-                              title="Reset password"
+                              title="Email reset link"
                             >
                               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
