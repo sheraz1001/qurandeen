@@ -3592,6 +3592,200 @@ const oldSlugsMap = {
   'al-falaq': '113-al-falaq', 'an-nas': '114-an-nas'
 };
 
+const surahMetadata = [
+  { number: 1, name: 'Al-Fatihah', arabic: 'الفاتحة', meaning: 'The Opening', verses: 7, type: 'Meccan' },
+  { number: 2, name: 'Al-Baqarah', arabic: 'البقرة', meaning: 'The Cow', verses: 286, type: 'Medinan' },
+  { number: 3, name: 'Aali Imran', arabic: 'آل عمران', meaning: 'The Family of Imran', verses: 200, type: 'Medinan' },
+  { number: 4, name: 'An-Nisa', arabic: 'النساء', meaning: 'The Women', verses: 176, type: 'Medinan' },
+  { number: 5, name: 'Al-Maidah', arabic: 'المائدة', meaning: 'The Table Spread', verses: 120, type: 'Medinan' },
+  { number: 6, name: 'Al-Anam', arabic: 'الأنعام', meaning: 'The Cattle', verses: 165, type: 'Meccan' },
+  { number: 7, name: 'Al-Araf', arabic: 'الأعراف', meaning: 'The Heights', verses: 206, type: 'Meccan' },
+  { number: 8, name: 'Al-Anfal', arabic: 'الأنفال', meaning: 'The Spoils of War', verses: 75, type: 'Medinan' },
+  { number: 9, name: 'At-Tawbah', arabic: 'التوبة', meaning: 'The Repentance', verses: 129, type: 'Medinan' },
+  { number: 10, name: 'Yunus', arabic: 'يونس', meaning: 'Jonah', verses: 109, type: 'Meccan' },
+  { number: 11, name: 'Hud', arabic: 'هود', meaning: 'Hud', verses: 123, type: 'Meccan' },
+  { number: 12, name: 'Yusuf', arabic: 'يوسف', meaning: 'Joseph', verses: 111, type: 'Meccan' },
+  { number: 13, name: 'Ar-Rad', arabic: 'الرعد', meaning: 'The Thunder', verses: 43, type: 'Medinan' },
+  { number: 14, name: 'Ibrahim', arabic: 'إبراهيم', meaning: 'Abraham', verses: 52, type: 'Meccan' },
+  { number: 15, name: 'Al-Hijr', arabic: 'الحجر', meaning: 'The Rocky Tract', verses: 99, type: 'Meccan' },
+  { number: 16, name: 'An-Nahl', arabic: 'النحل', meaning: 'The Bee', verses: 128, type: 'Meccan' },
+  { number: 17, name: 'Al-Isra', arabic: 'الإسراء', meaning: 'The Night Journey', verses: 111, type: 'Meccan' },
+  { number: 18, name: 'Al-Kahf', arabic: 'الكهف', meaning: 'The Cave', verses: 110, type: 'Meccan' },
+  { number: 19, name: 'Maryam', arabic: 'مريم', meaning: 'Mary', verses: 98, type: 'Meccan' },
+  { number: 20, name: 'Ta-Ha', arabic: 'طه', meaning: 'Ta-Ha', verses: 135, type: 'Meccan' },
+  { number: 21, name: 'Al-Anbiya', arabic: 'الأنبياء', meaning: 'The Prophets', verses: 112, type: 'Meccan' },
+  { number: 22, name: 'Al-Hajj', arabic: 'الحج', meaning: 'The Pilgrimage', verses: 78, type: 'Medinan' },
+  { number: 23, name: 'Al-Muminun', arabic: 'المؤمنون', meaning: 'The Believers', verses: 118, type: 'Meccan' },
+  { number: 24, name: 'An-Nur', arabic: 'النور', meaning: 'The Light', verses: 64, type: 'Medinan' },
+  { number: 25, name: 'Al-Furqan', arabic: 'الفرقان', meaning: 'The Criterion', verses: 77, type: 'Meccan' },
+  { number: 26, name: 'Ash-Shuara', arabic: 'الشعراء', meaning: 'The Poets', verses: 227, type: 'Meccan' },
+  { number: 27, name: 'An-Naml', arabic: 'النمل', meaning: 'The Ant', verses: 93, type: 'Meccan' },
+  { number: 28, name: 'Al-Qasas', arabic: 'القصص', meaning: 'The Stories', verses: 88, type: 'Meccan' },
+  { number: 29, name: 'Al-Ankabut', arabic: 'العنكبوت', meaning: 'The Spider', verses: 69, type: 'Meccan' },
+  { number: 30, name: 'Ar-Rum', arabic: 'الروم', meaning: 'The Romans', verses: 60, type: 'Meccan' },
+  { number: 31, name: 'Luqman', arabic: 'لقمان', meaning: 'Luqman', verses: 34, type: 'Meccan' },
+  { number: 32, name: 'As-Sajdah', arabic: 'السجدة', meaning: 'The Prostration', verses: 30, type: 'Meccan' },
+  { number: 33, name: 'Al-Ahzab', arabic: 'الأحزاب', meaning: 'The Confederates', verses: 73, type: 'Medinan' },
+  { number: 34, name: 'Saba', arabic: 'سبأ', meaning: 'Sheba', verses: 54, type: 'Meccan' },
+  { number: 35, name: 'Fatir', arabic: 'فاطر', meaning: 'The Originator', verses: 45, type: 'Meccan' },
+  { number: 36, name: 'Ya-Sin', arabic: 'يس', meaning: 'Ya-Sin', verses: 83, type: 'Meccan' },
+  { number: 37, name: 'As-Saffat', arabic: 'الصافات', meaning: 'Those Ranged in Ranks', verses: 182, type: 'Meccan' },
+  { number: 38, name: 'Sad', arabic: 'ص', meaning: 'Sad', verses: 88, type: 'Meccan' },
+  { number: 39, name: 'Az-Zumar', arabic: 'الزمر', meaning: 'The Groups', verses: 75, type: 'Meccan' },
+  { number: 40, name: 'Ghafir', arabic: 'غافر', meaning: 'The Forgiver', verses: 85, type: 'Meccan' },
+  { number: 41, name: 'Fussilat', arabic: 'فصلت', meaning: 'Explained in Detail', verses: 54, type: 'Meccan' },
+  { number: 42, name: 'Ash-Shura', arabic: 'الشورى', meaning: 'The Consultation', verses: 53, type: 'Meccan' },
+  { number: 43, name: 'Az-Zukhruf', arabic: 'الزخرف', meaning: 'The Gold Adornments', verses: 89, type: 'Meccan' },
+  { number: 44, name: 'Ad-Dukhan', arabic: 'الدخان', meaning: 'The Smoke', verses: 59, type: 'Meccan' },
+  { number: 45, name: 'Al-Jathiyah', arabic: 'الجاثية', meaning: 'The Crouching', verses: 37, type: 'Meccan' },
+  { number: 46, name: 'Al-Ahqaf', arabic: 'الأحقاف', meaning: 'The Wind-Curved Sandhills', verses: 35, type: 'Meccan' },
+  { number: 47, name: 'Muhammad', arabic: 'محمد', meaning: 'Muhammad', verses: 38, type: 'Medinan' },
+  { number: 48, name: 'Al-Fath', arabic: 'الفتح', meaning: 'The Victory', verses: 29, type: 'Medinan' },
+  { number: 49, name: 'Al-Hujurat', arabic: 'الحجرات', meaning: 'The Rooms', verses: 18, type: 'Medinan' },
+  { number: 50, name: 'Qaf', arabic: 'ق', meaning: 'Qaf', verses: 45, type: 'Meccan' },
+  { number: 51, name: 'Adh-Dhariyat', arabic: 'الذاريات', meaning: 'The Winnowing Winds', verses: 60, type: 'Meccan' },
+  { number: 52, name: 'At-Tur', arabic: 'الطور', meaning: 'The Mount', verses: 49, type: 'Meccan' },
+  { number: 53, name: 'An-Najm', arabic: 'النجم', meaning: 'The Star', verses: 62, type: 'Meccan' },
+  { number: 54, name: 'Al-Qamar', arabic: 'القمر', meaning: 'The Moon', verses: 55, type: 'Meccan' },
+  { number: 55, name: 'Ar-Rahman', arabic: 'الرحمن', meaning: 'The Most Merciful', verses: 78, type: 'Medinan' },
+  { number: 56, name: 'Al-Waqiah', arabic: 'الواقعة', meaning: 'The Inevitable', verses: 96, type: 'Meccan' },
+  { number: 57, name: 'Al-Hadid', arabic: 'الحديد', meaning: 'The Iron', verses: 29, type: 'Medinan' },
+  { number: 58, name: 'Al-Mujadila', arabic: 'المجادلة', meaning: 'The Pleading Woman', verses: 22, type: 'Medinan' },
+  { number: 59, name: 'Al-Hashr', arabic: 'الحشر', meaning: 'The Exile', verses: 24, type: 'Medinan' },
+  { number: 60, name: 'Al-Mumtahanah', arabic: 'الممتحنة', meaning: 'She that is Examined', verses: 13, type: 'Medinan' },
+  { number: 61, name: 'As-Saff', arabic: 'الصف', meaning: 'The Ranks', verses: 14, type: 'Medinan' },
+  { number: 62, name: 'Al-Jumuah', arabic: 'الجمعة', meaning: 'Friday', verses: 11, type: 'Medinan' },
+  { number: 63, name: 'Al-Munafiqun', arabic: 'المنافقون', meaning: 'The Hypocrites', verses: 11, type: 'Medinan' },
+  { number: 64, name: 'At-Taghabun', arabic: 'التغابن', meaning: 'The Mutual Disillusion', verses: 18, type: 'Medinan' },
+  { number: 65, name: 'At-Talaq', arabic: 'الطلاق', meaning: 'The Divorce', verses: 12, type: 'Medinan' },
+  { number: 66, name: 'At-Tahrim', arabic: 'التحريم', meaning: 'The Prohibition', verses: 12, type: 'Medinan' },
+  { number: 67, name: 'Al-Mulk', arabic: 'الملك', meaning: 'The Sovereignty', verses: 30, type: 'Meccan' },
+  { number: 68, name: 'Al-Qalam', arabic: 'القلم', meaning: 'The Pen', verses: 52, type: 'Meccan' },
+  { number: 69, name: 'Al-Haqqah', arabic: 'الحاقة', meaning: 'The Inevitable Hour', verses: 52, type: 'Meccan' },
+  { number: 70, name: 'Al-Maarij', arabic: 'المعارج', meaning: 'The Ascending Stairways', verses: 44, type: 'Meccan' },
+  { number: 71, name: 'Nuh', arabic: 'نوح', meaning: 'Noah', verses: 28, type: 'Meccan' },
+  { number: 72, name: 'Al-Jinn', arabic: 'الجن', meaning: 'The Jinn', verses: 28, type: 'Meccan' },
+  { number: 73, name: 'Al-Muzzammil', arabic: 'المزمل', meaning: 'The Enshrouded One', verses: 20, type: 'Meccan' },
+  { number: 74, name: 'Al-Muddaththir', arabic: 'المدثر', meaning: 'The Cloaked One', verses: 56, type: 'Meccan' },
+  { number: 75, name: 'Al-Qiyamah', arabic: 'القيامة', meaning: 'The Resurrection', verses: 40, type: 'Meccan' },
+  { number: 76, name: 'Al-Insan', arabic: 'الإنسان', meaning: 'Man', verses: 31, type: 'Medinan' },
+  { number: 77, name: 'Al-Mursalat', arabic: 'المرسلات', meaning: 'The Emissaries', verses: 50, type: 'Meccan' },
+  { number: 78, name: 'An-Naba', arabic: 'النبأ', meaning: 'The Announcement', verses: 40, type: 'Meccan' },
+  { number: 79, name: 'An-Naziat', arabic: 'النازعات', meaning: 'Those Who Drag Forth', verses: 46, type: 'Meccan' },
+  { number: 80, name: 'Abasa', arabic: 'عبس', meaning: 'He Frowned', verses: 42, type: 'Meccan' },
+  { number: 81, name: 'At-Takwir', arabic: 'التكوير', meaning: 'The Overthrowing', verses: 29, type: 'Meccan' },
+  { number: 82, name: 'Al-Infitar', arabic: 'الانفطار', meaning: 'The Cleaving', verses: 19, type: 'Meccan' },
+  { number: 83, name: 'Al-Mutaffifin', arabic: 'المطففين', meaning: 'The Defrauders', verses: 36, type: 'Meccan' },
+  { number: 84, name: 'Al-Inshiqaq', arabic: 'الانشقاق', meaning: 'The Splitting Open', verses: 25, type: 'Meccan' },
+  { number: 85, name: 'Al-Buruj', arabic: 'البروج', meaning: 'The Great Stars', verses: 22, type: 'Meccan' },
+  { number: 86, name: 'At-Tariq', arabic: 'الطارق', meaning: 'The Morning Star', verses: 17, type: 'Meccan' },
+  { number: 87, name: 'Al-Ala', arabic: 'الأعلى', meaning: 'The Most High', verses: 19, type: 'Meccan' },
+  { number: 88, name: 'Al-Ghashiyah', arabic: 'الغاشية', meaning: 'The Overwhelming', verses: 26, type: 'Meccan' },
+  { number: 89, name: 'Al-Fajr', arabic: 'الفجر', meaning: 'The Dawn', verses: 30, type: 'Meccan' },
+  { number: 90, name: 'Al-Balad', arabic: 'البلد', meaning: 'The City', verses: 20, type: 'Meccan' },
+  { number: 91, name: 'Ash-Shams', arabic: 'الشمس', meaning: 'The Sun', verses: 15, type: 'Meccan' },
+  { number: 92, name: 'Al-Layl', arabic: 'الليل', meaning: 'The Night', verses: 21, type: 'Meccan' },
+  { number: 93, name: 'Ad-Duhaa', arabic: 'الضحى', meaning: 'The Morning Hours', verses: 11, type: 'Meccan' },
+  { number: 94, name: 'Ash-Sharh', arabic: 'الشرح', meaning: 'The Consolation', verses: 8, type: 'Meccan' },
+  { number: 95, name: 'At-Tin', arabic: 'التين', meaning: 'The Fig', verses: 8, type: 'Meccan' },
+  { number: 96, name: 'Al-Alaq', arabic: 'العلق', meaning: 'The Clot', verses: 19, type: 'Meccan' },
+  { number: 97, name: 'Al-Qadr', arabic: 'القدر', meaning: 'The Power', verses: 5, type: 'Meccan' },
+  { number: 98, name: 'Al-Bayyinah', arabic: 'البينة', meaning: 'The Clear Evidence', verses: 8, type: 'Medinan' },
+  { number: 99, name: 'Az-Zalzalah', arabic: 'الزلزلة', meaning: 'The Earthquake', verses: 8, type: 'Medinan' },
+  { number: 100, name: 'Al-Adiyat', arabic: 'العاديات', meaning: 'The Courser', verses: 11, type: 'Meccan' },
+  { number: 101, name: 'Al-Qariah', arabic: 'القارعة', meaning: 'The Calamity', verses: 11, type: 'Meccan' },
+  { number: 102, name: 'At-Takathur', arabic: 'التكاثر', meaning: 'The Rivalry', verses: 8, type: 'Meccan' },
+  { number: 103, name: 'Al-Asr', arabic: 'العصر', meaning: 'The Declining Day', verses: 3, type: 'Meccan' },
+  { number: 104, name: 'Al-Humazah', arabic: 'الهمزة', meaning: 'The Traducer', verses: 9, type: 'Meccan' },
+  { number: 105, name: 'Al-Fil', arabic: 'الفيل', meaning: 'The Elephant', verses: 5, type: 'Meccan' },
+  { number: 106, name: 'Quraysh', arabic: 'قريش', meaning: 'Quraysh', verses: 4, type: 'Meccan' },
+  { number: 107, name: 'Al-Maun', arabic: 'الماعون', meaning: 'The Small Kindnesses', verses: 7, type: 'Meccan' },
+  { number: 108, name: 'Al-Kawthar', arabic: 'الكوثر', meaning: 'The Abundance', verses: 3, type: 'Meccan' },
+  { number: 109, name: 'Al-Kafirun', arabic: 'الكافرون', meaning: 'The Disbelievers', verses: 6, type: 'Meccan' },
+  { number: 110, name: 'An-Nasr', arabic: 'النصر', meaning: 'The Divine Support', verses: 3, type: 'Medinan' },
+  { number: 111, name: 'Al-Masad', arabic: 'المسد', meaning: 'The Palm Fiber', verses: 5, type: 'Meccan' },
+  { number: 112, name: 'Al-Ikhlas', arabic: 'الإخلاص', meaning: 'The Sincerity', verses: 4, type: 'Meccan' },
+  { number: 113, name: 'Al-Falaq', arabic: 'الفلق', meaning: 'The Daybreak', verses: 5, type: 'Meccan' },
+  { number: 114, name: 'An-Nas', arabic: 'الناس', meaning: 'Mankind', verses: 6, type: 'Meccan' }
+];
+
+import fs from 'fs';
+
+function getSurahFromSlug(slug) {
+  const match = slug.match(/^(\d+)-/);
+  if (match) {
+    const num = parseInt(match[1]);
+    if (num >= 1 && num <= 114) {
+      return surahMetadata[num - 1];
+    }
+  }
+  return null;
+}
+
+function getOrdinalSuffix(n) {
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function injectSurahSEO(html, surah, slug) {
+  const title = `Surah ${surah.name} (${surah.arabic}) - ${surah.meaning} | Quran Deen`;
+  const description = `Read and listen to Surah ${surah.name} (${surah.arabic}), the ${getOrdinalSuffix(surah.number)} chapter of the Holy Quran with ${surah.verses} verses. ${surah.type} surah meaning "${surah.meaning}". Multiple translations, reciters, and tafsir available.`;
+  const url = `https://qurandeen.com/surah/${slug}`;
+  
+  const metaTags = `
+    <title>${title}</title>
+    <meta name="description" content="${description}" />
+    <meta name="keywords" content="Surah ${surah.name}, ${surah.arabic}, ${surah.meaning}, Quran chapter ${surah.number}, Holy Quran, Islamic scripture, Quran recitation, Quran translation" />
+    <link rel="canonical" href="${url}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Quran Deen" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />`;
+  
+  const jsonLd = `<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Surah ${surah.name} (${surah.arabic})",
+  "description": "${description}",
+  "url": "${url}",
+  "mainEntityOfPage": "${url}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Quran Deen",
+    "url": "https://qurandeen.com"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Holy Quran - Chapter ${surah.number}"
+  }
+}
+</script>`;
+
+  const noscriptContent = `<noscript>
+    <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;">
+      <h1>Surah ${surah.name} (${surah.arabic})</h1>
+      <h2>${surah.meaning}</h2>
+      <p><strong>Chapter ${surah.number}</strong> of the Holy Quran</p>
+      <p>${surah.verses} Verses | ${surah.type} Surah</p>
+      <p>${description}</p>
+      <p>This page contains the complete Arabic text, translations, audio recitations, and tafsir (commentary) for Surah ${surah.name}.</p>
+      <p><a href="https://qurandeen.com">Visit Quran Deen</a> to read the full Quran with 100+ translations, 150+ reciters, and more.</p>
+    </div>
+  </noscript>`;
+  
+  let modifiedHtml = html.replace(/<title>.*?<\/title>/, metaTags);
+  modifiedHtml = modifiedHtml.replace('</head>', `${jsonLd}\n</head>`);
+  modifiedHtml = modifiedHtml.replace('<div id="root"></div>', `<div id="root"></div>${noscriptContent}`);
+  
+  return modifiedHtml;
+}
+
 app.get('/surah/:identifier', (req, res, next) => {
   const identifier = req.params.identifier.toLowerCase();
   
@@ -3604,6 +3798,21 @@ app.get('/surah/:identifier', (req, res, next) => {
     if (num >= 1 && num <= 114) {
       const canonicalSlug = surahSlugs[num - 1];
       return res.redirect(301, `/surah/${canonicalSlug}`);
+    }
+  }
+  
+  if (process.env.NODE_ENV === 'production') {
+    const surah = getSurahFromSlug(identifier);
+    if (surah) {
+      const htmlPath = path.join(__dirname, '../client/dist/index.html');
+      fs.readFile(htmlPath, 'utf8', (err, html) => {
+        if (err) {
+          return res.sendFile(htmlPath);
+        }
+        const modifiedHtml = injectSurahSEO(html, surah, identifier);
+        res.send(modifiedHtml);
+      });
+      return;
     }
   }
   
