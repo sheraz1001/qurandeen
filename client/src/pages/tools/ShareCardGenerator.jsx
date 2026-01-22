@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import '../../styles/tools.css';
 import '../../styles/share-card.css';
+import '../../styles/hijri-calendar.css';
 
 const SOCIAL_SIZES = [
   { id: 'instagram-square', name: 'Instagram Post', width: 1080, height: 1080, ratio: '1:1', icon: '📸' },
