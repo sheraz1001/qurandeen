@@ -15,6 +15,7 @@ import Tools from './pages/Tools';
 import ShareCardGenerator from './pages/tools/ShareCardGenerator';
 import VerseOfDay from './pages/tools/VerseOfDay';
 import HijriConverter from './pages/tools/HijriConverter';
+import HistoricalDates from './pages/tools/HistoricalDates';
 import Adhkar from './pages/tools/Adhkar';
 import NamesOfAllah from './pages/tools/NamesOfAllah';
 import HadithOfDay from './pages/tools/HadithOfDay';
@@ -153,6 +154,7 @@ function App() {
             <Route path="/islamic-resources/share-card" element={<ShareCardGenerator />} />
             <Route path="/islamic-resources/verse-of-day" element={<VerseOfDay />} />
             <Route path="/islamic-resources/hijri-converter" element={<HijriConverter />} />
+            <Route path="/islamic-resources/historical-dates" element={<HistoricalDates />} />
             <Route path="/islamic-resources/adhkar" element={<Adhkar />} />
             <Route path="/islamic-resources/names-of-allah" element={<NamesOfAllah />} />
             <Route path="/islamic-resources/hadith-of-day" element={<HadithOfDay />} />

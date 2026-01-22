@@ -96,6 +96,7 @@ function Header({ darkMode, toggleDarkMode }) {
       links: [
         { path: '/hijri-calendar', label: 'Hijri-Gregorian Calendar', icon: '📅', description: 'Full Islamic calendar with events' },
         { path: '/islamic-resources/hijri-converter', label: 'Date Converter', icon: '🔄', description: 'Convert between calendars' },
+        { path: '/islamic-resources/historical-dates', label: 'Historical Dates', icon: '📜', description: 'Explore major Islamic events' },
       ]
     },
     creativeTools: {
