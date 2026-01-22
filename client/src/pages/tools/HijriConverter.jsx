@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import '../../styles/hijri-calendar.css';
 import '../../styles/hijri-converter.css';
 
 const HIJRI_MONTHS = [
@@ -200,26 +201,25 @@ function HijriConverter() {
         <meta name="description" content="Advanced Hijri to Gregorian date converter. Calculate Islamic age, find important Islamic dates, explore the lunar calendar. Free Islamic calendar converter tool." />
       </Helmet>
 
-      <div className="converter-hero">
-        <div className="hero-pattern"></div>
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span className="badge-icon">📅</span>
-            Calendar Tool
-          </div>
+      <div className="hijri-hero converter-hero-style">
+        <div className="hijri-hero-content">
           <h1>Hijri-Gregorian Converter</h1>
-          <p className="hero-subtitle">
-            Convert between Islamic Hijri and Gregorian calendars, calculate your Islamic age, and explore important Islamic dates
-          </p>
-          <div className="hero-current-date">
-            <div className="current-hijri">
-              <span className="date-arabic">{getCurrentHijriMonth().arabic}</span>
-              <span className="date-value">{hijriDate.day} {getCurrentHijriMonth().name} {hijriDate.year} AH</span>
+          <p>Convert between Islamic Hijri and Gregorian calendars, calculate your Islamic age, and explore important Islamic dates</p>
+          
+          <div className="today-display">
+            <div className="today-gregorian">
+              <span className="today-label">Gregorian</span>
+              <span className="today-date">{formatGregorianDate(gregorianDate)}</span>
             </div>
-            <div className="date-separator">≈</div>
-            <div className="current-gregorian">
-              <span className="date-label">Gregorian</span>
-              <span className="date-value">{formatGregorianDate(gregorianDate)}</span>
+            <div className="today-divider">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M7 16l5-5 5 5M7 8l5 5 5-5" />
+              </svg>
+            </div>
+            <div className="today-hijri">
+              <span className="today-label">Hijri</span>
+              <span className="today-date">{hijriDate.day} {getCurrentHijriMonth().name} {hijriDate.year} AH</span>
+              <span className="today-arabic">{getCurrentHijriMonth().arabic}</span>
             </div>
           </div>
         </div>

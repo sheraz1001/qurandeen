@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import '../../styles/tools.css';
 import '../../styles/share-card.css';
 
 const SOCIAL_SIZES = [
@@ -364,33 +365,42 @@ function ShareCardGenerator() {
         <meta name="description" content="Create stunning, shareable Quran verse cards for social media. Multiple sizes for Instagram, Facebook, Twitter, WhatsApp. 15+ translations, custom backgrounds, Arabic fonts." />
       </Helmet>
 
-      <div className="share-hero">
-        <div className="hero-pattern"></div>
-        <div className="hero-content">
-          <div className="hero-badge">
-            <span className="badge-icon">🎨</span>
-            Creative Tool
-          </div>
+      <div className="hijri-hero share-card-hero">
+        <div className="hijri-hero-content">
           <h1>Quran Share Card Generator</h1>
-          <p className="hero-subtitle">
-            Create beautiful, shareable Quranic verse cards optimized for all social media platforms
-          </p>
-          <div className="hero-features">
-            <div className="hero-feature">
-              <span className="feature-icon">📐</span>
-              <span>{stats.sizes} Sizes</span>
+          <p>Create beautiful, shareable Quranic verse cards optimized for all social media platforms</p>
+          
+          <div className="today-display share-stats-display">
+            <div className="stat-item">
+              <span className="stat-number">{stats.sizes}</span>
+              <span className="stat-label">Card Sizes</span>
             </div>
-            <div className="hero-feature">
-              <span className="feature-icon">🌍</span>
-              <span>{stats.translations} Translations</span>
+            <div className="today-divider">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+              </svg>
             </div>
-            <div className="hero-feature">
-              <span className="feature-icon">🎨</span>
-              <span>{stats.backgrounds} Backgrounds</span>
+            <div className="stat-item">
+              <span className="stat-number">{stats.translations}</span>
+              <span className="stat-label">Translations</span>
             </div>
-            <div className="hero-feature">
-              <span className="feature-icon">📖</span>
-              <span>{stats.totalVerses.toLocaleString()} Verses</span>
+            <div className="today-divider">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">{stats.backgrounds}</span>
+              <span className="stat-label">Backgrounds</span>
+            </div>
+            <div className="today-divider">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+              </svg>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">{stats.totalVerses.toLocaleString()}</span>
+              <span className="stat-label">Verses Available</span>
             </div>
           </div>
         </div>
