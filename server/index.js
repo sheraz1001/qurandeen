@@ -111,11 +111,29 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
   }
 
   try {
+    // Helper function to check if payment is from QuranDeen
+    const isQuranDeenPayment = (metadata) => {
+      return metadata && metadata.source === 'qurandeen';
+    };
+    
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object;
-        const amount = paymentIntent.amount / 100;
         const metadata = paymentIntent.metadata || {};
+        
+        // CRITICAL: Only process payments from QuranDeen, ignore payments from other websites
+        if (!isQuranDeenPayment(metadata)) {
+          console.log('Ignoring payment_intent.succeeded from external source:', paymentIntent.id);
+          break;
+        }
+        
+        // Skip teaching payments - they're handled separately
+        if (metadata.type === 'teaching_payment') {
+          console.log('Teaching payment succeeded, handled by confirmation flow:', paymentIntent.id);
+          break;
+        }
+        
+        const amount = paymentIntent.amount / 100;
         const donationType = metadata.type === 'monthly_donation_initial' ? 'monthly' : 'one_time';
         
         let userId = null;
@@ -181,10 +199,8 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
       case 'invoice.payment_succeeded':
       case 'invoice_payment.paid': {
         const invoice = event.data.object;
-        const amount = (invoice.amount_paid || invoice.total) / 100;
-        const customerEmail = invoice.customer_email || '';
         
-        // Get customer details from Stripe if available
+        // Get customer details from Stripe to check if from QuranDeen
         let customerDetails = {};
         if (invoice.customer) {
           try {
@@ -194,6 +210,15 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
             console.log('Could not retrieve customer details:', e.message);
           }
         }
+        
+        // CRITICAL: Only process invoices from QuranDeen customers
+        if (!isQuranDeenPayment(customerDetails)) {
+          console.log('Ignoring invoice payment from external source:', invoice.id);
+          break;
+        }
+        
+        const amount = (invoice.amount_paid || invoice.total) / 100;
+        const customerEmail = invoice.customer_email || '';
         
         // Check/create user account for the donor
         let userId = null;
@@ -264,6 +289,13 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
       case 'checkout.session.completed': {
         const session = event.data.object;
         const metadata = session.metadata || {};
+        
+        // CRITICAL: Only process checkout sessions from QuranDeen
+        if (!isQuranDeenPayment(metadata)) {
+          console.log('Ignoring checkout session from external source:', session.id);
+          break;
+        }
+        
         const amount = session.amount_total / 100;
         const customerEmail = session.customer_email || session.customer_details?.email || '';
         
@@ -351,6 +383,13 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object;
         const metadata = paymentIntent.metadata || {};
+        
+        // CRITICAL: Only process failed payments from QuranDeen
+        if (!isQuranDeenPayment(metadata)) {
+          console.log('Ignoring failed payment from external source:', paymentIntent.id);
+          break;
+        }
+        
         await pool.query(
           `INSERT INTO donations (stripe_payment_id, donor_name, donor_email, amount, donation_type, status, message)
            VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -1601,6 +1640,7 @@ app.post('/api/stripe/create-payment-intent', async (req, res) => {
       amount: amountInCents,
       currency: 'usd',
       metadata: {
+        source: 'qurandeen',
         firstName: firstName,
         lastName: lastName,
         donorName: donorName,
@@ -1647,7 +1687,7 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
         email: donorEmail,
         name: donorName,
         metadata: {
-          source: 'QuranDeen Donation',
+          source: 'qurandeen',
           firstName: firstName,
           lastName: lastName,
           donorName: donorName,
@@ -1681,6 +1721,7 @@ app.post('/api/stripe/create-subscription', async (req, res) => {
       customer: customer.id,
       setup_future_usage: 'off_session',
       metadata: {
+        source: 'qurandeen',
         firstName: firstName,
         lastName: lastName,
         donorName: donorName,
@@ -2801,6 +2842,8 @@ app.post('/api/payments/create-intent', authenticateToken, async (req, res) => {
       amount,
       currency: 'usd',
       metadata: {
+        source: 'qurandeen',
+        type: 'teaching_payment',
         studentId: studentId.toString(),
         teacherId: teacherId.toString(),
         packageId: packageId?.toString() || '',
