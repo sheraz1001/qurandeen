@@ -111,13 +111,13 @@ function Features() {
     },
     {
       icon: '📅',
-      title: 'Hijri Calendar',
-      description: 'View the Islamic Hijri calendar with accurate date conversions. Track important Islamic dates and events.',
-      link: '/islamic-resources/hijri-calendar'
+      title: 'Hijri-Gregorian Calendar',
+      description: 'Interactive Islamic calendar with date conversion, events, and age calculator.',
+      link: '/hijri-calendar'
     },
     {
       icon: '🔄',
-      title: 'Hijri Converter',
+      title: 'Date Converter',
       description: 'Convert dates between Hijri and Gregorian calendars instantly for any date in history.',
       link: '/islamic-resources/hijri-converter'
     },

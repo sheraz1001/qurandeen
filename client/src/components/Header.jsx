@@ -62,50 +62,61 @@ function Header({ darkMode, toggleDarkMode }) {
     },
   ];
 
-  const resourceLinks = [
-    { 
-      path: '/hadith', 
-      label: 'Hadith Collections', 
+  const resourceCategories = {
+    collections: {
+      title: 'Islamic Collections',
       icon: '📚',
-      description: '17 books with 50,000+ authentic hadiths'
+      links: [
+        { path: '/hadith', label: 'Hadith Collections', icon: '📕', description: '17 books with 50,000+ authentic hadiths' },
+        { path: '/azkaar', label: 'Daily Azkaar & Duas', icon: '🤲', description: '134 categories from Hisnul Muslim' },
+        { path: '/islamic-resources/names-of-allah', label: '99 Names of Allah', icon: '✨', description: 'Asma ul Husna with meanings' },
+      ]
     },
-    { 
-      path: '/azkaar', 
-      label: 'Daily Azkaar & Duas', 
-      icon: '🤲',
-      description: '134 categories from Hisnul Muslim'
+    dailyContent: {
+      title: 'Daily Inspiration',
+      icon: '🌟',
+      links: [
+        { path: '/islamic-resources/verse-of-day', label: 'Verse of the Day', icon: '📖', description: 'Daily Quranic verse with reflection' },
+        { path: '/islamic-resources/hadith-of-day', label: 'Hadith of the Day', icon: '📜', description: 'Daily authentic hadith selection' },
+        { path: '/islamic-resources/adhkar', label: 'Morning & Evening Adhkar', icon: '🌅', description: 'Daily remembrance duas' },
+      ]
     },
-    { 
-      path: '/islamic-resources/hadith-of-day', 
-      label: 'Hadith of the Day', 
-      icon: '📜',
-      description: 'Daily authentic hadith with translations'
+    prayerTools: {
+      title: 'Prayer & Worship',
+      icon: '🕌',
+      links: [
+        { path: '/islamic-resources/prayer-times', label: 'Prayer Times', icon: '🕐', description: 'Accurate times for your location' },
+        { path: '/islamic-resources/qibla-direction', label: 'Qibla Direction', icon: '🧭', description: 'Find Qibla from anywhere' },
+        { path: '/islamic-resources/ramadan-calendar', label: 'Ramadan Calendar', icon: '🌙', description: 'Suhoor & Iftar timings' },
+      ]
     },
-    { 
-      path: '/islamic-resources/verse-of-day', 
-      label: 'Quran Verse of the Day', 
-      icon: '✨',
-      description: 'Daily Quranic verse with reflection'
-    },
-    { 
-      path: '/islamic-resources/hijri-calendar', 
-      label: 'Hijri-Gregorian Calendar', 
+    calendarTools: {
+      title: 'Calendar & Dates',
       icon: '📅',
-      description: 'Convert between Islamic and Gregorian dates'
+      links: [
+        { path: '/hijri-calendar', label: 'Hijri-Gregorian Calendar', icon: '📅', description: 'Full Islamic calendar with events' },
+        { path: '/islamic-resources/hijri-converter', label: 'Date Converter', icon: '🔄', description: 'Convert between calendars' },
+      ]
     },
-    { 
-      path: '/islamic-resources/share-card', 
-      label: 'Quran Share Card Generator', 
+    creativeTools: {
+      title: 'Creative Tools',
       icon: '🎨',
-      description: 'Create beautiful shareable verse cards'
+      links: [
+        { path: '/islamic-resources/share-card', label: 'Quran Share Card', icon: '🖼️', description: 'Create beautiful verse images' },
+        { path: '/islamic-ai-scholar', label: 'AI Islamic Scholar', icon: '🤖', description: 'Ask Islamic questions' },
+      ]
     },
-    { 
-      path: '/blogs', 
-      label: 'Islamic Blogs', 
+    content: {
+      title: 'Content & Learning',
       icon: '📝',
-      description: 'Articles on Islamic knowledge'
-    },
-  ];
+      links: [
+        { path: '/blogs', label: 'Islamic Blog', icon: '📝', description: 'Articles on Islamic knowledge' },
+        { path: '/teachers', label: 'Find Quran Teachers', icon: '👨‍🏫', description: 'Learn from verified teachers' },
+      ]
+    }
+  };
+
+  const allResourceLinks = Object.values(resourceCategories).flatMap(cat => cat.links);
 
   return (
     <header className="header">
@@ -284,7 +295,7 @@ function Header({ darkMode, toggleDarkMode }) {
               >
                 <Link 
                   to="/islamic-resources"
-                  className={`nav-link dropdown-trigger ${isActiveGroup(['/islamic-resources', '/azkaar', '/blogs', '/hadith']) ? 'active' : ''}`}
+                  className={`nav-link dropdown-trigger ${isActiveGroup(['/islamic-resources', '/azkaar', '/blogs', '/hadith', '/hijri-calendar']) ? 'active' : ''}`}
                   aria-expanded={activeDropdown === 'resources'}
                   aria-haspopup="true"
                 >
@@ -293,32 +304,34 @@ function Header({ darkMode, toggleDarkMode }) {
                     <polyline points="6 9 12 15 18 9"/>
                   </svg>
                 </Link>
-                <div className="mega-dropdown mega-dropdown-wide">
-                  <div className="mega-dropdown-content">
-                    <div className="mega-dropdown-section">
-                      <h3 className="mega-section-title">
-                        <span className="title-icon">🌟</span>
-                        Islamic Resources
-                      </h3>
-                      <div className="mega-links mega-links-grid">
-                        {resourceLinks.map((link) => (
-                          <Link 
-                            key={link.path}
-                            to={link.path} 
-                            className={`mega-link ${isActive(link.path) ? 'active' : ''}`}
-                          >
-                            <span className="mega-link-icon">{link.icon}</span>
-                            <div className="mega-link-content">
-                              <span className="mega-link-title">{link.label}</span>
-                              <span className="mega-link-desc">{link.description}</span>
-                            </div>
-                          </Link>
-                        ))}
+                <div className="mega-dropdown mega-dropdown-full">
+                  <div className="mega-dropdown-content mega-grid-layout">
+                    {Object.entries(resourceCategories).map(([key, category]) => (
+                      <div key={key} className="mega-dropdown-column">
+                        <h3 className="mega-section-title">
+                          <span className="title-icon">{category.icon}</span>
+                          {category.title}
+                        </h3>
+                        <div className="mega-links">
+                          {category.links.map((link) => (
+                            <Link 
+                              key={link.path}
+                              to={link.path} 
+                              className={`mega-link ${isActive(link.path) ? 'active' : ''}`}
+                            >
+                              <span className="mega-link-icon">{link.icon}</span>
+                              <div className="mega-link-content">
+                                <span className="mega-link-title">{link.label}</span>
+                                <span className="mega-link-desc">{link.description}</span>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="mega-dropdown-footer">
+                    ))}
+                    <div className="mega-dropdown-footer-full">
                       <Link to="/islamic-resources" className="view-all-link">
-                        View All Resources
+                        View All Islamic Resources
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                           <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>
@@ -406,20 +419,22 @@ function Header({ darkMode, toggleDarkMode }) {
                 </Link>
               ))}
             </li>
-            <li className="mobile-nav-section">
-              <span className="mobile-nav-section-title">Resources</span>
-              {resourceLinks.map((link) => (
-                <Link 
-                  key={link.path}
-                  to={link.path} 
-                  className={`mobile-nav-link mobile-nav-sublink ${isActive(link.path) ? 'active' : ''}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="mobile-nav-icon">{link.icon}</span>
-                  {link.label}
-                </Link>
-              ))}
-            </li>
+            {Object.entries(resourceCategories).map(([key, category]) => (
+              <li key={key} className="mobile-nav-section">
+                <span className="mobile-nav-section-title">{category.icon} {category.title}</span>
+                {category.links.map((link) => (
+                  <Link 
+                    key={link.path}
+                    to={link.path} 
+                    className={`mobile-nav-link mobile-nav-sublink ${isActive(link.path) ? 'active' : ''}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="mobile-nav-icon">{link.icon}</span>
+                    {link.label}
+                  </Link>
+                ))}
+              </li>
+            ))}
             <li>
               <Link 
                 to="/islamic-ai-scholar" 

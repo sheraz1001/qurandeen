@@ -46,6 +46,59 @@
   min-width: 520px;
 }
 
+.mega-dropdown-full {
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 90vw;
+  max-width: 1100px;
+}
+
+.nav-item.has-dropdown:hover .mega-dropdown-full,
+.nav-item.dropdown-open .mega-dropdown-full {
+  transform: translateX(-50%) translateY(0);
+}
+
+.mega-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.mega-dropdown-column {
+  min-width: 0;
+}
+
+.mega-dropdown-column .mega-links {
+  gap: 0.25rem;
+}
+
+.mega-dropdown-column .mega-link {
+  padding: 0.6rem 0.75rem;
+}
+
+.mega-dropdown-column .mega-link-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 1.1rem;
+}
+
+.mega-dropdown-column .mega-link-title {
+  font-size: 0.85rem;
+}
+
+.mega-dropdown-column .mega-link-desc {
+  font-size: 0.7rem;
+}
+
+.mega-dropdown-footer-full {
+  grid-column: 1 / -1;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 .nav-item.has-dropdown:hover .mega-dropdown,
 .nav-item.dropdown-open .mega-dropdown {
   opacity: 1;
@@ -287,22 +340,38 @@
   font-weight: 600;
 }
 
+@media (max-width: 1200px) {
+  .mega-grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 1024px) {
   .mega-dropdown,
-  .mega-dropdown-wide {
+  .mega-dropdown-wide,
+  .mega-dropdown-full {
     position: fixed;
     top: auto;
     left: 1rem;
     right: 1rem;
     min-width: auto;
+    width: auto;
     transform: translateY(10px);
     max-height: 70vh;
     overflow-y: auto;
   }
 
   .nav-item.has-dropdown:hover .mega-dropdown,
-  .nav-item.dropdown-open .mega-dropdown {
+  .nav-item.has-dropdown:hover .mega-dropdown-full,
+  .nav-item.dropdown-open .mega-dropdown,
+  .nav-item.dropdown-open .mega-dropdown-full {
     transform: translateY(0);
+  }
+
+  .mega-grid-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
   }
 
   .mega-links-grid {
@@ -312,7 +381,8 @@
 
 @media (max-width: 768px) {
   .mega-dropdown,
-  .mega-dropdown-wide {
+  .mega-dropdown-wide,
+  .mega-dropdown-full {
     display: none;
   }
 }
