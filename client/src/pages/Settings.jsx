@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/Loading';
+import { getCacheStats, getCacheSizeEstimate, clearAllCache, clearStore, STORES } from '../services/cacheService';
 import '../styles/settings.css';
 
 function Settings({ 
@@ -35,6 +36,9 @@ function Settings({
   const [tafsirs, setTafsirs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('appearance');
+  const [cacheStats, setCacheStats] = useState({});
+  const [cacheSize, setCacheSize] = useState(null);
+  const [clearingCache, setClearingCache] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +60,31 @@ function Settings({
       }
     };
     fetchData();
+    loadCacheStats();
   }, []);
+
+  const loadCacheStats = async () => {
+    const stats = await getCacheStats();
+    const size = await getCacheSizeEstimate();
+    setCacheStats(stats);
+    setCacheSize(size);
+  };
+
+  const handleClearAllCache = async () => {
+    if (!confirm('This will clear all cached data. You will need internet to reload content. Continue?')) return;
+    setClearingCache(true);
+    await clearAllCache();
+    await loadCacheStats();
+    setClearingCache(false);
+  };
+
+  const handleClearStore = async (storeName, displayName) => {
+    if (!confirm(`Clear all cached ${displayName}?`)) return;
+    setClearingCache(true);
+    await clearStore(storeName);
+    await loadCacheStats();
+    setClearingCache(false);
+  };
 
   const getLanguageName = (langCode) => {
     const languages = {
@@ -90,6 +118,16 @@ function Settings({
     { id: 'appearance', label: 'Appearance', icon: '🎨' },
     { id: 'audio', label: 'Audio', icon: '🎧' },
     { id: 'text', label: 'Text', icon: '📖' },
+    { id: 'storage', label: 'Storage', icon: '💾' },
+  ];
+
+  const cacheStoreInfo = [
+    { store: STORES.QURAN_TEXT, name: 'Quran Text', key: 'QURAN_TEXT', icon: '📖' },
+    { store: STORES.TRANSLATIONS, name: 'Translations', key: 'TRANSLATIONS', icon: '🌐' },
+    { store: STORES.WORD_BY_WORD, name: 'Word-by-Word', key: 'WORD_BY_WORD', icon: '📝' },
+    { store: STORES.HADITH_COLLECTIONS, name: 'Hadith Collections', key: 'HADITH_COLLECTIONS', icon: '📚' },
+    { store: STORES.HADITH_CHAPTERS, name: 'Hadith Chapters', key: 'HADITH_CHAPTERS', icon: '📑' },
+    { store: STORES.TAFSIR, name: 'Tafsir', key: 'TAFSIR', icon: '📜' },
   ];
 
   return (
@@ -373,6 +411,85 @@ function Settings({
                 <p className="tafsir-note">
                   Choose your preferred tafsir language and scholar
                 </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'storage' && (
+          <div className="settings-panel">
+            <div className="settings-card">
+              <div className="card-header">
+                <span className="card-icon">💾</span>
+                <h3>Offline Cache</h3>
+              </div>
+              <div className="card-content">
+                <p className="cache-description">
+                  Content you view is automatically cached for faster loading and offline access. 
+                  Cached data loads instantly on repeat visits without needing internet.
+                </p>
+                
+                {cacheSize && (
+                  <div className="cache-usage">
+                    <div className="usage-bar">
+                      <div 
+                        className="usage-fill" 
+                        style={{ width: `${Math.min(parseFloat(cacheSize.percentUsed), 100)}%` }}
+                      />
+                    </div>
+                    <div className="usage-text">
+                      <span>{cacheSize.usageFormatted} used</span>
+                      <span>of {cacheSize.quotaFormatted}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="settings-card">
+              <div className="card-header">
+                <span className="card-icon">📊</span>
+                <h3>Cached Content</h3>
+              </div>
+              <div className="card-content">
+                <div className="cache-stores-list">
+                  {cacheStoreInfo.map(info => (
+                    <div key={info.key} className="cache-store-item">
+                      <div className="store-info">
+                        <span className="store-icon">{info.icon}</span>
+                        <span className="store-name">{info.name}</span>
+                        <span className="store-count">{cacheStats[info.key] || 0} items</span>
+                      </div>
+                      <button 
+                        className="clear-store-btn"
+                        onClick={() => handleClearStore(info.store, info.name)}
+                        disabled={clearingCache || !cacheStats[info.key]}
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="settings-card danger-zone">
+              <div className="card-header">
+                <span className="card-icon">⚠️</span>
+                <h3>Clear All Cache</h3>
+              </div>
+              <div className="card-content">
+                <p className="danger-text">
+                  This will remove all cached Quran text, translations, hadiths, and other content. 
+                  You will need an internet connection to reload content after clearing.
+                </p>
+                <button 
+                  className="clear-all-btn"
+                  onClick={handleClearAllCache}
+                  disabled={clearingCache}
+                >
+                  {clearingCache ? 'Clearing...' : 'Clear All Cached Data'}
+                </button>
               </div>
             </div>
           </div>
