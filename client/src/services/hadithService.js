@@ -2,6 +2,7 @@ import { getCollectionById } from '../data/hadithData';
 import { getCachedData, setCachedData, STORES } from './cacheService';
 
 const HADITH_JSON_CDN = 'https://cdn.jsdelivr.net/gh/AhmedBaset/hadith-json@main/db';
+const LOCAL_HADITH_PATH = '/data/hadith';
 const ALQURANBD_API = 'https://alquranbd.com/api/hadith';
 const URDU_HADITH_CDN = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions';
 
@@ -24,6 +25,8 @@ const collectionFileMap = {
   qudsi40: 'forties/qudsi40',
   waliullah40: 'forties/shahwaliullah40'
 };
+
+const cdnOnlyCollections = ['ahmad'];
 
 const alQuranBDBookMap = {
   bukhari: 1,
@@ -76,8 +79,20 @@ export const fetchCollection = async (collectionSlug) => {
     throw new Error(`Unknown collection API ID: ${apiId}`);
   }
 
+  const useCdnOnly = cdnOnlyCollections.includes(apiId);
+  
   try {
-    const response = await fetch(`${HADITH_JSON_CDN}/by_book/${filePath}.json`);
+    let response;
+    
+    if (!useCdnOnly) {
+      response = await fetch(`${LOCAL_HADITH_PATH}/${filePath}.json`);
+    }
+    
+    if (useCdnOnly || !response || !response.ok) {
+      console.log(`Fetching ${apiId} from CDN...`);
+      response = await fetch(`${HADITH_JSON_CDN}/by_book/${filePath}.json`);
+    }
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch collection: ${response.status}`);
     }
