@@ -26,7 +26,7 @@ const collectionFileMap = {
   waliullah40: 'forties/shahwaliullah40'
 };
 
-const cdnOnlyCollections = ['ahmad'];
+const cdnOnlyCollections = [];
 
 const alQuranBDBookMap = {
   bukhari: 1,

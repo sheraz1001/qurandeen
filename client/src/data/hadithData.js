@@ -105,12 +105,11 @@ export const hadithCollections = [
     nameArabic: 'مسند أحمد',
     author: 'Imam Ahmad ibn Hanbal',
     authorArabic: 'الإمام أحمد بن حنبل',
-    totalHadith: 27647,
-    description: 'One of the largest Hadith collections, organized by narrator.',
+    totalHadith: 4322,
+    description: 'One of the largest Hadith collections, organized by narrator. (8 chapters available)',
     descriptionArabic: 'أكبر المسانيد، مرتب على أسماء الصحابة',
     category: 'the_9_books',
-    icon: '📚',
-    comingSoon: true
+    icon: '📚'
   },
   {
     id: 'sunan-darimi',
