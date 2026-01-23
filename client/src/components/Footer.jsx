@@ -52,7 +52,6 @@ function Footer() {
           <div className="footer-top-row">
             <div className="footer-brand-compact">
               <img src="/logo.png" alt="Quran Deen" className="footer-logo-sm" />
-              <span className="footer-brand-text">QuranDeen.com</span>
             </div>
             
             <div className="footer-stats-inline">
