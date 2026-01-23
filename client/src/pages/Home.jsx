@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import SEO from '../components/SEO';
 import { getSurahByNumber } from '../data/surahData';
+import '../styles/home.css';
 
 function Home() {
   const [surahs, setSurahs] = useState([]);
@@ -13,6 +14,7 @@ function Home() {
   const [dailyAyah, setDailyAyah] = useState(null);
   const [dailyAyahLoading, setDailyAyahLoading] = useState(true);
   const [readingHistory, setReadingHistory] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchSurahs();
@@ -41,14 +43,12 @@ function Home() {
       const cached = localStorage.getItem('dailyAyah');
       if (cached) {
         const parsed = JSON.parse(cached);
-        // Check if cache is valid and has new format (arabic, english, urdu)
         if (parsed.date === today && parsed.ayah && parsed.ayah.arabic) {
           setDailyAyah(parsed.ayah);
           setDailyAyahLoading(false);
           return;
         }
       }
-      // Clear old cache and fetch fresh data
       localStorage.removeItem('dailyAyah');
       const response = await axios.get('/api/random-ayah');
       const ayah = response.data.data;
@@ -69,11 +69,7 @@ function Home() {
   const shareAyah = (platform, ayahData) => {
     const { arabic, english, surahName, verseRef } = ayahData;
     const url = 'https://qurandeen.com';
-    
-    // Full share text with Arabic, English, reference and website
     const fullShareText = `${arabic}\n\n"${english}"\n\n— ${surahName} (${verseRef})\n\n${url}`;
-    
-    // Shorter version for Twitter (character limit)
     const twitterText = `${arabic}\n\n"${english}"\n\n— ${surahName} (${verseRef})`;
     
     if (platform === 'twitter') {
@@ -85,6 +81,14 @@ function Home() {
       alert('Copied to clipboard!');
     }
   };
+
+  const filteredSurahs = searchQuery
+    ? surahs.filter(s => 
+        s.englishName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.name.includes(searchQuery) ||
+        s.number.toString() === searchQuery
+      )
+    : surahs;
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage message={error} onRetry={fetchSurahs} />;
@@ -109,418 +113,385 @@ function Home() {
       "@type": "Organization",
       "name": "QuranDeen",
       "url": "https://qurandeen.com",
-      "logo": "https://qurandeen.com/logo.png",
-      "description": "A comprehensive platform for reading, listening, and studying the Holy Quran with translations, tafsir, and Islamic resources.",
-      "sameAs": [
-        "https://www.facebook.com/qurandeencom",
-        "https://x.com/qurandeencom",
-        "https://www.instagram.com/qurandeencom/",
-        "https://www.youtube.com/@qurandeencom"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "email": "info@qurandeen.com",
-        "availableLanguage": ["English", "Arabic"]
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Book",
-      "name": "The Holy Quran",
-      "alternateName": "Al-Quran",
-      "inLanguage": "ar",
-      "numberOfPages": 604,
-      "bookFormat": "https://schema.org/EBook",
-      "url": "https://qurandeen.com",
-      "about": "The central religious text of Islam, believed by Muslims to be a revelation from Allah.",
-      "genre": "Religious Text"
+      "logo": "https://qurandeen.com/logo.png"
     }
   ];
 
   return (
-    <div className="home">
+    <div className="home-redesign">
       <SEO 
         title="QuranDeen - Read, Listen & Study the Holy Quran Online"
         description="Read the Holy Quran online with 100+ translations, 150+ audio reciters, Tafsir, word-by-word meaning, and Islamic tools. Access all 114 Surahs with Arabic text and translations."
         canonical="https://qurandeen.com"
-        keywords="Quran online, Holy Quran, Quran reading, Quran audio, Quran translation, Quran tafsir, Islamic website, Read Quran, Listen Quran, Surah, Ayah"
+        keywords="Quran online, Holy Quran, Quran reading, Quran audio, Quran translation, Quran tafsir, Islamic website"
         schema={homeSchemas}
       />
-      <div className="hero-animated">
-        <div className="hero-bg-pattern"></div>
-        <div className="hero-glow"></div>
+
+      <section className="hero-section">
+        <div className="hero-bg">
+          <div className="hero-pattern"></div>
+          <div className="hero-gradient"></div>
+        </div>
         <div className="hero-content">
-          <div className="hero-icon-wrapper">
-            <div className="hero-icon-ring"></div>
-            <div className="hero-icon-ring delay-1"></div>
-            <div className="hero-icon-ring delay-2"></div>
-            <span className="hero-icon">☪</span>
+          <div className="hero-badge">
+            <span className="badge-icon">☪</span>
+            <span>The Divine Scripture</span>
           </div>
           <h1 className="hero-title">
-            <span className="hero-title-line">The Holy</span>
-            <span className="hero-title-main">Quran</span>
+            <span className="title-arabic">القرآن الكريم</span>
+            <span className="title-english">The Holy Quran</span>
           </h1>
-          <p className="hero-subtitle">Read, listen, and explore the divine words</p>
-          <div className="hero-stats-mini">
-            <span>114 Surahs</span>
-            <span className="hero-dot">•</span>
-            <span>6,236 Ayahs</span>
-            <span className="hero-dot">•</span>
-            <span>100+ Translations</span>
+          <p className="hero-description">
+            Discover the beauty of Allah's words with our comprehensive platform featuring 
+            translations in 40+ languages, 150+ renowned reciters, and powerful study tools.
+          </p>
+          <div className="hero-stats">
+            <div className="stat">
+              <span className="stat-value">114</span>
+              <span className="stat-label">Surahs</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat">
+              <span className="stat-value">6,236</span>
+              <span className="stat-label">Ayahs</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat">
+              <span className="stat-value">100+</span>
+              <span className="stat-label">Translations</span>
+            </div>
+            <div className="stat-divider"></div>
+            <div className="stat">
+              <span className="stat-value">150+</span>
+              <span className="stat-label">Reciters</span>
+            </div>
+          </div>
+          <div className="hero-actions">
+            <Link to="/surah/1-al-fatihah" className="btn-primary">
+              <span>Start Reading</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </Link>
+            <Link to="/quran-mp3-audio" className="btn-secondary">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+              </svg>
+              <span>Listen to Quran</span>
+            </Link>
           </div>
         </div>
-        <div className="hero-particles">
-          <span className="particle"></span>
-          <span className="particle"></span>
-          <span className="particle"></span>
-          <span className="particle"></span>
-          <span className="particle"></span>
+        <div className="scroll-indicator">
+          <span>Scroll to explore</span>
+          <div className="scroll-arrow"></div>
         </div>
-      </div>
+      </section>
 
-      <div className="browse-links">
-        <Link to="/quran-juz-browser" className="browse-link">
-          <span>📖</span> Browse by Juz
-        </Link>
-        <Link to="/bookmarks" className="browse-link">
-          <span>🔖</span> My Bookmarks
-        </Link>
-        <Link to="/settings" className="browse-link">
-          <span>⚙️</span> Settings
-        </Link>
-      </div>
+      <section className="quick-access">
+        <div className="container">
+          <div className="quick-cards">
+            <Link to="/quran-juz-browser" className="quick-card">
+              <div className="quick-icon">📖</div>
+              <div className="quick-info">
+                <h3>Browse by Juz</h3>
+                <p>Navigate all 30 Juz</p>
+              </div>
+              <svg className="quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </Link>
+            <Link to="/hadith" className="quick-card">
+              <div className="quick-icon">📚</div>
+              <div className="quick-info">
+                <h3>Hadith Library</h3>
+                <p>50,000+ Hadiths</p>
+              </div>
+              <svg className="quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </Link>
+            <Link to="/azkaar" className="quick-card">
+              <div className="quick-icon">🤲</div>
+              <div className="quick-info">
+                <h3>Daily Azkaar</h3>
+                <p>298+ Duas</p>
+              </div>
+              <svg className="quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </Link>
+            <Link to="/ai-scholar" className="quick-card featured">
+              <div className="quick-icon">🤖</div>
+              <div className="quick-info">
+                <h3>AI Scholar</h3>
+                <p>Ask Islamic questions</p>
+              </div>
+              <svg className="quick-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {dailyAyah && (
-        <div className="daily-ayah-section">
-          <h2 className="section-title">Ayah of the Day</h2>
-          <div className="daily-ayah-card">
-            <p className="daily-ayah-arabic">{dailyAyah.arabic}</p>
-            <div className="daily-ayah-translations">
-              <p className="daily-ayah-english">{dailyAyah.english}</p>
-              <p className="daily-ayah-urdu">{dailyAyah.urdu}</p>
+        <section className="ayah-of-day">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-badge">Daily Inspiration</span>
+              <h2>Ayah of the Day</h2>
             </div>
-            <div className="daily-ayah-ref">
-              <Link to={`/surah/${getSurahByNumber(dailyAyah.surah.number)?.slug || dailyAyah.surah.number}`}>
-                {dailyAyah.surah.englishName} ({dailyAyah.surah.number}:{dailyAyah.numberInSurah})
-              </Link>
-            </div>
-            <div className="share-buttons">
-              <button 
-                className="share-btn"
-                onClick={() => shareAyah('twitter', {
-                  arabic: dailyAyah.arabic,
-                  english: dailyAyah.english,
-                  surahName: dailyAyah.surah.englishName,
-                  verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
-                })}
-                title="Share on Twitter"
-              >
-                𝕏
-              </button>
-              <button 
-                className="share-btn whatsapp"
-                onClick={() => shareAyah('whatsapp', {
-                  arabic: dailyAyah.arabic,
-                  english: dailyAyah.english,
-                  surahName: dailyAyah.surah.englishName,
-                  verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
-                })}
-                title="Share on WhatsApp"
-              >
-                💬
-              </button>
-              <button 
-                className="share-btn"
-                onClick={() => shareAyah('copy', {
-                  arabic: dailyAyah.arabic,
-                  english: dailyAyah.english,
-                  surahName: dailyAyah.surah.englishName,
-                  verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
-                })}
-                title="Copy to clipboard"
-              >
-                📋
-              </button>
+            <div className="ayah-card">
+              <div className="ayah-ornament top-left"></div>
+              <div className="ayah-ornament top-right"></div>
+              <p className="ayah-arabic">{dailyAyah.arabic}</p>
+              <div className="ayah-divider">
+                <span className="divider-ornament">❖</span>
+              </div>
+              <p className="ayah-english">"{dailyAyah.english}"</p>
+              {dailyAyah.urdu && <p className="ayah-urdu">{dailyAyah.urdu}</p>}
+              <div className="ayah-footer">
+                <Link 
+                  to={`/surah/${getSurahByNumber(dailyAyah.surah.number)?.slug || dailyAyah.surah.number}`}
+                  className="ayah-reference"
+                >
+                  {dailyAyah.surah.englishName} ({dailyAyah.surah.number}:{dailyAyah.numberInSurah})
+                </Link>
+                <div className="ayah-share">
+                  <button 
+                    onClick={() => shareAyah('twitter', {
+                      arabic: dailyAyah.arabic,
+                      english: dailyAyah.english,
+                      surahName: dailyAyah.surah.englishName,
+                      verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
+                    })}
+                    title="Share on Twitter"
+                  >𝕏</button>
+                  <button 
+                    onClick={() => shareAyah('whatsapp', {
+                      arabic: dailyAyah.arabic,
+                      english: dailyAyah.english,
+                      surahName: dailyAyah.surah.englishName,
+                      verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
+                    })}
+                    title="Share on WhatsApp"
+                  >💬</button>
+                  <button 
+                    onClick={() => shareAyah('copy', {
+                      arabic: dailyAyah.arabic,
+                      english: dailyAyah.english,
+                      surahName: dailyAyah.surah.englishName,
+                      verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
+                    })}
+                    title="Copy"
+                  >📋</button>
+                </div>
+              </div>
+              <div className="ayah-ornament bottom-left"></div>
+              <div className="ayah-ornament bottom-right"></div>
             </div>
           </div>
-        </div>
+        </section>
       )}
 
       {readingHistory.length > 0 && (
-        <div className="reading-history-section">
-          <h2 className="section-title">Continue Reading</h2>
-          <div className="history-list">
-            {readingHistory.map((item) => (
-              <Link to={`/surah/${getSurahByNumber(item.number)?.slug || item.number}`} key={item.number} className="history-item">
-                <span className="history-number">{item.number}</span>
-                <div className="history-info">
-                  <span className="history-name">{item.englishName}</span>
-                  <span className="history-date">{new Date(item.lastRead).toLocaleDateString()}</span>
+        <section className="continue-reading">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-badge">Your Progress</span>
+              <h2>Continue Reading</h2>
+            </div>
+            <div className="history-cards">
+              {readingHistory.map((item) => (
+                <Link 
+                  to={`/surah/${getSurahByNumber(item.number)?.slug || item.number}`} 
+                  key={item.number} 
+                  className="history-card"
+                >
+                  <div className="history-number">{item.number}</div>
+                  <div className="history-details">
+                    <h4>{item.englishName}</h4>
+                    <span>{new Date(item.lastRead).toLocaleDateString()}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="surahs-section">
+        <div className="container">
+          <div className="section-header centered">
+            <span className="section-badge">Complete Collection</span>
+            <h2>All 114 Surahs</h2>
+            <p>Begin your spiritual journey with any chapter of the Holy Quran</p>
+          </div>
+          
+          <div className="surah-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search by name, number, or Arabic..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="surahs-grid">
+            {filteredSurahs.map((surah) => (
+              <Link 
+                to={`/surah/${getSurahByNumber(surah.number)?.slug || surah.number}`} 
+                key={surah.number} 
+                className="surah-card"
+              >
+                <div className="surah-number-badge">
+                  <span>{surah.number}</span>
+                </div>
+                <div className="surah-content">
+                  <h3 className="surah-arabic">{surah.name}</h3>
+                  <h4 className="surah-english">{surah.englishName}</h4>
+                  <p className="surah-meaning">{surah.englishNameTranslation}</p>
+                </div>
+                <div className="surah-meta">
+                  <span className={`revelation-type ${surah.revelationType.toLowerCase()}`}>
+                    {surah.revelationType}
+                  </span>
+                  <span className="ayah-count">{surah.numberOfAyahs} Ayahs</span>
                 </div>
               </Link>
             ))}
           </div>
         </div>
-      )}
-      
-      <h2 className="section-title">All Surahs</h2>
-      <div className="surahs-grid">
-        {surahs.map((surah) => (
-          <Link to={`/surah/${getSurahByNumber(surah.number)?.slug || surah.number}`} key={surah.number} className="surah-card">
-            <div className="surah-number">{surah.number}</div>
-            <div className="surah-info">
-              <h3 className="surah-name-arabic">{surah.name}</h3>
-              <h4 className="surah-name-english">{surah.englishName}</h4>
-              <p className="surah-translation">{surah.englishNameTranslation}</p>
-              <span className="surah-meta">
-                {surah.revelationType} • {surah.numberOfAyahs} Ayahs
-              </span>
+      </section>
+
+      <section className="features-section">
+        <div className="container">
+          <div className="section-header centered">
+            <span className="section-badge">Why QuranDeen</span>
+            <h2>Comprehensive Islamic Platform</h2>
+            <p>Everything you need for Quran study in one place</p>
+          </div>
+
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>📜</span>
+              </div>
+              <h3>Multiple Scripts</h3>
+              <p>Uthmani, IndoPak, Nastaliq, and color-coded Tajweed scripts</p>
             </div>
-          </Link>
-        ))}
-      </div>
-
-      <section className="about-section">
-        <div className="about-header">
-          <h2 className="about-title">Welcome to QuranDeen</h2>
-          <p className="about-subtitle">Your Complete Digital Companion for Quran Study</p>
-          <p className="about-intro">
-            QuranDeen is a comprehensive platform designed to help Muslims around the world read, listen, 
-            learn, and understand the Holy Quran. Whether you're a beginner or an advanced learner, 
-            our platform provides all the tools you need for a meaningful Quran study experience.
-          </p>
-        </div>
-
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon">📖</div>
-            <div className="stat-number">114</div>
-            <div className="stat-label">Surahs</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">✨</div>
-            <div className="stat-number">6,236</div>
-            <div className="stat-label">Ayahs</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">📚</div>
-            <div className="stat-number">30</div>
-            <div className="stat-label">Juz (Parts)</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🌍</div>
-            <div className="stat-number">100+</div>
-            <div className="stat-label">Translations</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🎙️</div>
-            <div className="stat-number">150+</div>
-            <div className="stat-label">Reciters</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🔤</div>
-            <div className="stat-number">77,430</div>
-            <div className="stat-label">Words</div>
-          </div>
-        </div>
-
-        <div className="features-section">
-          <h3 className="features-title">Platform Features</h3>
-          
-          <div className="feature-category">
-            <h4 className="category-title">Reading & Study</h4>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">📜</div>
-                <h5>Multiple Arabic Scripts</h5>
-                <p>Choose from Uthmani, IndoPak, Simple, or Color-Coded Tajweed scripts to match your reading preference.</p>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>🎧</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">🔤</div>
-                <h5>Beautiful Fonts</h5>
-                <p>5 Arabic font styles including PDMS Saleem, Nastaliq, Naskh Nastaleeq, and Me Quran for authentic reading.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🎨</div>
-                <h5>Tajweed Colors</h5>
-                <p>Learn proper recitation with color-coded Tajweed rules highlighting Ghunnah, Ikhfa, Qalqalah, Madd, and more.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🔠</div>
-                <h5>Word-by-Word Mode</h5>
-                <p>Clickable words with individual audio, translation tooltips, and transliteration for deep understanding.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">📖</div>
-                <h5>Juz Browser</h5>
-                <p>Navigate the Quran by Juz (parts), with all 30 sections organized for easy access and tracking.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">📑</div>
-                <h5>Ayah Metadata</h5>
-                <p>View Juz, Page, Ruku, and Sajda information for each verse with visual prostration markers.</p>
-              </div>
+              <h3>150+ Reciters</h3>
+              <p>World-renowned Qaris with verse-by-verse and full surah audio</p>
             </div>
-          </div>
-
-          <div className="feature-category">
-            <h4 className="category-title">Audio & Recitation</h4>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">🎧</div>
-                <h5>Verse-by-Verse Audio</h5>
-                <p>Listen to individual ayahs with 23+ reciters including Mishary Rashid, Abdul Samad, and Al-Sudais.</p>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>🌐</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">🎵</div>
-                <h5>Full Surah Audio</h5>
-                <p>Stream complete surah recitations from 150+ world-renowned Qaris via MP3Quran.net integration.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🔊</div>
-                <h5>Word Audio</h5>
-                <p>In Word-by-Word mode, tap any word to hear its individual pronunciation for learning Tajweed.</p>
-              </div>
+              <h3>100+ Translations</h3>
+              <p>Translations in 40+ languages including English, Urdu, Bengali</p>
             </div>
-          </div>
-
-          <div className="feature-category">
-            <h4 className="category-title">Translations & Tafsir</h4>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">🌐</div>
-                <h5>100+ Translations</h5>
-                <p>Access translations in 40+ languages including English, Urdu, Bengali, Turkish, Indonesian, and more.</p>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>🔤</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">📚</div>
-                <h5>Multilingual Tafsir</h5>
-                <p>In-depth commentary from renowned scholars in Arabic, Urdu, English, and Bengali.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🤖</div>
-                <h5>AI Scholar</h5>
-                <p>Ask questions about Quran, Hadith, and Islamic topics with AI-powered answers citing authentic sources.</p>
-              </div>
+              <h3>Word-by-Word</h3>
+              <p>Interactive learning with audio, meaning, and transliteration</p>
             </div>
-          </div>
-
-          <div className="feature-category">
-            <h4 className="category-title">Personal Features</h4>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">🔖</div>
-                <h5>Bookmarks</h5>
-                <p>Save your favorite ayahs and access them anytime. Synced across devices when logged in.</p>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>📚</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">📊</div>
-                <h5>Reading Progress</h5>
-                <p>Track which surahs you've completed and monitor your Quran reading journey.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🔍</div>
-                <h5>Search</h5>
-                <p>Search for any word or phrase across the entire Quran with instant results.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">📤</div>
-                <h5>Share Ayahs</h5>
-                <p>Share beautiful verses on Twitter, WhatsApp, or copy to clipboard with one click.</p>
-              </div>
+              <h3>Tafsir Library</h3>
+              <p>In-depth commentary from renowned Islamic scholars</p>
             </div>
-          </div>
-
-          <div className="feature-category">
-            <h4 className="category-title">Islamic Resources</h4>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">🖼️</div>
-                <h5>Share Card Generator</h5>
-                <p>Create beautiful verse cards for social media with custom backgrounds, fonts, and translations.</p>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>🤖</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">🌙</div>
-                <h5>Verse of the Day</h5>
-                <p>Daily inspiring ayah with Arabic, English, and Urdu translations for spiritual reflection.</p>
+              <h3>AI Scholar</h3>
+              <p>Ask questions and get answers with authentic source citations</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>📿</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">📅</div>
-                <h5>Hijri Calendar</h5>
-                <p>Convert between Hijri and Gregorian dates with important Islamic dates highlighted.</p>
+              <h3>Hadith Collection</h3>
+              <p>17 authentic books with 50,000+ hadiths in multiple languages</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon-wrapper">
+                <span>🤲</span>
               </div>
-              <div className="feature-card">
-                <div className="feature-icon">🤲</div>
-                <h5>Morning & Evening Adhkar</h5>
-                <p>Authentic daily supplications with Arabic text, transliteration, and translation.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">✨</div>
-                <h5>99 Names of Allah</h5>
-                <p>Explore the beautiful names of Allah with meanings, Quranic verses, and reflections.</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">📿</div>
-                <h5>Hadith of the Day</h5>
-                <p>Curated authentic hadiths from Bukhari and Muslim with explanations.</p>
-              </div>
+              <h3>Daily Azkaar</h3>
+              <p>298+ authentic duas from Hisnul Muslim with counter</p>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className="quran-facts">
-          <h3 className="facts-title">Interesting Facts About the Quran</h3>
-          <div className="facts-grid">
-            <div className="fact-card">
-              <div className="fact-icon">📜</div>
-              <h5>Revelation Period</h5>
-              <p>The Quran was revealed over approximately 23 years to Prophet Muhammad (PBUH) in Makkah and Madinah.</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">🕌</div>
-              <h5>Meccan & Medinan</h5>
-              <p>86 surahs were revealed in Makkah (focusing on faith) and 28 in Madinah (focusing on law and guidance).</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">📖</div>
-              <h5>Longest & Shortest</h5>
-              <p>Surah Al-Baqarah is the longest (286 ayahs) and Surah Al-Kawthar is the shortest (3 ayahs).</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">✍️</div>
-              <h5>Unique Letters</h5>
-              <p>The Quran contains 323,015 letters. Some surahs begin with mysterious letters called "Muqatta'at".</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">🌟</div>
-              <h5>Heart of Quran</h5>
-              <p>Surah Ya-Sin is often called the "Heart of the Quran" and Surah Al-Fatiha is recited in every prayer.</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">🛡️</div>
-              <h5>Preserved Unchanged</h5>
-              <p>The Quran is the only religious scripture that has remained completely unchanged for over 1,400 years.</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">🌍</div>
-              <h5>Most Memorized</h5>
-              <p>Millions of Muslims (Huffaz) have memorized the entire Quran, making it the most memorized book in history.</p>
-            </div>
-            <div className="fact-card">
-              <div className="fact-icon">📿</div>
-              <h5>Prostration Verses</h5>
-              <p>There are 15 verses of prostration (Sajdah) in the Quran where Muslims prostrate when reading or hearing them.</p>
-            </div>
+      <section className="resources-section">
+        <div className="container">
+          <div className="section-header centered">
+            <span className="section-badge">Islamic Tools</span>
+            <h2>Explore More Resources</h2>
+          </div>
+
+          <div className="resources-grid">
+            <Link to="/islamic-prayer-times" className="resource-card">
+              <div className="resource-icon">🕌</div>
+              <h3>Prayer Times</h3>
+              <p>Accurate prayer times for your location</p>
+            </Link>
+            <Link to="/qibla-direction" className="resource-card">
+              <div className="resource-icon">🧭</div>
+              <h3>Qibla Direction</h3>
+              <p>Find the direction of Makkah</p>
+            </Link>
+            <Link to="/hijri-calendar" className="resource-card">
+              <div className="resource-icon">📅</div>
+              <h3>Hijri Calendar</h3>
+              <p>Convert dates and view Islamic events</p>
+            </Link>
+            <Link to="/99-names-of-allah" className="resource-card">
+              <div className="resource-icon">✨</div>
+              <h3>99 Names of Allah</h3>
+              <p>Explore the beautiful names with meanings</p>
+            </Link>
+            <Link to="/share-card-generator" className="resource-card">
+              <div className="resource-icon">🖼️</div>
+              <h3>Share Card</h3>
+              <p>Create beautiful verse cards</p>
+            </Link>
+            <Link to="/quran-classes" className="resource-card">
+              <div className="resource-icon">👨‍🏫</div>
+              <h3>Quran Classes</h3>
+              <p>Learn with qualified teachers</p>
+            </Link>
           </div>
         </div>
+      </section>
 
-        <div className="cta-section">
-          <h3>Start Your Journey Today</h3>
-          <p>Explore the divine guidance of the Holy Quran with our comprehensive tools and features.</p>
-          <div className="cta-buttons">
-            <Link to="/surah/1-al-fatihah" className="cta-btn primary">Start Reading</Link>
-            <Link to="/islamic-resources" className="cta-btn secondary">Explore Resources</Link>
+      <section className="cta-section">
+        <div className="container">
+          <div className="cta-content">
+            <h2>Begin Your Spiritual Journey</h2>
+            <p>Join millions of Muslims worldwide who use QuranDeen to connect with the Holy Quran</p>
+            <div className="cta-buttons">
+              <Link to="/surah/1-al-fatihah" className="btn-primary">
+                Start Reading Now
+              </Link>
+              <Link to="/signup" className="btn-outline">
+                Create Free Account
+              </Link>
+            </div>
           </div>
         </div>
       </section>
