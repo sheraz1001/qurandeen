@@ -11,7 +11,7 @@ The application follows a client-server architecture with a Node.js/Express back
 
 **UI/UX Decisions:**
 - Clean, professional, and responsive design optimized for readability across all devices.
-- **Dark Theme Color Scheme:** Professional dark green (#0a1f15) background with gold (#c9a227) accents for highlights, CTAs, and decorative elements. Creates an elegant, Islamic-inspired aesthetic.
+- **Dark Theme Color Scheme:** Professional dark green (#0a1f15) background with darker metallic gold (#8b7532) accents for highlights, CTAs, and decorative elements. Creates an elegant, Islamic-inspired aesthetic with antique gold tones.
 - Consistent branding with a red accent theme for admin interfaces.
 - Customizable user settings (dark mode, font styles, reciters, translations).
 - Sidebar-based navigation for both users and administrators.

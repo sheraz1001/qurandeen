@@ -23,8 +23,8 @@
   position: absolute;
   inset: 0;
   background-image: 
-    radial-gradient(ellipse at 20% 30%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 70%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 30%, rgba(139, 117, 50, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(139, 117, 50, 0.06) 0%, transparent 50%),
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
@@ -33,7 +33,7 @@
   inset: 0;
   background: 
     linear-gradient(180deg, transparent 0%, var(--bg-primary) 100%),
-    radial-gradient(circle at 50% 0%, rgba(201, 162, 39, 0.15) 0%, transparent 60%);
+    radial-gradient(circle at 50% 0%, rgba(139, 117, 50, 0.15) 0%, transparent 60%);
 }
 
 .home-redesign .hero-content {
@@ -47,12 +47,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(201, 162, 39, 0.15);
-  border: 1px solid rgba(201, 162, 39, 0.3);
+  background: rgba(139, 117, 50, 0.15);
+  border: 1px solid rgba(139, 117, 50, 0.3);
   padding: 0.5rem 1.25rem;
   border-radius: 50px;
   font-size: 0.9rem;
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
   margin-bottom: 2rem;
   backdrop-filter: blur(10px);
 }
@@ -69,9 +69,9 @@
   display: block;
   font-family: 'Amiri', serif;
   font-size: clamp(2.5rem, 8vw, 5rem);
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
   margin-bottom: 0.5rem;
-  text-shadow: 0 2px 20px rgba(201, 162, 39, 0.3);
+  text-shadow: 0 2px 20px rgba(139, 117, 50, 0.3);
 }
 
 .home-redesign .title-english {
@@ -99,8 +99,8 @@
   flex-wrap: wrap;
   margin-bottom: 3rem;
   padding: 1.5rem 2rem;
-  background: rgba(201, 162, 39, 0.08);
-  border: 1px solid rgba(201, 162, 39, 0.15);
+  background: rgba(139, 117, 50, 0.08);
+  border: 1px solid rgba(139, 117, 50, 0.15);
   border-radius: 16px;
   backdrop-filter: blur(10px);
 }
@@ -113,7 +113,7 @@
   display: block;
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
 }
 
 .home-redesign .stat-label {
@@ -126,7 +126,7 @@
 .home-redesign .stat-divider {
   width: 1px;
   height: 40px;
-  background: rgba(201, 162, 39, 0.3);
+  background: rgba(139, 117, 50, 0.3);
 }
 
 .home-redesign .hero-actions {
@@ -141,23 +141,23 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #c9a227 0%, #a8851f 100%);
+  background: linear-gradient(135deg, #8b7532 0%, #6b5a24 100%);
   color: #0a1f15;
   font-weight: 600;
   font-size: 1rem;
   border-radius: 12px;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.4);
+  box-shadow: 0 4px 20px rgba(139, 117, 50, 0.4);
 }
 
 .home-redesign .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(201, 162, 39, 0.5);
+  box-shadow: 0 8px 30px rgba(139, 117, 50, 0.5);
 }
 
 .home-redesign .btn-primary:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 3px;
 }
 
@@ -215,8 +215,8 @@
 .home-redesign .scroll-arrow {
   width: 20px;
   height: 20px;
-  border-right: 2px solid var(--accent-gold, #c9a227);
-  border-bottom: 2px solid var(--accent-gold, #c9a227);
+  border-right: 2px solid var(--accent-gold, #8b7532);
+  border-bottom: 2px solid var(--accent-gold, #8b7532);
   transform: rotate(45deg);
   animation: homeScrollBounce 2s infinite;
 }
@@ -265,19 +265,19 @@
 }
 
 .home-redesign .quick-card:hover {
-  border-color: var(--accent-gold, #c9a227);
+  border-color: var(--accent-gold, #8b7532);
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .home-redesign .quick-card:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 2px;
 }
 
 .home-redesign .quick-card.featured {
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(201, 162, 39, 0.05) 100%);
-  border-color: rgba(201, 162, 39, 0.3);
+  background: linear-gradient(135deg, rgba(139, 117, 50, 0.1) 0%, rgba(139, 117, 50, 0.05) 100%);
+  border-color: rgba(139, 117, 50, 0.3);
 }
 
 .home-redesign .quick-icon {
@@ -287,7 +287,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(201, 162, 39, 0.1);
+  background: rgba(139, 117, 50, 0.1);
   border-radius: 12px;
 }
 
@@ -312,7 +312,7 @@
 }
 
 .home-redesign .quick-card:hover .quick-arrow {
-  stroke: var(--accent-gold, #c9a227);
+  stroke: var(--accent-gold, #8b7532);
   transform: translateX(4px);
 }
 
@@ -332,11 +332,11 @@
 .home-redesign .section-badge {
   display: inline-block;
   padding: 0.4rem 1rem;
-  background: rgba(201, 162, 39, 0.15);
-  border: 1px solid rgba(201, 162, 39, 0.25);
+  background: rgba(139, 117, 50, 0.15);
+  border: 1px solid rgba(139, 117, 50, 0.25);
   border-radius: 50px;
   font-size: 0.8rem;
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 1rem;
@@ -355,8 +355,8 @@
 
 .home-redesign .ayah-card {
   position: relative;
-  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201, 162, 39, 0.05) 100%);
-  border: 1px solid rgba(201, 162, 39, 0.2);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(139, 117, 50, 0.05) 100%);
+  border: 1px solid rgba(139, 117, 50, 0.2);
   border-radius: 24px;
   padding: 3rem;
   text-align: center;
@@ -367,7 +367,7 @@
   position: absolute;
   width: 60px;
   height: 60px;
-  background: radial-gradient(circle, rgba(201, 162, 39, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 117, 50, 0.15) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -389,7 +389,7 @@
 }
 
 .home-redesign .divider-ornament {
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
   font-size: 1.5rem;
 }
 
@@ -423,7 +423,7 @@
 
 .home-redesign .ayah-reference {
   font-weight: 600;
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -433,7 +433,7 @@
 }
 
 .home-redesign .ayah-reference:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 2px;
 }
 
@@ -448,8 +448,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(201, 162, 39, 0.1);
-  border: 1px solid rgba(201, 162, 39, 0.2);
+  background: rgba(139, 117, 50, 0.1);
+  border: 1px solid rgba(139, 117, 50, 0.2);
   border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
@@ -457,13 +457,13 @@
 }
 
 .home-redesign .ayah-share button:hover {
-  background: rgba(201, 162, 39, 0.2);
-  border-color: rgba(201, 162, 39, 0.4);
+  background: rgba(139, 117, 50, 0.2);
+  border-color: rgba(139, 117, 50, 0.4);
   transform: translateY(-2px);
 }
 
 .home-redesign .ayah-share button:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 2px;
 }
 
@@ -494,12 +494,12 @@
 }
 
 .home-redesign .history-card:hover {
-  border-color: var(--accent-gold, #c9a227);
+  border-color: var(--accent-gold, #8b7532);
   transform: translateY(-2px);
 }
 
 .home-redesign .history-card:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 2px;
 }
 
@@ -509,10 +509,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.2) 0%, rgba(201, 162, 39, 0.1) 100%);
+  background: linear-gradient(135deg, rgba(139, 117, 50, 0.2) 0%, rgba(139, 117, 50, 0.1) 100%);
   border-radius: 10px;
   font-weight: 700;
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
 }
 
 .home-redesign .history-details h4 {
@@ -546,8 +546,8 @@
 }
 
 .home-redesign .surah-search:focus-within {
-  border-color: var(--accent-gold, #c9a227);
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+  border-color: var(--accent-gold, #8b7532);
+  box-shadow: 0 0 0 3px rgba(139, 117, 50, 0.1);
 }
 
 .home-redesign .surah-search svg {
@@ -588,13 +588,13 @@
 }
 
 .home-redesign .surah-card:hover {
-  border-color: var(--accent-gold, #c9a227);
+  border-color: var(--accent-gold, #8b7532);
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 .home-redesign .surah-card:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 2px;
 }
 
@@ -604,8 +604,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(201, 162, 39, 0.05) 100%);
-  border: 1px solid rgba(201, 162, 39, 0.2);
+  background: linear-gradient(135deg, rgba(139, 117, 50, 0.15) 0%, rgba(139, 117, 50, 0.05) 100%);
+  border: 1px solid rgba(139, 117, 50, 0.2);
   border-radius: 12px;
   flex-shrink: 0;
 }
@@ -613,7 +613,7 @@
 .home-redesign .surah-number-badge span {
   font-weight: 700;
   font-size: 1.1rem;
-  color: var(--accent-gold, #c9a227);
+  color: var(--accent-gold, #8b7532);
 }
 
 .home-redesign .surah-content {
@@ -656,8 +656,8 @@
 }
 
 .home-redesign .revelation-type.meccan {
-  background: rgba(201, 162, 39, 0.15);
-  color: var(--accent-gold, #c9a227);
+  background: rgba(139, 117, 50, 0.15);
+  color: var(--accent-gold, #8b7532);
 }
 
 .home-redesign .revelation-type.medinan {
@@ -692,7 +692,7 @@
 }
 
 .home-redesign .feature-card:hover {
-  border-color: rgba(201, 162, 39, 0.3);
+  border-color: rgba(139, 117, 50, 0.3);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
@@ -704,8 +704,8 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.25rem;
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(201, 162, 39, 0.05) 100%);
-  border: 1px solid rgba(201, 162, 39, 0.2);
+  background: linear-gradient(135deg, rgba(139, 117, 50, 0.15) 0%, rgba(139, 117, 50, 0.05) 100%);
+  border: 1px solid rgba(139, 117, 50, 0.2);
   border-radius: 20px;
   font-size: 2rem;
 }
@@ -748,13 +748,13 @@
 }
 
 .home-redesign .resource-card:hover {
-  border-color: var(--accent-gold, #c9a227);
+  border-color: var(--accent-gold, #8b7532);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .home-redesign .resource-card:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 2px;
 }
 
@@ -778,8 +778,8 @@
 /* CTA Section */
 .home-redesign .cta-section {
   padding: 5rem 0;
-  background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(201, 162, 39, 0.02) 100%);
-  border-top: 1px solid rgba(201, 162, 39, 0.15);
+  background: linear-gradient(135deg, rgba(139, 117, 50, 0.1) 0%, rgba(139, 117, 50, 0.02) 100%);
+  border-top: 1px solid rgba(139, 117, 50, 0.15);
 }
 
 .home-redesign .cta-content {
@@ -813,8 +813,8 @@
   align-items: center;
   padding: 1rem 2rem;
   background: transparent;
-  border: 2px solid rgba(201, 162, 39, 0.4);
-  color: var(--accent-gold, #c9a227);
+  border: 2px solid rgba(139, 117, 50, 0.4);
+  color: var(--accent-gold, #8b7532);
   font-weight: 600;
   font-size: 1rem;
   border-radius: 12px;
@@ -823,12 +823,12 @@
 }
 
 .home-redesign .btn-outline:hover {
-  background: rgba(201, 162, 39, 0.1);
-  border-color: var(--accent-gold, #c9a227);
+  background: rgba(139, 117, 50, 0.1);
+  border-color: var(--accent-gold, #8b7532);
 }
 
 .home-redesign .btn-outline:focus-visible {
-  outline: 2px solid var(--accent-gold, #c9a227);
+  outline: 2px solid var(--accent-gold, #8b7532);
   outline-offset: 3px;
 }
 
