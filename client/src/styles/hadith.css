@@ -296,6 +296,41 @@
   transform: translateX(4px);
 }
 
+.hadith-card-disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.hadith-card-disabled::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(0, 0, 0, 0.03) 10px,
+    rgba(0, 0, 0, 0.03) 20px
+  );
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.hadith-card-disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.coming-soon-badge {
+  background: linear-gradient(135deg, #6b5a24 0%, #8b7532 100%) !important;
+  color: white !important;
+}
+
+.hadith-card-disabled .hadith-card-footer {
+  color: var(--text-muted);
+}
+
 .hadith-chapters-list {
   display: flex;
   flex-direction: column;

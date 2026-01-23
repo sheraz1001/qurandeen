@@ -109,7 +109,8 @@ export const hadithCollections = [
     description: 'One of the largest Hadith collections, organized by narrator.',
     descriptionArabic: 'أكبر المسانيد، مرتب على أسماء الصحابة',
     category: 'the_9_books',
-    icon: '📚'
+    icon: '📚',
+    comingSoon: true
   },
   {
     id: 'sunan-darimi',

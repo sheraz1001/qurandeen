@@ -126,30 +126,56 @@ const HadithCollections = () => {
 
             <div className="hadith-grid">
               {category.collections.map((collection) => (
-                <Link
-                  key={collection.id}
-                  to={`/hadith/${collection.id}`}
-                  className="hadith-card"
-                >
-                  <div className="hadith-card-header">
-                    <span className="hadith-card-icon">{collection.icon}</span>
-                    <span className="hadith-card-badge">
-                      {collection.totalHadith.toLocaleString()} hadiths
-                    </span>
-                  </div>
-                  
-                  <h3>{collection.name}</h3>
-                  <p className="arabic-name">{collection.nameArabic}</p>
-                  <p className="author">by {collection.author}</p>
-                  <p className="description">{collection.description}</p>
+                collection.comingSoon ? (
+                  <div
+                    key={collection.id}
+                    className="hadith-card hadith-card-disabled"
+                  >
+                    <div className="hadith-card-header">
+                      <span className="hadith-card-icon">{collection.icon}</span>
+                      <span className="hadith-card-badge coming-soon-badge">
+                        Coming Soon
+                      </span>
+                    </div>
+                    
+                    <h3>{collection.name}</h3>
+                    <p className="arabic-name">{collection.nameArabic}</p>
+                    <p className="author">by {collection.author}</p>
+                    <p className="description">{collection.description}</p>
 
-                  <div className="hadith-card-footer">
-                    <span>Read Collection</span>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    <div className="hadith-card-footer">
+                      <span>Coming Soon</span>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
                   </div>
-                </Link>
+                ) : (
+                  <Link
+                    key={collection.id}
+                    to={`/hadith/${collection.id}`}
+                    className="hadith-card"
+                  >
+                    <div className="hadith-card-header">
+                      <span className="hadith-card-icon">{collection.icon}</span>
+                      <span className="hadith-card-badge">
+                        {collection.totalHadith.toLocaleString()} hadiths
+                      </span>
+                    </div>
+                    
+                    <h3>{collection.name}</h3>
+                    <p className="arabic-name">{collection.nameArabic}</p>
+                    <p className="author">by {collection.author}</p>
+                    <p className="description">{collection.description}</p>
+
+                    <div className="hadith-card-footer">
+                      <span>Read Collection</span>
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+                )
               ))}
             </div>
           </div>
