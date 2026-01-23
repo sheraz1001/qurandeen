@@ -67,7 +67,7 @@
 
 .home-redesign .title-arabic {
   display: block;
-  font-family: 'Amiri', serif;
+  font-family: 'Almarai', serif;
   font-size: clamp(2.5rem, 8vw, 5rem);
   color: var(--accent-gold, #8b7532);
   margin-bottom: 0.5rem;
@@ -377,7 +377,7 @@
 .home-redesign .ayah-ornament.bottom-right { bottom: 20px; right: 20px; }
 
 .home-redesign .ayah-arabic {
-  font-family: 'Amiri', serif;
+  font-family: 'Almarai', serif;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   line-height: 2;
   color: var(--text-primary);
@@ -622,7 +622,7 @@
 }
 
 .home-redesign .surah-arabic {
-  font-family: 'Amiri', serif;
+  font-family: 'Almarai', serif;
   font-size: 1.25rem;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
