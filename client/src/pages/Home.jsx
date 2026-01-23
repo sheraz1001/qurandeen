@@ -266,6 +266,7 @@ function Home() {
                       verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
                     })}
                     title="Share on Twitter"
+                    aria-label="Share this verse on Twitter"
                   >𝕏</button>
                   <button 
                     onClick={() => shareAyah('whatsapp', {
@@ -275,6 +276,7 @@ function Home() {
                       verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
                     })}
                     title="Share on WhatsApp"
+                    aria-label="Share this verse on WhatsApp"
                   >💬</button>
                   <button 
                     onClick={() => shareAyah('copy', {
@@ -283,7 +285,8 @@ function Home() {
                       surahName: dailyAyah.surah.englishName,
                       verseRef: `${dailyAyah.surah.number}:${dailyAyah.numberInSurah}`
                     })}
-                    title="Copy"
+                    title="Copy to clipboard"
+                    aria-label="Copy this verse to clipboard"
                   >📋</button>
                 </div>
               </div>

@@ -3,7 +3,7 @@
 }
 
 /* Hero Section */
-.hero-section {
+.home-redesign .hero-section {
   position: relative;
   min-height: 100vh;
   display: flex;
@@ -13,13 +13,13 @@
   padding: 2rem;
 }
 
-.hero-bg {
+.home-redesign .hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.hero-pattern {
+.home-redesign .hero-pattern {
   position: absolute;
   inset: 0;
   background-image: 
@@ -28,7 +28,7 @@
     url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a227' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.hero-gradient {
+.home-redesign .hero-gradient {
   position: absolute;
   inset: 0;
   background: 
@@ -36,14 +36,14 @@
     radial-gradient(circle at 50% 0%, rgba(201, 162, 39, 0.15) 0%, transparent 60%);
 }
 
-.hero-content {
+.home-redesign .hero-content {
   position: relative;
   z-index: 1;
   text-align: center;
   max-width: 900px;
 }
 
-.hero-badge {
+.home-redesign .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -57,15 +57,15 @@
   backdrop-filter: blur(10px);
 }
 
-.badge-icon {
+.home-redesign .badge-icon {
   font-size: 1.1rem;
 }
 
-.hero-title {
+.home-redesign .hero-title {
   margin-bottom: 1.5rem;
 }
 
-.title-arabic {
+.home-redesign .title-arabic {
   display: block;
   font-family: 'Amiri', serif;
   font-size: clamp(2.5rem, 8vw, 5rem);
@@ -74,7 +74,7 @@
   text-shadow: 0 2px 20px rgba(201, 162, 39, 0.3);
 }
 
-.title-english {
+.home-redesign .title-english {
   display: block;
   font-size: clamp(1.75rem, 5vw, 3rem);
   font-weight: 300;
@@ -83,7 +83,7 @@
   text-transform: uppercase;
 }
 
-.hero-description {
+.home-redesign .hero-description {
   font-size: 1.15rem;
   color: var(--text-secondary);
   line-height: 1.8;
@@ -91,7 +91,7 @@
   margin: 0 auto 2.5rem;
 }
 
-.hero-stats {
+.home-redesign .hero-stats {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,38 +105,38 @@
   backdrop-filter: blur(10px);
 }
 
-.stat {
+.home-redesign .stat {
   text-align: center;
 }
 
-.stat-value {
+.home-redesign .stat-value {
   display: block;
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--accent-gold, #c9a227);
 }
 
-.stat-label {
+.home-redesign .stat-label {
   font-size: 0.85rem;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.stat-divider {
+.home-redesign .stat-divider {
   width: 1px;
   height: 40px;
   background: rgba(201, 162, 39, 0.3);
 }
 
-.hero-actions {
+.home-redesign .hero-actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.btn-primary {
+.home-redesign .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -151,17 +151,22 @@
   box-shadow: 0 4px 20px rgba(201, 162, 39, 0.4);
 }
 
-.btn-primary:hover {
+.home-redesign .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(201, 162, 39, 0.5);
 }
 
-.btn-primary svg {
+.home-redesign .btn-primary:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 3px;
+}
+
+.home-redesign .btn-primary svg {
   width: 20px;
   height: 20px;
 }
 
-.btn-secondary {
+.home-redesign .btn-secondary {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
@@ -176,18 +181,23 @@
   transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
+.home-redesign .btn-secondary:hover {
   background: rgba(26, 125, 92, 0.3);
   border-color: rgba(26, 125, 92, 0.6);
 }
 
-.btn-secondary svg {
+.home-redesign .btn-secondary:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 3px;
+}
+
+.home-redesign .btn-secondary svg {
   width: 20px;
   height: 20px;
   fill: var(--primary-color);
 }
 
-.scroll-indicator {
+.home-redesign .scroll-indicator {
   position: absolute;
   bottom: 2rem;
   left: 50%;
@@ -199,30 +209,30 @@
   color: var(--text-muted);
   font-size: 0.8rem;
   opacity: 0.7;
-  animation: fadeInUp 1s ease 1s both;
+  animation: homeScrollFadeIn 1s ease 1s both;
 }
 
-.scroll-arrow {
+.home-redesign .scroll-arrow {
   width: 20px;
   height: 20px;
   border-right: 2px solid var(--accent-gold, #c9a227);
   border-bottom: 2px solid var(--accent-gold, #c9a227);
   transform: rotate(45deg);
-  animation: scrollBounce 2s infinite;
+  animation: homeScrollBounce 2s infinite;
 }
 
-@keyframes scrollBounce {
+@keyframes homeScrollBounce {
   0%, 100% { transform: rotate(45deg) translateY(0); }
   50% { transform: rotate(45deg) translateY(8px); }
 }
 
-@keyframes fadeInUp {
+@keyframes homeScrollFadeIn {
   from { opacity: 0; transform: translate(-50%, 20px); }
   to { opacity: 0.7; transform: translate(-50%, 0); }
 }
 
 /* Quick Access Section */
-.quick-access {
+.home-redesign .quick-access {
   padding: 3rem 0;
   background: var(--bg-secondary);
   margin-top: -80px;
@@ -230,19 +240,19 @@
   z-index: 10;
 }
 
-.container {
+.home-redesign .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.quick-cards {
+.home-redesign .quick-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
 }
 
-.quick-card {
+.home-redesign .quick-card {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -254,18 +264,23 @@
   transition: all 0.3s ease;
 }
 
-.quick-card:hover {
+.home-redesign .quick-card:hover {
   border-color: var(--accent-gold, #c9a227);
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-.quick-card.featured {
+.home-redesign .quick-card:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.home-redesign .quick-card.featured {
   background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(201, 162, 39, 0.05) 100%);
   border-color: rgba(201, 162, 39, 0.3);
 }
 
-.quick-icon {
+.home-redesign .quick-icon {
   font-size: 2rem;
   width: 50px;
   height: 50px;
@@ -276,19 +291,19 @@
   border-radius: 12px;
 }
 
-.quick-info h3 {
+.home-redesign .quick-info h3 {
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
-.quick-info p {
+.home-redesign .quick-info p {
   font-size: 0.85rem;
   color: var(--text-secondary);
 }
 
-.quick-arrow {
+.home-redesign .quick-arrow {
   width: 20px;
   height: 20px;
   margin-left: auto;
@@ -296,25 +311,25 @@
   transition: all 0.3s ease;
 }
 
-.quick-card:hover .quick-arrow {
+.home-redesign .quick-card:hover .quick-arrow {
   stroke: var(--accent-gold, #c9a227);
   transform: translateX(4px);
 }
 
 /* Ayah of the Day */
-.ayah-of-day {
+.home-redesign .ayah-of-day {
   padding: 5rem 0;
 }
 
-.section-header {
+.home-redesign .section-header {
   margin-bottom: 2.5rem;
 }
 
-.section-header.centered {
+.home-redesign .section-header.centered {
   text-align: center;
 }
 
-.section-badge {
+.home-redesign .section-badge {
   display: inline-block;
   padding: 0.4rem 1rem;
   background: rgba(201, 162, 39, 0.15);
@@ -327,18 +342,18 @@
   margin-bottom: 1rem;
 }
 
-.section-header h2 {
+.home-redesign .section-header h2 {
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
-.section-header p {
+.home-redesign .section-header p {
   color: var(--text-secondary);
   margin-top: 0.5rem;
 }
 
-.ayah-card {
+.home-redesign .ayah-card {
   position: relative;
   background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201, 162, 39, 0.05) 100%);
   border: 1px solid rgba(201, 162, 39, 0.2);
@@ -348,7 +363,7 @@
   overflow: hidden;
 }
 
-.ayah-ornament {
+.home-redesign .ayah-ornament {
   position: absolute;
   width: 60px;
   height: 60px;
@@ -356,12 +371,12 @@
   border-radius: 50%;
 }
 
-.ayah-ornament.top-left { top: 20px; left: 20px; }
-.ayah-ornament.top-right { top: 20px; right: 20px; }
-.ayah-ornament.bottom-left { bottom: 20px; left: 20px; }
-.ayah-ornament.bottom-right { bottom: 20px; right: 20px; }
+.home-redesign .ayah-ornament.top-left { top: 20px; left: 20px; }
+.home-redesign .ayah-ornament.top-right { top: 20px; right: 20px; }
+.home-redesign .ayah-ornament.bottom-left { bottom: 20px; left: 20px; }
+.home-redesign .ayah-ornament.bottom-right { bottom: 20px; right: 20px; }
 
-.ayah-arabic {
+.home-redesign .ayah-arabic {
   font-family: 'Amiri', serif;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   line-height: 2;
@@ -369,16 +384,16 @@
   margin-bottom: 1.5rem;
 }
 
-.ayah-divider {
+.home-redesign .ayah-divider {
   margin: 1.5rem 0;
 }
 
-.divider-ornament {
+.home-redesign .divider-ornament {
   color: var(--accent-gold, #c9a227);
   font-size: 1.5rem;
 }
 
-.ayah-english {
+.home-redesign .ayah-english {
   font-size: 1.1rem;
   font-style: italic;
   color: var(--text-secondary);
@@ -387,7 +402,7 @@
   margin: 0 auto 1rem;
 }
 
-.ayah-urdu {
+.home-redesign .ayah-urdu {
   font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
   font-size: 1.25rem;
   color: var(--text-secondary);
@@ -395,7 +410,7 @@
   margin-bottom: 1.5rem;
 }
 
-.ayah-footer {
+.home-redesign .ayah-footer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -406,23 +421,28 @@
   border-top: 1px solid var(--border);
 }
 
-.ayah-reference {
+.home-redesign .ayah-reference {
   font-weight: 600;
   color: var(--accent-gold, #c9a227);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.ayah-reference:hover {
+.home-redesign .ayah-reference:hover {
   color: var(--accent-gold-light, #e8d48a);
 }
 
-.ayah-share {
+.home-redesign .ayah-reference:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.home-redesign .ayah-share {
   display: flex;
   gap: 0.75rem;
 }
 
-.ayah-share button {
+.home-redesign .ayah-share button {
   width: 40px;
   height: 40px;
   display: flex;
@@ -436,26 +456,31 @@
   transition: all 0.3s ease;
 }
 
-.ayah-share button:hover {
+.home-redesign .ayah-share button:hover {
   background: rgba(201, 162, 39, 0.2);
   border-color: rgba(201, 162, 39, 0.4);
   transform: translateY(-2px);
 }
 
+.home-redesign .ayah-share button:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 2px;
+}
+
 /* Continue Reading */
-.continue-reading {
+.home-redesign .continue-reading {
   padding: 3rem 0 5rem;
   background: var(--bg-secondary);
 }
 
-.history-cards {
+.home-redesign .history-cards {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
   padding-bottom: 1rem;
 }
 
-.history-card {
+.home-redesign .history-card {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -468,12 +493,17 @@
   transition: all 0.3s ease;
 }
 
-.history-card:hover {
+.home-redesign .history-card:hover {
   border-color: var(--accent-gold, #c9a227);
   transform: translateY(-2px);
 }
 
-.history-number {
+.home-redesign .history-card:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.home-redesign .history-number {
   width: 45px;
   height: 45px;
   display: flex;
@@ -485,24 +515,24 @@
   color: var(--accent-gold, #c9a227);
 }
 
-.history-details h4 {
+.home-redesign .history-details h4 {
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
-.history-details span {
+.home-redesign .history-details span {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 
 /* Surahs Section */
-.surahs-section {
+.home-redesign .surahs-section {
   padding: 5rem 0;
 }
 
-.surah-search {
+.home-redesign .surah-search {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -515,18 +545,18 @@
   transition: all 0.3s ease;
 }
 
-.surah-search:focus-within {
+.home-redesign .surah-search:focus-within {
   border-color: var(--accent-gold, #c9a227);
   box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
 }
 
-.surah-search svg {
+.home-redesign .surah-search svg {
   width: 20px;
   height: 20px;
   stroke: var(--text-muted);
 }
 
-.surah-search input {
+.home-redesign .surah-search input {
   flex: 1;
   background: none;
   border: none;
@@ -535,17 +565,17 @@
   outline: none;
 }
 
-.surah-search input::placeholder {
+.home-redesign .surah-search input::placeholder {
   color: var(--text-muted);
 }
 
-.surahs-grid {
+.home-redesign .surahs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
 }
 
-.surah-card {
+.home-redesign .surah-card {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -557,13 +587,18 @@
   transition: all 0.3s ease;
 }
 
-.surah-card:hover {
+.home-redesign .surah-card:hover {
   border-color: var(--accent-gold, #c9a227);
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-.surah-number-badge {
+.home-redesign .surah-card:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.home-redesign .surah-number-badge {
   width: 50px;
   height: 50px;
   display: flex;
@@ -575,44 +610,44 @@
   flex-shrink: 0;
 }
 
-.surah-number-badge span {
+.home-redesign .surah-number-badge span {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--accent-gold, #c9a227);
 }
 
-.surah-content {
+.home-redesign .surah-content {
   flex: 1;
   min-width: 0;
 }
 
-.surah-arabic {
+.home-redesign .surah-arabic {
   font-family: 'Amiri', serif;
   font-size: 1.25rem;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
-.surah-english {
+.home-redesign .surah-english {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
 }
 
-.surah-meaning {
+.home-redesign .surah-meaning {
   font-size: 0.8rem;
   color: var(--text-muted);
 }
 
-.surah-meta {
+.home-redesign .surah-meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5rem;
 }
 
-.revelation-type {
+.home-redesign .revelation-type {
   font-size: 0.7rem;
   padding: 0.25rem 0.6rem;
   border-radius: 20px;
@@ -620,34 +655,34 @@
   letter-spacing: 0.05em;
 }
 
-.revelation-type.meccan {
+.home-redesign .revelation-type.meccan {
   background: rgba(201, 162, 39, 0.15);
   color: var(--accent-gold, #c9a227);
 }
 
-.revelation-type.medinan {
+.home-redesign .revelation-type.medinan {
   background: rgba(26, 125, 92, 0.15);
   color: var(--primary-color);
 }
 
-.ayah-count {
+.home-redesign .ayah-count {
   font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 /* Features Section */
-.features-section {
+.home-redesign .features-section {
   padding: 5rem 0;
   background: var(--bg-secondary);
 }
 
-.features-grid {
+.home-redesign .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
-.feature-card {
+.home-redesign .feature-card {
   padding: 2rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -656,13 +691,13 @@
   transition: all 0.3s ease;
 }
 
-.feature-card:hover {
+.home-redesign .feature-card:hover {
   border-color: rgba(201, 162, 39, 0.3);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-.feature-icon-wrapper {
+.home-redesign .feature-icon-wrapper {
   width: 70px;
   height: 70px;
   display: flex;
@@ -675,31 +710,31 @@
   font-size: 2rem;
 }
 
-.feature-card h3 {
+.home-redesign .feature-card h3 {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.75rem;
 }
 
-.feature-card p {
+.home-redesign .feature-card p {
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.6;
 }
 
 /* Resources Section */
-.resources-section {
+.home-redesign .resources-section {
   padding: 5rem 0;
 }
 
-.resources-grid {
+.home-redesign .resources-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
-.resource-card {
+.home-redesign .resource-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -712,63 +747,68 @@
   transition: all 0.3s ease;
 }
 
-.resource-card:hover {
+.home-redesign .resource-card:hover {
   border-color: var(--accent-gold, #c9a227);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-.resource-icon {
+.home-redesign .resource-card:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 2px;
+}
+
+.home-redesign .resource-icon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
 }
 
-.resource-card h3 {
+.home-redesign .resource-card h3 {
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
-.resource-card p {
+.home-redesign .resource-card p {
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
 /* CTA Section */
-.cta-section {
+.home-redesign .cta-section {
   padding: 5rem 0;
   background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(201, 162, 39, 0.02) 100%);
   border-top: 1px solid rgba(201, 162, 39, 0.15);
 }
 
-.cta-content {
+.home-redesign .cta-content {
   text-align: center;
   max-width: 600px;
   margin: 0 auto;
 }
 
-.cta-content h2 {
+.home-redesign .cta-content h2 {
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
-.cta-content p {
+.home-redesign .cta-content p {
   font-size: 1.1rem;
   color: var(--text-secondary);
   margin-bottom: 2rem;
 }
 
-.cta-buttons {
+.home-redesign .cta-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.btn-outline {
+.home-redesign .btn-outline {
   display: inline-flex;
   align-items: center;
   padding: 1rem 2rem;
@@ -782,67 +822,104 @@
   transition: all 0.3s ease;
 }
 
-.btn-outline:hover {
+.home-redesign .btn-outline:hover {
   background: rgba(201, 162, 39, 0.1);
   border-color: var(--accent-gold, #c9a227);
 }
 
+.home-redesign .btn-outline:focus-visible {
+  outline: 2px solid var(--accent-gold, #c9a227);
+  outline-offset: 3px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-section {
+  .home-redesign .hero-section {
     min-height: auto;
-    padding: 6rem 1.5rem 4rem;
+    padding: 5rem 1.5rem 3rem;
   }
 
-  .hero-stats {
+  .home-redesign .hero-stats {
     gap: 1rem;
     padding: 1rem;
   }
 
-  .stat-divider {
+  .home-redesign .stat-divider {
     display: none;
   }
 
-  .stat {
+  .home-redesign .stat {
     flex: 1;
-    min-width: 80px;
+    min-width: 70px;
   }
 
-  .stat-value {
+  .home-redesign .stat-value {
     font-size: 1.25rem;
   }
 
-  .hero-actions {
+  .home-redesign .hero-actions {
     flex-direction: column;
   }
 
-  .btn-primary, .btn-secondary {
+  .home-redesign .btn-primary, 
+  .home-redesign .btn-secondary {
     width: 100%;
     justify-content: center;
   }
 
-  .scroll-indicator {
+  .home-redesign .scroll-indicator {
     display: none;
   }
 
-  .quick-access {
+  .home-redesign .quick-access {
     margin-top: 0;
     padding: 2rem 0;
   }
 
-  .ayah-card {
-    padding: 2rem 1.5rem;
+  .home-redesign .ayah-card {
+    padding: 1.5rem 1rem;
   }
 
-  .surahs-grid {
+  .home-redesign .ayah-of-day,
+  .home-redesign .surahs-section,
+  .home-redesign .features-section,
+  .home-redesign .resources-section,
+  .home-redesign .cta-section {
+    padding: 3rem 0;
+  }
+
+  .home-redesign .surahs-grid {
     grid-template-columns: 1fr;
   }
 
-  .surah-card {
+  .home-redesign .surah-card {
     padding: 1rem;
   }
 
-  .section-header h2 {
+  .home-redesign .section-header h2 {
     font-size: 1.5rem;
+  }
+
+  .home-redesign .resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-redesign .resource-card {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-redesign .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-redesign .cta-buttons {
+    flex-direction: column;
+  }
+
+  .home-redesign .btn-outline {
+    width: 100%;
+    justify-content: center;
   }
 }
