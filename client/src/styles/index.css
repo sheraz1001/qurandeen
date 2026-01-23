@@ -755,6 +755,8 @@ body {
   z-index: 2;
   animation: iconFloat 3s ease-in-out infinite;
   filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.5));
+  font-family: 'Almarai', sans-serif;
+  white-space: nowrap;
 }
 
 @keyframes iconFloat {
