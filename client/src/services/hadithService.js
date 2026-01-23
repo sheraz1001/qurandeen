@@ -1,4 +1,5 @@
 import { getCollectionById } from '../data/hadithData';
+import { getCachedData, setCachedData, STORES } from './cacheService';
 
 const HADITH_JSON_CDN = 'https://cdn.jsdelivr.net/gh/AhmedBaset/hadith-json@main/db';
 const ALQURANBD_API = 'https://alquranbd.com/api/hadith';
@@ -44,8 +45,12 @@ const urduEditionMap = {
   nawawi40: 'urd-nawawi'
 };
 
-let collectionsCache = {};
-let chaptersCache = {};
+let memoryCache = {
+  collections: {},
+  chapters: {},
+  urdu: {},
+  hadithApi: {}
+};
 
 export const fetchCollection = async (collectionSlug) => {
   const collection = getCollectionById(collectionSlug);
@@ -54,9 +59,16 @@ export const fetchCollection = async (collectionSlug) => {
   }
   
   const apiId = collection.apiId;
+  const cacheKey = `collection_${apiId}`;
   
-  if (collectionsCache[apiId]) {
-    return collectionsCache[apiId];
+  if (memoryCache.collections[apiId]) {
+    return memoryCache.collections[apiId];
+  }
+
+  const cachedData = await getCachedData(STORES.HADITH_COLLECTIONS, cacheKey);
+  if (cachedData) {
+    memoryCache.collections[apiId] = cachedData;
+    return cachedData;
   }
 
   const filePath = collectionFileMap[apiId];
@@ -70,7 +82,10 @@ export const fetchCollection = async (collectionSlug) => {
       throw new Error(`Failed to fetch collection: ${response.status}`);
     }
     const data = await response.json();
-    collectionsCache[apiId] = data;
+    
+    memoryCache.collections[apiId] = data;
+    await setCachedData(STORES.HADITH_COLLECTIONS, cacheKey, data);
+    
     return data;
   } catch (error) {
     console.error(`Error fetching collection ${collectionSlug}:`, error);
@@ -105,10 +120,16 @@ export const fetchChapter = async (collectionSlug, chapterId) => {
   }
   
   const apiId = collection.apiId;
-  const cacheKey = `${apiId}_${chapterId}`;
+  const cacheKey = `chapter_${apiId}_${chapterId}`;
   
-  if (chaptersCache[cacheKey]) {
-    return chaptersCache[cacheKey];
+  if (memoryCache.chapters[cacheKey]) {
+    return memoryCache.chapters[cacheKey];
+  }
+
+  const cachedData = await getCachedData(STORES.HADITH_CHAPTERS, cacheKey);
+  if (cachedData) {
+    memoryCache.chapters[cacheKey] = cachedData;
+    return cachedData;
   }
 
   const filePath = collectionFileMap[apiId];
@@ -122,7 +143,10 @@ export const fetchChapter = async (collectionSlug, chapterId) => {
       throw new Error(`Failed to fetch chapter: ${response.status}`);
     }
     const data = await response.json();
-    chaptersCache[cacheKey] = data;
+    
+    memoryCache.chapters[cacheKey] = data;
+    await setCachedData(STORES.HADITH_CHAPTERS, cacheKey, data);
+    
     return data;
   } catch (error) {
     console.error(`Error fetching chapter ${chapterId} from ${collectionSlug}:`, error);
@@ -150,12 +174,22 @@ export const fetchBanglaHadiths = async (collectionSlug, chapterId, page = 1) =>
     return null;
   }
 
+  const cacheKey = `bangla_${bookId}_${chapterId}_${page}`;
+  
+  const cachedData = await getCachedData(STORES.HADITH_CHAPTERS, cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await fetch(`${ALQURANBD_API}/chapter/${bookId}/${chapterId}/${page}`);
     if (!response.ok) {
       return null;
     }
     const data = await response.json();
+    
+    await setCachedData(STORES.HADITH_CHAPTERS, cacheKey, data);
+    
     return data;
   } catch (error) {
     console.error('Error fetching Bangla hadiths:', error);
@@ -172,21 +206,28 @@ export const fetchBanglaChapters = async (collectionSlug) => {
     return null;
   }
 
+  const cacheKey = `bangla_chapters_${bookId}`;
+  
+  const cachedData = await getCachedData(STORES.HADITH_CHAPTERS, cacheKey);
+  if (cachedData) {
+    return cachedData;
+  }
+
   try {
     const response = await fetch(`${ALQURANBD_API}/chapters/${bookId}`);
     if (!response.ok) {
       return null;
     }
     const data = await response.json();
+    
+    await setCachedData(STORES.HADITH_CHAPTERS, cacheKey, data);
+    
     return data;
   } catch (error) {
     console.error('Error fetching Bangla chapters:', error);
     return null;
   }
 };
-
-let urduCache = {};
-let hadithApiCache = {};
 
 export const fetchUrduHadiths = async (collectionSlug) => {
   const collection = getCollectionById(collectionSlug);
@@ -197,8 +238,16 @@ export const fetchUrduHadiths = async (collectionSlug) => {
     return null;
   }
 
-  if (urduCache[editionId]) {
-    return urduCache[editionId];
+  const cacheKey = `urdu_${editionId}`;
+
+  if (memoryCache.urdu[editionId]) {
+    return memoryCache.urdu[editionId];
+  }
+
+  const cachedData = await getCachedData(STORES.HADITH_COLLECTIONS, cacheKey);
+  if (cachedData) {
+    memoryCache.urdu[editionId] = cachedData;
+    return cachedData;
   }
 
   try {
@@ -207,7 +256,10 @@ export const fetchUrduHadiths = async (collectionSlug) => {
       return null;
     }
     const data = await response.json();
-    urduCache[editionId] = data;
+    
+    memoryCache.urdu[editionId] = data;
+    await setCachedData(STORES.HADITH_COLLECTIONS, cacheKey, data);
+    
     return data;
   } catch (error) {
     console.error('Error fetching Urdu hadiths:', error);
@@ -224,9 +276,16 @@ export const fetchHadithApiData = async (collectionSlug, chapterNum) => {
   const collection = getCollectionById(collectionSlug);
   if (!collection) return null;
   
-  const cacheKey = `${collectionSlug}_${chapterNum}`;
-  if (hadithApiCache[cacheKey]) {
-    return hadithApiCache[cacheKey];
+  const cacheKey = `hadithapi_${collectionSlug}_${chapterNum}`;
+  
+  if (memoryCache.hadithApi[cacheKey]) {
+    return memoryCache.hadithApi[cacheKey];
+  }
+
+  const cachedData = await getCachedData(STORES.HADITH_CHAPTERS, cacheKey);
+  if (cachedData) {
+    memoryCache.hadithApi[cacheKey] = cachedData;
+    return cachedData;
   }
 
   try {
@@ -235,7 +294,10 @@ export const fetchHadithApiData = async (collectionSlug, chapterNum) => {
       return null;
     }
     const data = await response.json();
-    hadithApiCache[cacheKey] = data;
+    
+    memoryCache.hadithApi[cacheKey] = data;
+    await setCachedData(STORES.HADITH_CHAPTERS, cacheKey, data);
+    
     return data;
   } catch (error) {
     console.error('Error fetching from Hadith API:', error);
@@ -285,6 +347,10 @@ export const getRandomHadith = async (collectionSlug = 'sahih-bukhari') => {
 };
 
 export const clearCache = () => {
-  collectionsCache = {};
-  chaptersCache = {};
+  memoryCache = {
+    collections: {},
+    chapters: {},
+    urdu: {},
+    hadithApi: {}
+  };
 };
