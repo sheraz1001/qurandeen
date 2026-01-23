@@ -26,7 +26,7 @@ The application follows a client-server architecture with a Node.js/Express back
 - **AI Chatbot:** An "Islamic Scholar AI Chatbot" provides answers with source citations and multilingual support.
 - **User & Admin Management:** Secure authentication (email/password with JWT, Google OAuth), user dashboards for progress tracking and bookmarks, and admin dashboards for content and user management.
 - **Content Management:** Public Islamic blog, contact page, and legal pages (Privacy Policy, Terms of Use).
-- **Data Storage:** Local storage for user preferences, bookmarks, and reading history.
+- **Data Storage:** Local storage for user preferences, bookmarks, and reading history. IndexedDB-based smart caching for offline access to Quran text, translations, word-by-word data, Hadith collections/chapters, and Tafsir content.
 - **SEO Optimization:** SEO-friendly URLs, keyword-rich route names, automatic redirects for legacy URLs, dynamic meta tags using react-helmet-async, JSON-LD schema markup, animated hero headers, server-generated sitemap.xml, and a robust robots.txt configuration.
 - **Quran Teaching Platform:** A marketplace connecting Quran teachers and students with features like teacher profiles, class packages, booking system, commission model, payment processing (Stripe with commission split and race-condition protection), Jitsi Meet integration for video conferencing, and a real-time messaging system. An Admin Teacher Verification Dashboard is included.
 - **Daily Azkaar & Duas Section:** Comprehensive collection from Hisnul Muslim with 134 categories and 298+ duas, including interactive recitation counter, progress tracking, font size controls, and search functionality. Data is stored locally for fast access.
