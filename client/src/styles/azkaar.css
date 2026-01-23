@@ -202,7 +202,7 @@
 }
 
 .arabic-name {
-  font-family: 'Almarai', 'Traditional Arabic', serif;
+  font-family: 'Amiri', 'Traditional Arabic', serif;
   font-size: 1.1rem;
   color: #d4af37;
   margin-bottom: 0.75rem;
@@ -720,7 +720,7 @@
 }
 
 .dua-arabic {
-  font-family: 'Almarai', 'Traditional Arabic', serif;
+  font-family: 'Amiri', 'Traditional Arabic', serif;
   font-size: 1.9rem;
   line-height: 2.3;
   text-align: right;
