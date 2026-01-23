@@ -7,6 +7,13 @@ import ErrorMessage from '../components/ErrorMessage';
 import WordByWord from '../components/WordByWord';
 import HeroAnimated from '../components/HeroAnimated';
 import { resolveSurahIdentifier, getSurahByNumber, getCanonicalSlug } from '../data/surahData';
+import { 
+  fetchSurah as fetchSurahCached, 
+  fetchTranslations as fetchTranslationsCached,
+  fetchTafsirs as fetchTafsirsCached,
+  fetchTafsirContent as fetchTafsirCached,
+  fetchWordByWord as fetchWordByWordCached
+} from '../services/quranService';
 
 function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selectedReciter, selectedScript, selectedTafsir, selectedFont }) {
   const { identifier } = useParams();
@@ -64,8 +71,8 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   const fetchTranslations = async () => {
     try {
       setTranslationsLoading(true);
-      const response = await axios.get('/api/translations');
-      setTranslations(response.data.data || []);
+      const data = await fetchTranslationsCached();
+      setTranslations(data.data || []);
     } catch (err) {
       console.error('Error fetching translations:', err);
     } finally {
@@ -75,8 +82,8 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
 
   const fetchTafsirs = async () => {
     try {
-      const response = await axios.get('/api/tafsirs');
-      setTafsirs(response.data.data || []);
+      const data = await fetchTafsirsCached();
+      setTafsirs(data.data || []);
     } catch (err) {
       console.error('Error fetching tafsirs:', err);
     }
@@ -91,8 +98,8 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`/api/surah/${number}?translation=${selectedTranslation}&script=${selectedScript}&reciter=${selectedReciter}`);
-      setSurahData(response.data);
+      const data = await fetchSurahCached(number, selectedTranslation, selectedScript, selectedReciter);
+      setSurahData(data);
     } catch (err) {
       setError('Failed to load surah. Please try again later.');
       console.error('Error:', err);
@@ -189,10 +196,10 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     if (!tafsirData[ayahNumber]) {
       setTafsirLoading(true);
       try {
-        const response = await axios.get(`/api/tafsir/${number}/${ayahNumber}?slug=${selectedTafsir}`);
+        const data = await fetchTafsirCached(number, ayahNumber, selectedTafsir);
         setTafsirData(prev => ({
           ...prev,
-          [ayahNumber]: response.data.data?.text || 'Tafsir not available'
+          [ayahNumber]: data.data?.text || 'Tafsir not available'
         }));
       } catch (err) {
         setTafsirData(prev => ({
@@ -216,10 +223,10 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
     
     setWbwLoading(prev => ({ ...prev, [ayahNumber]: true }));
     try {
-      const response = await axios.get(`/api/word-by-word/${number}/${ayahNumber}`);
+      const data = await fetchWordByWordCached(number, ayahNumber);
       setWordByWordData(prev => ({
         ...prev,
-        [ayahNumber]: response.data.data?.words || []
+        [ayahNumber]: data.data?.words || []
       }));
     } catch (err) {
       console.error('Failed to fetch word-by-word:', err);
