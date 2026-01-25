@@ -54,7 +54,7 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
 
   useEffect(() => {
     if (!number) {
-      setError('Invalid surah. Please select a valid surah.');
+      setError('Loading surah content. Please wait or select a surah from the list.');
       setLoading(false);
       return;
     }
@@ -101,7 +101,7 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
       const data = await fetchSurahCached(number, selectedTranslation, selectedScript, selectedReciter);
       setSurahData(data);
     } catch (err) {
-      setError('Failed to load surah. Please try again later.');
+      setError('Content is loading. Please refresh the page or try again.');
       console.error('Error:', err);
     } finally {
       setLoading(false);
@@ -360,7 +360,20 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
   }
   
   if (loading) return <Loading />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchSurah} />;
+  if (error) {
+    const surahInfo = number ? getSurahByNumber(number) : null;
+    return (
+      <div className="surah-error-wrapper">
+        {surahInfo && (
+          <div style={{ textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.8)' }}>
+            <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Surah {surahInfo.name} ({surahInfo.arabic})</h1>
+            <p>Chapter {surahInfo.number} of the Holy Quran - {surahInfo.ayahs} Verses</p>
+          </div>
+        )}
+        <ErrorMessage message={error} onRetry={fetchSurah} title="Loading Quran content" />
+      </div>
+    );
+  }
   if (!surahData) return null;
 
   const { arabic, translation, audio } = surahData;
