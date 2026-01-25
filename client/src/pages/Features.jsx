@@ -200,12 +200,11 @@ function Features() {
     { value: '150+', label: 'Reciters', description: 'World-class Qaris' },
     { value: '100+', label: 'Translations', description: '40+ Languages' },
     { value: '17', label: 'Hadith Books', description: '50,000+ Hadiths' },
-    { value: '134', label: 'Dua Categories', description: '298+ Duas' },
-    { value: '985', label: 'SEO Pages', description: 'Indexed URLs' }
+    { value: '134', label: 'Dua Categories', description: '298+ Duas' }
   ];
 
   const technicalFeatures = [
-    { icon: '🚀', title: 'SEO Optimized', description: '985 indexed pages with structured sitemaps for Quran, Hadith, and Azkaar sections' },
+    { icon: '🚀', title: 'SEO Optimized', description: 'Structured sitemaps for Quran, Hadith, and Azkaar sections' },
     { icon: '🔒', title: 'Secure Authentication', description: 'JWT-based auth with Google OAuth integration for secure user accounts' },
     { icon: '📡', title: 'Real-Time APIs', description: 'Integration with Al-Quran Cloud, MP3Quran.net, Quran.com, and Aladhan APIs' },
     { icon: '💾', title: 'Local Storage', description: 'Preferences, bookmarks, and reading history saved locally for fast access' },
@@ -492,25 +491,6 @@ function Features() {
                   <h4>{feature.title}</h4>
                   <p>{feature.description}</p>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="feature-section technical-section">
-        <div className="section-container">
-          <div className="section-header">
-            <span className="section-badge">Technical Excellence</span>
-            <h2>Built with Modern Technology</h2>
-            <p>Professional-grade infrastructure for reliability and performance</p>
-          </div>
-          <div className="technical-grid">
-            {technicalFeatures.map((feature, index) => (
-              <div key={index} className="technical-card">
-                <span className="technical-icon">{feature.icon}</span>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
               </div>
             ))}
           </div>
