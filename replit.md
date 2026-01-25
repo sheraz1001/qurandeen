@@ -23,7 +23,7 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Interactive Tools:**
     - **Quran Share Card Generator:** Customizable tool for creating shareable Quranic verse images.
     - **Daily Content:** Features "Quran Verse of the Day" and "Hadith of the Day."
-    - **Islamic Utilities:** Includes Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Prayer Times, Qibla Direction, and Ramadan Calendar.
+    - **Islamic Utilities:** Includes Hijri-Gregorian Calendar Converter, Morning & Evening Adhkar, 99 Names of Allah Explorer, Prayer Times, Qibla Direction, Ramadan Calendar, and Islamic Events & Holidays Calendar.
 - **Search & Navigation:** Advanced search, Juz browser, and ayah metadata display.
 - **AI Chatbot:** An "Islamic Scholar AI Chatbot" provides answers with source citations and multilingual support.
 - **User & Admin Management:** Secure authentication (email/password with JWT, Google OAuth), user dashboards for progress tracking and bookmarks, and admin dashboards for content and user management.
@@ -42,7 +42,7 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Google OAuth:** For user authentication.
 - **html2canvas:** For client-side rendering of HTML to images in the Share Card Generator.
 - **jsPDF:** For client-side PDF generation in the Share Card Generator.
-- **Aladhan API:** For Islamic prayer times, Hijri calendar, and Ramadan schedules.
+- **Aladhan API:** For Islamic prayer times, Hijri calendar, Ramadan schedules, and Islamic holidays/events.
 - **Stripe:** Payment processing for the Quran Teaching Platform.
 - **Jitsi Meet:** Video conferencing integration for classes.
 - **jsDelivr (AhmedBaset/hadith-json):** CDN for Hadith data.
