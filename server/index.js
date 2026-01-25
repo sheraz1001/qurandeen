@@ -1504,6 +1504,52 @@ app.get('/api/surah/:number', async (req, res) => {
   }
 });
 
+// Aladhan API Proxy Endpoints for Islamic Events
+const ALADHAN_API_BASE = 'https://api.aladhan.com/v1';
+
+app.get('/api/aladhan/nextHijriHoliday', async (req, res) => {
+  try {
+    const response = await axios.get(`${ALADHAN_API_BASE}/nextHijriHoliday`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching next Hijri holiday:', error.message);
+    res.status(500).json({ error: 'Failed to fetch next Hijri holiday' });
+  }
+});
+
+app.get('/api/aladhan/gToHCalendar/:month/:year', async (req, res) => {
+  try {
+    const { month, year } = req.params;
+    const response = await axios.get(`${ALADHAN_API_BASE}/gToHCalendar/${month}/${year}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching Gregorian to Hijri calendar:', error.message);
+    res.status(500).json({ error: 'Failed to fetch calendar data' });
+  }
+});
+
+app.get('/api/aladhan/gToH/:date', async (req, res) => {
+  try {
+    const { date } = req.params;
+    const response = await axios.get(`${ALADHAN_API_BASE}/gToH/${date}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error converting date:', error.message);
+    res.status(500).json({ error: 'Failed to convert date' });
+  }
+});
+
+app.get('/api/aladhan/hToGCalendar/:month/:year', async (req, res) => {
+  try {
+    const { month, year } = req.params;
+    const response = await axios.get(`${ALADHAN_API_BASE}/hToGCalendar/${month}/${year}`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching Hijri to Gregorian calendar:', error.message);
+    res.status(500).json({ error: 'Failed to fetch calendar data' });
+  }
+});
+
 app.get('/api/random-ayah', async (req, res) => {
   try {
     const randomSurah = Math.floor(Math.random() * 114) + 1;
@@ -3599,6 +3645,7 @@ app.get('/sitemap-main.xml', async (req, res) => {
     { loc: '/islamic-resources/qibla-direction', changefreq: 'monthly', priority: '0.8' },
     { loc: '/islamic-resources/ramadan-calendar', changefreq: 'daily', priority: '0.8' },
     { loc: '/hijri-calendar', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/islamic-events', changefreq: 'weekly', priority: '0.8' },
     { loc: '/hadith', changefreq: 'weekly', priority: '0.9' },
     { loc: '/azkaar', changefreq: 'weekly', priority: '0.9' },
     { loc: '/blogs', changefreq: 'weekly', priority: '0.7' },

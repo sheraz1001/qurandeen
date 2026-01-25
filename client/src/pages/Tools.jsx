@@ -166,6 +166,16 @@ function Tools() {
       category: 'learning',
       gradient: 'linear-gradient(135deg, #e67e22 0%, #d35400 100%)'
     },
+    {
+      id: 'islamic-events',
+      title: 'Islamic Events & Holidays',
+      description: 'Complete Islamic holidays calendar with Ramadan, Eid, Mawlid, Ashura dates and countdown to upcoming events',
+      icon: '🎊',
+      path: '/islamic-events',
+      category: 'calendar',
+      stats: { value: '20+', label: 'Annual Events' },
+      gradient: 'linear-gradient(135deg, #8e44ad 0%, #5b2c6f 100%)'
+    },
   ];
 
   const filteredTools = tools.filter(tool => {

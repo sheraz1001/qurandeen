@@ -23,6 +23,7 @@ import PrayerTimes from './pages/PrayerTimes';
 import QiblaDirection from './pages/QiblaDirection';
 import RamadanCalendar from './pages/RamadanCalendar';
 import HijriCalendar from './pages/HijriCalendar';
+import IslamicEvents from './pages/IslamicEvents';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
@@ -162,6 +163,7 @@ function App() {
             <Route path="/islamic-resources/qibla-direction" element={<QiblaDirection />} />
             <Route path="/islamic-resources/ramadan-calendar" element={<RamadanCalendar />} />
             <Route path="/hijri-calendar" element={<HijriCalendar />} />
+            <Route path="/islamic-events" element={<IslamicEvents />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

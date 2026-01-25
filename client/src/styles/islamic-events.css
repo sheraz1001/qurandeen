@@ -1,0 +1,450 @@
+.islamic-events-page {
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+.events-header {
+  background: linear-gradient(135deg, #0a1f15 0%, #1a3d2a 50%, #0a1f15 100%);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid rgba(139, 117, 50, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.events-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L35 25H60L40 40L50 60L30 47L10 60L20 40L0 25H25L30 0Z' fill='rgba(139,117,50,0.03)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.events-header-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.events-header h1 {
+  font-size: 2.5rem;
+  color: #8b7532;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.events-header p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.current-date-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(139, 117, 50, 0.15);
+  border: 1px solid rgba(139, 117, 50, 0.3);
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+}
+
+.hijri-date {
+  color: #8b7532;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.gregorian-date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.events-error {
+  text-align: center;
+  padding: 2rem;
+  color: #ff6b6b;
+}
+
+.events-error button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  background: #8b7532;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.next-holiday-section {
+  max-width: 900px;
+  margin: -2rem auto 2rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.next-holiday-card {
+  background: linear-gradient(135deg, rgba(139, 117, 50, 0.15) 0%, rgba(10, 31, 21, 0.9) 100%);
+  border: 2px solid rgba(139, 117, 50, 0.4);
+  border-radius: 20px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.holiday-icon-large {
+  font-size: 5rem;
+  flex-shrink: 0;
+}
+
+.next-holiday-info {
+  flex: 1;
+}
+
+.next-label {
+  display: inline-block;
+  background: rgba(139, 117, 50, 0.3);
+  color: #8b7532;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
+
+.holiday-name {
+  font-size: 1.8rem;
+  color: #fff;
+  margin: 0.5rem 0;
+  font-weight: 600;
+}
+
+.holiday-description {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.holiday-dates {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.date-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.date-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.date-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+.countdown-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #8b7532, #a08940);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+
+.countdown-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.countdown-label {
+  font-size: 0.85rem;
+}
+
+.yearly-holidays-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  color: #8b7532;
+  margin: 0;
+}
+
+.year-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.year-selector label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.year-selector select {
+  background: rgba(139, 117, 50, 0.2);
+  border: 1px solid rgba(139, 117, 50, 0.4);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.year-selector select:focus {
+  outline: none;
+  border-color: #8b7532;
+}
+
+.holidays-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.holidays-timeline::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(139, 117, 50, 0.5), rgba(139, 117, 50, 0.1));
+}
+
+.holiday-timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.holiday-timeline-item.past {
+  opacity: 0.5;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -1.5rem;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: #0a1f15;
+  border: 2px solid rgba(139, 117, 50, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.holiday-icon {
+  font-size: 1.2rem;
+}
+
+.timeline-content {
+  background: rgba(139, 117, 50, 0.1);
+  border: 1px solid rgba(139, 117, 50, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.holiday-timeline-item.upcoming .timeline-content:hover {
+  background: rgba(139, 117, 50, 0.15);
+  border-color: rgba(139, 117, 50, 0.4);
+  transform: translateX(5px);
+}
+
+.holiday-title {
+  font-size: 1.1rem;
+  color: #fff;
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.holiday-desc {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  line-height: 1.4;
+}
+
+.holiday-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.holiday-meta .gregorian {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.holiday-meta .hijri {
+  color: #8b7532;
+}
+
+.days-badge {
+  display: inline-block;
+  background: rgba(139, 117, 50, 0.3);
+  color: #8b7532;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  margin-top: 0.75rem;
+}
+
+.past-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  margin-top: 0.75rem;
+}
+
+.no-holidays {
+  text-align: center;
+  padding: 3rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.related-tools {
+  max-width: 900px;
+  margin: 2rem auto 0;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid rgba(139, 117, 50, 0.2);
+}
+
+.related-tools h2 {
+  font-size: 1.3rem;
+  color: #8b7532;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.tool-card {
+  background: rgba(139, 117, 50, 0.1);
+  border: 1px solid rgba(139, 117, 50, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+  background: rgba(139, 117, 50, 0.2);
+  border-color: rgba(139, 117, 50, 0.4);
+  transform: translateY(-3px);
+}
+
+.tool-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.tool-card h3 {
+  color: #fff;
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.tool-card p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .events-header {
+    padding: 2rem 1rem;
+  }
+
+  .events-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .next-holiday-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+
+  .holiday-icon-large {
+    font-size: 4rem;
+  }
+
+  .holiday-name {
+    font-size: 1.4rem;
+  }
+
+  .holiday-dates {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .section-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .holidays-timeline {
+    padding-left: 1.5rem;
+  }
+
+  .timeline-marker {
+    left: -1.25rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .holiday-icon {
+    font-size: 1rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
