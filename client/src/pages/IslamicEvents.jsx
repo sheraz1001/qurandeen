@@ -213,26 +213,26 @@ function IslamicEvents() {
         )}
       </section>
 
-      <section className="related-tools">
+      <section className="events-related-tools">
         <h2>Related Islamic Tools</h2>
-        <div className="tools-grid">
-          <Link to="/hijri-calendar" className="tool-card">
-            <span className="tool-icon">📅</span>
+        <div className="events-tools-grid">
+          <Link to="/hijri-calendar" className="events-tool-card">
+            <span className="events-tool-icon">📅</span>
             <h3>Hijri Calendar</h3>
             <p>Full Islamic calendar with date conversion</p>
           </Link>
-          <Link to="/islamic-resources/ramadan-calendar" className="tool-card">
-            <span className="tool-icon">🌙</span>
+          <Link to="/islamic-resources/ramadan-calendar" className="events-tool-card">
+            <span className="events-tool-icon">🌙</span>
             <h3>Ramadan Calendar</h3>
             <p>Suhoor and Iftar times for Ramadan</p>
           </Link>
-          <Link to="/islamic-resources/prayer-times" className="tool-card">
-            <span className="tool-icon">🕌</span>
+          <Link to="/islamic-resources/prayer-times" className="events-tool-card">
+            <span className="events-tool-icon">🕌</span>
             <h3>Prayer Times</h3>
             <p>Accurate prayer times for your location</p>
           </Link>
-          <Link to="/islamic-resources/hijri-converter" className="tool-card">
-            <span className="tool-icon">🔄</span>
+          <Link to="/islamic-resources/hijri-converter" className="events-tool-card">
+            <span className="events-tool-icon">🔄</span>
             <h3>Date Converter</h3>
             <p>Convert between Hijri and Gregorian dates</p>
           </Link>

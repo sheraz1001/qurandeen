@@ -337,27 +337,27 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-.related-tools {
+.events-related-tools {
   max-width: 900px;
   margin: 2rem auto 0;
   padding: 2rem 1.5rem;
   border-top: 1px solid rgba(139, 117, 50, 0.2);
 }
 
-.related-tools h2 {
+.events-related-tools h2 {
   font-size: 1.3rem;
   color: #8b7532;
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
-.tools-grid {
+.events-tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
 
-.tool-card {
+.events-tool-card {
   background: rgba(139, 117, 50, 0.1);
   border: 1px solid rgba(139, 117, 50, 0.2);
   border-radius: 12px;
@@ -365,27 +365,28 @@
   text-align: center;
   text-decoration: none;
   transition: all 0.3s ease;
+  display: block;
 }
 
-.tool-card:hover {
+.events-tool-card:hover {
   background: rgba(139, 117, 50, 0.2);
   border-color: rgba(139, 117, 50, 0.4);
   transform: translateY(-3px);
 }
 
-.tool-icon {
+.events-tool-icon {
   font-size: 2rem;
   display: block;
   margin-bottom: 0.5rem;
 }
 
-.tool-card h3 {
+.events-tool-card h3 {
   color: #fff;
   font-size: 1rem;
   margin: 0 0 0.25rem;
 }
 
-.tool-card p {
+.events-tool-card p {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.8rem;
   margin: 0;
@@ -438,13 +439,13 @@
     font-size: 1rem;
   }
 
-  .tools-grid {
+  .events-tools-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
-  .tools-grid {
+  .events-tools-grid {
     grid-template-columns: 1fr;
   }
 }
