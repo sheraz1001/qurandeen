@@ -56,6 +56,16 @@ function Tools() {
       gradient: 'linear-gradient(135deg, #8e44ad 0%, #6c3483 100%)'
     },
     {
+      id: 'islamic-events',
+      title: 'Islamic Events & Holidays',
+      description: 'Discover upcoming Islamic holidays like Ramadan, Eid, Mawlid, Ashura with countdown timers and yearly calendar',
+      icon: '🎉',
+      path: '/islamic-events',
+      category: 'calendar',
+      stats: { value: '20+', label: 'Annual Events' },
+      gradient: 'linear-gradient(135deg, #27ae60 0%, #1e8449 100%)'
+    },
+    {
       id: 'prayer-times',
       title: 'Prayer Times',
       description: 'Accurate salah times based on your GPS location with countdown to next prayer and multiple calculation methods',
