@@ -42,6 +42,11 @@ function Header({ darkMode, toggleDarkMode }) {
     }, 150);
   };
 
+  const closeAllMenus = () => {
+    setActiveDropdown(null);
+    setMobileMenuOpen(false);
+  };
+
   useEffect(() => {
     setActiveDropdown(null);
     setMobileMenuOpen(false);
@@ -255,7 +260,7 @@ function Header({ darkMode, toggleDarkMode }) {
                       </div>
                     </div>
                     <div className="quran-simple-links">
-                      <Link to="/quran-juz-browser" className="quran-simple-link">
+                      <Link to="/quran-juz-browser" className="quran-simple-link" onClick={closeAllMenus}>
                         <div className="quran-link-icon juz">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="24" height="24">
                             <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
@@ -269,7 +274,7 @@ function Header({ darkMode, toggleDarkMode }) {
                           <path d="M9 18l6-6-6-6"/>
                         </svg>
                       </Link>
-                      <Link to="/quran-mp3-audio" className="quran-simple-link">
+                      <Link to="/quran-mp3-audio" className="quran-simple-link" onClick={closeAllMenus}>
                         <div className="quran-link-icon audio">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="24" height="24">
                             <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
@@ -285,7 +290,7 @@ function Header({ darkMode, toggleDarkMode }) {
                       </Link>
                     </div>
                     <div className="quran-simple-footer">
-                      <Link to="/" className="quran-start-btn">
+                      <Link to="/" className="quran-start-btn" onClick={closeAllMenus}>
                         <span>Start Reading Quran</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -326,6 +331,7 @@ function Header({ darkMode, toggleDarkMode }) {
                               key={link.path}
                               to={link.path} 
                               className={`mega-link ${isActive(link.path) ? 'active' : ''}`}
+                              onClick={closeAllMenus}
                             >
                               <span className="mega-link-icon">{link.icon}</span>
                               <div className="mega-link-content">
@@ -338,7 +344,7 @@ function Header({ darkMode, toggleDarkMode }) {
                       </div>
                     ))}
                     <div className="mega-dropdown-footer-full">
-                      <Link to="/islamic-resources" className="view-all-link">
+                      <Link to="/islamic-resources" className="view-all-link" onClick={closeAllMenus}>
                         View All Islamic Resources
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
                           <path d="M5 12h14M12 5l7 7-7 7"/>
