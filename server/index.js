@@ -4001,42 +4001,43 @@ function getOrdinalSuffix(n) {
 
 function injectSurahSEO(html, surah, slug) {
   const title = `Surah ${surah.name} (${surah.arabic}) - ${surah.meaning} | Quran Deen`;
-  const description = `Read and listen to Surah ${surah.name} (${surah.arabic}), the ${getOrdinalSuffix(surah.number)} chapter of the Holy Quran with ${surah.verses} verses. ${surah.type} surah meaning "${surah.meaning}". Multiple translations, reciters, and tafsir available.`;
+  const description = `Read and listen to Surah ${surah.name} (${surah.arabic}), the ${getOrdinalSuffix(surah.number)} chapter of the Holy Quran with ${surah.verses} verses. ${surah.type} surah meaning ${surah.meaning}. Multiple translations, reciters, and tafsir available.`;
   const url = `https://qurandeen.com/surah/${slug}`;
+  
+  const escapeHtml = (str) => str.replace(/"/g, '&quot;');
   
   const metaTags = `
     <title>${title}</title>
-    <meta name="description" content="${description}" />
+    <meta name="description" content="${escapeHtml(description)}" />
     <meta name="keywords" content="Surah ${surah.name}, ${surah.arabic}, ${surah.meaning}, Quran chapter ${surah.number}, Holy Quran, Islamic scripture, Quran recitation, Quran translation" />
     <link rel="canonical" href="${url}" />
-    <meta property="og:title" content="${title}" />
-    <meta property="og:description" content="${description}" />
+    <meta property="og:title" content="${escapeHtml(title)}" />
+    <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${url}" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Quran Deen" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${title}" />
-    <meta name="twitter:description" content="${description}" />`;
+    <meta name="twitter:title" content="${escapeHtml(title)}" />
+    <meta name="twitter:description" content="${escapeHtml(description)}" />`;
   
-  const jsonLd = `<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Surah ${surah.name} (${surah.arabic})",
-  "description": "${description}",
-  "url": "${url}",
-  "mainEntityOfPage": "${url}",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Quran Deen",
-    "url": "https://qurandeen.com"
-  },
-  "about": {
-    "@type": "Thing",
-    "name": "Holy Quran - Chapter ${surah.number}"
-  }
-}
-</script>`;
+  const jsonLdObj = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": `Surah ${surah.name} (${surah.arabic})`,
+    "description": description,
+    "url": url,
+    "mainEntityOfPage": url,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Quran Deen",
+      "url": "https://qurandeen.com"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": `Holy Quran - Chapter ${surah.number}`
+    }
+  };
+  const jsonLd = `<script type="application/ld+json">${JSON.stringify(jsonLdObj)}</script>`;
 
   const noscriptContent = `<noscript>
     <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;">
