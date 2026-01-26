@@ -79,7 +79,7 @@ function IslamicEvents() {
   return (
     <div className="islamic-events-page">
       <Helmet>
-        <title>Islamic Events & Holidays Calendar {selectedYear} - QuranDeen</title>
+        <title>{`Islamic Events & Holidays Calendar ${selectedYear} - QuranDeen`}</title>
         <meta name="description" content={`Complete Islamic events and holidays calendar for ${selectedYear}. Find dates for Ramadan, Eid al-Fitr, Eid al-Adha, Mawlid, Ashura, Laylat al-Qadr and more Islamic occasions.`} />
         <meta name="keywords" content="Islamic holidays, Muslim events, Ramadan dates, Eid dates, Islamic calendar, Hijri calendar, Mawlid, Ashura, Laylat al-Qadr" />
         <link rel="canonical" href="https://qurandeen.com/islamic-events" />

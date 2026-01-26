@@ -9,6 +9,61 @@ let memoryCache = {
   monthlyCalendar: {}
 };
 
+const STATIC_HOLIDAYS_2026 = [
+  { name: "Islamic New Year", gregorianDate: "26-06-2026", gregorianReadable: "26 June 2026", hijriDate: "1-01-1448", hijriReadable: "1 Muharram 1448", hijriMonth: "Muharram", weekday: "Friday" },
+  { name: "Ashura", gregorianDate: "05-07-2026", gregorianReadable: "5 July 2026", hijriDate: "10-01-1448", hijriReadable: "10 Muharram 1448", hijriMonth: "Muharram", weekday: "Sunday" },
+  { name: "Mawlid al-Nabi", gregorianDate: "04-09-2026", gregorianReadable: "4 September 2026", hijriDate: "12-03-1448", hijriReadable: "12 Rabi al-Awwal 1448", hijriMonth: "Rabi al-Awwal", weekday: "Friday" },
+  { name: "Isra and Mi'raj", gregorianDate: "18-01-2027", gregorianReadable: "18 January 2027", hijriDate: "27-07-1448", hijriReadable: "27 Rajab 1448", hijriMonth: "Rajab", weekday: "Monday" },
+  { name: "1st Day of Ramadan", gregorianDate: "17-02-2026", gregorianReadable: "17 February 2026", hijriDate: "1-09-1447", hijriReadable: "1 Ramadan 1447", hijriMonth: "Ramadan", weekday: "Tuesday" },
+  { name: "Laylat al-Qadr", gregorianDate: "14-03-2026", gregorianReadable: "14 March 2026", hijriDate: "27-09-1447", hijriReadable: "27 Ramadan 1447", hijriMonth: "Ramadan", weekday: "Saturday" },
+  { name: "Eid al-Fitr", gregorianDate: "20-03-2026", gregorianReadable: "20 March 2026", hijriDate: "1-10-1447", hijriReadable: "1 Shawwal 1447", hijriMonth: "Shawwal", weekday: "Friday" },
+  { name: "Day of Arafah", gregorianDate: "26-05-2026", gregorianReadable: "26 May 2026", hijriDate: "9-12-1447", hijriReadable: "9 Dhul Hijjah 1447", hijriMonth: "Dhul Hijjah", weekday: "Tuesday" },
+  { name: "Eid al-Adha", gregorianDate: "27-05-2026", gregorianReadable: "27 May 2026", hijriDate: "10-12-1447", hijriReadable: "10 Dhul Hijjah 1447", hijriMonth: "Dhul Hijjah", weekday: "Wednesday" }
+];
+
+const getStaticNextHoliday = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  for (const holiday of STATIC_HOLIDAYS_2026.sort((a, b) => {
+    const dateA = new Date(a.gregorianDate.split('-').reverse().join('-'));
+    const dateB = new Date(b.gregorianDate.split('-').reverse().join('-'));
+    return dateA - dateB;
+  })) {
+    const parts = holiday.gregorianDate.split('-');
+    const holidayDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+    if (holidayDate >= today) {
+      return {
+        name: holiday.name,
+        hijri: { 
+          date: holiday.hijriDate, 
+          day: holiday.hijriDate.split('-')[0],
+          month: { en: holiday.hijriMonth },
+          year: holiday.hijriDate.split('-')[2]
+        },
+        gregorian: {
+          date: holiday.gregorianDate,
+          day: holiday.gregorianDate.split('-')[0],
+          month: { en: holiday.gregorianReadable.split(' ')[1] },
+          year: holiday.gregorianReadable.split(' ')[2],
+          weekday: { en: holiday.weekday }
+        }
+      };
+    }
+  }
+  return STATIC_HOLIDAYS_2026[0];
+};
+
+const getStaticCurrentHijri = () => {
+  return {
+    date: "7-08-1447",
+    day: "7",
+    month: { en: "Sha'ban", ar: "شَعْبَان" },
+    year: "1447",
+    weekday: { en: "Monday" }
+  };
+};
+
 export const fetchNextHijriHoliday = async () => {
   const cacheKey = 'next_hijri_holiday';
   
@@ -37,8 +92,10 @@ export const fetchNextHijriHoliday = async () => {
     
     return data;
   } catch (error) {
-    console.error('Error fetching next Hijri holiday:', error);
-    throw error;
+    console.error('Error fetching next Hijri holiday, using static data:', error);
+    const fallback = getStaticNextHoliday();
+    memoryCache.nextHoliday = fallback;
+    return fallback;
   }
 };
 
@@ -124,8 +181,12 @@ export const fetchYearlyIslamicHolidays = async (year) => {
     
     return holidays;
   } catch (error) {
-    console.error(`Error fetching yearly holidays for ${year}:`, error);
-    throw error;
+    console.error(`Error fetching yearly holidays for ${year}, using static data:`, error);
+    if (year === 2026) {
+      memoryCache.yearlyCalendar[cacheKey] = STATIC_HOLIDAYS_2026;
+      return STATIC_HOLIDAYS_2026;
+    }
+    return [];
   }
 };
 
@@ -139,8 +200,8 @@ export const fetchCurrentIslamicDate = async () => {
     const response = await axios.get(`${API_BASE_URL}/gToH/${day}-${month}-${year}`);
     return response.data.data.hijri;
   } catch (error) {
-    console.error('Error fetching current Islamic date:', error);
-    throw error;
+    console.error('Error fetching current Islamic date, using static data:', error);
+    return getStaticCurrentHijri();
   }
 };
 
