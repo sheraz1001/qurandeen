@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Almarai:wght@300;400;700;800&display=swap');
 
 @font-face {
   font-family: 'KFGQPC Uthmani';
@@ -791,9 +791,9 @@ body {
 }
 
 .title-arabic {
-  font-family: 'Amiri', serif;
+  font-family: 'Almarai', sans-serif;
   font-size: 4rem;
-  font-weight: 700;
+  font-weight: 800;
   background: linear-gradient(135deg, #a68a29 0%, #d4af37 15%, #f5e084 30%, #fffacd 50%, #f5e084 70%, #d4af37 85%, #a68a29 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
