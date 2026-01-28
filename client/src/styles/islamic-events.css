@@ -4,7 +4,7 @@
 }
 
 .events-header {
-  background: linear-gradient(135deg, #0a1f15 0%, #1a3d2a 50%, #0a1f15 100%);
+  background: linear-gradient(135deg, #0f2e20 0%, #1a4530 50%, #0f2e20 100%);
   padding: 3rem 1.5rem;
   text-align: center;
   border-bottom: 2px solid rgba(139, 117, 50, 0.3);
@@ -32,7 +32,7 @@
 
 .events-header h1 {
   font-size: 2.5rem;
-  color: #8b7532;
+  color: #d4af37;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
@@ -54,7 +54,7 @@
 }
 
 .hijri-date {
-  color: #8b7532;
+  color: #d4af37;
   font-size: 1.1rem;
   font-weight: 600;
 }
@@ -73,7 +73,7 @@
 .events-error button {
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
-  background: #8b7532;
+  background: #d4af37;
   color: white;
   border: none;
   border-radius: 8px;
@@ -111,7 +111,7 @@
 .next-label {
   display: inline-block;
   background: rgba(139, 117, 50, 0.3);
-  color: #8b7532;
+  color: #d4af37;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -162,7 +162,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #8b7532, #a08940);
+  background: linear-gradient(135deg, #d4af37, #e0c04a);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 10px;
@@ -194,7 +194,7 @@
 
 .section-header h2 {
   font-size: 1.5rem;
-  color: #8b7532;
+  color: #d4af37;
   margin: 0;
 }
 
@@ -221,7 +221,7 @@
 
 .year-selector select:focus {
   outline: none;
-  border-color: #8b7532;
+  border-color: #d4af37;
 }
 
 .holidays-timeline {
@@ -255,7 +255,7 @@
   top: 0;
   width: 2.5rem;
   height: 2.5rem;
-  background: #0a1f15;
+  background: #0f2e20;
   border: 2px solid rgba(139, 117, 50, 0.5);
   border-radius: 50%;
   display: flex;
@@ -307,13 +307,13 @@
 }
 
 .holiday-meta .hijri {
-  color: #8b7532;
+  color: #d4af37;
 }
 
 .days-badge {
   display: inline-block;
   background: rgba(139, 117, 50, 0.3);
-  color: #8b7532;
+  color: #d4af37;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.25rem 0.75rem;
@@ -346,7 +346,7 @@
 
 .events-related-tools h2 {
   font-size: 1.3rem;
-  color: #8b7532;
+  color: #d4af37;
   margin-bottom: 1.5rem;
   text-align: center;
 }
