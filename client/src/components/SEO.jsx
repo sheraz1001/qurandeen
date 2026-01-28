@@ -9,7 +9,8 @@ function SEO({
   keywords,
   noindex = false,
   schema,
-  breadcrumbs = []
+  breadcrumbs = [],
+  additionalMeta = []
 }) {
   const siteName = 'QuranDeen';
   const fullTitle = title.includes('QuranDeen') ? title : `${title} | ${siteName}`;
@@ -57,6 +58,12 @@ function SEO({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      
+      {additionalMeta.map((meta, i) => (
+        meta.property 
+          ? <meta key={`meta-${i}`} property={meta.property} content={meta.content} />
+          : <meta key={`meta-${i}`} name={meta.name} content={meta.content} />
+      ))}
       
       {schemas.map((s, i) => (
         <script key={i} type="application/ld+json">

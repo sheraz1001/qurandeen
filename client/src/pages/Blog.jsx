@@ -80,7 +80,13 @@ function BlogList() {
         <div className="blog-grid">
           {blogs.map((blog) => (
             <Link to={`/blog/${blog.slug}`} key={blog.id} className="blog-card">
+              {blog.featured_image && (
+                <div className="blog-card-image">
+                  <img src={blog.featured_image} alt={blog.featured_image_alt || blog.title} loading="lazy" />
+                </div>
+              )}
               <div className="blog-card-content">
+                {blog.category_name && <span className="blog-card-category">{blog.category_name}</span>}
                 <h2>{blog.title}</h2>
                 {blog.excerpt && <p className="blog-excerpt">{blog.excerpt}</p>}
                 <div className="blog-meta">
@@ -120,23 +126,103 @@ function BlogPost() {
   if (loading) return <Loading />;
   if (error) return <div className="error-page"><h2>{error}</h2><Link to="/blogs">Back to Blog</Link></div>;
 
+  const breadcrumbs = [
+    { name: 'Home', href: '/' },
+    { name: 'Blog', href: '/blogs' },
+    { name: blog.title }
+  ];
+
+  const baseUrl = 'https://qurandeen.com';
+  const blogUrl = `${baseUrl}/blog/${blog.slug}`;
+  const featuredImage = blog.featured_image ? `${baseUrl}${blog.featured_image}` : `${baseUrl}/icons/icon-512.png`;
+  const metaDescription = blog.meta_description || blog.excerpt || blog.title;
+  const ogTitle = blog.og_title || blog.title;
+  const ogDescription = blog.og_description || blog.excerpt || metaDescription;
+  const twitterTitle = blog.twitter_title || blog.title;
+  const twitterDescription = blog.twitter_description || blog.excerpt || metaDescription;
+  const robotsContent = `${blog.robots_index !== false ? 'index' : 'noindex'}, ${blog.robots_follow !== false ? 'follow' : 'nofollow'}`;
+
+  const blogPostSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blog.title,
+    "description": metaDescription,
+    "image": featuredImage,
+    "url": blogUrl,
+    "datePublished": blog.created_at,
+    "dateModified": blog.updated_at || blog.created_at,
+    "author": {
+      "@type": "Person",
+      "name": blog.author_name || "QuranDeen"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "QuranDeen",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/icons/icon-512.png`
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": blogUrl
+    }
+  };
+
   return (
     <div className="blog-post-page">
+      <SEO 
+        title={`${blog.title} - QuranDeen Islamic Blog`}
+        description={metaDescription}
+        canonical={blogUrl}
+        keywords={blog.meta_keywords || 'Islamic blog, Quran, Muslim knowledge'}
+        breadcrumbs={breadcrumbs}
+        schema={blogPostSchema}
+        additionalMeta={[
+          { name: 'robots', content: robotsContent },
+          { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+          { property: 'og:title', content: ogTitle },
+          { property: 'og:description', content: ogDescription },
+          { property: 'og:type', content: 'article' },
+          { property: 'og:url', content: blogUrl },
+          { property: 'og:image', content: featuredImage },
+          { property: 'og:image:width', content: '1920' },
+          { property: 'og:image:height', content: '1080' },
+          { property: 'og:site_name', content: 'QuranDeen.com Online Quran Explorer and Quran Classes' },
+          { property: 'article:published_time', content: blog.created_at },
+          { property: 'article:modified_time', content: blog.updated_at || blog.created_at },
+          { name: 'twitter:card', content: 'summary_large_image' },
+          { name: 'twitter:title', content: twitterTitle },
+          { name: 'twitter:description', content: twitterDescription },
+          { name: 'twitter:image', content: featuredImage }
+        ]}
+      />
       <Link to="/blogs" className="back-link">← Back to Blog</Link>
       <article className="blog-article">
         <header className="article-header">
+          {blog.featured_image && (
+            <div className="article-featured-image">
+              <img 
+                src={blog.featured_image} 
+                alt={blog.featured_image_alt || blog.title}
+                loading="lazy"
+              />
+            </div>
+          )}
           <h1>{blog.title}</h1>
           <div className="article-meta">
             <span>By {blog.author_name || 'Admin'}</span>
             <span>•</span>
             <span>{new Date(blog.created_at).toLocaleDateString()}</span>
+            {blog.category_name && (
+              <>
+                <span>•</span>
+                <span className="article-category">{blog.category_name}</span>
+              </>
+            )}
           </div>
         </header>
-        <div className="article-content">
-          {blog.content.split('\n').map((paragraph, index) => (
-            paragraph.trim() && <p key={index}>{paragraph}</p>
-          ))}
-        </div>
+        <div className="article-content" dangerouslySetInnerHTML={{ __html: blog.content }} />
       </article>
     </div>
   );

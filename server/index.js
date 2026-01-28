@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import pkg from 'pg';
 const { Pool } = pkg;
@@ -12,6 +13,7 @@ import crypto from 'crypto';
 import OpenAI from 'openai';
 import { OAuth2Client } from 'google-auth-library';
 import Stripe from 'stripe';
+import multer from 'multer';
 import { sendEmail, sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin, sendPasswordResetEmail, sendAdminPasswordChangeNotification } from './emailService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -57,6 +59,36 @@ const pool = new Pool({
 const openai = new OpenAI({
   apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
   baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+});
+
+// Multer configuration for blog image uploads
+const uploadsDir = path.join(__dirname, '../client/dist/uploads/blogs');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const blogImageStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'blog-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const uploadBlogImage = multer({
+  storage: blogImageStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    if (extname && mimetype) {
+      return cb(null, true);
+    }
+    cb(new Error('Only image files (JPEG, PNG, GIF, WebP) are allowed'));
+  }
 });
 
 const ISLAMIC_SCHOLAR_SYSTEM_PROMPT = `You are a highly knowledgeable Islamic scholar and advisor, specializing in the Holy Quran, authentic Hadith (Ahadees), and Quranic Tafsir (commentary). Your role is to help Muslims understand their faith and find guidance for their life problems strictly based on the Quran and Sunnah.
@@ -895,8 +927,10 @@ app.delete('/api/user/bookmarks/:surah/:ayah', authenticateToken, async (req, re
 app.get('/api/blogs', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT b.id, b.title, b.slug, b.excerpt, b.published, b.created_at, b.updated_at, u.name as author_name 
-       FROM blogs b LEFT JOIN users u ON b.author_id = u.id 
+      `SELECT b.id, b.title, b.slug, b.excerpt, b.published, b.created_at, b.updated_at, b.featured_image, b.featured_image_alt, u.name as author_name, c.name as category_name, c.slug as category_slug
+       FROM blogs b 
+       LEFT JOIN users u ON b.author_id = u.id 
+       LEFT JOIN blog_categories c ON b.category_id = c.id
        WHERE b.published = true ORDER BY b.created_at DESC`
     );
     res.json({ data: result.rows });
@@ -909,8 +943,10 @@ app.get('/api/blogs', async (req, res) => {
 app.get('/api/blogs/:slug', async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT b.*, u.name as author_name 
-       FROM blogs b LEFT JOIN users u ON b.author_id = u.id 
+      `SELECT b.*, u.name as author_name, c.name as category_name, c.slug as category_slug
+       FROM blogs b 
+       LEFT JOIN users u ON b.author_id = u.id 
+       LEFT JOIN blog_categories c ON b.category_id = c.id
        WHERE b.slug = $1 AND b.published = true`,
       [req.params.slug]
     );
@@ -928,7 +964,11 @@ app.get('/api/blogs/:slug', async (req, res) => {
 app.get('/api/admin/blogs', authenticateToken, isAdmin, async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT b.*, u.name as author_name FROM blogs b LEFT JOIN users u ON b.author_id = u.id ORDER BY b.created_at DESC`
+      `SELECT b.*, u.name as author_name, c.name as category_name, c.slug as category_slug
+       FROM blogs b 
+       LEFT JOIN users u ON b.author_id = u.id 
+       LEFT JOIN blog_categories c ON b.category_id = c.id
+       ORDER BY b.created_at DESC`
     );
     res.json({ data: result.rows });
   } catch (error) {
@@ -939,13 +979,23 @@ app.get('/api/admin/blogs', authenticateToken, isAdmin, async (req, res) => {
 
 app.post('/api/admin/blogs', authenticateToken, isAdmin, async (req, res) => {
   try {
-    const { title, content, excerpt, published } = req.body;
+    const { 
+      title, content, excerpt, published, category_id,
+      featured_image, featured_image_alt, meta_description, meta_keywords,
+      og_title, og_description, twitter_title, twitter_description,
+      robots_index, robots_follow
+    } = req.body;
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     
     const result = await pool.query(
-      `INSERT INTO blogs (title, slug, content, excerpt, author_id, published) 
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [title, slug, content, excerpt || null, req.user.id, published || false]
+      `INSERT INTO blogs (title, slug, content, excerpt, author_id, published, category_id,
+        featured_image, featured_image_alt, meta_description, meta_keywords,
+        og_title, og_description, twitter_title, twitter_description, robots_index, robots_follow) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *`,
+      [title, slug, content, excerpt || null, req.user.id, published || false, category_id || null,
+       featured_image || null, featured_image_alt || null, meta_description || null, meta_keywords || null,
+       og_title || null, og_description || null, twitter_title || null, twitter_description || null,
+       robots_index !== false, robots_follow !== false]
     );
     res.json({ data: result.rows[0] });
   } catch (error) {
@@ -956,13 +1006,25 @@ app.post('/api/admin/blogs', authenticateToken, isAdmin, async (req, res) => {
 
 app.put('/api/admin/blogs/:id', authenticateToken, isAdmin, async (req, res) => {
   try {
-    const { title, content, excerpt, published } = req.body;
+    const { 
+      title, content, excerpt, published, category_id,
+      featured_image, featured_image_alt, meta_description, meta_keywords,
+      og_title, og_description, twitter_title, twitter_description,
+      robots_index, robots_follow
+    } = req.body;
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     
     const result = await pool.query(
-      `UPDATE blogs SET title = $1, slug = $2, content = $3, excerpt = $4, published = $5, updated_at = CURRENT_TIMESTAMP 
-       WHERE id = $6 RETURNING *`,
-      [title, slug, content, excerpt, published, req.params.id]
+      `UPDATE blogs SET title = $1, slug = $2, content = $3, excerpt = $4, published = $5, 
+       category_id = $6, featured_image = $7, featured_image_alt = $8, meta_description = $9,
+       meta_keywords = $10, og_title = $11, og_description = $12, twitter_title = $13,
+       twitter_description = $14, robots_index = $15, robots_follow = $16, updated_at = CURRENT_TIMESTAMP 
+       WHERE id = $17 RETURNING *`,
+      [title, slug, content, excerpt, published, category_id || null,
+       featured_image || null, featured_image_alt || null, meta_description || null,
+       meta_keywords || null, og_title || null, og_description || null,
+       twitter_title || null, twitter_description || null,
+       robots_index !== false, robots_follow !== false, req.params.id]
     );
     res.json({ data: result.rows[0] });
   } catch (error) {
@@ -980,6 +1042,157 @@ app.delete('/api/admin/blogs/:id', authenticateToken, isAdmin, async (req, res) 
     res.status(500).json({ error: 'Failed to delete blog' });
   }
 });
+
+// ============== BLOG CATEGORY MANAGEMENT ==============
+
+// Get all categories with blog counts
+app.get('/api/admin/blog-categories', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT c.*, 
+        COALESCE(p.name, '') as parent_name,
+        (SELECT COUNT(*) FROM blogs WHERE category_id = c.id) as blog_count
+      FROM blog_categories c
+      LEFT JOIN blog_categories p ON c.parent_id = p.id
+      ORDER BY c.parent_id NULLS FIRST, c.name
+    `);
+    res.json({ data: result.rows });
+  } catch (error) {
+    console.error('Get categories error:', error);
+    res.status(500).json({ error: 'Failed to get categories' });
+  }
+});
+
+// Get categories for public use (dropdowns, etc.)
+app.get('/api/blog-categories', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT c.id, c.name, c.slug, c.parent_id, c.description,
+        COALESCE(p.name, '') as parent_name,
+        (SELECT COUNT(*) FROM blogs WHERE category_id = c.id AND published = true) as blog_count
+      FROM blog_categories c
+      LEFT JOIN blog_categories p ON c.parent_id = p.id
+      ORDER BY c.parent_id NULLS FIRST, c.name
+    `);
+    res.json({ data: result.rows });
+  } catch (error) {
+    console.error('Get categories error:', error);
+    res.status(500).json({ error: 'Failed to get categories' });
+  }
+});
+
+// Create category
+app.post('/api/admin/blog-categories', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { name, parent_id, description } = req.body;
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    
+    const result = await pool.query(
+      `INSERT INTO blog_categories (name, slug, parent_id, description) 
+       VALUES ($1, $2, $3, $4) RETURNING *`,
+      [name, slug, parent_id || null, description || null]
+    );
+    res.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('Create category error:', error);
+    res.status(500).json({ error: 'Failed to create category' });
+  }
+});
+
+// Update category
+app.put('/api/admin/blog-categories/:id', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { name, parent_id, description } = req.body;
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    
+    const result = await pool.query(
+      `UPDATE blog_categories SET name = $1, slug = $2, parent_id = $3, description = $4, updated_at = NOW()
+       WHERE id = $5 RETURNING *`,
+      [name, slug, parent_id || null, description || null, req.params.id]
+    );
+    res.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('Update category error:', error);
+    res.status(500).json({ error: 'Failed to update category' });
+  }
+});
+
+// Delete category
+app.delete('/api/admin/blog-categories/:id', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    // Check if category has blogs
+    const blogCheck = await pool.query('SELECT COUNT(*) FROM blogs WHERE category_id = $1', [req.params.id]);
+    if (parseInt(blogCheck.rows[0].count) > 0) {
+      return res.status(400).json({ error: 'Cannot delete category with existing blogs. Please reassign blogs first.' });
+    }
+    
+    // Check if category has subcategories
+    const subCheck = await pool.query('SELECT COUNT(*) FROM blog_categories WHERE parent_id = $1', [req.params.id]);
+    if (parseInt(subCheck.rows[0].count) > 0) {
+      return res.status(400).json({ error: 'Cannot delete category with subcategories. Please delete subcategories first.' });
+    }
+    
+    await pool.query('DELETE FROM blog_categories WHERE id = $1', [req.params.id]);
+    res.json({ message: 'Category deleted' });
+  } catch (error) {
+    console.error('Delete category error:', error);
+    res.status(500).json({ error: 'Failed to delete category' });
+  }
+});
+
+// ============== SITE SETTINGS ==============
+
+// Get site settings
+app.get('/api/admin/settings', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const result = await pool.query('SELECT setting_key, setting_value FROM site_settings');
+    const settings = {};
+    result.rows.forEach(row => {
+      settings[row.setting_key] = row.setting_value;
+    });
+    res.json({ data: settings });
+  } catch (error) {
+    console.error('Get settings error:', error);
+    res.status(500).json({ error: 'Failed to get settings' });
+  }
+});
+
+// Update site setting
+app.put('/api/admin/settings/:key', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const { value } = req.body;
+    const result = await pool.query(
+      `INSERT INTO site_settings (setting_key, setting_value) 
+       VALUES ($1, $2) 
+       ON CONFLICT (setting_key) DO UPDATE SET setting_value = $2, updated_at = NOW()
+       RETURNING *`,
+      [req.params.key, value]
+    );
+    res.json({ data: result.rows[0] });
+  } catch (error) {
+    console.error('Update setting error:', error);
+    res.status(500).json({ error: 'Failed to update setting' });
+  }
+});
+
+// ============== BLOG IMAGE UPLOAD ==============
+
+// Upload blog featured image
+app.post('/api/admin/blogs/upload-image', authenticateToken, isAdmin, uploadBlogImage.single('image'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+    const imageUrl = `/uploads/blogs/${req.file.filename}`;
+    res.json({ data: { url: imageUrl, filename: req.file.filename } });
+  } catch (error) {
+    console.error('Image upload error:', error);
+    res.status(500).json({ error: 'Failed to upload image' });
+  }
+});
+
+// Serve uploaded images
+app.use('/uploads', express.static(path.join(__dirname, '../client/dist/uploads')));
 
 // Admin users route
 app.get('/api/admin/users', authenticateToken, isAdmin, async (req, res) => {
@@ -1202,34 +1415,63 @@ app.get('/api/admin/users/stats', authenticateToken, isAdmin, async (req, res) =
   }
 });
 
-// Admin - AI Blog Generation
+// Admin - AI Blog Generation (Enhanced with SEO)
 app.post('/api/admin/blogs/generate', authenticateToken, isAdmin, async (req, res) => {
   try {
-    const { topic, tone, length } = req.body;
+    const { topic, tone, length, keywords, targetAudience } = req.body;
     
     if (!topic) {
       return res.status(400).json({ error: 'Topic is required' });
     }
 
-    const lengthGuide = length === 'short' ? '300-500 words' : length === 'long' ? '1000-1500 words' : '600-800 words';
+    // Get custom prompt from settings
+    const settingsResult = await pool.query(
+      "SELECT setting_value FROM site_settings WHERE setting_key = 'ai_blog_default_prompt'"
+    );
+    const customPrompt = settingsResult.rows[0]?.setting_value || '';
+
+    const lengthGuide = length === 'short' ? '300-500 words' : length === 'long' ? '1000-1500 words' : length === 'extra-long' ? '1500-2500 words' : '600-800 words';
     const toneGuide = tone || 'informative and engaging';
+    const keywordsGuide = keywords ? `Focus keywords: ${keywords}` : '';
+    const audienceGuide = targetAudience ? `Target audience: ${targetAudience}` : '';
+
+    const systemPrompt = customPrompt || `You are an expert Islamic content writer for QuranDeen.com. Write high-quality, authentic Islamic blog posts based on Quran and Hadith. Always cite sources when referencing Quranic verses or Hadith.`;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {
           role: 'system',
-          content: `You are an expert Islamic content writer for QuranDeen.com. Write high-quality, authentic Islamic blog posts based on Quran and Hadith. Always cite sources when referencing Quranic verses or Hadith. Write in a ${toneGuide} tone. Target length: ${lengthGuide}.`
+          content: `${systemPrompt}
+
+Write in a ${toneGuide} tone. Target length: ${lengthGuide}.
+${keywordsGuide}
+${audienceGuide}
+
+SEO Guidelines:
+- Create an SEO-optimized title (50-60 characters ideal)
+- Include keywords naturally throughout the content
+- Use proper heading hierarchy (H2, H3)
+- Write a compelling meta description (150-160 characters)
+- Structure content for readability with short paragraphs`
         },
         {
           role: 'user',
-          content: `Write a blog post about: "${topic}"
-          
+          content: `Write a comprehensive blog post about: "${topic}"
+
 Please format the response as JSON with these fields:
 {
-  "title": "SEO-friendly blog title",
-  "excerpt": "A compelling 1-2 sentence summary for preview",
-  "content": "Full blog post content in HTML format with proper <h2>, <h3>, <p>, <ul>, <blockquote> tags for Quranic verses"
+  "title": "SEO-friendly blog title (50-60 chars)",
+  "excerpt": "A compelling 1-2 sentence summary for preview (under 160 chars)",
+  "content": "Full blog post content in HTML format with proper <h2>, <h3>, <p>, <ul>, <li>, <blockquote> tags",
+  "meta_description": "SEO meta description (150-160 chars)",
+  "meta_keywords": "Comma-separated list of 5-8 focus keywords",
+  "og_title": "Open Graph title for social sharing (55-60 chars)",
+  "og_description": "Open Graph description for social sharing (55-200 chars)",
+  "twitter_title": "Twitter card title (55-60 chars)",
+  "twitter_description": "Twitter card description (55-200 chars)",
+  "suggested_slug": "seo-friendly-url-slug",
+  "featured_image_alt": "Descriptive alt text for featured image"
 }`
         }
       ],
@@ -3979,8 +4221,6 @@ const surahMetadata = [
   { number: 113, name: 'Al-Falaq', arabic: 'الفلق', meaning: 'The Daybreak', verses: 5, type: 'Meccan' },
   { number: 114, name: 'An-Nas', arabic: 'الناس', meaning: 'Mankind', verses: 6, type: 'Meccan' }
 ];
-
-import fs from 'fs';
 
 function getSurahFromSlug(slug) {
   const match = slug.match(/^(\d+)-/);

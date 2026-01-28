@@ -15,7 +15,12 @@ function AdminDashboard() {
   const [donationStats, setDonationStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [editingBlog, setEditingBlog] = useState(null);
-  const [blogForm, setBlogForm] = useState({ title: '', content: '', excerpt: '', published: false });
+  const [blogForm, setBlogForm] = useState({ 
+    title: '', content: '', excerpt: '', published: false,
+    category_id: '', featured_image: '', featured_image_alt: '',
+    meta_description: '', meta_keywords: '', og_title: '', og_description: '',
+    twitter_title: '', twitter_description: '', robots_index: true, robots_follow: true
+  });
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState(false);
@@ -41,6 +46,23 @@ function AdminDashboard() {
   const [aiTopic, setAITopic] = useState('');
   const [aiTone, setAITone] = useState('informative');
   const [aiLength, setAILength] = useState('medium');
+  const [aiKeywords, setAIKeywords] = useState('');
+  const [aiTargetAudience, setAITargetAudience] = useState('');
+  const [aiFeaturedImage, setAIFeaturedImage] = useState(null);
+  const [aiFeaturedImagePreview, setAIFeaturedImagePreview] = useState('');
+  const [aiFeaturedImageAlt, setAIFeaturedImageAlt] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
+  
+  // Blog categories state
+  const [categories, setCategories] = useState([]);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [categoryForm, setCategoryForm] = useState({ name: '', parent_id: '', description: '' });
+  const [blogSubSection, setBlogSubSection] = useState('posts'); // 'posts' | 'categories' | 'settings'
+  
+  // Site settings state
+  const [siteSettings, setSiteSettings] = useState({});
+  const [defaultPrompt, setDefaultPrompt] = useState('');
 
   useEffect(() => {
     if (authLoading) return; // Wait for auth check to complete
@@ -57,11 +79,13 @@ function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const [blogsRes, usersRes, donationsRes, teachersRes] = await Promise.all([
+      const [blogsRes, usersRes, donationsRes, teachersRes, categoriesRes, settingsRes] = await Promise.all([
         axios.get('/api/admin/blogs'),
         axios.get('/api/admin/users'),
         axios.get('/api/admin/donations'),
-        axios.get('/api/admin/teachers').catch(() => ({ data: { teachers: [], stats: {} } }))
+        axios.get('/api/admin/teachers').catch(() => ({ data: { teachers: [], stats: {} } })),
+        axios.get('/api/admin/blog-categories').catch(() => ({ data: { data: [] } })),
+        axios.get('/api/admin/settings').catch(() => ({ data: { data: {} } }))
       ]);
       setBlogs(blogsRes.data.data || []);
       setUsers(usersRes.data.data || []);
@@ -69,6 +93,9 @@ function AdminDashboard() {
       setDonationStats(donationsRes.data.stats || {});
       setTeachers(teachersRes.data.teachers || []);
       setTeacherStats(teachersRes.data.stats || {});
+      setCategories(categoriesRes.data.data || []);
+      setSiteSettings(settingsRes.data.data || {});
+      setDefaultPrompt(settingsRes.data.data?.ai_blog_default_prompt || '');
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -209,22 +236,48 @@ function AdminDashboard() {
     }
     setAIGenerating(true);
     try {
+      // Upload featured image first if selected
+      let featuredImageUrl = '';
+      if (aiFeaturedImage) {
+        featuredImageUrl = await handleImageUpload(aiFeaturedImage);
+      }
+
       const res = await axios.post('/api/admin/blogs/generate', {
         topic: aiTopic,
         tone: aiTone,
-        length: aiLength
+        length: aiLength,
+        keywords: aiKeywords,
+        targetAudience: aiTargetAudience
       });
       const generated = res.data.data;
       setBlogForm({
         title: generated.title || '',
         content: generated.content || '',
         excerpt: generated.excerpt || '',
-        published: false
+        published: false,
+        category_id: '',
+        featured_image: featuredImageUrl || '',
+        featured_image_alt: aiFeaturedImageAlt || generated.featured_image_alt || '',
+        meta_description: generated.meta_description || generated.excerpt || '',
+        meta_keywords: generated.meta_keywords || '',
+        og_title: generated.og_title || generated.title || '',
+        og_description: generated.og_description || generated.excerpt || '',
+        twitter_title: generated.twitter_title || generated.title || '',
+        twitter_description: generated.twitter_description || generated.excerpt || '',
+        robots_index: true,
+        robots_follow: true
       });
       setShowAIGenerator(false);
       setShowForm(true);
+      setBlogSubSection('posts');
+      // Reset AI form
       setAITopic('');
-      alert('Blog generated! Review and edit before publishing.');
+      setAIKeywords('');
+      setAITargetAudience('');
+      setAIFeaturedImage(null);
+      setAIFeaturedImagePreview('');
+      setAIFeaturedImageAlt('');
+      alert('Blog generated with SEO metadata! Review and edit before publishing.');
     } catch (error) {
       console.error('Error generating blog:', error);
       alert(error.response?.data?.error || 'Failed to generate blog');
@@ -340,7 +393,7 @@ function AdminDashboard() {
       }
       setShowForm(false);
       setEditingBlog(null);
-      setBlogForm({ title: '', content: '', excerpt: '', published: false });
+      resetBlogForm();
       fetchData();
     } catch (error) {
       console.error('Error saving blog:', error);
@@ -356,7 +409,18 @@ function AdminDashboard() {
       title: blog.title,
       content: blog.content,
       excerpt: blog.excerpt || '',
-      published: blog.published
+      published: blog.published,
+      category_id: blog.category_id || '',
+      featured_image: blog.featured_image || '',
+      featured_image_alt: blog.featured_image_alt || '',
+      meta_description: blog.meta_description || '',
+      meta_keywords: blog.meta_keywords || '',
+      og_title: blog.og_title || '',
+      og_description: blog.og_description || '',
+      twitter_title: blog.twitter_title || '',
+      twitter_description: blog.twitter_description || '',
+      robots_index: blog.robots_index !== false,
+      robots_follow: blog.robots_follow !== false
     });
     setShowForm(true);
     setActiveSection('blogs');
@@ -372,11 +436,103 @@ function AdminDashboard() {
     }
   };
 
+  const resetBlogForm = () => {
+    setBlogForm({ 
+      title: '', content: '', excerpt: '', published: false,
+      category_id: '', featured_image: '', featured_image_alt: '',
+      meta_description: '', meta_keywords: '', og_title: '', og_description: '',
+      twitter_title: '', twitter_description: '', robots_index: true, robots_follow: true
+    });
+    setAIFeaturedImage(null);
+    setAIFeaturedImagePreview('');
+    setAIFeaturedImageAlt('');
+  };
+
   const cancelEdit = () => {
     setShowForm(false);
     setEditingBlog(null);
-    setBlogForm({ title: '', content: '', excerpt: '', published: false });
+    resetBlogForm();
   };
+
+  // Category management functions
+  const handleCategorySubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (editingCategory) {
+        await axios.put(`/api/admin/blog-categories/${editingCategory.id}`, categoryForm);
+      } else {
+        await axios.post('/api/admin/blog-categories', categoryForm);
+      }
+      setShowCategoryModal(false);
+      setEditingCategory(null);
+      setCategoryForm({ name: '', parent_id: '', description: '' });
+      fetchData();
+    } catch (error) {
+      console.error('Error saving category:', error);
+      alert('Failed to save category');
+    }
+  };
+
+  const editCategory = (category) => {
+    setEditingCategory(category);
+    setCategoryForm({
+      name: category.name,
+      parent_id: category.parent_id || '',
+      description: category.description || ''
+    });
+    setShowCategoryModal(true);
+  };
+
+  const deleteCategory = async (id) => {
+    if (!confirm('Are you sure you want to delete this category?')) return;
+    try {
+      await axios.delete(`/api/admin/blog-categories/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting category:', error);
+      alert(error.response?.data?.error || 'Failed to delete category');
+    }
+  };
+
+  // Save default prompt
+  const saveDefaultPrompt = async () => {
+    try {
+      await axios.put('/api/admin/settings/ai_blog_default_prompt', { value: defaultPrompt });
+      alert('Default prompt saved successfully!');
+    } catch (error) {
+      console.error('Error saving prompt:', error);
+      alert('Failed to save prompt');
+    }
+  };
+
+  // Handle featured image upload
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const res = await axios.post('/api/admin/blogs/upload-image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      const imageUrl = res.data.data.url;
+      setBlogForm(prev => ({ ...prev, featured_image: imageUrl }));
+      setAIFeaturedImagePreview(imageUrl);
+      return imageUrl;
+    } catch (error) {
+      console.error('Image upload error:', error);
+      alert('Failed to upload image');
+      return null;
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  // Get main categories (no parent)
+  const mainCategories = categories.filter(c => !c.parent_id);
+  
+  // Get subcategories for a parent
+  const getSubcategories = (parentId) => categories.filter(c => c.parent_id === parentId);
 
   const navItems = [
     { id: 'overview', label: 'Overview', icon: (
@@ -683,65 +839,206 @@ function AdminDashboard() {
 
           {activeSection === 'blogs' && (
             <div className="blogs-section">
-              {/* AI Blog Generator Modal */}
+              {/* Category Modal */}
+              {showCategoryModal && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <h3>{editingCategory ? 'Edit Category' : 'Add Category'}</h3>
+                    <form onSubmit={handleCategorySubmit}>
+                      <div className="form-group">
+                        <label>Category Name *</label>
+                        <input
+                          type="text"
+                          value={categoryForm.name}
+                          onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+                          placeholder="Enter category name"
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Parent Category (Optional - leave empty for main category)</label>
+                        <select 
+                          value={categoryForm.parent_id} 
+                          onChange={(e) => setCategoryForm({ ...categoryForm, parent_id: e.target.value })}
+                        >
+                          <option value="">-- Main Category (No Parent) --</option>
+                          {mainCategories.filter(c => c.id !== editingCategory?.id).map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Description</label>
+                        <textarea
+                          value={categoryForm.description}
+                          onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
+                          placeholder="Brief description of this category"
+                          rows={2}
+                        />
+                      </div>
+                      <div className="form-actions">
+                        <button type="button" className="cancel-btn" onClick={() => {
+                          setShowCategoryModal(false);
+                          setEditingCategory(null);
+                          setCategoryForm({ name: '', parent_id: '', description: '' });
+                        }}>Cancel</button>
+                        <button type="submit" className="save-btn">
+                          {editingCategory ? 'Update Category' : 'Add Category'}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
+
+              {/* AI Blog Generator Modal - Enhanced */}
               {showAIGenerator && (
                 <div className="modal-overlay">
-                  <div className="modal-content ai-modal">
+                  <div className="modal-content ai-modal ai-modal-large">
                     <h3>
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
                         <path d="M7.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                         <path d="M16.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                       </svg>
-                      Generate Blog with AI
+                      AI Blog Generator (SEO Optimized)
                     </h3>
-                    <div className="form-group">
-                      <label>Topic / Title *</label>
-                      <input
-                        type="text"
-                        value={aiTopic}
-                        onChange={(e) => setAITopic(e.target.value)}
-                        placeholder="e.g., The Virtues of Surah Al-Kahf, Benefits of Daily Dhikr..."
-                      />
-                    </div>
-                    <div className="form-row">
+                    
+                    <div className="ai-form-section">
+                      <h4>Content Settings</h4>
                       <div className="form-group">
-                        <label>Tone</label>
-                        <select value={aiTone} onChange={(e) => setAITone(e.target.value)}>
-                          <option value="informative">Informative</option>
-                          <option value="inspirational">Inspirational</option>
-                          <option value="educational">Educational</option>
-                          <option value="reflective">Reflective</option>
-                        </select>
+                        <label>Topic / Title *</label>
+                        <input
+                          type="text"
+                          value={aiTopic}
+                          onChange={(e) => setAITopic(e.target.value)}
+                          placeholder="e.g., The Virtues of Surah Al-Kahf, Benefits of Daily Dhikr..."
+                        />
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Tone</label>
+                          <select value={aiTone} onChange={(e) => setAITone(e.target.value)}>
+                            <option value="informative">Informative</option>
+                            <option value="inspirational">Inspirational</option>
+                            <option value="educational">Educational</option>
+                            <option value="reflective">Reflective</option>
+                            <option value="conversational">Conversational</option>
+                            <option value="scholarly">Scholarly</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>Length</label>
+                          <select value={aiLength} onChange={(e) => setAILength(e.target.value)}>
+                            <option value="short">Short (300-500 words)</option>
+                            <option value="medium">Medium (600-800 words)</option>
+                            <option value="long">Long (1000-1500 words)</option>
+                            <option value="extra-long">Extra Long (1500-2500 words)</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="ai-form-section">
+                      <h4>SEO Settings</h4>
+                      <div className="form-group">
+                        <label>Focus Keywords (comma-separated)</label>
+                        <input
+                          type="text"
+                          value={aiKeywords}
+                          onChange={(e) => setAIKeywords(e.target.value)}
+                          placeholder="e.g., Surah Al-Kahf, Friday recitation, Islamic teachings, Quran benefits"
+                        />
+                        <span className="form-hint">AI will naturally incorporate these keywords for SEO</span>
                       </div>
                       <div className="form-group">
-                        <label>Length</label>
-                        <select value={aiLength} onChange={(e) => setAILength(e.target.value)}>
-                          <option value="short">Short (300-500 words)</option>
-                          <option value="medium">Medium (600-800 words)</option>
-                          <option value="long">Long (1000-1500 words)</option>
-                        </select>
+                        <label>Target Audience</label>
+                        <input
+                          type="text"
+                          value={aiTargetAudience}
+                          onChange={(e) => setAITargetAudience(e.target.value)}
+                          placeholder="e.g., Muslim youth, new converts, parents, scholars"
+                        />
                       </div>
                     </div>
+
+                    <div className="ai-form-section">
+                      <h4>Featured Image</h4>
+                      <div className="form-group">
+                        <label>Upload Featured Image</label>
+                        <div className="image-upload-area">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files[0];
+                              if (file) {
+                                setAIFeaturedImage(file);
+                                setAIFeaturedImagePreview(URL.createObjectURL(file));
+                              }
+                            }}
+                            id="ai-featured-image"
+                            style={{ display: 'none' }}
+                          />
+                          <label htmlFor="ai-featured-image" className="upload-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                              <polyline points="17 8 12 3 7 8"/>
+                              <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            {aiFeaturedImage ? 'Change Image' : 'Choose Image'}
+                          </label>
+                          {aiFeaturedImagePreview && (
+                            <div className="image-preview">
+                              <img src={aiFeaturedImagePreview} alt="Preview" />
+                              <button type="button" className="remove-image" onClick={() => {
+                                setAIFeaturedImage(null);
+                                setAIFeaturedImagePreview('');
+                              }}>Remove</button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {aiFeaturedImage && (
+                        <div className="form-group">
+                          <label>Image Alt Text (for SEO & accessibility)</label>
+                          <input
+                            type="text"
+                            value={aiFeaturedImageAlt}
+                            onChange={(e) => setAIFeaturedImageAlt(e.target.value)}
+                            placeholder="Describe the image content for accessibility"
+                          />
+                        </div>
+                      )}
+                    </div>
+
                     <div className="form-actions">
-                      <button type="button" className="cancel-btn" onClick={() => setShowAIGenerator(false)}>Cancel</button>
+                      <button type="button" className="cancel-btn" onClick={() => {
+                        setShowAIGenerator(false);
+                        setAITopic('');
+                        setAIKeywords('');
+                        setAITargetAudience('');
+                        setAIFeaturedImage(null);
+                        setAIFeaturedImagePreview('');
+                        setAIFeaturedImageAlt('');
+                      }}>Cancel</button>
                       <button 
                         type="button" 
                         className="save-btn ai-generate-btn" 
                         onClick={handleGenerateBlog}
-                        disabled={aiGenerating || !aiTopic.trim()}
+                        disabled={aiGenerating || uploadingImage || !aiTopic.trim()}
                       >
-                        {aiGenerating ? (
+                        {aiGenerating || uploadingImage ? (
                           <>
                             <span className="spinner"></span>
-                            Generating...
+                            {uploadingImage ? 'Uploading...' : 'Generating...'}
                           </>
                         ) : (
                           <>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                             </svg>
-                            Generate Blog
+                            Generate SEO Blog
                           </>
                         )}
                       </button>
@@ -750,7 +1047,147 @@ function AdminDashboard() {
                 </div>
               )}
 
-              {!showForm ? (
+              {/* Blog Management Tabs */}
+              <div className="blog-tabs">
+                <button 
+                  className={`tab-btn ${blogSubSection === 'posts' ? 'active' : ''}`}
+                  onClick={() => { setBlogSubSection('posts'); setShowForm(false); }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <path d="M14 2v6h6"/>
+                  </svg>
+                  Posts ({blogs.length})
+                </button>
+                <button 
+                  className={`tab-btn ${blogSubSection === 'categories' ? 'active' : ''}`}
+                  onClick={() => { setBlogSubSection('categories'); setShowForm(false); }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 3h7v7H3z"/>
+                    <path d="M14 3h7v7h-7z"/>
+                    <path d="M3 14h7v7H3z"/>
+                    <path d="M14 14h7v7h-7z"/>
+                  </svg>
+                  Categories ({categories.length})
+                </button>
+                <button 
+                  className={`tab-btn ${blogSubSection === 'settings' ? 'active' : ''}`}
+                  onClick={() => { setBlogSubSection('settings'); setShowForm(false); }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
+                  AI Settings
+                </button>
+              </div>
+
+              {/* Categories Sub-Section */}
+              {blogSubSection === 'categories' && !showForm && (
+                <>
+                  <div className="section-header">
+                    <h2>Blog Categories</h2>
+                    <button className="add-btn" onClick={() => setShowCategoryModal(true)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                      </svg>
+                      Add Category
+                    </button>
+                  </div>
+                  
+                  <div className="categories-grid">
+                    {mainCategories.length === 0 ? (
+                      <div className="empty-state">
+                        <p>No categories yet. Add your first category!</p>
+                      </div>
+                    ) : (
+                      mainCategories.map(mainCat => (
+                        <div key={mainCat.id} className="category-card main-category">
+                          <div className="category-header">
+                            <h3>{mainCat.name}</h3>
+                            <span className="blog-count">{mainCat.blog_count} blogs</span>
+                          </div>
+                          {mainCat.description && <p className="category-desc">{mainCat.description}</p>}
+                          <div className="category-actions">
+                            <button className="edit-btn" onClick={() => editCategory(mainCat)}>Edit</button>
+                            <button className="delete-btn" onClick={() => deleteCategory(mainCat.id)}>Delete</button>
+                          </div>
+                          
+                          {/* Subcategories */}
+                          {getSubcategories(mainCat.id).length > 0 && (
+                            <div className="subcategories">
+                              <h4>Subcategories:</h4>
+                              {getSubcategories(mainCat.id).map(subCat => (
+                                <div key={subCat.id} className="subcategory-item">
+                                  <span className="subcat-name">{subCat.name}</span>
+                                  <span className="subcat-count">{subCat.blog_count} blogs</span>
+                                  <div className="subcat-actions">
+                                    <button onClick={() => editCategory(subCat)}>Edit</button>
+                                    <button onClick={() => deleteCategory(subCat.id)}>Delete</button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </>
+              )}
+
+              {/* Settings Sub-Section */}
+              {blogSubSection === 'settings' && !showForm && (
+                <>
+                  <div className="section-header">
+                    <h2>AI Blog Generator Settings</h2>
+                  </div>
+                  
+                  <div className="settings-section">
+                    <div className="setting-card">
+                      <h3>Default AI Prompt</h3>
+                      <p className="setting-description">
+                        This prompt will be used as the base instruction for the AI when generating blog posts.
+                        Customize it to match your content style and requirements.
+                      </p>
+                      <div className="form-group">
+                        <textarea
+                          value={defaultPrompt}
+                          onChange={(e) => setDefaultPrompt(e.target.value)}
+                          rows={8}
+                          placeholder="Enter your custom AI prompt..."
+                        />
+                      </div>
+                      <div className="form-actions">
+                        <button className="save-btn" onClick={saveDefaultPrompt}>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                          </svg>
+                          Save Default Prompt
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="setting-card">
+                      <h3>Prompt Tips</h3>
+                      <ul className="tips-list">
+                        <li>Specify the writing style (formal, conversational, scholarly)</li>
+                        <li>Include requirements for Quran/Hadith citations</li>
+                        <li>Define content structure preferences (headings, bullet points)</li>
+                        <li>Set guidelines for SEO optimization</li>
+                        <li>Mention target audience characteristics</li>
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Posts Sub-Section */}
+              {blogSubSection === 'posts' && !showForm ? (
                 <>
                   <div className="section-header">
                     <h2>All Blog Posts ({blogs.length})</h2>
@@ -844,56 +1281,227 @@ function AdminDashboard() {
                       Back to List
                     </button>
                   </div>
-                  <form onSubmit={handleBlogSubmit} className="blog-form">
-                    <div className="form-group">
-                      <label htmlFor="title">Title *</label>
-                      <input
-                        type="text"
-                        id="title"
-                        value={blogForm.title}
-                        onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
-                        placeholder="Enter blog title"
-                        required
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="excerpt">Excerpt (Short Description)</label>
-                      <textarea
-                        id="excerpt"
-                        value={blogForm.excerpt}
-                        onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })}
-                        placeholder="Brief description for blog listing"
-                        rows={2}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="content">Content *</label>
-                      <textarea
-                        id="content"
-                        value={blogForm.content}
-                        onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
-                        placeholder="Write your blog content here..."
-                        rows={15}
-                        required
-                      />
-                    </div>
-
-                    <div className="form-group checkbox-group">
-                      <label>
+                  <form onSubmit={handleBlogSubmit} className="blog-form blog-form-enhanced">
+                    {/* Basic Info Section */}
+                    <div className="form-section">
+                      <h4>Basic Information</h4>
+                      <div className="form-group">
+                        <label htmlFor="title">Title *</label>
                         <input
-                          type="checkbox"
-                          checked={blogForm.published}
-                          onChange={(e) => setBlogForm({ ...blogForm, published: e.target.checked })}
+                          type="text"
+                          id="title"
+                          value={blogForm.title}
+                          onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
+                          placeholder="Enter blog title (50-60 characters ideal for SEO)"
+                          required
                         />
-                        Publish immediately
-                      </label>
+                        <span className="char-count">{blogForm.title.length}/60 characters</span>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label htmlFor="category">Category</label>
+                          <select
+                            id="category"
+                            value={blogForm.category_id}
+                            onChange={(e) => setBlogForm({ ...blogForm, category_id: e.target.value })}
+                          >
+                            <option value="">-- Select Category --</option>
+                            {categories.map(cat => (
+                              <option key={cat.id} value={cat.id}>
+                                {cat.parent_name ? `${cat.parent_name} > ${cat.name}` : cat.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="form-group checkbox-group">
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={blogForm.published}
+                              onChange={(e) => setBlogForm({ ...blogForm, published: e.target.checked })}
+                            />
+                            Publish immediately
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="excerpt">Excerpt (Short Description)</label>
+                        <textarea
+                          id="excerpt"
+                          value={blogForm.excerpt}
+                          onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })}
+                          placeholder="Brief description for blog listing (under 160 characters)"
+                          rows={2}
+                        />
+                        <span className="char-count">{blogForm.excerpt.length}/160 characters</span>
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="content">Content *</label>
+                        <textarea
+                          id="content"
+                          value={blogForm.content}
+                          onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
+                          placeholder="Write your blog content here (HTML supported)..."
+                          rows={15}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    {/* Featured Image Section */}
+                    <div className="form-section">
+                      <h4>Featured Image</h4>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label>Upload Image</label>
+                          <div className="image-upload-area">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  const url = await handleImageUpload(file);
+                                  if (url) {
+                                    setAIFeaturedImagePreview(url);
+                                  }
+                                }
+                              }}
+                              id="blog-featured-image"
+                              style={{ display: 'none' }}
+                            />
+                            <label htmlFor="blog-featured-image" className="upload-btn">
+                              {uploadingImage ? 'Uploading...' : (blogForm.featured_image ? 'Change Image' : 'Choose Image')}
+                            </label>
+                            {blogForm.featured_image && (
+                              <div className="image-preview">
+                                <img src={blogForm.featured_image} alt="Preview" />
+                                <button type="button" className="remove-image" onClick={() => {
+                                  setBlogForm({ ...blogForm, featured_image: '', featured_image_alt: '' });
+                                  setAIFeaturedImagePreview('');
+                                }}>Remove</button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="featured_image_alt">Image Alt Text (SEO)</label>
+                          <input
+                            type="text"
+                            id="featured_image_alt"
+                            value={blogForm.featured_image_alt}
+                            onChange={(e) => setBlogForm({ ...blogForm, featured_image_alt: e.target.value })}
+                            placeholder="Describe the image for accessibility"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* SEO Section */}
+                    <div className="form-section">
+                      <h4>SEO & Meta Tags</h4>
+                      <div className="form-group">
+                        <label htmlFor="meta_description">Meta Description</label>
+                        <textarea
+                          id="meta_description"
+                          value={blogForm.meta_description}
+                          onChange={(e) => setBlogForm({ ...blogForm, meta_description: e.target.value })}
+                          placeholder="SEO meta description (150-160 characters ideal)"
+                          rows={2}
+                        />
+                        <span className="char-count">{blogForm.meta_description.length}/160 characters</span>
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="meta_keywords">Meta Keywords</label>
+                        <input
+                          type="text"
+                          id="meta_keywords"
+                          value={blogForm.meta_keywords}
+                          onChange={(e) => setBlogForm({ ...blogForm, meta_keywords: e.target.value })}
+                          placeholder="Comma-separated keywords (e.g., Quran, Islamic studies, prayer)"
+                        />
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group checkbox-group">
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={blogForm.robots_index}
+                              onChange={(e) => setBlogForm({ ...blogForm, robots_index: e.target.checked })}
+                            />
+                            Allow indexing (robots: index)
+                          </label>
+                        </div>
+                        <div className="form-group checkbox-group">
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={blogForm.robots_follow}
+                              onChange={(e) => setBlogForm({ ...blogForm, robots_follow: e.target.checked })}
+                            />
+                            Allow following links (robots: follow)
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Social Sharing Section */}
+                    <div className="form-section">
+                      <h4>Social Sharing (Open Graph & Twitter)</h4>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label htmlFor="og_title">OG Title (Facebook/LinkedIn)</label>
+                          <input
+                            type="text"
+                            id="og_title"
+                            value={blogForm.og_title}
+                            onChange={(e) => setBlogForm({ ...blogForm, og_title: e.target.value })}
+                            placeholder="Leave empty to use blog title"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="twitter_title">Twitter Title</label>
+                          <input
+                            type="text"
+                            id="twitter_title"
+                            value={blogForm.twitter_title}
+                            onChange={(e) => setBlogForm({ ...blogForm, twitter_title: e.target.value })}
+                            placeholder="Leave empty to use blog title"
+                          />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group">
+                          <label htmlFor="og_description">OG Description</label>
+                          <textarea
+                            id="og_description"
+                            value={blogForm.og_description}
+                            onChange={(e) => setBlogForm({ ...blogForm, og_description: e.target.value })}
+                            placeholder="Leave empty to use excerpt"
+                            rows={2}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="twitter_description">Twitter Description</label>
+                          <textarea
+                            id="twitter_description"
+                            value={blogForm.twitter_description}
+                            onChange={(e) => setBlogForm({ ...blogForm, twitter_description: e.target.value })}
+                            placeholder="Leave empty to use excerpt"
+                            rows={2}
+                          />
+                        </div>
+                      </div>
                     </div>
 
                     <div className="form-actions">
                       <button type="button" className="cancel-btn" onClick={cancelEdit}>Cancel</button>
-                      <button type="submit" className="save-btn" disabled={saving}>
+                      <button type="submit" className="save-btn" disabled={saving || uploadingImage}>
                         {saving ? 'Saving...' : (editingBlog ? 'Update Post' : 'Create Post')}
                       </button>
                     </div>
