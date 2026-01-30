@@ -77,6 +77,7 @@ function Header({ darkMode, toggleDarkMode }) {
       icon: '🕌',
       links: [
         { path: '/islamic-resources/prayer-times', label: 'Prayer Times', icon: '🕐', description: 'Accurate times for your location' },
+        { path: '/islamic-resources/zakat-calculator', label: 'Zakat Calculator', icon: '💰', description: 'Calculate your Zakat obligation' },
         { path: '/islamic-resources/qibla-direction', label: 'Qibla Direction', icon: '🧭', description: 'Find Qibla from anywhere' },
         { path: '/islamic-resources/ramadan-calendar', label: 'Ramadan Calendar', icon: '🌙', description: 'Suhoor & Iftar timings' },
       ]

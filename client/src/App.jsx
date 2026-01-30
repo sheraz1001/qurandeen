@@ -20,6 +20,7 @@ import Adhkar from './pages/tools/Adhkar';
 import NamesOfAllah from './pages/tools/NamesOfAllah';
 import HadithOfDay from './pages/tools/HadithOfDay';
 import PrayerTimes from './pages/PrayerTimes';
+import ZakatCalculator from './pages/ZakatCalculator';
 import QiblaDirection from './pages/QiblaDirection';
 import RamadanCalendar from './pages/RamadanCalendar';
 import HijriCalendar from './pages/HijriCalendar';
@@ -160,6 +161,7 @@ function App() {
             <Route path="/islamic-resources/names-of-allah" element={<NamesOfAllah />} />
             <Route path="/islamic-resources/hadith-of-day" element={<HadithOfDay />} />
             <Route path="/islamic-resources/prayer-times" element={<PrayerTimes />} />
+            <Route path="/islamic-resources/zakat-calculator" element={<ZakatCalculator />} />
             <Route path="/islamic-resources/qibla-direction" element={<QiblaDirection />} />
             <Route path="/islamic-resources/ramadan-calendar" element={<RamadanCalendar />} />
             <Route path="/hijri-calendar" element={<HijriCalendar />} />
