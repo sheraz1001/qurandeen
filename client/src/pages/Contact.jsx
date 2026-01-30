@@ -43,7 +43,7 @@ function Contact() {
   const socialLinks = [
     { 
       name: 'Facebook', 
-      url: 'https://www.facebook.com/qurandeencom',
+      url: 'https://www.facebook.com/qurandeenofficial',
       followers: '10K+ Followers',
       icon: (
         <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
