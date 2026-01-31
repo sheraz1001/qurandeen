@@ -4340,7 +4340,7 @@ app.get('/islamic-resources/zakat-calculator', (req, res, next) => {
         return res.sendFile(htmlPath);
       }
       
-      const title = 'Free Islamic Zakat Calculator 2025 - Calculate Nisab Online';
+      const title = 'Free Islamic Zakat Calculator - Calculate Nisab Online';
       const description = 'Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab.';
       const url = 'https://qurandeen.com/islamic-resources/zakat-calculator';
       const image = 'https://qurandeen.com/images/seo/zakat-calculator-banner.jpg';
@@ -4348,7 +4348,7 @@ app.get('/islamic-resources/zakat-calculator', (req, res, next) => {
       const metaTags = `
     <title>${title}</title>
     <meta name="description" content="${description}" />
-    <meta name="keywords" content="zakat calculator, islamic zakat calculator, zakat calculator online, nisab calculator, gold zakat calculator, silver zakat, zakat on wealth, zakat calculation, muslim zakat, islamic finance calculator, zakat 2025" />
+    <meta name="keywords" content="zakat calculator, islamic zakat calculator, zakat calculator online, nisab calculator, gold zakat calculator, silver zakat, zakat on wealth, zakat calculation, muslim zakat, islamic finance calculator" />
     <link rel="canonical" href="${url}" />
     <meta property="og:title" content="${title}" />
     <meta property="og:description" content="${description}" />

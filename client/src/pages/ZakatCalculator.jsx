@@ -218,11 +218,11 @@ export default function ZakatCalculator() {
   return (
     <div className="zakat-calculator-page">
       <Helmet>
-        <title>Free Islamic Zakat Calculator 2025 - Calculate Nisab Online</title>
+        <title>Free Islamic Zakat Calculator - Calculate Nisab Online</title>
         <meta name="description" content="Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab." />
         <link rel="canonical" href={pageUrl} />
         
-        <meta property="og:title" content="Free Islamic Zakat Calculator 2025 - Calculate Nisab Online" />
+        <meta property="og:title" content="Free Islamic Zakat Calculator - Calculate Nisab Online" />
         <meta property="og:description" content="Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab." />
         <meta property="og:url" content={pageUrl} />
         <meta property="og:type" content="website" />
@@ -232,11 +232,11 @@ export default function ZakatCalculator() {
         <meta property="og:site_name" content="QuranDeen" />
         
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Free Islamic Zakat Calculator 2025 - Calculate Nisab Online" />
+        <meta name="twitter:title" content="Free Islamic Zakat Calculator - Calculate Nisab Online" />
         <meta name="twitter:description" content="Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab." />
         <meta name="twitter:image" content={ogImage} />
         
-        <meta name="keywords" content="zakat calculator, islamic zakat calculator, zakat calculator online, nisab calculator, gold zakat calculator, silver zakat, zakat on wealth, zakat calculation, muslim zakat, islamic finance calculator, zakat 2025" />
+        <meta name="keywords" content="zakat calculator, islamic zakat calculator, zakat calculator online, nisab calculator, gold zakat calculator, silver zakat, zakat on wealth, zakat calculation, muslim zakat, islamic finance calculator" />
         
         <script type="application/ld+json">
           {JSON.stringify({
