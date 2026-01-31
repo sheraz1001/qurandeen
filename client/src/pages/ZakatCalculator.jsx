@@ -554,6 +554,52 @@ export default function ZakatCalculator() {
           </div>
         </div>
 
+        <div className="zakat-features">
+          <h2>Features of Our Free Zakat Calculator</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <span className="feature-icon">📊</span>
+              <h3>11 Wealth Categories</h3>
+              <p>Comprehensive coverage including cash, gold, silver, stocks, business assets, rental income, cryptocurrency, agricultural produce, and debt management.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">⚖️</span>
+              <h3>Accurate Nisab Calculation</h3>
+              <p>Automatic Nisab threshold calculation based on 87.48g of gold or 612.36g of silver with customizable metal prices for real-time accuracy.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">🌍</span>
+              <h3>Multi-Currency Support</h3>
+              <p>Calculate Zakat in 10 currencies: USD, EUR, GBP, SAR, AED, PKR, INR, MYR, IDR, and BDT for global accessibility.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">📖</span>
+              <h3>Quran & Sunnah Based</h3>
+              <p>All calculations follow authentic Islamic rulings with references to Quranic verses and Hadith for complete transparency.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">🌾</span>
+              <h3>Agricultural Zakat Rates</h3>
+              <p>Different rates for irrigated crops (5%) and rain-fed produce (10%) as per Islamic jurisprudence.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">➕</span>
+              <h3>Add Multiple Items</h3>
+              <p>Add unlimited items within each category with custom descriptions for detailed wealth tracking and organization.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">📅</span>
+              <h3>Hawl Verification</h3>
+              <p>Built-in lunar year (Hawl) confirmation to ensure Zakat is only calculated when wealth has been held for the required period.</p>
+            </div>
+            <div className="feature-card">
+              <span className="feature-icon">💳</span>
+              <h3>Debt Deduction</h3>
+              <p>Automatically deducts outstanding debts from your total wealth before calculating Zakat for accurate obligation assessment.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="zakat-disclaimer">
           <h3>Important Notes About Zakat Calculation</h3>
           <ul>
