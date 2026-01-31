@@ -4331,6 +4331,102 @@ app.get('/surah/:identifier', (req, res, next) => {
   next();
 });
 
+// Zakat Calculator SEO injection
+app.get('/islamic-resources/zakat-calculator', (req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    const htmlPath = path.join(__dirname, '../client/dist/index.html');
+    fs.readFile(htmlPath, 'utf8', (err, html) => {
+      if (err) {
+        return res.sendFile(htmlPath);
+      }
+      
+      const title = 'Free Islamic Zakat Calculator 2025 - Calculate Nisab Online';
+      const description = 'Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab.';
+      const url = 'https://qurandeen.com/islamic-resources/zakat-calculator';
+      const image = 'https://qurandeen.com/images/seo/zakat-calculator-banner.jpg';
+      
+      const metaTags = `
+    <title>${title}</title>
+    <meta name="description" content="${description}" />
+    <meta name="keywords" content="zakat calculator, islamic zakat calculator, zakat calculator online, nisab calculator, gold zakat calculator, silver zakat, zakat on wealth, zakat calculation, muslim zakat, islamic finance calculator, zakat 2025" />
+    <link rel="canonical" href="${url}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="${image}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="QuranDeen" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />
+    <meta name="twitter:image" content="${image}" />`;
+      
+      const jsonLdObj = {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Islamic Zakat Calculator",
+        "description": "Free online Zakat calculator based on Quran and Sunnah. Calculate Zakat on gold, silver, cash, stocks, business assets, cryptocurrency and more.",
+        "url": url,
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "QuranDeen",
+          "url": "https://qurandeen.com"
+        }
+      };
+      
+      const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the Nisab for Zakat?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nisab is the minimum amount of wealth a Muslim must possess before Zakat becomes obligatory. It is equivalent to 87.48 grams of gold or 612.36 grams of silver."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much Zakat should I pay?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The standard Zakat rate is 2.5% of your total zakatable wealth above the Nisab threshold, provided you have held this wealth for one lunar year (Hawl)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of wealth are subject to Zakat?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Zakat applies to cash, gold, silver, stocks, business inventory, rental income, cryptocurrency, and agricultural produce. Personal items like your home and car are generally exempt."
+            }
+          }
+        ]
+      };
+      
+      const jsonLd = `<script type="application/ld+json">${JSON.stringify(jsonLdObj)}</script>
+    <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`;
+      
+      let modifiedHtml = html.replace(/<title>.*?<\/title>/, metaTags);
+      modifiedHtml = modifiedHtml.replace('</head>', `${jsonLd}\n</head>`);
+      
+      res.send(modifiedHtml);
+    });
+  } else {
+    next();
+  }
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist/index.html'));
