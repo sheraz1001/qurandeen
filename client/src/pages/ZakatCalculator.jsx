@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import SEO from '../components/SEO';
 import '../styles/zakat.css';
 
 const GOLD_NISAB_GRAMS = 87.48;
@@ -212,23 +211,84 @@ export default function ZakatCalculator() {
     { name: 'Zakat Calculator' }
   ];
 
+  const siteUrl = 'https://qurandeen.com';
+  const pageUrl = `${siteUrl}/islamic-resources/zakat-calculator`;
+  const ogImage = `${siteUrl}/images/seo/zakat-calculator-banner.jpg`;
+
   return (
     <div className="zakat-calculator-page">
-      <SEO 
-        title="Zakat Calculator - Calculate Your Islamic Zakat Obligation"
-        description="Professional Zakat calculator based on Quran and Hadith. Calculate Zakat on cash, gold, silver, stocks, business assets, and more according to Islamic principles."
-        keywords="zakat calculator, Islamic zakat, nisab, gold zakat, silver zakat, zakat on wealth, Islamic finance, Muslim charity"
-      />
-      
       <Helmet>
+        <title>Free Islamic Zakat Calculator 2025 - Calculate Nisab Online</title>
+        <meta name="description" content="Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab." />
+        <link rel="canonical" href={pageUrl} />
+        
+        <meta property="og:title" content="Free Islamic Zakat Calculator 2025 - Calculate Nisab Online" />
+        <meta property="og:description" content="Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab." />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="QuranDeen" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Free Islamic Zakat Calculator 2025 - Calculate Nisab Online" />
+        <meta name="twitter:description" content="Calculate your Zakat obligation with our free Islamic Zakat Calculator. Supports gold, silver, cash, stocks & crypto. Based on Quran & Sunnah with accurate Nisab." />
+        <meta name="twitter:image" content={ogImage} />
+        
+        <meta name="keywords" content="zakat calculator, islamic zakat calculator, zakat calculator online, nisab calculator, gold zakat calculator, silver zakat, zakat on wealth, zakat calculation, muslim zakat, islamic finance calculator, zakat 2025" />
+        
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            "name": "Zakat Calculator",
-            "description": "Calculate your Zakat obligation according to Islamic principles",
+            "name": "Islamic Zakat Calculator",
+            "description": "Free online Zakat calculator based on Quran and Sunnah. Calculate Zakat on gold, silver, cash, stocks, business assets, cryptocurrency and more.",
+            "url": pageUrl,
             "applicationCategory": "FinanceApplication",
-            "operatingSystem": "Web"
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "QuranDeen",
+              "url": siteUrl
+            }
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is the Nisab for Zakat?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nisab is the minimum amount of wealth a Muslim must possess before Zakat becomes obligatory. It is equivalent to 87.48 grams of gold or 612.36 grams of silver."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How much Zakat should I pay?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The standard Zakat rate is 2.5% of your total zakatable wealth above the Nisab threshold, provided you have held this wealth for one lunar year (Hawl)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What types of wealth are subject to Zakat?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Zakat applies to cash, gold, silver, stocks, business inventory, rental income, cryptocurrency, and agricultural produce. Personal items like your home and car are generally exempt."
+                }
+              }
+            ]
           })}
         </script>
       </Helmet>
@@ -250,23 +310,23 @@ export default function ZakatCalculator() {
           </nav>
           <h1 className="zakat-title">
             <span className="title-arabic">حاسبة الزكاة</span>
-            <span className="title-english">Zakat Calculator</span>
+            <span className="title-english">Free Islamic Zakat Calculator</span>
           </h1>
-          <p className="zakat-subtitle">Calculate your Zakat obligation according to Quran and Sunnah</p>
+          <p className="zakat-subtitle">Calculate Your Zakat Online - Based on Quran & Sunnah with Accurate Nisab Calculation</p>
         </div>
       </div>
 
       <div className="zakat-container">
         <div className="zakat-intro">
           <div className="intro-card">
-            <h2>Understanding Zakat</h2>
+            <h2>Understanding Zakat - Why Use a Zakat Calculator?</h2>
             <p>Zakat is one of the Five Pillars of Islam, an obligatory act of worship that purifies wealth and helps those in need. Allah (SWT) says in the Quran:</p>
             <blockquote className="quran-quote">
               <p>"And establish prayer and give Zakat, and whatever good you put forward for yourselves – you will find it with Allah."</p>
               <cite>Surah Al-Baqarah 2:110</cite>
             </blockquote>
             <div className="zakat-rules">
-              <h3>Key Zakat Rules:</h3>
+              <h3>Key Zakat Calculation Rules:</h3>
               <ul>
                 <li><strong>Nisab:</strong> Minimum threshold of wealth (equivalent to 87.48g of gold or 612.36g of silver)</li>
                 <li><strong>Hawl:</strong> Wealth must be held for one lunar year</li>
@@ -320,7 +380,7 @@ export default function ZakatCalculator() {
 
         <div className="nisab-display">
           <div className="nisab-card">
-            <h3>Nisab Threshold</h3>
+            <h3>Nisab Threshold for Zakat Calculation</h3>
             <div className="nisab-values">
               <div className="nisab-item gold">
                 <span className="nisab-label">Gold Nisab ({GOLD_NISAB_GRAMS}g)</span>
@@ -395,7 +455,7 @@ export default function ZakatCalculator() {
 
         <div className="zakat-summary">
           <div className="summary-card">
-            <h2>Zakat Summary</h2>
+            <h2>Your Zakat Calculator Results</h2>
             
             <div className="summary-rows">
               <div className="summary-row">
@@ -448,7 +508,7 @@ export default function ZakatCalculator() {
         </div>
 
         <div className="zakat-recipients">
-          <h2>Eight Categories of Zakat Recipients</h2>
+          <h2>Who Can Receive Zakat? - Eight Categories of Zakat Recipients</h2>
           <p className="recipients-intro">As mentioned in Surah At-Tawbah (9:60):</p>
           <div className="recipients-grid">
             <div className="recipient-card">
@@ -495,7 +555,7 @@ export default function ZakatCalculator() {
         </div>
 
         <div className="zakat-disclaimer">
-          <h3>Important Notes</h3>
+          <h3>Important Notes About Zakat Calculation</h3>
           <ul>
             <li>This calculator provides an estimate based on general Zakat principles. For specific rulings, please consult a qualified Islamic scholar.</li>
             <li>Gold and silver prices should be updated to current market rates for accurate Nisab calculation.</li>
