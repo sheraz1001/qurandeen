@@ -53,6 +53,13 @@ function Header({ darkMode, toggleDarkMode }) {
   }, [location.pathname]);
 
 
+  const quranLinks = [
+    { path: '/quran-juz-browser', label: 'Juz Browser', icon: '📖' },
+    { path: '/quran-mp3-audio', label: 'Quran Audio', icon: '🎧' },
+    { path: '/quran/word-by-word', label: 'Word by Word', icon: '📝' },
+    { path: '/islamic-resources/share-card', label: 'Share Card', icon: '🖼️' },
+  ];
+
   const resourceCategories = {
     collections: {
       title: 'Islamic Collections',
