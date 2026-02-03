@@ -26,7 +26,7 @@
     "google-auth-library": "^10.5.0",
     "html2canvas": "^1.4.1",
     "jsonwebtoken": "^9.0.3",
-    "jspdf": "^4.0.0",
+    "jspdf": "^4.1.0",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.12",
     "openai": "^6.16.0",
@@ -40,5 +40,10 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
+  },
+  "overrides": {
+    "fast-xml-parser": "^5.3.4",
+    "tar": "^7.5.0",
+    "@isaacs/brace-expansion": "^5.0.1"
   }
 }
