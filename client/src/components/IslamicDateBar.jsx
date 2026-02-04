@@ -341,7 +341,6 @@ function IslamicDateBar() {
 
   return (
     <div className={`islamic-date-bar ${isExpanded ? 'expanded' : ''}`}>
-      <div className="islamic-date-bar-inner">
       <div className="idb-main">
         <div className="idb-date-section">
           <div className="idb-hijri-date">
@@ -521,7 +520,6 @@ function IslamicDateBar() {
           </div>
         </div>
       )}
-      </div>
     </div>
   );
 }

@@ -1,17 +1,11 @@
 .islamic-date-bar {
   background: linear-gradient(135deg, #0f4c3a 0%, #1a5d45 50%, #0d3d2f 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   position: relative;
   z-index: 1;
   overflow: hidden;
   width: 100%;
-  margin-bottom: 2rem;
-}
-
-.islamic-date-bar-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
 }
 
 .islamic-date-bar::before {
