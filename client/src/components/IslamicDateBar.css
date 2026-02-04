@@ -1,9 +1,9 @@
 .islamic-date-bar {
   background: linear-gradient(135deg, #0f4c3a 0%, #1a5d45 50%, #0d3d2f 100%);
-  border-top: 3px solid rgba(212, 175, 55, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   position: relative;
-  z-index: 10;
+  z-index: 1;
   overflow: hidden;
   width: 100%;
 }
