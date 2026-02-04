@@ -128,13 +128,14 @@ function Home() {
         schema={homeSchemas}
       />
 
-      <IslamicDateBar />
-
       <section className="hero-section">
         <div className="hero-bg">
           <div className="hero-pattern"></div>
           <div className="hero-gradient"></div>
         </div>
+        
+        <IslamicDateBar />
+        
         <div className="hero-content">
           <div className="hero-badge">
             <span className="badge-icon">☪</span>
