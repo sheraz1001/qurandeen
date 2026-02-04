@@ -262,7 +262,23 @@ function getHijriDate() {
 
   if (month < 1 || month > 12) month = 1;
 
-  return { day, month, year, monthName: ISLAMIC_MONTHS[month - 1]?.name || 'Unknown' };
+  const gregorianFormatter = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+  const gregorianDate = gregorianFormatter.format(today);
+  const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(today);
+
+  return { 
+    day, 
+    month, 
+    year, 
+    monthName: ISLAMIC_MONTHS[month - 1]?.name || 'Unknown',
+    gregorianDate,
+    dayName
+  };
 }
 
 function calculateDaysUntilEvent(currentMonth, currentDay, eventMonth, eventDay) {
@@ -342,6 +358,10 @@ function IslamicDateBar() {
                 <span className="idb-month-arabic">{currentMonthData.arabic}</span>
               </div>
               <span className="idb-date-year">{hijriDate.year} AH</span>
+            </div>
+            <div className="idb-gregorian">
+              <span className="idb-day-name">{hijriDate.dayName}</span>
+              <span className="idb-gregorian-date">{hijriDate.gregorianDate}</span>
             </div>
           </div>
         </div>
