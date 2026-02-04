@@ -23,8 +23,7 @@
   padding: 12px 24px;
   gap: 16px;
   position: relative;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .idb-date-section {
@@ -248,8 +247,7 @@
   padding: 12px 24px;
   background: rgba(0, 0, 0, 0.15);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .idb-tab {
@@ -284,8 +282,7 @@
 
 .idb-tab-content {
   padding: 20px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .idb-events-grid {
