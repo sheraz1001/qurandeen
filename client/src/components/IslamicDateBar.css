@@ -1,0 +1,690 @@
+.islamic-date-bar {
+  background: linear-gradient(135deg, #0f4c3a 0%, #1a5d45 50%, #0d3d2f 100%);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  position: relative;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.islamic-date-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.idb-main {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  gap: 16px;
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.idb-date-section {
+  flex-shrink: 0;
+}
+
+.idb-hijri-date {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.idb-date-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.idb-date-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #0f4c3a;
+}
+
+.idb-date-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.idb-date-day {
+  font-size: 28px;
+  font-weight: 700;
+  color: #d4af37;
+  line-height: 1;
+}
+
+.idb-date-month {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.idb-month-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.idb-month-arabic {
+  font-size: 12px;
+  color: rgba(212, 175, 55, 0.9);
+  font-family: 'Amiri', serif;
+  direction: rtl;
+}
+
+.idb-date-year {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  padding-left: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.idb-divider {
+  width: 1px;
+  height: 32px;
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+}
+
+.idb-events-section {
+  flex: 1;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.idb-events-scroll {
+  display: flex;
+  gap: 10px;
+  animation: scrollEvents 30s linear infinite;
+  width: fit-content;
+}
+
+.idb-events-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollEvents {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.idb-event-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.idb-event-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-1px);
+}
+
+.idb-event-pill.major {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.idb-event-pill.special {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.idb-event-icon {
+  font-size: 16px;
+}
+
+.idb-event-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.idb-event-days {
+  font-size: 11px;
+  font-weight: 600;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.15);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.idb-month-preview {
+  flex-shrink: 0;
+}
+
+.idb-month-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 20px;
+}
+
+.idb-badge-icon {
+  font-size: 14px;
+}
+
+.idb-badge-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #d4af37;
+}
+
+.idb-expand-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.idb-expand-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.idb-expand-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #d4af37;
+  transition: transform 0.3s ease;
+}
+
+.idb-expanded-content {
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 0;
+  animation: expandContent 0.3s ease-out;
+}
+
+@keyframes expandContent {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+  }
+}
+
+.idb-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 12px 24px;
+  background: rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.idb-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.idb-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.idb-tab.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.3);
+  color: #d4af37;
+}
+
+.idb-tab .tab-icon {
+  font-size: 16px;
+}
+
+.idb-tab-content {
+  padding: 20px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.idb-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.idb-event-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.idb-event-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.idb-event-card.major {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);
+}
+
+.idb-event-card.special {
+  border-color: rgba(139, 92, 246, 0.3);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);
+}
+
+.event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.event-card-icon {
+  font-size: 28px;
+}
+
+.event-card-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(212, 175, 55, 0.15);
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+
+.countdown-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #d4af37;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 10px;
+  color: rgba(212, 175, 55, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.event-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px 0;
+}
+
+.event-card-date {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.idb-month-info {
+  display: grid;
+  gap: 24px;
+}
+
+.month-header {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.month-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 0 0 12px 0;
+}
+
+.month-arabic-large {
+  font-size: 32px;
+  font-family: 'Amiri', serif;
+  color: #d4af37;
+  direction: rtl;
+}
+
+.month-english {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.month-significance {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.month-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.month-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.month-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d4af37;
+  margin: 0 0 16px 0;
+}
+
+.section-icon {
+  font-size: 16px;
+}
+
+.month-section.benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.month-section.benefits li {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.month-section.benefits li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #4ade80;
+  font-weight: bold;
+}
+
+.action-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.action-tag {
+  font-size: 12px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 20px;
+  color: #fff;
+}
+
+.idb-dua-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.dua-card {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.02));
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 20px;
+  padding: 28px;
+  text-align: center;
+}
+
+.dua-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.dua-icon {
+  font-size: 24px;
+}
+
+.dua-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dua-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dua-arabic {
+  font-size: 28px;
+  font-family: 'Amiri', serif;
+  color: #d4af37;
+  direction: rtl;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.dua-transliteration {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  margin: 0;
+}
+
+.dua-translation {
+  font-size: 15px;
+  color: #fff;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dua-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.dua-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dua-dot.active {
+  background: #d4af37;
+  transform: scale(1.2);
+}
+
+.dua-benefits {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.dua-benefits h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d4af37;
+  margin: 0 0 12px 0;
+}
+
+.dua-benefits p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .idb-main {
+    padding: 10px 16px;
+    gap: 12px;
+  }
+
+  .idb-dua-section {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-hide {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .idb-main {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .idb-date-section {
+    width: 100%;
+  }
+
+  .idb-hijri-date {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .idb-events-section {
+    width: 100%;
+    order: 3;
+  }
+
+  .idb-divider {
+    display: none;
+  }
+
+  .idb-expand-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  .idb-tabs {
+    overflow-x: auto;
+    padding: 10px 12px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .idb-tab {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .idb-tab-content {
+    padding: 16px 12px;
+  }
+
+  .idb-events-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .idb-event-card {
+    padding: 14px;
+  }
+
+  .event-card-icon {
+    font-size: 22px;
+  }
+
+  .countdown-number {
+    font-size: 18px;
+  }
+
+  .month-sections {
+    grid-template-columns: 1fr;
+  }
+
+  .dua-arabic {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .idb-date-day {
+    font-size: 24px;
+  }
+
+  .idb-month-name {
+    font-size: 13px;
+  }
+
+  .idb-events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .month-arabic-large {
+    font-size: 26px;
+  }
+
+  .month-english {
+    font-size: 18px;
+  }
+}

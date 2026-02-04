@@ -4,6 +4,7 @@ import axios from 'axios';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import SEO from '../components/SEO';
+import IslamicDateBar from '../components/IslamicDateBar';
 import { getSurahByNumber } from '../data/surahData';
 import '../styles/home.css';
 
@@ -126,6 +127,8 @@ function Home() {
         keywords="Quran online, Holy Quran, Quran reading, Quran audio, Quran translation, Quran tafsir, Islamic website"
         schema={homeSchemas}
       />
+
+      <IslamicDateBar />
 
       <section className="hero-section">
         <div className="hero-bg">

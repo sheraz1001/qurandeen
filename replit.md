@@ -16,6 +16,7 @@ The application follows a client-server architecture with a Node.js/Express back
 - Customizable user settings (dark mode, font styles, reciters, translations).
 - Sidebar-based navigation for both users and administrators.
 - **Homepage Design:** Modern hero section with Arabic/English title, statistics panel, quick access cards, Ayah of the Day section, searchable surah grid, feature highlights, and resource cards.
+- **Islamic Date Bar:** Prominent bar below header showing current Hijri date with Arabic script, countdown to upcoming Islamic events (Ramadan, Eid, Laylat al-Qadr, etc.), expandable section with tabbed interface for event details, monthly blessings/benefits, and recommended duas for the current Islamic month.
 
 **Technical Implementations & Feature Specifications:**
 - **Quranic Display & Audio:** Displays all 114 surahs with multiple script styles (Uthmani, IndoPak, Nastaliq, Naskh Nastaleeq, Me Quran), font size controls, 150+ full surah reciters, and 23+ verse-by-verse reciters. Includes word-by-word Quran mode with audio and translation tooltips.
