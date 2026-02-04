@@ -15,6 +15,7 @@ import { OAuth2Client } from 'google-auth-library';
 import Stripe from 'stripe';
 import multer from 'multer';
 import { sendEmail, sendDonationReceipt, sendNewAccountEmail, sendAdminNotification, sendSubscriptionCancelledAdmin, sendPasswordResetEmail, sendAdminPasswordChangeNotification } from './emailService.js';
+import { prerenderMiddleware, warmupCache, closeBrowser } from './prerenderMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1492,6 +1493,8 @@ app.use('/manifest.json', express.static(path.join(__dirname, '../client/public/
 app.use('/sw.js', express.static(path.join(__dirname, '../client/public/sw.js')));
 
 if (process.env.NODE_ENV === 'production') {
+  const baseUrl = process.env.SITE_URL || 'https://qurandeen.com';
+  app.use(prerenderMiddleware(baseUrl));
   app.use(express.static(path.join(__dirname, '../client/dist')));
 }
 
@@ -4433,6 +4436,30 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', async () => {
   console.log(`Server running on port ${PORT}`);
+  
+  if (process.env.NODE_ENV === 'production' && process.env.WARMUP_CACHE === 'true') {
+    const baseUrl = process.env.SITE_URL || 'https://qurandeen.com';
+    const criticalPaths = [
+      '/',
+      '/surah/1',
+      '/surah/2',
+      '/surah/36',
+      '/surah/67',
+      '/surah/112',
+      '/hadith-collections',
+      '/islamic-resources'
+    ];
+    
+    setTimeout(() => {
+      warmupCache(baseUrl, criticalPaths).catch(console.error);
+    }, 10000);
+  }
+});
+
+process.on('SIGTERM', async () => {
+  console.log('Shutting down...');
+  await closeBrowser();
+  process.exit(0);
 });

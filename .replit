@@ -5,6 +5,7 @@ integrations = ["javascript_openai_ai_integrations:2.0.0"]
 
 [nix]
 channel = "stable-25_05"
+packages = ["chromium"]
 
 [workflows]
 runButton = "Project"
@@ -22,13 +23,13 @@ args = "Quran Website"
 name = "Quran Website"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "NODE_ENV=production node server/index.js"
 waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
 
 [[ports]]
 localPort = 5000
