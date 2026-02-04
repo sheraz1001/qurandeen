@@ -1,5 +1,13 @@
 .home-redesign {
   min-height: 100vh;
+  overflow-x: hidden;
+  margin: -2rem -1rem;
+  width: calc(100% + 2rem);
+}
+
+.main-content:has(.home-redesign) {
+  max-width: 100%;
+  padding: 0;
 }
 
 /* Hero Section */

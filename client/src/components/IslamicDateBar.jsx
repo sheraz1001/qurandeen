@@ -263,7 +263,6 @@ function getHijriDate() {
   if (month < 1 || month > 12) month = 1;
 
   const gregorianFormatter = new Intl.DateTimeFormat('en-US', {
-    weekday: 'long',
     day: 'numeric',
     month: 'short',
     year: 'numeric'
