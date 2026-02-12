@@ -9,8 +9,18 @@ const __dirname = path.dirname(__filename);
 const BOT_USER_AGENTS = [
   'googlebot',
   'google-inspectiontool',
+  'google-structured-data-testing-tool',
+  'google-xrawler',
+  'googleother',
+  'storebot-google',
+  'apis-google',
+  'mediapartners-google',
+  'adsbot-google',
   'bingbot',
+  'bingpreview',
+  'msnbot',
   'yandexbot',
+  'yandexmobilebot',
   'duckduckbot',
   'slurp',
   'baiduspider',
@@ -24,6 +34,7 @@ const BOT_USER_AGENTS = [
   'showyoubot',
   'outbrain',
   'pinterest',
+  'pinterestbot',
   'developers.google.com/+/web/snippet',
   'slackbot',
   'vkshare',
@@ -39,15 +50,22 @@ const BOT_USER_AGENTS = [
   'discordbot',
   'google page speed',
   'qwantify',
-  'pinterestbot',
   'bitrix link preview',
   'xing-contenttabreceiver',
   'chrome-lighthouse',
-  'telegrambot'
+  'telegrambot',
+  'seznambot',
+  'petalbot',
+  'ahrefsbot',
+  'semrushbot',
+  'dotbot',
+  'sogou',
+  'ia_archiver',
+  'archive.org_bot'
 ];
 
 const CACHE_DIR = path.join(__dirname, '../.prerender-cache');
-const CACHE_TTL = 24 * 60 * 60 * 1000;
+const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
 
 if (!fs.existsSync(CACHE_DIR)) {
   fs.mkdirSync(CACHE_DIR, { recursive: true });
@@ -56,6 +74,7 @@ if (!fs.existsSync(CACHE_DIR)) {
 function isBot(userAgent) {
   if (!userAgent) return false;
   const ua = userAgent.toLowerCase();
+  if (ua.includes('qurandeenprerender')) return false;
   return BOT_USER_AGENTS.some(bot => ua.includes(bot));
 }
 
@@ -122,14 +141,22 @@ async function getBrowser() {
       '--disable-gpu',
       '--window-size=1920,1080',
       '--single-process',
-      '--no-zygote'
+      '--no-zygote',
+      '--disable-extensions',
+      '--disable-background-networking',
+      '--disable-default-apps',
+      '--disable-sync',
+      '--disable-translate',
+      '--metrics-recording-only',
+      '--mute-audio',
+      '--no-first-run'
     ]
   });
   
   return browserInstance;
 }
 
-async function renderPage(url, timeout = 30000) {
+async function renderPage(url, timeout = 20000) {
   let page = null;
   
   try {
@@ -150,28 +177,67 @@ async function renderPage(url, timeout = 30000) {
     });
     
     await page.goto(url, {
-      waitUntil: 'networkidle0',
+      waitUntil: 'networkidle2',
       timeout: timeout
     });
     
     await page.waitForFunction(() => {
-      const content = document.body.innerText;
-      return content.length > 500 || document.querySelector('.verse-text, .hadith-text, .surah-content');
-    }, { timeout: 15000 }).catch(() => {});
+      const content = document.body ? document.body.innerText : '';
+      return content.length > 200 || 
+        document.querySelector('.verse-text, .hadith-text, .surah-content, .home-container, .azkaar-container');
+    }, { timeout: 10000 }).catch(() => {});
     
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 1500));
     
-    let html = await page.content();
+    let html = await page.evaluate(() => {
+      const head = document.head;
+      const rhTags = head.querySelectorAll('[data-rh="true"]');
+      if (rhTags.length > 0) {
+        const rhTypes = new Set();
+        rhTags.forEach(tag => {
+          if (tag.tagName === 'META') {
+            const key = tag.getAttribute('name') || tag.getAttribute('property') || tag.getAttribute('http-equiv');
+            if (key) rhTypes.add(`${tag.tagName}-${key}`);
+          } else if (tag.tagName === 'LINK') {
+            const rel = tag.getAttribute('rel');
+            if (rel) rhTypes.add(`${tag.tagName}-${rel}`);
+          } else if (tag.tagName === 'TITLE') {
+            rhTypes.add('TITLE');
+          }
+        });
+        
+        const allTags = head.querySelectorAll('meta, link, title');
+        allTags.forEach(tag => {
+          if (tag.hasAttribute('data-rh')) return;
+          let key;
+          if (tag.tagName === 'META') {
+            key = `${tag.tagName}-${tag.getAttribute('name') || tag.getAttribute('property') || tag.getAttribute('http-equiv')}`;
+          } else if (tag.tagName === 'LINK') {
+            key = `${tag.tagName}-${tag.getAttribute('rel')}`;
+          } else if (tag.tagName === 'TITLE') {
+            key = 'TITLE';
+          }
+          if (key && rhTypes.has(key)) {
+            tag.remove();
+          }
+        });
+      }
+      return document.documentElement.outerHTML;
+    });
     
-    html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    html = '<!DOCTYPE html>\n' + html;
+    
+    html = html.replace(/<script\b(?![^>]*type\s*=\s*["']application\/ld\+json["'])[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
     
     const baseUrl = new URL(url);
-    html = html.replace(/(<head[^>]*>)/i, `$1<base href="${baseUrl.origin}/">`);
+    if (!html.includes('<base href=')) {
+      html = html.replace(/(<head[^>]*>)/i, `$1\n<base href="${baseUrl.origin}/">`);
+    }
     
     return html;
     
   } catch (error) {
-    console.error('Prerender error:', error.message);
+    console.error('[Prerender] Render error:', error.message);
     return null;
   } finally {
     if (page) {
@@ -183,41 +249,63 @@ async function renderPage(url, timeout = 30000) {
 }
 
 export function prerenderMiddleware(baseUrl) {
-  console.log('[Prerender] Middleware initialized with baseUrl:', baseUrl);
+  const renderBaseUrl = `http://localhost:${process.env.PORT || 5000}`;
+  console.log(`[Prerender] Middleware initialized - serving: ${baseUrl}, rendering via: ${renderBaseUrl}`);
   
   return async (req, res, next) => {
     const userAgent = req.headers['user-agent'] || '';
     
-    const isBotRequest = isBot(userAgent);
-    
-    if (!isBotRequest) {
+    if (!isBot(userAgent)) {
       return next();
     }
     
     if (req.path.startsWith('/api/') || 
-        req.path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|map)$/)) {
+        req.path.startsWith('/socket.io') ||
+        req.path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|map|json|xml|txt|mp3|mp4|webp|avif)$/)) {
       return next();
     }
     
-    const fullUrl = `${baseUrl}${req.originalUrl}`;
-    console.log(`[Prerender] Bot detected: ${userAgent.substring(0, 50)}...`);
-    console.log(`[Prerender] Rendering: ${fullUrl}`);
+    const canonicalUrl = `${baseUrl}${req.originalUrl}`;
+    const renderUrl = `${renderBaseUrl}${req.originalUrl}`;
+    console.log(`[Prerender] Bot detected: ${userAgent.substring(0, 60)}`);
+    console.log(`[Prerender] URL: ${req.originalUrl}`);
     
-    const cachedHtml = getCachedPage(fullUrl);
+    const cachedHtml = getCachedPage(canonicalUrl);
     if (cachedHtml) {
-      console.log(`[Prerender] Serving cached page for: ${req.path}`);
-      res.set('X-Prerender-Status', 'cached');
+      console.log(`[Prerender] Cache HIT: ${req.path}`);
+      res.set({
+        'Content-Type': 'text/html; charset=utf-8',
+        'X-Prerender-Status': 'cached',
+        'X-Robots-Tag': 'index, follow',
+        'Cache-Control': 'public, max-age=86400'
+      });
       return res.send(cachedHtml);
     }
     
     try {
-      const html = await renderPage(fullUrl);
+      console.log(`[Prerender] Cache MISS - rendering: ${renderUrl}`);
+      const html = await renderPage(renderUrl);
       
-      if (html) {
-        setCachedPage(fullUrl, html);
-        res.set('X-Prerender-Status', 'rendered');
-        return res.send(html);
+      if (html && html.length > 500) {
+        let finalHtml = html.replace(
+          /href="http:\/\/localhost:\d+/g, 
+          `href="${baseUrl}`
+        ).replace(
+          /content="http:\/\/localhost:\d+/g,
+          `content="${baseUrl}`
+        );
+        
+        setCachedPage(canonicalUrl, finalHtml);
+        console.log(`[Prerender] Rendered & cached: ${req.path} (${finalHtml.length} bytes)`);
+        res.set({
+          'Content-Type': 'text/html; charset=utf-8',
+          'X-Prerender-Status': 'rendered',
+          'X-Robots-Tag': 'index, follow',
+          'Cache-Control': 'public, max-age=86400'
+        });
+        return res.send(finalHtml);
       } else {
+        console.log(`[Prerender] Render failed or too small for: ${req.path}`);
         return next();
       }
     } catch (error) {
@@ -228,26 +316,49 @@ export function prerenderMiddleware(baseUrl) {
 }
 
 export async function warmupCache(baseUrl, paths) {
-  console.log('[Prerender] Starting cache warmup...');
+  const renderBaseUrl = `http://localhost:${process.env.PORT || 5000}`;
+  console.log(`[Prerender] Starting cache warmup for ${paths.length} pages...`);
   
-  for (const path of paths) {
-    const url = `${baseUrl}${path}`;
-    console.log(`[Prerender] Warming up: ${url}`);
+  let warmed = 0;
+  let failed = 0;
+  
+  for (const pagePath of paths) {
+    const canonicalUrl = `${baseUrl}${pagePath}`;
     
-    try {
-      const html = await renderPage(url);
-      if (html) {
-        setCachedPage(url, html);
-        console.log(`[Prerender] Cached: ${path}`);
-      }
-    } catch (e) {
-      console.error(`[Prerender] Failed to warm up ${path}:`, e.message);
+    const cached = getCachedPage(canonicalUrl);
+    if (cached) {
+      warmed++;
+      continue;
     }
     
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const renderUrl = `${renderBaseUrl}${pagePath}`;
+    
+    try {
+      const html = await renderPage(renderUrl);
+      if (html && html.length > 500) {
+        let finalHtml = html.replace(
+          /href="http:\/\/localhost:\d+/g, 
+          `href="${baseUrl}`
+        ).replace(
+          /content="http:\/\/localhost:\d+/g,
+          `content="${baseUrl}`
+        );
+        setCachedPage(canonicalUrl, finalHtml);
+        warmed++;
+        console.log(`[Prerender] Warmed: ${pagePath} (${finalHtml.length} bytes)`);
+      } else {
+        failed++;
+        console.log(`[Prerender] Warmup failed: ${pagePath}`);
+      }
+    } catch (e) {
+      failed++;
+      console.error(`[Prerender] Warmup error ${pagePath}: ${e.message}`);
+    }
+    
+    await new Promise(resolve => setTimeout(resolve, 500));
   }
   
-  console.log('[Prerender] Cache warmup complete');
+  console.log(`[Prerender] Cache warmup complete: ${warmed} warmed, ${failed} failed`);
 }
 
 export async function closeBrowser() {

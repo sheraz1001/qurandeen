@@ -4047,12 +4047,9 @@ app.get('/sitemap-hadith.xml', (req, res) => {
 app.get('/robots.txt', (req, res) => {
   const robots = `User-agent: *
 Allow: /
+Crawl-delay: 1
 
 Sitemap: https://qurandeen.com/sitemap.xml
-Sitemap: https://qurandeen.com/sitemap-main.xml
-Sitemap: https://qurandeen.com/sitemap-quran.xml
-Sitemap: https://qurandeen.com/sitemap-azkaar.xml
-Sitemap: https://qurandeen.com/sitemap-hadith.xml
 
 Disallow: /api/
 Disallow: /admin
@@ -4061,9 +4058,17 @@ Disallow: /login
 Disallow: /signup
 Disallow: /forgot-password
 Disallow: /reset-password
+Disallow: /reset-password/*
+Disallow: /verify-email
+Disallow: /checkout
+Disallow: /payment
+Disallow: /socket.io/
+
+Host: https://qurandeen.com
 `;
 
   res.header('Content-Type', 'text/plain');
+  res.header('Cache-Control', 'public, max-age=86400');
   res.send(robots);
 });
 
@@ -4439,22 +4444,37 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`Server running on port ${PORT}`);
   
-  if (process.env.NODE_ENV === 'production' && process.env.WARMUP_CACHE === 'true') {
+  if (process.env.NODE_ENV === 'production') {
     const baseUrl = process.env.SITE_URL || 'https://qurandeen.com';
     const criticalPaths = [
       '/',
-      '/surah/1',
-      '/surah/2',
-      '/surah/36',
-      '/surah/67',
-      '/surah/112',
-      '/hadith-collections',
-      '/islamic-resources'
+      '/hadith',
+      '/azkaar',
+      '/islamic-resources',
+      '/quran-juz-browser',
+      '/quran-mp3-audio',
+      '/islamic-events',
+      '/hijri-calendar',
+      '/islamic-resources/prayer-times',
+      '/islamic-resources/names-of-allah',
+      '/islamic-resources/qibla-direction',
     ];
+    
+    for (let i = 1; i <= 114; i++) {
+      criticalPaths.push(`/surah/${i}`);
+    }
+    
+    criticalPaths.push(
+      '/hadith/sahih-bukhari',
+      '/hadith/sahih-muslim',
+      '/hadith/abu-dawud',
+      '/hadith/ibn-majah',
+      '/hadith/al-tirmidhi'
+    );
     
     setTimeout(() => {
       warmupCache(baseUrl, criticalPaths).catch(console.error);
-    }, 10000);
+    }, 15000);
   }
 });
 
