@@ -4045,12 +4045,14 @@ app.get('/sitemap-hadith.xml', (req, res) => {
 });
 
 app.get('/robots.txt', (req, res) => {
-  const robots = `User-agent: *
+  const robots = `# QuranDeen.com - Read, Listen & Study the Holy Quran Online
+# https://qurandeen.com
+#
+# We welcome all search engines and AI crawlers.
+# Our content is freely available for indexing, crawling, and AI training.
+
+User-agent: *
 Allow: /
-Crawl-delay: 1
-
-Sitemap: https://qurandeen.com/sitemap.xml
-
 Disallow: /api/
 Disallow: /admin
 Disallow: /dashboard
@@ -4058,16 +4060,87 @@ Disallow: /login
 Disallow: /signup
 Disallow: /forgot-password
 Disallow: /reset-password
-Disallow: /reset-password/*
 Disallow: /verify-email
 Disallow: /checkout
 Disallow: /payment
 Disallow: /socket.io/
 
-Host: https://qurandeen.com
+# Google
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Storebot-Google
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# AI Crawlers - All Welcome
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+Sitemap: https://qurandeen.com/sitemap.xml
 `;
 
-  res.header('Content-Type', 'text/plain');
+  res.header('Content-Type', 'text/plain; charset=utf-8');
   res.header('Cache-Control', 'public, max-age=86400');
   res.send(robots);
 });
