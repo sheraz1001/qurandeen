@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer-core';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -115,6 +116,25 @@ function setCachedPage(url, html) {
 
 let browserInstance = null;
 
+let chromiumAvailable = null;
+
+function findChromiumPath() {
+  const paths = [
+    process.env.CHROME_PATH,
+    '/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium',
+  ];
+  
+  try {
+    const nixPath = execSync('which chromium 2>/dev/null || find /nix/store -name chromium -type f -executable 2>/dev/null | head -1', { encoding: 'utf-8', timeout: 5000 }).trim();
+    if (nixPath) paths.push(nixPath);
+  } catch (e) {}
+  
+  for (const p of paths) {
+    if (p && fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 async function getBrowser() {
   if (browserInstance) {
     try {
@@ -127,33 +147,46 @@ async function getBrowser() {
     }
   }
   
-  const chromiumPath = process.env.CHROME_PATH || 
-    '/nix/store/qa9cnw4v5xkxyip6mb9kxqfq1z4x2dx1-chromium-138.0.7204.100/bin/chromium';
+  if (chromiumAvailable === false) return null;
   
-  browserInstance = await puppeteer.launch({
-    executablePath: chromiumPath,
-    headless: 'new',
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--disable-gpu',
-      '--window-size=1920,1080',
-      '--single-process',
-      '--no-zygote',
-      '--disable-extensions',
-      '--disable-background-networking',
-      '--disable-default-apps',
-      '--disable-sync',
-      '--disable-translate',
-      '--metrics-recording-only',
-      '--mute-audio',
-      '--no-first-run'
-    ]
-  });
+  const chromiumPath = findChromiumPath();
+  if (!chromiumPath) {
+    console.log('[Prerender] Chromium not found - serving from cache only');
+    chromiumAvailable = false;
+    return null;
+  }
   
-  return browserInstance;
+  try {
+    browserInstance = await puppeteer.launch({
+      executablePath: chromiumPath,
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+        '--window-size=1920,1080',
+        '--single-process',
+        '--no-zygote',
+        '--disable-extensions',
+        '--disable-background-networking',
+        '--disable-default-apps',
+        '--disable-sync',
+        '--disable-translate',
+        '--metrics-recording-only',
+        '--mute-audio',
+        '--no-first-run'
+      ]
+    });
+    
+    chromiumAvailable = true;
+    return browserInstance;
+  } catch (e) {
+    console.error('[Prerender] Failed to launch Chromium:', e.message);
+    chromiumAvailable = false;
+    return null;
+  }
 }
 
 async function renderPage(url, timeout = 20000) {
@@ -161,6 +194,7 @@ async function renderPage(url, timeout = 20000) {
   
   try {
     const browser = await getBrowser();
+    if (!browser) return null;
     page = await browser.newPage();
     
     await page.setUserAgent('Mozilla/5.0 (compatible; QuranDeenPrerender/1.0)');

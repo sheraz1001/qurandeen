@@ -4444,7 +4444,7 @@ if (process.env.NODE_ENV === 'production') {
 app.listen(PORT, '0.0.0.0', async () => {
   console.log(`Server running on port ${PORT}`);
   
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' && !process.env.SKIP_WARMUP) {
     const baseUrl = process.env.SITE_URL || 'https://qurandeen.com';
     const criticalPaths = [
       '/',
@@ -4460,9 +4460,9 @@ app.listen(PORT, '0.0.0.0', async () => {
       '/islamic-resources/qibla-direction',
     ];
     
-    for (let i = 1; i <= 114; i++) {
-      criticalPaths.push(`/surah/${i}`);
-    }
+    surahSlugs.forEach(slug => {
+      criticalPaths.push(`/surah/${slug}`);
+    });
     
     criticalPaths.push(
       '/hadith/sahih-bukhari',
