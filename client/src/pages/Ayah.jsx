@@ -10,6 +10,7 @@ import {
   fetchTafsirContent as fetchTafsirCached,
   fetchWordByWord as fetchWordByWordCached
 } from '../services/quranService';
+import { parseTajweed } from '../utils/tajweedParser';
 import '../styles/ayah.css';
 
 function Ayah({ fontSize, selectedTranslation, selectedReciter, selectedScript, selectedTafsir, selectedFont }) {
@@ -349,7 +350,7 @@ function Ayah({ fontSize, selectedTranslation, selectedReciter, selectedScript, 
             </div>
           ) : (
             <p className="ayah-arabic-text" dir="rtl" lang="ar" style={{ fontSize: `${fontSize / 16}rem`, fontFamily: getFontFamily() }}>
-              {arabicText}
+              {selectedScript === 'quran-tajweed' ? parseTajweed(arabicText, selectedScript) : arabicText}
             </p>
           )}
         </div>

@@ -49,3 +49,4 @@ The application follows a client-server architecture with a Node.js/Express back
 - **Jitsi Meet:** Video conferencing integration for classes.
 - **jsDelivr (AhmedBaset/hadith-json):** CDN for Hadith data.
 - **alQuranBD API:** Optional for Bengali Hadith translations.
+- **Shared Utilities:** `client/src/utils/tajweedParser.jsx` provides a shared `parseTajweed()` function used by both `Surah.jsx` and `Ayah.jsx` to render tajweed-encoded Arabic text with color-coded spans.
