@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Surah from './pages/Surah';
+import Ayah from './pages/Ayah';
 import Search from './pages/Search';
 import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
@@ -140,6 +141,16 @@ function App() {
                 fontSize={fontSize} 
                 selectedTranslation={selectedTranslation}
                 setSelectedTranslation={setSelectedTranslation}
+                selectedReciter={selectedReciter}
+                selectedScript={selectedScript}
+                selectedTafsir={selectedTafsir}
+                selectedFont={selectedFont}
+              />
+            } />
+            <Route path="/surah/:surahIdentifier/ayah/:ayahNumber" element={
+              <Ayah
+                fontSize={fontSize}
+                selectedTranslation={selectedTranslation}
                 selectedReciter={selectedReciter}
                 selectedScript={selectedScript}
                 selectedTafsir={selectedTafsir}

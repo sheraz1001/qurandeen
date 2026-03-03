@@ -97,6 +97,19 @@ async function main() {
       '/hadith/al-tirmidhi'
     );
 
+    criticalPaths.push(
+      '/surah/1-al-fatihah/ayah/1',
+      '/surah/1-al-fatihah/ayah/7',
+      '/surah/2-al-baqarah/ayah/255',
+      '/surah/2-al-baqarah/ayah/286',
+      '/surah/36-ya-sin/ayah/1',
+      '/surah/55-ar-rahman/ayah/1',
+      '/surah/67-al-mulk/ayah/1',
+      '/surah/112-al-ikhlas/ayah/1',
+      '/surah/113-al-falaq/ayah/1',
+      '/surah/114-an-nas/ayah/1'
+    );
+
     console.log(`[Build Prerender] Pre-rendering ${criticalPaths.length} pages...`);
     await warmupCache(BASE_URL, criticalPaths);
     console.log('[Build Prerender] Pre-rendering complete!');

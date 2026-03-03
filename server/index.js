@@ -1749,6 +1749,31 @@ app.get('/api/surah/:number', async (req, res) => {
   }
 });
 
+app.get('/api/ayah/:surah/:ayah', async (req, res) => {
+  try {
+    const { surah, ayah } = req.params;
+    const { translation = 'en.asad', script = 'quran-uthmani', reciter = 'ar.alafasy' } = req.query;
+    
+    const [arabicRes, translationRes, audioRes, urduRes] = await Promise.all([
+      axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${script}`),
+      axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${translation}`),
+      axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/${reciter}`),
+      axios.get(`${QURAN_API_BASE}/ayah/${surah}:${ayah}/ur.jalandhry`)
+    ]);
+    
+    res.header('Cache-Control', 'public, max-age=86400');
+    res.json({
+      arabic: arabicRes.data,
+      translation: translationRes.data,
+      audio: audioRes.data,
+      urdu: urduRes.data
+    });
+  } catch (error) {
+    console.error('Error fetching ayah:', error.message);
+    res.status(500).json({ error: 'Failed to fetch ayah details' });
+  }
+});
+
 // Aladhan API Proxy Endpoints for Islamic Events
 const ALADHAN_API_BASE = 'https://api.aladhan.com/v1';
 
@@ -3861,6 +3886,10 @@ app.get('/sitemap.xml', (req, res) => {
     <loc>${baseUrl}/sitemap-hadith.xml</loc>
     <lastmod>${currentDate}</lastmod>
   </sitemap>
+  <sitemap>
+    <loc>${baseUrl}/sitemap-ayah.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>
 </sitemapindex>`;
 
   res.header('Content-Type', 'application/xml');
@@ -4035,6 +4064,63 @@ app.get('/sitemap-hadith.xml', (req, res) => {
   </url>`;
     }
   });
+
+  sitemap += `
+</urlset>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(sitemap);
+});
+
+const surahAyahCounts = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,11,11,19,14,12,12,30,52,52,44,55,40,28,31,54,76,50,40,46,42,29,36,83,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+
+app.get('/sitemap-ayah.xml', (req, res) => {
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  let sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  for (let i = 1; i <= 114; i++) {
+    sitemapIndex += `
+  <sitemap>
+    <loc>${baseUrl}/sitemap-ayah-${i}.xml</loc>
+    <lastmod>${currentDate}</lastmod>
+  </sitemap>`;
+  }
+
+  sitemapIndex += `
+</sitemapindex>`;
+
+  res.header('Content-Type', 'application/xml');
+  res.header('Cache-Control', 'public, max-age=3600');
+  res.send(sitemapIndex);
+});
+
+app.get('/sitemap-ayah-:surahNum.xml', (req, res) => {
+  const surahNum = parseInt(req.params.surahNum);
+  if (surahNum < 1 || surahNum > 114) {
+    return res.status(404).send('Not found');
+  }
+
+  const baseUrl = 'https://qurandeen.com';
+  const currentDate = new Date().toISOString().split('T')[0];
+  const slug = surahSlugs[surahNum - 1];
+  const ayahCount = surahAyahCounts[surahNum - 1];
+
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  for (let ayah = 1; ayah <= ayahCount; ayah++) {
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/surah/${slug}/ayah/${ayah}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+  }
 
   sitemap += `
 </urlset>`;
@@ -4543,6 +4629,19 @@ app.listen(PORT, '0.0.0.0', async () => {
       '/hadith/abu-dawud',
       '/hadith/ibn-majah',
       '/hadith/al-tirmidhi'
+    );
+
+    criticalPaths.push(
+      '/surah/1-al-fatihah/ayah/1',
+      '/surah/1-al-fatihah/ayah/7',
+      '/surah/2-al-baqarah/ayah/255',
+      '/surah/2-al-baqarah/ayah/286',
+      '/surah/36-ya-sin/ayah/1',
+      '/surah/55-ar-rahman/ayah/1',
+      '/surah/67-al-mulk/ayah/1',
+      '/surah/112-al-ikhlas/ayah/1',
+      '/surah/113-al-falaq/ayah/1',
+      '/surah/114-an-nas/ayah/1'
     );
     
     setTimeout(() => {

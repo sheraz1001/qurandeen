@@ -165,6 +165,33 @@ export const fetchFullSurahWordByWord = async (surahNumber) => {
   }
 };
 
+export const fetchAyah = async (surahNumber, ayahNumber, translationId, scriptType, reciterId) => {
+  const cacheKey = `ayah_${surahNumber}_${ayahNumber}_${translationId}_${scriptType}`;
+  
+  if (memoryCache.surahs[cacheKey]) {
+    return memoryCache.surahs[cacheKey];
+  }
+
+  const cachedData = await getCachedData(STORES.QURAN_TEXT, cacheKey);
+  if (cachedData) {
+    memoryCache.surahs[cacheKey] = cachedData;
+    return { ...cachedData, fromCache: true };
+  }
+
+  try {
+    const response = await axios.get(`/api/ayah/${surahNumber}/${ayahNumber}?translation=${translationId}&script=${scriptType}&reciter=${reciterId}`);
+    const data = response.data;
+    
+    memoryCache.surahs[cacheKey] = data;
+    await setCachedData(STORES.QURAN_TEXT, cacheKey, data);
+    
+    return { ...data, fromCache: false };
+  } catch (error) {
+    console.error(`Error fetching ayah ${surahNumber}:${ayahNumber}:`, error);
+    throw error;
+  }
+};
+
 export const clearQuranCache = () => {
   memoryCache = {
     surahs: {},

@@ -561,6 +561,14 @@ function Surah({ fontSize, selectedTranslation, setSelectedTranslation, selected
                 >
                   {isBookmarked(surahInfo.number, ayah.numberInSurah) ? '🔖' : '📑'}
                 </button>
+                <Link
+                  to={`/surah/${surahSlug}/ayah/${ayah.numberInSurah}`}
+                  className="action-btn share-action-btn"
+                  title="View Ayah Page"
+                  style={{ textDecoration: 'none' }}
+                >
+                  🔗
+                </Link>
                 <button 
                   className="action-btn share-action-btn"
                   onClick={() => shareAyah('twitter', translationAyahs[index]?.text, surahInfo.englishName, `${surahInfo.number}:${ayah.numberInSurah}`)}
